@@ -12,6 +12,9 @@ export function AdminSidebar() {
   const { currentAddress } = useWallet()
   const authorized = isAdmin(currentAddress || null)
   
+  // Check if revenue share is enabled
+  const enableRevenueShare = process.env.NEXT_PUBLIC_ENABLE_REVENUE_SHARE === 'true'
+  
   // State to track which categories are expanded
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
 
@@ -29,7 +32,7 @@ export function AdminSidebar() {
     return pathname?.startsWith(path)
   }
 
-  const navItems = [
+  const allNavItems = [
     {
       category: 'Overview',
       items: [
@@ -43,16 +46,20 @@ export function AdminSidebar() {
         { path: '/admin/launchpad/collections', label: 'Collection Stats', icon: '📊' },
         { path: '/admin/collections', label: 'Collections Manager', icon: '📁' },
         { path: '/admin/launchpad/transactions', label: 'All Transactions', icon: '📝' },
-        { path: '/admin/launchpad/pending-reveals', label: 'Pending Reveals', icon: '⏳' },
-        { path: '/admin/mints', label: 'Mint Admin', icon: '🔥' },
-        { path: '/admin/community-payouts', label: 'Community Payouts', icon: '💎' },
+        ...(enableRevenueShare ? [
+          { path: '/admin/launchpad/pending-reveals', label: 'Pending Reveals', icon: '⏳' },
+          { path: '/admin/mints', label: 'Mint Admin', icon: '🔥' },
+          { path: '/admin/community-payouts', label: 'Community Payouts', icon: '💎' },
+        ] : []),
       ]
     },
     {
       category: 'Transactions',
       items: [
-        { path: '/admin/transactions/btc', label: 'Bitcoin (BTC)', icon: '₿' },
         { path: '/admin/transactions/sol', label: 'Solana (SOL)', icon: '◎' },
+        ...(enableRevenueShare ? [
+          { path: '/admin/transactions/btc', label: 'Bitcoin (BTC)', icon: '₿' },
+        ] : []),
       ]
     },
     {
@@ -77,12 +84,17 @@ export function AdminSidebar() {
     {
       category: 'Tools',
       items: [
-        { path: '/admin/utxo-tester', label: 'UTXO Tester', icon: '🔍' },
-        { path: '/admin/magic-eden-checker', label: 'ME Wallet Checker', icon: '✨' },
-        { path: '/admin/payout-testing', label: 'Payout Testing', icon: '💸' },
-      ]
+        ...(enableRevenueShare ? [
+          { path: '/admin/utxo-tester', label: 'UTXO Tester', icon: '🔍' },
+          { path: '/admin/magic-eden-checker', label: 'ME Wallet Checker', icon: '✨' },
+          { path: '/admin/payout-testing', label: 'Payout Testing', icon: '💸' },
+        ] : []),
+      ].filter(item => item) // Remove empty if no revenue share tools
     },
   ]
+
+  // Filter out empty categories
+  const navItems = allNavItems.filter(category => category.items.length > 0)
 
   // Auto-expand categories that contain the active page
   useEffect(() => {

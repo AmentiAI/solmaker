@@ -405,8 +405,8 @@ export function CollectionSettingsStep({
               className="w-4 h-4 text-[#00d4ff]"
             />
             <div className="flex-1">
-              <div className="font-semibold text-white">Ordinals Hidden Mint</div>
-              <div className="text-sm text-white/60">Default system - random ordinal assignment when minting</div>
+              <div className="font-semibold text-white">🎲 Mystery Mint</div>
+              <div className="text-sm text-white/60">Default system - random NFT assignment when minting</div>
             </div>
           </label>
           <label className="flex items-center gap-3 p-4 cosmic-card border border-[#00d4ff]/30 rounded-lg cursor-pointer hover:border-[#00d4ff]/50 transition-colors">
@@ -419,8 +419,8 @@ export function CollectionSettingsStep({
               className="w-4 h-4 text-[#00d4ff]"
             />
             <div className="flex-1">
-              <div className="font-semibold text-white">Ordinal Choices Mint</div>
-              <div className="text-sm text-white/60">Paginated browsing - users select specific ordinals to mint</div>
+              <div className="font-semibold text-white">🎯 Choose Your NFT</div>
+              <div className="text-sm text-white/60">Paginated browsing - users select specific NFTs to mint</div>
             </div>
           </label>
         </div>

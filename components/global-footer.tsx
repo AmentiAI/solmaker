@@ -3,6 +3,8 @@
 import Link from 'next/link'
 
 export function GlobalFooter() {
+  const enableRevenueShare = process.env.NEXT_PUBLIC_ENABLE_REVENUE_SHARE === 'true'
+  
   return (
     <footer className="bg-[#0a0a0a] text-[#999] border-t border-[#222] mt-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -58,20 +60,32 @@ export function GlobalFooter() {
           <div>
             <h4 className="text-white font-semibold mb-4">Features</h4>
             <ul className="space-y-2">
+              {enableRevenueShare && (
+                <>
+                  <li>
+                    <Link 
+                      href="/revshare" 
+                      className="text-[#999] hover:text-white transition-colors text-sm"
+                    >
+                      💰 Revenue Share
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/pass-details" 
+                      className="text-[#999] hover:text-white transition-colors text-sm"
+                    >
+                      🎫 Pass Details
+                    </Link>
+                  </li>
+                </>
+              )}
               <li>
                 <Link 
-                  href="/revshare" 
+                  href="/buy-credits" 
                   className="text-[#999] hover:text-white transition-colors text-sm"
                 >
-                  💰 Revenue Share
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/pass-details" 
-                  className="text-[#999] hover:text-white transition-colors text-sm"
-                >
-                  🎫 Pass Details
+                  💳 Buy Credits
                 </Link>
               </li>
             </ul>
