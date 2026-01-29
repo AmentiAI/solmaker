@@ -809,7 +809,7 @@ function HomePageContent() {
   // Show coming soon page unless seeall=1
   if (!seeAll) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <div className="fixed inset-0 z-[9999] bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
         <div className="container mx-auto px-6 py-12">
           <div className="max-w-2xl mx-auto">
             <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] border border-[#333] rounded-2xl p-12 text-center shadow-2xl">
@@ -846,25 +846,9 @@ function HomePageContent() {
                 </div>
               </div>
               
-              {/* CTA Button */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  href="/collections"
-                  className="px-8 py-4 bg-[#9945FF] hover:bg-[#7C3AED] text-white text-lg font-bold rounded-xl transition-all hover:scale-105 shadow-lg shadow-[#9945FF]/20"
-                >
-                  Create Collection
-                </Link>
-                <Link
-                  href="/buy-credits"
-                  className="px-8 py-4 bg-[#1a1a1a] hover:bg-[#222] border border-[#333] hover:border-[#444] text-white text-lg font-bold rounded-xl transition-all"
-                >
-                  Buy Credits
-                </Link>
-              </div>
-              
               {/* Footer note */}
-              <p className="text-xs text-[#666] mt-8">
-                Stay tuned for the official launch announcement
+              <p className="text-sm text-[#666]">
+                Platform launching soon. Stay tuned for updates.
               </p>
             </div>
           </div>
