@@ -297,9 +297,19 @@ export async function GET(
       is_live: isLive, // true only if collection_status === 'launchpad_live'
       is_preview: !isLive && isLaunchpadReady, // true if 'launchpad' but not 'launchpad_live'
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching collection launch details:', error)
-    return NextResponse.json({ error: 'Failed to fetch collection details' }, { status: 500 })
+    const errorMessage = error?.message || String(error)
+    const errorCode = error?.code || 'UNKNOWN'
+    const errorDetail = error?.detail || null
+    
+    return NextResponse.json({ 
+      error: 'Failed to fetch collection details',
+      details: errorMessage,
+      errorCode: errorCode,
+      errorDetail: errorDetail,
+      hint: errorMessage.includes('does not exist') ? 'Database column or table missing. Run database migration scripts.' : null
+    }, { status: 500 })
   }
 }
 

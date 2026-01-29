@@ -54,14 +54,30 @@ async function addColumns() {
         ADD COLUMN IF NOT EXISTS video_url TEXT,
         ADD COLUMN IF NOT EXISTS is_locked BOOLEAN DEFAULT false,
         ADD COLUMN IF NOT EXISTS launched_at TIMESTAMPTZ,
-        ADD COLUMN IF NOT EXISTS mint_ended_at TIMESTAMPTZ;
+        ADD COLUMN IF NOT EXISTS mint_ended_at TIMESTAMPTZ,
+        ADD COLUMN IF NOT EXISTS trait_selections JSONB,
+        ADD COLUMN IF NOT EXISTS compression_dimensions TEXT,
+        ADD COLUMN IF NOT EXISTS is_pfp_collection BOOLEAN DEFAULT false,
+        ADD COLUMN IF NOT EXISTS facing_direction TEXT,
+        ADD COLUMN IF NOT EXISTS custom_rules TEXT,
+        ADD COLUMN IF NOT EXISTS pixel_perfect BOOLEAN DEFAULT false,
+        ADD COLUMN IF NOT EXISTS use_hyper_detailed BOOLEAN DEFAULT false,
+        ADD COLUMN IF NOT EXISTS metadata_url TEXT;
       `);
       console.log('   ✅ generation_mode added');
       console.log('   ✅ border_requirements added');
       console.log('   ✅ video_url added');
       console.log('   ✅ is_locked added');
       console.log('   ✅ launched_at added');
-      console.log('   ✅ mint_ended_at added\n');
+      console.log('   ✅ mint_ended_at added');
+      console.log('   ✅ trait_selections added');
+      console.log('   ✅ compression_dimensions added');
+      console.log('   ✅ is_pfp_collection added');
+      console.log('   ✅ facing_direction added');
+      console.log('   ✅ custom_rules added');
+      console.log('   ✅ pixel_perfect added');
+      console.log('   ✅ use_hyper_detailed added');
+      console.log('   ✅ metadata_url added\n');
     } catch (e) {
       console.log('   ⚠️  Error:', e.message, '\n');
     }
@@ -86,6 +102,32 @@ async function addColumns() {
       `);
       console.log('   ✅ phase_name added to mint_phases');
       console.log('   ✅ mint_price_sats added to mint_phases\n');
+    } catch (e) {
+      console.log('   ⚠️  Error:', e.message, '\n');
+    }
+
+    // Add display_order to layers
+    console.log('5️⃣ Adding display_order to layers...');
+    try {
+      await client.query(`
+        ALTER TABLE layers 
+        ADD COLUMN IF NOT EXISTS display_order INTEGER DEFAULT 0;
+      `);
+      console.log('   ✅ display_order added to layers\n');
+    } catch (e) {
+      console.log('   ⚠️  Error:', e.message, '\n');
+    }
+
+    // Add metadata_url and compressed_size_kb to generated_ordinals
+    console.log('6️⃣ Adding columns to generated_ordinals...');
+    try {
+      await client.query(`
+        ALTER TABLE generated_ordinals 
+        ADD COLUMN IF NOT EXISTS metadata_url TEXT,
+        ADD COLUMN IF NOT EXISTS compressed_size_kb DECIMAL(10,2);
+      `);
+      console.log('   ✅ metadata_url added to generated_ordinals');
+      console.log('   ✅ compressed_size_kb added to generated_ordinals\n');
     } catch (e) {
       console.log('   ⚠️  Error:', e.message, '\n');
     }
