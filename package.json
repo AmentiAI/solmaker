@@ -11,7 +11,9 @@
     "db:migrate": "node scripts/setup-database.js",
     "db:reset": "node scripts/reset-database.js",
     "db:thumbnails": "node scripts/setup-thumbnails.js",
-    "db:clear-thumbnails": "node scripts/clear-fake-thumbnails.js"
+    "db:clear-thumbnails": "node scripts/clear-fake-thumbnails.js",
+    "db:credits": "node scripts/setup-credits-tables.js",
+    "db:solana": "node scripts/run-solana-payment-migration.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
