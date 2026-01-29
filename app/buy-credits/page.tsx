@@ -137,7 +137,7 @@ export default function BuyCreditsPage() {
               <li>Use advanced tools and features</li>
             </ul>
             <p className="text-white/60 mt-4 text-sm">
-              Credits never expire and can be used at any time. Purchase credits securely using Bitcoin.
+              Credits never expire and can be used at any time. Purchase credits securely using Solana.
             </p>
           </div>
         </div>

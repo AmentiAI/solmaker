@@ -1,6 +1,6 @@
 'use client'
 
-export type PaymentMethod = 'btc'
+export type PaymentMethod = 'btc' | 'sol' | 'eth'
 
 interface PaymentMethodSelectorProps {
   selectedMethod: PaymentMethod
