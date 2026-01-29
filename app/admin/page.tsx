@@ -6,6 +6,7 @@ import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import { WalletConnect } from '@/components/wallet-connect'
 import { AdminSidebar } from '@/components/admin-sidebar'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 interface User {
   wallet_address: string
@@ -80,6 +81,7 @@ interface TransactionSummary {
 
 export default function AdminPage() {
   const { isConnected, currentAddress, isVerified, isVerifying, verifyWallet } = useWallet()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [transactions, setTransactions] = useState<PendingPayment[]>([])
   const [creditTransactions, setCreditTransactions] = useState<CreditTransaction[]>([])
@@ -133,6 +135,14 @@ export default function AdminPage() {
       console.error('Failed to copy:', err)
     }
   }
+
+  // Read tab from URL query params and set active tab
+  useEffect(() => {
+    const tab = searchParams?.get('tab')
+    if (tab && ['transactions', 'users', 'credit-costs', 'generation-jobs', 'generated-images', 'homepage-visibility'].includes(tab)) {
+      setActiveTab(tab as any)
+    }
+  }, [searchParams])
 
   useEffect(() => {
     if (isConnected && authorized && isVerified) {
