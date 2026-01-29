@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef, Suspense } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { toast } from 'sonner'
 import { NftTicker } from '@/components/ordinal-ticker'
@@ -789,6 +790,8 @@ function FeaturedDropsBanner({ active, upcoming }: { active: Collection[]; upcom
 
 function HomePageContent() {
   const { isConnected, currentAddress } = useWallet()
+  const searchParams = useSearchParams()
+  const seeAll = searchParams.get('seeall') === '1'
   
   const [data, setData] = useState<LaunchpadData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -802,6 +805,73 @@ function HomePageContent() {
     sort: 'featured',
   })
   const watchlist = useLaunchpadWatchlist()
+  
+  // Show coming soon page unless seeall=1
+  if (!seeAll) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="container mx-auto px-6 py-12">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] border border-[#333] rounded-2xl p-12 text-center shadow-2xl">
+              {/* Logo/Icon */}
+              <div className="mb-8">
+                <div className="w-24 h-24 mx-auto bg-gradient-to-br from-[#9945FF] to-[#7C3AED] rounded-2xl flex items-center justify-center shadow-lg shadow-[#9945FF]/20">
+                  <span className="text-5xl">🚀</span>
+                </div>
+              </div>
+              
+              {/* Title */}
+              <h1 className="text-5xl md:text-6xl font-black text-white mb-4 bg-gradient-to-r from-white to-[#9945FF] bg-clip-text text-transparent">
+                Coming Soon
+              </h1>
+              
+              {/* Subtitle */}
+              <p className="text-xl text-[#999] mb-8 leading-relaxed">
+                Something amazing is on the way. We're putting the final touches on the platform.
+              </p>
+              
+              {/* Details */}
+              <div className="space-y-4 mb-10">
+                <div className="flex items-center justify-center gap-3 text-[#999]">
+                  <span className="w-2 h-2 bg-[#9945FF] rounded-full animate-pulse"></span>
+                  <span className="text-sm">Solana NFT Launchpad</span>
+                </div>
+                <div className="flex items-center justify-center gap-3 text-[#999]">
+                  <span className="w-2 h-2 bg-[#9945FF] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></span>
+                  <span className="text-sm">Multi-Phase Minting</span>
+                </div>
+                <div className="flex items-center justify-center gap-3 text-[#999]">
+                  <span className="w-2 h-2 bg-[#9945FF] rounded-full animate-pulse" style={{ animationDelay: '1s' }}></span>
+                  <span className="text-sm">Whitelist Management</span>
+                </div>
+              </div>
+              
+              {/* CTA Button */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link
+                  href="/collections"
+                  className="px-8 py-4 bg-[#9945FF] hover:bg-[#7C3AED] text-white text-lg font-bold rounded-xl transition-all hover:scale-105 shadow-lg shadow-[#9945FF]/20"
+                >
+                  Create Collection
+                </Link>
+                <Link
+                  href="/buy-credits"
+                  className="px-8 py-4 bg-[#1a1a1a] hover:bg-[#222] border border-[#333] hover:border-[#444] text-white text-lg font-bold rounded-xl transition-all"
+                >
+                  Buy Credits
+                </Link>
+              </div>
+              
+              {/* Footer note */}
+              <p className="text-xs text-[#666] mt-8">
+                Stay tuned for the official launch announcement
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const loadLaunchpadData = useCallback(async () => {
     setLoading(true)

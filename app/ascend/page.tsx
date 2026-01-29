@@ -11,7 +11,7 @@ interface Ordinal {
   image_url?: string
   traits: Record<string, any>
   metadataUrl?: string
-}
+} 
 
 interface AscendedImage {
   id: string
