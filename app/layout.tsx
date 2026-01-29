@@ -2,10 +2,9 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Providers } from '@/components/providers'
-import { ConditionalHeader } from '@/components/conditional-header'
+import { LayoutWrapper } from '@/components/layout-wrapper'
 import { AuthRedirect } from '@/components/auth-redirect'
 import { SonnerToaster } from '@/components/sonner-toaster'
-import { GlobalFooter } from '@/components/global-footer'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -37,14 +36,10 @@ export default function RootLayout({
         <Providers>
           <Suspense fallback={null}>
             <AuthRedirect>
-              <div className="flex flex-col min-h-screen overflow-x-hidden">
-                <ConditionalHeader />
-                <main className="flex-1 overflow-x-hidden">
-                  {children}
-                </main>
-                <GlobalFooter />
-                <SonnerToaster />
-              </div>
+              <LayoutWrapper>
+                {children}
+              </LayoutWrapper>
+              <SonnerToaster />
             </AuthRedirect>
           </Suspense>
         </Providers>

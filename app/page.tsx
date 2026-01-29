@@ -809,13 +809,7 @@ function HomePageContent() {
   // Show coming soon page unless seeall=1
   if (!seeAll) {
     return (
-      <>
-        <style jsx global>{`
-          header { display: none !important; }
-          footer { display: none !important; }
-          body { overflow: hidden !important; }
-        `}</style>
-        <div className="fixed inset-0 z-[9999] bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
+      <div className="fixed inset-0 bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
           <div className="container mx-auto px-6 py-12">
           <div className="max-w-2xl mx-auto">
             <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] border border-[#333] rounded-2xl p-12 text-center shadow-2xl">
@@ -859,7 +853,7 @@ function HomePageContent() {
             </div>
           </div>
         </div>
-      </>
+      </div>
     )
   }
 
