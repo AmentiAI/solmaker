@@ -67,9 +67,17 @@ export async function GET(
     const phases = Array.isArray(phasesResult) ? phasesResult : []
 
     return NextResponse.json({ success: true, phases })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching phases:', error)
-    return NextResponse.json({ error: 'Failed to fetch phases' }, { status: 500 })
+    const errorMessage = error?.message || String(error)
+    const errorCode = error?.code || 'UNKNOWN'
+    
+    return NextResponse.json({ 
+      error: 'Failed to fetch phases',
+      details: errorMessage,
+      errorCode: errorCode,
+      hint: errorMessage.includes('does not exist') ? 'Database column or table missing. Run database migration scripts.' : null
+    }, { status: 500 })
   }
 }
 

@@ -83,9 +83,17 @@ export async function GET(
     const whitelists = Array.isArray(whitelistsResult) ? whitelistsResult : []
 
     return NextResponse.json({ success: true, whitelists })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching whitelists:', error)
-    return NextResponse.json({ error: 'Failed to fetch whitelists' }, { status: 500 })
+    const errorMessage = error?.message || String(error)
+    const errorCode = error?.code || 'UNKNOWN'
+    
+    return NextResponse.json({ 
+      error: 'Failed to fetch whitelists',
+      details: errorMessage,
+      errorCode: errorCode,
+      hint: errorMessage.includes('does not exist') ? 'Database column or table missing. Run database migration scripts.' : null
+    }, { status: 500 })
   }
 }
 
