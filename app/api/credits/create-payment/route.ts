@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { CREDIT_TIERS } from '@/lib/credits/constants';
 import { sql } from '@/lib/database';
 import { checkHolderStatus } from '@/lib/holder-check';
+import { getPlatformWalletAddress } from '@/lib/solana/platform-wallet';
 
 // Payment addresses
-const BTC_PAYMENT_ADDRESS = process.env.FEE_WALLET || 'bc1p693zz6n9cvmsewemg4j0pmvfvs4th3ft9c74afrc90l6sah300uqt99vee'
+const BTC_PAYMENT_ADDRESS = process.env.FEE_WALLET || 'bc1p693zz6n9cvmsewemg4j0pmvfvs4th3ft9c74afrc90l6sah300uqt99vee' // Legacy Bitcoin
 const ETH_PAYMENT_ADDRESS = process.env.ETH_PAYMENT_ADDRESS || '0x5CA2e4B034d2F37D66C6d546F14a52651726118A';
-const SOL_PAYMENT_ADDRESS = process.env.SOL_PAYMENT_ADDRESS || '5evWF4HACa6fomaEzXS4UtCogR6S9R5nh1PLgm6dEFZK';
+const SOL_PAYMENT_ADDRESS = getPlatformWalletAddress(); // Platform Solana wallet
 
 // Fetch exchange rate from CoinGecko
 async function fetchExchangeRate(coinId: string): Promise<number> {

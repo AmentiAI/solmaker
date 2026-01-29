@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { addCredits } from '@/lib/credits/credits'
 import { sql } from '@/lib/database'
+import { getPlatformWalletAddress } from '@/lib/solana/platform-wallet'
 
-const SOL_PAYMENT_ADDRESS = process.env.SOL_PAYMENT_ADDRESS || process.env.TREASURY_WALLET || ''
+const SOL_PAYMENT_ADDRESS = getPlatformWalletAddress() // Platform Solana wallet
 
 /**
  * Check Solana transaction using RPC - requires on-chain finality
