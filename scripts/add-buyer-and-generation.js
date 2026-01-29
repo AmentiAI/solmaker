@@ -132,6 +132,20 @@ async function addColumns() {
       console.log('   ⚠️  Error:', e.message, '\n');
     }
 
+    // Add minted_count and allocation to whitelist_entries
+    console.log('7️⃣ Adding columns to whitelist_entries...');
+    try {
+      await client.query(`
+        ALTER TABLE whitelist_entries 
+        ADD COLUMN IF NOT EXISTS minted_count INTEGER DEFAULT 0,
+        ADD COLUMN IF NOT EXISTS allocation INTEGER DEFAULT 1;
+      `);
+      console.log('   ✅ minted_count added to whitelist_entries');
+      console.log('   ✅ allocation added to whitelist_entries\n');
+    } catch (e) {
+      console.log('   ⚠️  Error:', e.message, '\n');
+    }
+
     // Verify collections has generation_mode
     console.log('📊 Checking collections for generation_mode...');
     const collCols = await client.query(`

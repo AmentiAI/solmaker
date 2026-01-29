@@ -23,13 +23,13 @@ export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorP
             <div className="flex-1">
               <h3 className="text-xl font-bold text-gray-900 mb-2">Launchpad</h3>
               <p className="text-gray-600 text-sm mb-3">
-                Let collectors inscribe on mint. Set up phases, pricing, and whitelists
+                Let collectors mint NFTs. Set up phases, pricing, and whitelists
               </p>
               <ul className="text-sm text-gray-500 space-y-1">
                 <li>✓ Public or whitelisted minting</li>
                 <li>✓ Multiple mint phases</li>
                 <li>✓ Custom pricing per phase</li>
-                <li>✓ Automated inscription</li>
+                <li>✓ Automated minting</li>
               </ul>
             </div>
           </div>
@@ -45,15 +45,15 @@ export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorP
               <span className="text-2xl">⚡</span>
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Self-Inscribe</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Self-Mint</h3>
               <p className="text-gray-600 text-sm mb-3">
-                Inscribe your collection yourself in batches of 10 using our tapscript method
+                Mint your collection yourself in batches using Metaplex
               </p>
               <ul className="text-sm text-gray-500 space-y-1">
-                <li>✓ Full control over inscription process</li>
-                <li>✓ Batch inscriptions (10 at a time)</li>
-                <li>✓ Track inscription status</li>
-                <li>✓ Build metadata outputs</li>
+                <li>✓ Full control over minting process</li>
+                <li>✓ Batch minting</li>
+                <li>✓ Track minting status</li>
+                <li>✓ Build metadata</li>
               </ul>
             </div>
           </div>
@@ -71,13 +71,13 @@ export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorP
             <div className="flex-1">
               <h3 className="text-xl font-bold text-gray-900 mb-2">Sell on Marketplace</h3>
               <p className="text-gray-600 text-sm mb-3">
-                Sell your entire collection (as images) for bitcoin or credits before inscribing
+                Sell your entire collection (as images) for SOL or credits before minting
               </p>
               <ul className="text-sm text-gray-500 space-y-1">
-                <li>✓ Sell collection for btc or credits</li>
+                <li>✓ Sell collection for SOL or credits</li>
                 <li>✓ Include promotional materials</li>
                 <li>✓ Transfer full ownership</li>
-                <li>✓ Never inscribe it yourself</li>
+                <li>✓ Never mint it yourself</li>
               </ul>
             </div>
           </div>

@@ -19,10 +19,12 @@ async function addPhaseColumns() {
     await client.query(`
       ALTER TABLE mint_phases 
       ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT false,
-      ADD COLUMN IF NOT EXISTS suggested_fee_rate DECIMAL(10,2) DEFAULT 10;
+      ADD COLUMN IF NOT EXISTS suggested_fee_rate DECIMAL(10,2) DEFAULT 10,
+      ADD COLUMN IF NOT EXISTS whitelist_id UUID;
     `);
     console.log('   ✅ is_completed added');
-    console.log('   ✅ suggested_fee_rate added\n');
+    console.log('   ✅ suggested_fee_rate added');
+    console.log('   ✅ whitelist_id added\n');
 
     // Show mint_phases structure
     console.log('📊 mint_phases columns:');

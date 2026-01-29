@@ -216,7 +216,7 @@ export default function CollectionLaunchPage() {
     const trimmedBannerUrl = bannerUrl?.trim() || ''
     
     if (!trimmedCreatorWallet) {
-      toast.error('Validation Error', { description: 'Please enter a Creator Payment Wallet (BTC Address) before saving.' })
+      toast.error('Validation Error', { description: 'Please enter a Creator Payment Wallet (Solana Address) before saving.' })
       return
     }
     

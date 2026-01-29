@@ -342,13 +342,13 @@ export function CollectionSettingsStep({
 
       <div>
         <label className="block text-sm font-medium text-white/70 mb-2">
-          Creator Payment Wallet (BTC Address) *
+          Creator Payment Wallet (Solana Address) *
         </label>
         <input
           type="text"
           value={creatorRoyaltyWallet}
           onChange={(e) => setCreatorRoyaltyWallet(e.target.value)}
-          placeholder="bc1q... or 3... (your BTC receiving address)"
+          placeholder="Your Solana wallet address (e.g., D3SNZ...GiLJ)"
           className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] font-mono text-sm text-white placeholder:text-white/50"
         />
       </div>
