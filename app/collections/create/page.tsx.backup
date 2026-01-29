@@ -1,0 +1,1281 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useWallet } from '@/lib/wallet/compatibility'
+import { useSolanaWallet } from '@/lib/wallet/solana-wallet-context'
+import { CollectionCreationProgressModal } from '@/components/collection-creation-progress-modal'
+import { ART_STYLES, type ArtStyle } from '@/lib/art-styles'
+
+interface ProgressStep {
+  id: string
+  label: string
+  status: 'pending' | 'processing' | 'completed' | 'error'
+  details?: string
+}
+
+export default function CreateCollectionPage() {
+  const { isConnected, currentAddress } = useWallet()
+  const { isConnected: isSolanaConnected, address: solanaAddress } = useSolanaWallet()
+  
+  // Determine active wallet - Priority: Solana > Bitcoin
+  const activeWalletConnected = isSolanaConnected || isConnected
+  const activeWalletAddress = solanaAddress || currentAddress
+  
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [compressionQuality, setCompressionQuality] = useState<number | ''>('')
+  const [compressionWidth, setCompressionWidth] = useState<number | ''>(1024)
+  const [compressionHeight, setCompressionHeight] = useState<number | ''>(1024)
+  const [compressionFormat, setCompressionFormat] = useState<'jpg' | 'png' | 'webp'>('webp')
+  const [isPfpCollection, setIsPfpCollection] = useState(false)
+  const [facingDirection, setFacingDirection] = useState('front')
+  const [bodyStyle, setBodyStyle] = useState<'full' | 'half' | 'headonly'>('full')
+  const [selectedArtStyle, setSelectedArtStyle] = useState<string>('chibi')
+  const [customArtStyle, setCustomArtStyle] = useState('')
+  const [hoveredArtStyle, setHoveredArtStyle] = useState<string | null>(null)
+  const [artStyleDropdownOpen, setArtStyleDropdownOpen] = useState(false)
+  const [borderRequirements, setBorderRequirements] = useState('')
+  const [colorsDescription, setColorsDescription] = useState('')
+  const [lightingDescription, setLightingDescription] = useState('')
+  const [customRules, setCustomRules] = useState('')
+  const [useHyperDetailed, setUseHyperDetailed] = useState(true)
+  const [pixelPerfect, setPixelPerfect] = useState(false)
+  const [futureEnabled, setFutureEnabled] = useState(false)
+  const [imageSourceTab, setImageSourceTab] = useState<'prompt' | 'reference'>('prompt')
+  const [styleDetailTab, setStyleDetailTab] = useState<'color' | 'lighting' | 'border'>('color')
+  const [futureImage, setFutureImage] = useState<File | null>(null)
+  const [futureImagePreview, setFutureImagePreview] = useState<string | null>(null)
+  const [futureAnalyzing, setFutureAnalyzing] = useState(false)
+  const [showAdvancedSettings, setShowAdvancedSettings] = useState(false)
+  const [showInstructions, setShowInstructions] = useState(false)
+  const [generatingAI, setGeneratingAI] = useState<string | null>(null) // Track which field is generating
+  const [showColorMoodModal, setShowColorMoodModal] = useState(false)
+  const [colorMoodSuggestions, setColorMoodSuggestions] = useState<string[]>([])
+  const [showLightingModal, setShowLightingModal] = useState(false)
+  const [lightingSuggestions, setLightingSuggestions] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
+  const [lazyLoading, setLazyLoading] = useState(false)
+  const [showProgressModal, setShowProgressModal] = useState(false)
+  const [progressSteps, setProgressSteps] = useState<ProgressStep[]>([
+    { id: '1', label: 'Creating collection', status: 'pending' },
+    { id: '2', label: 'Creating layers', status: 'pending' },
+    { id: '3', label: 'Generating traits', status: 'pending', details: 'This may take a few minutes...' },
+  ])
+  const [currentStep, setCurrentStep] = useState(0)
+  const [progressError, setProgressError] = useState<string | null>(null)
+  const [traitProgress, setTraitProgress] = useState({ current: 0, total: 56 })
+  const router = useRouter()
+
+  // Generate AI suggestion for a field - includes all form context for better suggestions
+  const generateAISuggestion = async (
+    field: 'border' | 'colors' | 'lighting' | 'rules',
+    setter: (value: string) => void
+  ) => {
+    setGeneratingAI(field)
+    try {
+      const response = await fetch('/api/ai/generate-prompt-suggestions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          field,
+          // Include all form context for more appropriate suggestions
+          collectionName: name.trim() || undefined,
+          description: description.trim() || undefined,
+          artStyle: selectedArtStyle !== 'custom' 
+            ? ART_STYLES.find(s => s.id === selectedArtStyle)?.name 
+            : customArtStyle || undefined,
+          isPfp: isPfpCollection,
+          facingDirection: isPfpCollection ? facingDirection : undefined,
+          // Include other filled fields for context
+          colors: field !== 'colors' ? colorsDescription.trim() || undefined : undefined,
+          border: field !== 'border' ? borderRequirements.trim() || undefined : undefined,
+          lighting: field !== 'lighting' ? lightingDescription.trim() || undefined : undefined,
+          rules: field !== 'rules' ? customRules.trim() || undefined : undefined,
+        }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setter(data.selected)
+      } else {
+        console.error('Failed to generate suggestion')
+      }
+    } catch (error) {
+      console.error('Error generating AI suggestion:', error)
+    } finally {
+      setGeneratingAI(null)
+    }
+  }
+
+  // Generate Color Mood suggestions and show modal for user to pick
+  const generateColorMoodSuggestions = async () => {
+    setGeneratingAI('colors')
+    try {
+      const response = await fetch('/api/ai/generate-prompt-suggestions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          field: 'colors',
+          collectionName: name.trim() || undefined,
+          description: description.trim() || undefined,
+          artStyle: selectedArtStyle !== 'custom' 
+            ? ART_STYLES.find(s => s.id === selectedArtStyle)?.name 
+            : customArtStyle || undefined,
+          isPfp: isPfpCollection,
+          facingDirection: isPfpCollection ? facingDirection : undefined,
+          border: borderRequirements.trim() || undefined,
+          lighting: lightingDescription.trim() || undefined,
+          rules: customRules.trim() || undefined,
+        }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setColorMoodSuggestions(data.all || [])
+        setShowColorMoodModal(true)
+      } else {
+        console.error('Failed to generate suggestions')
+      }
+    } catch (error) {
+      console.error('Error generating AI suggestions:', error)
+    } finally {
+      setGeneratingAI(null)
+    }
+  }
+
+  const selectColorMood = (mood: string) => {
+    setColorsDescription(mood)
+    setShowColorMoodModal(false)
+    setColorMoodSuggestions([])
+  }
+
+  // Generate Lighting suggestions and show modal for user to pick
+  const generateLightingSuggestions = async () => {
+    setGeneratingAI('lighting')
+    try {
+      const response = await fetch('/api/ai/generate-prompt-suggestions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          field: 'lighting',
+          collectionName: name.trim() || undefined,
+          description: description.trim() || undefined,
+          artStyle: selectedArtStyle !== 'custom' 
+            ? ART_STYLES.find(s => s.id === selectedArtStyle)?.name 
+            : customArtStyle || undefined,
+          isPfp: isPfpCollection,
+          facingDirection: isPfpCollection ? facingDirection : undefined,
+          colors: colorsDescription.trim() || undefined,
+          border: borderRequirements.trim() || undefined,
+          rules: customRules.trim() || undefined,
+        }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setLightingSuggestions(data.all || [])
+        setShowLightingModal(true)
+      } else {
+        console.error('Failed to generate suggestions')
+      }
+    } catch (error) {
+      console.error('Error generating AI suggestions:', error)
+    } finally {
+      setGeneratingAI(null)
+    }
+  }
+
+  const selectLighting = (lighting: string) => {
+    setLightingDescription(lighting)
+    setShowLightingModal(false)
+    setLightingSuggestions([])
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!name.trim()) {
+      alert('Collection name is required')
+      return
+    }
+
+    // Check wallet connection
+    const walletAddress = activeWalletAddress
+    
+    if (!activeWalletConnected || !walletAddress) {
+      alert('Please connect your wallet to create a collection')
+      return
+    }
+
+    setLoading(true)
+    
+    try {
+      const response = await fetch('/api/collections', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          description: description.trim() || null,
+          generation_mode: 'trait',
+          wallet_address: walletAddress.trim(),
+          compression_quality: compressionQuality !== '' ? compressionQuality : undefined,
+          compression_dimensions: compressionWidth !== '' && compressionHeight !== ''
+            ? (compressionWidth === compressionHeight ? compressionWidth : undefined)
+            : undefined,
+          compression_format: compressionFormat,
+          is_pfp_collection: isPfpCollection,
+          facing_direction: isPfpCollection ? facingDirection : undefined,
+          body_style: isPfpCollection ? bodyStyle : undefined,
+          art_style: selectedArtStyle === 'custom' ? customArtStyle : ART_STYLES.find(s => s.id === selectedArtStyle)?.promptStyle,
+          art_style_id: selectedArtStyle,
+          border_requirements: borderRequirements.trim() || undefined,
+          colors_description: colorsDescription.trim() || undefined,
+          lighting_description: lightingDescription.trim() || undefined,
+          custom_rules: customRules.trim() || undefined,
+          use_hyper_detailed: useHyperDetailed,
+          pixel_perfect: pixelPerfect,
+        }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        router.push(`/collections/${data.collection.id}`)
+      } else {
+        const error = await response.json()
+        alert(`Error creating collection: ${error.error}`)
+      }
+    } catch (error) {
+      console.error('Error creating collection:', error)
+      alert('Failed to create collection')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const analyzeFutureImage = async () => {
+    if (!futureImage) {
+      alert('Please upload a reference image first')
+      return
+    }
+    setFutureAnalyzing(true)
+    try {
+      const imageDataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(String(reader.result))
+        reader.onerror = () => reject(new Error('Failed to read image'))
+        reader.readAsDataURL(futureImage)
+      })
+
+      const res = await fetch('/api/ai/future-analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageDataUrl,
+          collectionName: name.trim() || undefined,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data?.error || 'Failed to analyze image')
+
+      const r = data?.result || {}
+      if (typeof r.description === 'string' && r.description.trim()) setDescription(r.description)
+      if (typeof r.art_style_id === 'string') setSelectedArtStyle(r.art_style_id)
+      if (r.art_style_id === 'custom' && typeof r.custom_art_style === 'string') setCustomArtStyle(r.custom_art_style)
+      if (typeof r.is_pfp_collection === 'boolean') setIsPfpCollection(r.is_pfp_collection)
+      if (typeof r.facing_direction === 'string') setFacingDirection(r.facing_direction)
+      if (typeof r.body_style === 'string') setBodyStyle(r.body_style)
+      if (typeof r.border_requirements === 'string') setBorderRequirements(r.border_requirements)
+      if (typeof r.colors_description === 'string') setColorsDescription(r.colors_description)
+      if (typeof r.lighting_description === 'string') setLightingDescription(r.lighting_description)
+      if (typeof r.custom_rules === 'string') setCustomRules(r.custom_rules)
+      if (typeof r.use_hyper_detailed === 'boolean') setUseHyperDetailed(r.use_hyper_detailed)
+
+      // Auto-open advanced if we filled advanced fields
+      if (r.border_requirements || r.lighting_description || r.custom_rules) setShowAdvancedSettings(true)
+      alert('Future analysis applied! Review the settings and create your collection.')
+    } catch (e) {
+      console.error('Future analyze failed:', e)
+      alert(e instanceof Error ? e.message : 'Future analyze failed')
+    } finally {
+      setFutureAnalyzing(false)
+    }
+  }
+
+  const handleLazyCreate = async (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
+    const trimmedName = name.trim()
+    if (!trimmedName) {
+      alert('Please enter a collection name first')
+      return
+    }
+
+    if (!activeWalletConnected || !activeWalletAddress) {
+      alert('Please connect your wallet to create a collection')
+      return
+    }
+
+   
+
+    setLazyLoading(true)
+    setShowProgressModal(true)
+    setCurrentStep(0)
+    setProgressError(null)
+    
+    // Reset steps
+    setProgressSteps([
+      { id: '1', label: 'Creating collection', status: 'pending' },
+      { id: '2', label: 'Creating layers', status: 'pending' },
+      { id: '3', label: 'Generating traits', status: 'pending', details: 'This may take a few minutes...' },
+    ])
+    
+    let progressInterval: NodeJS.Timeout | null = null
+    
+    try {
+      // Step 1: Creating collection
+      setCurrentStep(0)
+      setProgressSteps(prev => prev.map((s, i) => i === 0 ? { ...s, status: 'processing' } : s))
+      await new Promise(resolve => setTimeout(resolve, 600))
+      
+      // Step 2: Creating layers
+      setCurrentStep(1)
+      setProgressSteps(prev => prev.map((s, i) => 
+        i === 0 ? { ...s, status: 'completed' } : 
+        i === 1 ? { ...s, status: 'processing' } : s
+      ))
+      await new Promise(resolve => setTimeout(resolve, 700))
+      setProgressSteps(prev => prev.map((s, i) => i === 1 ? { ...s, status: 'completed' } : s))
+      
+      // Step 3: Generating traits (this is the long one)
+      setCurrentStep(2)
+      setTraitProgress({ current: 0, total: 56 })
+      setProgressSteps(prev => prev.map((s, i) => 
+        i === 2 ? { ...s, status: 'processing', details: 'Generating trait 0/56...' } : s
+      ))
+      
+      // Simulate progress as traits are generated (7 layers × 8 traits = 56 total)
+      const traitsPerLayer = 8
+      let simulatedProgress = 0
+      let progressInterval: NodeJS.Timeout | null = null
+      let hasReached56 = false
+      
+      // Start progress simulation
+      progressInterval = setInterval(() => {
+        simulatedProgress += traitsPerLayer
+        if (simulatedProgress <= 56) {
+          setTraitProgress({ current: simulatedProgress, total: 56 })
+          setProgressSteps(prev => prev.map((s, i) => 
+            i === 2 ? { ...s, status: 'processing', details: `Generating trait ${simulatedProgress}/56...` } : s
+          ))
+        } else if (!hasReached56) {
+          // Once we hit 56, show finalizing message (API is still saving traits to database)
+          hasReached56 = true
+          setTraitProgress({ current: 56, total: 56 })
+          setProgressSteps(prev => prev.map((s, i) => 
+            i === 2 ? { ...s, status: 'processing', details: 'All 56 traits generated! Saving to database...' } : s
+          ))
+        }
+      }, 3000) // Update every 3 seconds to simulate layer completion
+      
+      const response = await fetch('/api/collections/lazy-create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: trimmedName,
+          description: description.trim() || null,
+          wallet_address: activeWalletAddress.trim(),
+          compression_quality: compressionQuality !== '' ? compressionQuality : undefined,
+          compression_dimensions: compressionWidth !== '' && compressionHeight !== ''
+            ? (compressionWidth === compressionHeight ? compressionWidth : undefined)
+            : undefined,
+          compression_format: compressionFormat,
+          is_pfp_collection: isPfpCollection,
+          facing_direction: isPfpCollection ? facingDirection : undefined,
+          body_style: isPfpCollection ? bodyStyle : undefined,
+          art_style: selectedArtStyle === 'custom' ? customArtStyle : ART_STYLES.find(s => s.id === selectedArtStyle)?.promptStyle,
+          art_style_id: selectedArtStyle,
+          border_requirements: borderRequirements.trim() || undefined,
+          colors_description: colorsDescription.trim() || undefined,
+          lighting_description: lightingDescription.trim() || undefined,
+          custom_rules: customRules.trim() || undefined,
+          use_hyper_detailed: useHyperDetailed,
+          pixel_perfect: pixelPerfect,
+        }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (progressInterval) clearInterval(progressInterval) // Stop progress simulation
+        
+        // Set final progress
+        setTraitProgress({ current: 56, total: 56 })
+        
+        // Show completion message
+        setProgressSteps(prev => prev.map((s, i) => 
+          i === 2 ? { ...s, status: 'completed', details: `✅ ${data.totalTraits} traits generated successfully!` } : s
+        ))
+        
+        // Show success message briefly before redirecting
+        setTimeout(() => {
+          setShowProgressModal(false)
+          router.push(`/collections/${data.collection.id}`)
+        }, 2000)
+      } else {
+        if (progressInterval) clearInterval(progressInterval) // Stop progress simulation on error
+        const error = await response.json()
+        setProgressError(error.error || 'Failed to create collection')
+        setProgressSteps(prev => prev.map((s, i) => 
+          i === currentStep ? { ...s, status: 'error' } : s
+        ))
+      }
+    } catch (error: any) {
+      if (progressInterval) clearInterval(progressInterval) // Stop progress simulation on error
+      console.error('Error creating lazy collection:', error)
+      setProgressError(error.message || 'Failed to create collection')
+      setProgressSteps(prev => prev.map((s, i) => 
+        i === currentStep ? { ...s, status: 'error' } : s
+      ))
+    } finally {
+      setLazyLoading(false)
+    }
+  }
+
+  return (
+    <>
+      <CollectionCreationProgressModal
+        isOpen={showProgressModal}
+        steps={progressSteps}
+        currentStep={currentStep}
+        error={progressError || undefined}
+      />
+      
+      {/* Color Mood Selection Modal */}
+      {showColorMoodModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#FDFCFA] rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-amber-50">
+              <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                <span>🎨</span> Choose a Color Mood
+              </h3>
+              <button
+                onClick={() => {
+                  setShowColorMoodModal(false)
+                  setColorMoodSuggestions([])
+                }}
+                className="text-gray-500 hover:text-gray-700 p-1"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="p-4 max-h-[60vh] overflow-y-auto">
+              <p className="text-sm text-gray-600 mb-4">
+                Select one of the AI-generated color moods below:
+              </p>
+              <div className="space-y-2">
+                {colorMoodSuggestions.map((mood, index) => (
+                  <button
+                    key={index}
+                    onClick={() => selectColorMood(mood)}
+                    className="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-amber-400 hover:bg-amber-50 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-amber-500 font-bold text-sm">{index + 1}</span>
+                      <span className="text-gray-800 text-sm group-hover:text-amber-900">{mood}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="p-4 border-t border-gray-200 bg-gray-50">
+              <button
+                onClick={() => {
+                  setShowColorMoodModal(false)
+                  setColorMoodSuggestions([])
+                }}
+                className="w-full py-2 text-gray-600 hover:text-gray-800 text-sm font-medium"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Lighting Selection Modal */}
+      {showLightingModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#FDFCFA] rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-indigo-50">
+              <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                <span>💡</span> Choose a Lighting Style
+              </h3>
+              <button
+                onClick={() => {
+                  setShowLightingModal(false)
+                  setLightingSuggestions([])
+                }}
+                className="text-gray-500 hover:text-gray-700 p-1"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="p-4 max-h-[60vh] overflow-y-auto">
+              <p className="text-sm text-gray-600 mb-4">
+                Select one of the AI-generated lighting styles below:
+              </p>
+              <div className="space-y-2">
+                {lightingSuggestions.map((lighting, index) => (
+                  <button
+                    key={index}
+                    onClick={() => selectLighting(lighting)}
+                    className="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-indigo-500 font-bold text-sm">{index + 1}</span>
+                      <span className="text-gray-800 text-sm group-hover:text-indigo-900">{lighting}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="p-4 border-t border-gray-200 bg-gray-50">
+              <button
+                onClick={() => {
+                  setShowLightingModal(false)
+                  setLightingSuggestions([])
+                }}
+                className="w-full py-2 text-gray-600 hover:text-gray-800 text-sm font-medium"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      <div className="min-h-screen">
+        <div className="container mx-auto px-6 py-12">
+        <div className="max-w-3xl mx-auto">
+          <div className="mb-8">
+            <Link 
+              href="/collections" 
+              className="text-blue-700 hover:text-blue-800 mb-6 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Collections
+            </Link>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+              Create New Collection
+            </h1>
+            <p className="text-gray-900">Set up a new collection for your ordinals</p>
+          </div>
+
+        {/* Instructions - Collapsible */}
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl mb-6 overflow-hidden">
+          <button
+            onClick={() => setShowInstructions(!showInstructions)}
+            className="w-full flex items-center justify-between p-4 hover:bg-blue-100/50 transition-colors"
+          >
+            <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+              <span>📝</span> Creating Your Collection
+            </h3>
+            <svg
+              className={`w-5 h-5 text-gray-700 transition-transform duration-200 ${showInstructions ? 'transform rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          {showInstructions && (
+            <div className="px-6 pb-6 pt-2">
+              <div className="space-y-2 text-sm text-gray-900">
+                <p className="flex items-start gap-2">
+                  <span className="text-blue-600 mt-1">1.</span>
+                  <span><strong>Name your collection</strong> - Choose something memorable that represents your project</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-blue-600 mt-1">2.</span>
+                  <span><strong>Add layers and traits</strong> - Once created, add layers and traits to your collection to start generating ordinals</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-blue-600 mt-1">3.</span>
+                  <span><strong>Invite collaborators</strong> - Click "+ Invite" on the collection page to invite team members by username or wallet address</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-blue-600 mt-1">4.</span>
+                  <span><strong>Configure compression</strong> - Edit collection to set image compression (quality, dimensions, or target KB size)</span>
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="bg-[#FDFCFA] border border-gray-200 rounded-xl p-8 shadow-xl backdrop-blur-sm">
+          {!activeWalletConnected && (
+            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl backdrop-blur-sm">
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <p className="text-yellow-800 text-sm">
+                  Please connect your wallet in the header to create a collection.
+                </p>
+              </div>
+            </div>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name and Description Section */}
+            <div className="bg-blue-50/50 border border-blue-100 rounded-lg p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Collection Name *
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 bg-[#FDFCFA] text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none transition-all duration-200"
+                  placeholder="Enter collection name"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  Description (Optional)
+                </label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter collection description"
+                  rows={3}
+                />
+              </div>
+            </div>
+
+            {/* Future Mode (image analysis) */}
+            <div className="bg-gradient-to-r from-indigo-50 to-fuchsia-50 border border-indigo-200 rounded-xl p-6 space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <div className="min-w-0">
+                  <h3 className="text-lg font-bold text-gray-900">🚀 Future (Auto-fill from reference image)</h3>
+                  <p className="text-sm text-gray-700">
+                    Upload a reference image and we’ll analyze the art style + vibe, then auto-fill all creation settings.
+                  </p>
+                </div>
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-800">
+                  <input
+                    type="checkbox"
+                    checked={futureEnabled}
+                    onChange={(e) => setFutureEnabled(e.target.checked)}
+                    className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  />
+                  Enable
+                </label>
+              </div>
+
+              {futureEnabled && (
+                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4 items-start">
+                  <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+                    {futureImagePreview ? (
+                      <img src={futureImagePreview} alt="Reference preview" className="w-full h-[160px] object-cover" />
+                    ) : (
+                      <div className="w-full h-[160px] flex items-center justify-center text-gray-400">
+                        Upload an image
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <input
+                        id="futureImageUpload"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0] || null
+                          setFutureImage(f)
+                          if (f) {
+                            const url = URL.createObjectURL(f)
+                            setFutureImagePreview(url)
+                          } else {
+                            setFutureImagePreview(null)
+                          }
+                          e.currentTarget.value = ''
+                        }}
+                      />
+                      <label
+                        htmlFor="futureImageUpload"
+                        className="inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer transition-colors"
+                      >
+                        Upload Reference
+                      </label>
+                      <button
+                        type="button"
+                        onClick={analyzeFutureImage}
+                        disabled={!futureImage || futureAnalyzing}
+                        className="inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm bg-[#e27d0f] hover:bg-[#c96a0a] disabled:bg-gray-300 disabled:text-gray-600 text-white transition-colors"
+                      >
+                        {futureAnalyzing ? 'Analyzing…' : 'Analyze & Auto-Fill'}
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-600">
+                      Tip: Use a single, representative image (same style you want for the collection). You can edit any fields after it fills.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* PFP Settings Section */}
+            <div className="bg-purple-50/50 border border-purple-100 rounded-lg p-6 space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Picture (PFP) Settings</h3>
+              
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="isPfpCollection"
+                  checked={isPfpCollection}
+                  onChange={(e) => setIsPfpCollection(e.target.checked)}
+                  className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                />
+                <label htmlFor="isPfpCollection" className="text-sm font-medium text-gray-900 cursor-pointer">
+                  This is a Profile Picture (PFP) collection
+                </label>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="pixelPerfect"
+                  checked={pixelPerfect}
+                  onChange={(e) => setPixelPerfect(e.target.checked)}
+                  className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                />
+                <label htmlFor="pixelPerfect" className="text-sm font-medium text-gray-900 cursor-pointer">
+                  Use pixel-perfect character bodies
+                </label>
+              </div>
+              <p className="text-xs text-gray-500">
+                When enabled, character skin/body traits will include precise positioning prompts for consistent body alignment across all variations
+              </p>
+
+              {isPfpCollection && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                      Character Facing Direction
+                    </label>
+                    <select
+                      value={facingDirection}
+                      onChange={(e) => setFacingDirection(e.target.value)}
+                      className="w-full border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 focus:border-purple-500 focus:outline-none"
+                    >
+                      <option value="left">Left</option>
+                      <option value="left-front">Left-Front</option>
+                      <option value="front">Front</option>
+                      <option value="right-front">Right-Front</option>
+                      <option value="right">Right</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                      Body Visibility
+                    </label>
+                    <select
+                      value={bodyStyle}
+                      onChange={(e) => setBodyStyle(e.target.value as 'full' | 'half' | 'headonly')}
+                      className="w-full border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 focus:border-purple-500 focus:outline-none"
+                    >
+                      <option value="full">Full Body</option>
+                      <option value="half">Upper Body Only (waist up)</option>
+                      <option value="headonly">Head & Shoulders Only</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Choose how much of the character to show in generated images
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Art Style Section - Compact horizontal layout with hover preview */}
+            <div className="bg-green-50/50 border border-green-100 rounded-lg p-4">
+              <div className="flex items-center gap-4">
+                {/* Preview Image - Larger Thumbnail with hover support */}
+                <div className="flex-shrink-0">
+                  <div className="relative w-[160px] h-[160px] rounded-lg overflow-hidden border-2 border-green-200 bg-[#FDFCFA] shadow-inner">
+                    {(() => {
+                      const displayStyle = artStyleDropdownOpen && hoveredArtStyle ? hoveredArtStyle : selectedArtStyle
+                      return displayStyle !== 'custom' ? (
+                        <Image
+                          src={ART_STYLES.find(s => s.id === displayStyle)?.previewImage || '/art-styles/chibi.png'}
+                          alt={`${displayStyle} style preview`}
+                          fill
+                          className="object-cover transition-opacity duration-200"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.style.display = 'none'
+                          }}
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center w-full h-full text-gray-400 text-sm text-center">
+                          Custom
+                        </div>
+                      )
+                    })()}
+                  </div>
+                </div>
+
+                {/* Style Dropdown and Info */}
+                <div className="flex-1 min-w-0 relative">
+                  <label className="block text-sm font-semibold text-gray-900 mb-1">
+                    Art Style
+                  </label>
+
+                  {/* Custom Dropdown Button */}
+                  <button
+                    type="button"
+                    onClick={() => setArtStyleDropdownOpen(!artStyleDropdownOpen)}
+                    onBlur={() => setTimeout(() => setArtStyleDropdownOpen(false), 200)}
+                    className="w-full border border-gray-300 rounded px-3 py-1.5 bg-[#FDFCFA] text-gray-900 text-sm focus:border-green-500 focus:outline-none text-left flex items-center justify-between hover:bg-white transition-colors"
+                  >
+                    <span>{ART_STYLES.find(s => s.id === selectedArtStyle)?.name || 'Select style'}</span>
+                    <svg
+                      className={`w-4 h-4 transition-transform ${artStyleDropdownOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {/* Custom Dropdown Menu */}
+                  {artStyleDropdownOpen && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                      {ART_STYLES.map(style => (
+                        <button
+                          key={style.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedArtStyle(style.id)
+                            setArtStyleDropdownOpen(false)
+                            setHoveredArtStyle(null)
+                          }}
+                          onMouseEnter={() => setHoveredArtStyle(style.id)}
+                          onMouseLeave={() => setHoveredArtStyle(null)}
+                          className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                            selectedArtStyle === style.id
+                              ? 'bg-green-100 text-green-900 font-medium'
+                              : 'hover:bg-green-50 text-gray-900'
+                          }`}
+                        >
+                          {style.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {selectedArtStyle !== 'custom' && !artStyleDropdownOpen && (
+                    <p className="text-xs text-gray-500 mt-1 truncate">
+                      {ART_STYLES.find(s => s.id === selectedArtStyle)?.description}
+                    </p>
+                  )}
+
+                  {artStyleDropdownOpen && (
+                    <p className="text-xs text-green-600 mt-1 font-medium">
+                      Hover to preview styles
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Custom Style Input - Only show when custom is selected */}
+              {selectedArtStyle === 'custom' && (
+                <div className="mt-3">
+                  <textarea
+                    value={customArtStyle}
+                    onChange={(e) => setCustomArtStyle(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 placeholder-gray-400 text-sm focus:border-green-500 focus:outline-none"
+                    placeholder="Describe your custom art style..."
+                    rows={2}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Color Palette Section - Standalone */}
+            <div className="bg-amber-50/50 border border-amber-100 rounded-lg p-4">
+              <div className="flex items-center gap-4">
+                <div className="flex-1 min-w-0">
+                  <label className="block text-sm font-semibold text-gray-900 mb-1">
+                    Color Mood
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={colorsDescription}
+                      onChange={(e) => setColorsDescription(e.target.value)}
+                      className="flex-1 border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 placeholder-gray-400 text-sm focus:border-amber-500 focus:outline-none"
+                      placeholder="e.g., 'high contrast with deep shadows', 'soft muted tones', 'neon glows on dark backgrounds'"
+                    />
+                    <button
+                      type="button"
+                      onClick={generateColorMoodSuggestions}
+                      disabled={generatingAI === 'colors'}
+                      className="px-3 py-2 bg-amber-600 hover:bg-amber-700 disabled:bg-amber-400 text-white text-xs font-medium rounded transition-colors whitespace-nowrap flex items-center gap-1"
+                    >
+                      {generatingAI === 'colors' ? (
+                        <><span className="animate-spin">⚡</span> AI...</>
+                      ) : (
+                        <>✨ AI</>
+                      )}
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Describe the color mood: contrast, saturation, brightness, warmth, etc.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Advanced Prompt Settings - Collapsible */}
+            <div className="bg-indigo-50/50 border border-indigo-100 rounded-lg overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
+                className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-indigo-100/50 transition-colors"
+              >
+                <span className="text-sm font-semibold text-gray-900">
+                  Advanced Prompt Settings
+                  {(borderRequirements || lightingDescription || customRules) && (
+                    <span className="ml-2 text-xs text-indigo-600 font-normal">(configured)</span>
+                  )}
+                </span>
+                <svg 
+                  className={`w-5 h-5 text-gray-500 transition-transform ${showAdvancedSettings ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {showAdvancedSettings && (
+                <div className="px-4 pb-4 space-y-4 border-t border-indigo-100">
+                  {/* Hyper-Detailed Toggle */}
+                  <div className="flex items-center gap-3 pt-4">
+                    <input
+                      type="checkbox"
+                      id="useHyperDetailed"
+                      checked={useHyperDetailed}
+                      onChange={(e) => setUseHyperDetailed(e.target.checked)}
+                      className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    />
+                    <label htmlFor="useHyperDetailed" className="text-sm font-medium text-gray-900 cursor-pointer">
+                      Use Hyper-Detailed rendering
+                    </label>
+                  </div>
+                  
+                  {/* Border Requirements */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-1">
+                      Border Style
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={borderRequirements}
+                        onChange={(e) => setBorderRequirements(e.target.value)}
+                        className="flex-1 border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 placeholder-gray-400 text-sm focus:border-indigo-500 focus:outline-none"
+                        placeholder="e.g., 'thick golden ornate frame', 'thin black line', 'no border'"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => generateAISuggestion('border', setBorderRequirements)}
+                        disabled={generatingAI === 'border'}
+                        className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-xs font-medium rounded transition-colors whitespace-nowrap flex items-center gap-1"
+                      >
+                        {generatingAI === 'border' ? (
+                          <><span className="animate-spin">⚡</span> AI...</>
+                        ) : (
+                          <>✨ AI</>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Lighting Description */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-1">
+                      Lighting Style
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={lightingDescription}
+                        onChange={(e) => setLightingDescription(e.target.value)}
+                        className="flex-1 border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 placeholder-gray-400 text-sm focus:border-indigo-500 focus:outline-none"
+                        placeholder="e.g., 'dramatic rim lighting', 'soft diffused', 'harsh shadows'"
+                      />
+                      <button
+                        type="button"
+                        onClick={generateLightingSuggestions}
+                        disabled={generatingAI === 'lighting'}
+                        className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-xs font-medium rounded transition-colors whitespace-nowrap flex items-center gap-1"
+                      >
+                        {generatingAI === 'lighting' ? (
+                          <><span className="animate-spin">⚡</span> AI...</>
+                        ) : (
+                          <>✨ AI</>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Custom Rules */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-1">
+                      Custom Generation Rules
+                    </label>
+                    <div className="flex gap-2 items-start">
+                      <textarea
+                        value={customRules}
+                        onChange={(e) => setCustomRules(e.target.value)}
+                        className="flex-1 border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 placeholder-gray-400 text-sm focus:border-indigo-500 focus:outline-none"
+                        placeholder="Any additional rules for AI generation (e.g., 'always include reflections', 'no backgrounds', 'include particle effects')"
+                        rows={2}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => generateAISuggestion('rules', setCustomRules)}
+                        disabled={generatingAI === 'rules'}
+                        className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-xs font-medium rounded transition-colors whitespace-nowrap flex items-center gap-1"
+                      >
+                        {generatingAI === 'rules' ? (
+                          <><span className="animate-spin">⚡</span> AI...</>
+                        ) : (
+                          <>✨ AI</>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Compression Settings */}
+            <div className="bg-orange-50/50 border border-orange-100 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Image Compression Settings</h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    File Format
+                  </label>
+                  <select
+                    value={compressionFormat}
+                    onChange={(e) => setCompressionFormat(e.target.value as 'jpg' | 'png' | 'webp')}
+                    className="w-full border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 focus:border-blue-500 focus:outline-none"
+                  >
+                    <option value="webp">WebP (Recommended - Best compression)</option>
+                    <option value="jpg">JPEG (Good compression, widely supported)</option>
+                    <option value="png">PNG (Lossless, larger file size)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Compression Quality: {compressionQuality !== '' ? `${compressionQuality}%` : 'Not set'}
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={compressionQuality !== '' ? compressionQuality : 100}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value)
+                      setCompressionQuality(val === 100 ? '' : val)
+                    }}
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Image Dimensions (Width × Height)
+                  </label>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="number"
+                      min="1"
+                      max="1024"
+                      value={compressionWidth}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? '' : parseInt(e.target.value)
+                        const numVal = val === '' || isNaN(val as number) ? '' : Math.max(1, Math.min(1024, val as number))
+                        setCompressionWidth(numVal)
+                        // Auto-sync height to width for square dimensions
+                        if (numVal !== '') {
+                          setCompressionHeight(numVal)
+                        } else {
+                          setCompressionHeight('')
+                        }
+                      }}
+                      placeholder="Width"
+                      className="w-24 border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 focus:border-blue-500 focus:outline-none"
+                    />
+                    <span className="text-gray-900">×</span>
+                    <input
+                      type="number"
+                      min="1"
+                      max="1024"
+                      value={compressionHeight}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? '' : parseInt(e.target.value)
+                        const numVal = val === '' || isNaN(val as number) ? '' : Math.max(1, Math.min(1024, val as number))
+                        setCompressionHeight(numVal)
+                        // Auto-sync width to height for square dimensions
+                        if (numVal !== '') {
+                          setCompressionWidth(numVal)
+                        } else {
+                          setCompressionWidth('')
+                        }
+                      }}
+                      placeholder="Height"
+                      className="w-24 border border-gray-300 rounded px-3 py-2 bg-[#FDFCFA] text-gray-900 focus:border-blue-500 focus:outline-none"
+                    />
+                    <span className="text-gray-900 text-sm">px (square, max 1024×1024)</span>
+                  </div>
+                </div>
+
+                {/* Estimated File Size */}
+                {(() => {
+                  const width = compressionWidth !== '' ? Number(compressionWidth) : 1024
+                  const height = compressionHeight !== '' ? Number(compressionHeight) : 1024
+                  const quality = compressionQuality !== '' ? Number(compressionQuality) : 100
+                  
+                  // Estimate file size based on format, dimensions, and quality
+                  // These are rough estimates for typical NFT images with moderate detail
+                  let estimatedKB = 0
+                  const pixels = width * height
+                  
+                  if (compressionFormat === 'webp') {
+                    // WebP: Excellent compression
+                    // Based on actual data: 600x600 at 75% quality = ~50 KB = ~1.14 bits/pixel
+                    // At 100% quality: ~1.5-2.0 bits/pixel
+                    // At 75% quality: ~1.1-1.3 bits/pixel
+                    // At 50% quality: ~0.7-0.9 bits/pixel
+                    const baseBitsPerPixel = 1.4
+                    const qualityFactor = 0.4 + (quality / 100) * 0.6 // Non-linear: lower quality compresses better
+                    const bitsPerPixel = baseBitsPerPixel * qualityFactor
+                    estimatedKB = Math.round((pixels * bitsPerPixel) / 8 / 1024)
+                  } else if (compressionFormat === 'jpg') {
+                    // JPEG: Good compression, widely supported
+                    // Typically 20-30% larger than WebP at same quality
+                    // At 100% quality: ~1.8-2.5 bits/pixel
+                    // At 75% quality: ~1.3-1.6 bits/pixel
+                    // At 50% quality: ~0.9-1.1 bits/pixel
+                    const baseBitsPerPixel = 1.75
+                    const qualityFactor = 0.4 + (quality / 100) * 0.6 // Non-linear compression
+                    const bitsPerPixel = baseBitsPerPixel * qualityFactor
+                    estimatedKB = Math.round((pixels * bitsPerPixel) / 8 / 1024)
+                  } else if (compressionFormat === 'png') {
+                    // PNG: Lossless, much larger files
+                    // Typically 3-6 bits per pixel depending on color complexity
+                    const bitsPerPixel = 4.5 // More realistic for lossless PNG
+                    estimatedKB = Math.round((pixels * bitsPerPixel) / 8 / 1024)
+                  }
+                  
+                  // Ensure minimum size (even very compressed images have overhead)
+                  estimatedKB = Math.max(10, estimatedKB)
+                  
+                  // Format display name
+                  const formatName = compressionFormat === 'jpg' ? 'JPEG' : compressionFormat.toUpperCase()
+                  
+                  return (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <p className="text-sm font-medium text-blue-900">
+                        Estimated File Size: <span className="font-bold">{estimatedKB} KB</span> ({formatName})
+                      </p>
+                      {compressionFormat === 'png' && (
+                        <p className="text-xs text-blue-700 mt-1">
+                          PNG is lossless but produces larger files than compressed formats.
+                        </p>
+                      )}
+                    </div>
+                  )
+                })()}
+              </div>
+            </div>
+
+
+            <div className="space-y-4 pt-6">
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  disabled={loading || lazyLoading || !activeWalletConnected || !activeWalletAddress}
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Creating...' : 'Create Collection'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLazyCreate}
+                  disabled={lazyLoading || loading || !activeWalletConnected || !activeWalletAddress || !name.trim()}
+                  className="px-6 py-3 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 hover:from-pink-700 hover:via-purple-700 hover:to-blue-700 text-white rounded-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {lazyLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Creating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>✨</span>
+                      <span>Lazy</span>
+                    </>
+                  )}
+                </button>
+                <Link
+                  href="/collections"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold shadow-lg shadow-blue-500/20 transition-all duration-200"
+                >
+                  Cancel
+                </Link>
+              </div>
+              <p className="text-xs text-gray-600 text-center">
+                <strong>Lazy Mode:</strong> Automatically creates a collection with 7 layers (Background, Character Skin, Eyes, Mouth, Outfit, Props, Headwear) and 8 traits per layer (56 total traits).
+                AI will determine the art style based on your collection name. Collection will be ready for ordinal generation.
+              </p>
+            </div>
+          </form>
+        </div>
+        </div>
+      </div>
+    </div>
+    </>
+  )
+}

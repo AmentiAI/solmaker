@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(grep:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx next lint:*)",
+      "Bash(node scripts/run-pixel-perfect-migration.js:*)",
+      "Bash(npm run build:*)",
+      "Bash(wc:*)",
+      "Bash(node scripts/run-marketplace-migration.js:*)",
+      "Bash(node scripts/run-ordinal-marketplace-migration.js:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

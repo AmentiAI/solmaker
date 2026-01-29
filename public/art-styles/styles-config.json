@@ -1,0 +1,98 @@
+[
+  {
+    "id": "chibi",
+    "name": "Chibi / Cute",
+    "description": "Big head, small body, adorable expressions",
+    "previewImage": "/art-styles/chibi.png"
+  },
+  {
+    "id": "anime",
+    "name": "Anime / Manga",
+    "description": "Japanese animation style with expressive features",
+    "previewImage": "/art-styles/anime.png"
+  },
+  {
+    "id": "realistic",
+    "name": "Realistic / Photorealistic",
+    "description": "Lifelike proportions and detailed textures",
+    "previewImage": "/art-styles/realistic.png"
+  },
+  {
+    "id": "pixel",
+    "name": "Pixel Art",
+    "description": "Retro game-inspired blocky pixels",
+    "previewImage": "/art-styles/pixel.png"
+  },
+  {
+    "id": "cartoon",
+    "name": "Western Cartoon",
+    "description": "Bold outlines, exaggerated features",
+    "previewImage": "/art-styles/cartoon.png"
+  },
+  {
+    "id": "watercolor",
+    "name": "Watercolor / Painterly",
+    "description": "Soft edges, flowing colors, artistic texture",
+    "previewImage": "/art-styles/watercolor.png"
+  },
+  {
+    "id": "cyberpunk",
+    "name": "Cyberpunk / Neon",
+    "description": "Futuristic, neon lights, tech aesthetic",
+    "previewImage": "/art-styles/cyberpunk.png"
+  },
+  {
+    "id": "fantasy",
+    "name": "Fantasy / Epic",
+    "description": "Magical, detailed, dramatic lighting",
+    "previewImage": "/art-styles/fantasy.png"
+  },
+  {
+    "id": "minimalist",
+    "name": "Minimalist / Flat",
+    "description": "Simple shapes, limited colors, clean design",
+    "previewImage": "/art-styles/minimalist.png"
+  },
+  {
+    "id": "graffiti",
+    "name": "Street Art / Graffiti",
+    "description": "Urban, bold colors, spray paint texture",
+    "previewImage": "/art-styles/graffiti.png"
+  },
+  {
+    "id": "3d-cartoon",
+    "name": "3D Cartoon",
+    "description": "Pixar/Disney style 3D rendered characters",
+    "previewImage": "/art-styles/3d-cartoon.png"
+  },
+  {
+    "id": "low-poly",
+    "name": "Low Poly / Geometric",
+    "description": "Angular geometric shapes, faceted surfaces, modern 3D",
+    "previewImage": "/art-styles/low-poly.png"
+  },
+  {
+    "id": "abstract",
+    "name": "Abstract / Surreal",
+    "description": "Non-representational, dreamlike, artistic expression",
+    "previewImage": "/art-styles/abstract.png"
+  },
+  {
+    "id": "vintage",
+    "name": "Vintage / Retro",
+    "description": "Nostalgic, aged aesthetic, classic design",
+    "previewImage": "/art-styles/vintage.png"
+  },
+  {
+    "id": "hand-drawn",
+    "name": "Hand-drawn / Sketch",
+    "description": "Organic lines, sketchy, artistic hand-drawn feel",
+    "previewImage": "/art-styles/hand-drawn.png"
+  },
+  {
+    "id": "glitch",
+    "name": "Glitch / Digital Art",
+    "description": "Digital artifacts, data corruption aesthetic, cyber",
+    "previewImage": "/art-styles/glitch.png"
+  }
+]
