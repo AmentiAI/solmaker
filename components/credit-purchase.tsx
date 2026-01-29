@@ -192,9 +192,12 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
           throw new Error('Invalid transaction amount')
         }
 
-        // Create connection to Solana mainnet
+        // Create connection to Solana mainnet using Helius RPC
+        const rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+        console.log('🌐 Connecting to Solana RPC:', rpcUrl.split('?')[0]) // Log without API key
+        
         const connection = new Connection(
-          process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com',
+          rpcUrl,
           'confirmed'
         )
 
