@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
 import * as bitcoin from 'bitcoinjs-lib'
 import * as ecc from '@bitcoinerlab/secp256k1'
-import { getBitcoinNetwork } from '@/lib/inscription-utils'
+import { getBitcoinNetwork } from '@/lib/bitcoin-utils'
 
 // Initialize ECC library
 bitcoin.initEccLib(ecc)
