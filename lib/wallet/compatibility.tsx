@@ -1,6 +1,7 @@
 "use client"
 
 import { useSolanaWallet } from "@/lib/wallet/solana-wallet-context"
+import { useWallet as useSolanaWalletAdapter } from '@solana/wallet-adapter-react'
 
 // Re-export Solana wallet hook as useWallet for backwards compatibility
 // All components that previously used the Bitcoin useWallet() now get the Solana wallet
@@ -23,6 +24,7 @@ interface WalletContextType {
 
 export function useWallet(): WalletContextType {
   const solana = useSolanaWallet()
+  const { signMessage: solanaSignMessage } = useSolanaWalletAdapter()
 
   return {
     isConnected: solana.isConnected,
@@ -37,7 +39,13 @@ export function useWallet(): WalletContextType {
     isLiveConnection: solana.isConnected,
     verifyWallet: solana.verifyWallet,
     signMessage: async (message: string) => {
-      throw new Error("Use Solana wallet adapter signMessage directly")
+      if (!solanaSignMessage) {
+        throw new Error('Wallet signMessage not available')
+      }
+      const messageBytes = new TextEncoder().encode(message)
+      const signature = await solanaSignMessage(messageBytes)
+      // Convert signature to base64 string
+      return Buffer.from(signature).toString('base64')
     },
     signPsbt: async () => {
       throw new Error("PSBTs are not supported on Solana")
