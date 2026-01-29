@@ -5,7 +5,7 @@ import { BIP32Factory } from 'bip32'
 import * as bitcoin from 'bitcoinjs-lib'
 import * as ecc from '@bitcoinerlab/secp256k1'
 import { ECPairFactory } from 'ecpair'
-import { TweakedSigner } from '@btc-vision/transaction'
+import { TweakedSigner } from '@/lib/tweaked-signer'
 import { getBitcoinNetwork, getAddressType, addInputSigningInfo } from '@/lib/bitcoin-utils'
 import { fetchUtxos, filterAndSortUtxos, convertSandshrewToMempoolFormat } from '@/lib/utxo-fetcher'
 

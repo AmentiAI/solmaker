@@ -11,13 +11,14 @@ import {
   getBitcoinNetwork,
   getMinimumOutputValue,
 } from '@/lib/inscription-utils'
-import * as cmdEcc from '@cmdcode/crypto-utils'
 import { Tap } from '@cmdcode/tapscript'
+import { ECPairFactory } from 'ecpair'
 import { fetchUtxos, filterAndSortUtxos, convertSandshrewToMempoolFormat, validateSufficientFunds } from '@/lib/utxo-fetcher'
 import { addInputSigningInfo, getAddressType } from '@/lib/bitcoin-utils'
 
 // Initialize ECC library
 bitcoin.initEccLib(ecc)
+const ECPair = ECPairFactory(ecc)
 
 /**
  * POST /api/admin/mints/test-mint - Create a test mint for an ordinal
@@ -129,27 +130,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to process image' }, { status: 500 })
     }
 
-    // Generate inscription keypair (same pattern as working create-commit route)
+    // Generate inscription keypair
     const privKey = generatePrivateKey()
-    const pubKey = cmdEcc.keys.get_pubkey(privKey, true)
-    
-    // The Buff type from @cmdcode/crypto-utils - pass directly to tapscript
-    // (same as create-commit/route.ts line 80-82)
-    
+    const keyPair = ECPair.fromPrivateKey(privKey)
+    const pubKeyHex = keyPair.publicKey.toString('hex')
+
     // Prepare inscription data
     const inscriptionData = [{
       content: compressedBase64,
       mimeType: 'image/webp',
     }]
 
-    // Create taproot address - pass pubKey directly like working create-commit route
+    // Create taproot address from pubkey hex
     const { inscriberAddress, tpubkey, tapleaf, script } = createInscriptionRevealAddressAndKeys(
-      pubKey as any, // Buff object works directly with tapscript
+      { hex: pubKeyHex },
       inscriptionData
     )
-    
-    // Get pubKey hex for storage (needed for reveal transaction later)
-    const pubKeyHex = (pubKey as any).hex as string
     
     // Get control block (cblock) - REQUIRED for reveal witness data
     const [, cblock] = Tap.getPubKey(pubKeyHex, { target: tapleaf })
