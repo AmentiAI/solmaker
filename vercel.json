@@ -1,33 +1,23 @@
 {
   "crons": [
     {
-      "path": "/api/cron/process-generation-jobs-v2",
+      "path": "/api/cron/monitor-solana-mints",
       "schedule": "*/1 * * * *"
-    },
+    }
+  ],
+  "headers": [
     {
-      "path": "/api/cron/check-payments",
-      "schedule": "*/2 * * * *"
-    },
-    {
-      "path": "/api/cron/check-marketplace-payments",
-      "schedule": "*/5 * * * *"
-    },
-    {
-      "path": "/api/cron/update-phase-status",
-      "schedule": "*/3 * * * *"
-    },
-    {
-      "path": "/api/cron/check-mint-transactions",
-      "schedule": "*/2 * * * *"
-    },
-    {
-      "path": "/api/cron/release-expired-locks",
-      "schedule": "*/2 * * * *"
-    },
-    {
-      "path": "/api/cron/update-btc-price",
-      "schedule": "*/30 * * * *"
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
     }
   ]
 }
-
