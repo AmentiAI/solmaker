@@ -1,7 +1,7 @@
 'use client'
 
 interface LaunchModeSelectorProps {
-  onSelectMode: (mode: 'self-inscribe' | 'launchpad' | 'marketplace') => void
+  onSelectMode: (mode: 'launchpad' | 'marketplace' | 'owner-mint') => void
 }
 
 export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorProps) {
@@ -35,9 +35,9 @@ export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorP
           </div>
         </button>
 
-        {/* Self-Inscribe Option */}
+        {/* Owner Mint Option */}
         <button
-          onClick={() => onSelectMode('self-inscribe')}
+          onClick={() => onSelectMode('owner-mint')}
           className="group bg-white border-2 border-gray-200 rounded-xl p-6 text-left hover:border-[#4561ad] hover:shadow-lg transition-all"
         >
           <div className="flex items-start gap-4">
@@ -45,15 +45,15 @@ export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorP
               <span className="text-2xl">⚡</span>
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Self-Mint</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Owner Mint</h3>
               <p className="text-gray-600 text-sm mb-3">
-                Mint your collection yourself in batches using Metaplex
+                Mint specific NFTs from your collection outside the launchpad
               </p>
               <ul className="text-sm text-gray-500 space-y-1">
-                <li>✓ Full control over minting process</li>
-                <li>✓ Batch minting</li>
-                <li>✓ Track minting status</li>
-                <li>✓ Build metadata</li>
+                <li>✓ Mint to specific wallets</li>
+                <li>✓ Reserve pieces for team/giveaways</li>
+                <li>✓ Pre-mint before launch</li>
+                <li>✓ Manual control</li>
               </ul>
             </div>
           </div>

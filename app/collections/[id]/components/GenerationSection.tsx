@@ -65,7 +65,7 @@ export function GenerationSection({
                   {processingJobs > 0 ? `Processing ${processingJobs} Generation${processingJobs !== 1 ? 's' : ''}` : 'Generations Queued'}
                 </h3>
                 <p className="text-sm text-white/90 mt-1">
-                  {processingJobs > 0 ? 'Your ordinals are being generated. This may take a few minutes...' : queuedJobs > 0 ? `${queuedJobs} generation${queuedJobs !== 1 ? 's' : ''} waiting in queue` : ''}
+                  {processingJobs > 0 ? 'Your NFTs are being generated. This may take a few minutes...' : queuedJobs > 0 ? `${queuedJobs} generation${queuedJobs !== 1 ? 's' : ''} waiting in queue` : ''}
                 </p>
               </div>
             </div>
@@ -100,7 +100,7 @@ export function GenerationSection({
 
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white">Generate Ordinals</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Generate NFTs</h2>
           <p className="text-sm text-white/80 mt-1">
             {collection?.collection_status === 'launchpad' && !isUserAdmin ? 'Generation is disabled for launchpad collections' : ''}
           </p>
@@ -176,7 +176,7 @@ export function GenerationSection({
 
       {layers.length === 0 && (
         <div className="text-center py-8 text-[#ff6b35] cosmic-card border border-[#ff6b35]/50 rounded-lg">
-          ⚠️ Please add layers and traits before generating ordinals
+          ⚠️ Please add layers and traits before generating NFTs
         </div>
       )}
 

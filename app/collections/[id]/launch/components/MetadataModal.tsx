@@ -28,9 +28,9 @@ export default function MetadataModal({
         <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-gray-50">
           <div>
             <h3 className="text-lg font-bold text-gray-900">
-              {collectionName} - Inscription Metadata
+              {collectionName} - NFT Metadata
             </h3>
-            <p className="text-sm text-gray-500">{metadata.length} completed inscriptions</p>
+            <p className="text-sm text-gray-500">{metadata.length} minted NFTs</p>
           </div>
           <button
             onClick={onClose}

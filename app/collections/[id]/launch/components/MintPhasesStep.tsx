@@ -159,30 +159,21 @@ export function MintPhasesStep({
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Mint Price (sats)</label>
+                <label className="block text-sm font-medium text-white/70 mb-1">Mint Price (lamports)</label>
                 <input
                   type="number"
                   value={newPhasePrice}
                   onChange={(e) => setNewPhasePrice(Math.floor(Number(e.target.value)))}
                   min={0}
-                  step={1}
+                  step={1000000}
                   placeholder="0"
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] ${
-                    newPhasePrice > 0 && newPhasePrice <= 545
-                      ? 'border-[#ff6b35] bg-[#ff6b35]/20 cosmic-card' 
-                      : 'border-[#00d4ff]/30 cosmic-card'
-                  } text-white placeholder:text-white/50`}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] border-[#00d4ff]/30 cosmic-card text-white placeholder:text-white/50"
                 />
-                {newPhasePrice > 0 && newPhasePrice <= 545 && (
-                  <p className="text-xs text-[#ff6b35] mt-1 font-medium">
-                    ⚠️ Price must be 0 (free) or at least 546 sats. Please fix the price.
-                  </p>
-                )}
                 {newPhasePrice === 0 && (
-                  <p className="text-xs text-white/60 mt-1">Free mint</p>
+                  <p className="text-xs text-white/60 mt-1">Free mint (0 ◎)</p>
                 )}
-                {newPhasePrice >= 546 && (
-                  <p className="text-xs text-white/60 mt-1">Paid mint</p>
+                {newPhasePrice > 0 && (
+                  <p className="text-xs text-white/60 mt-1">{(newPhasePrice / 1000000000).toFixed(4)} SOL</p>
                 )}
               </div>
               <div>
@@ -318,7 +309,7 @@ export function MintPhasesStep({
                       timeZoneName: 'short'
                     }) : 'No end'}
                   </p>
-                  <p className="text-sm text-white/70">{phase.mint_price_sats} sats</p>
+                  <p className="text-sm text-white/70">{phase.mint_price_sats ? `${(phase.mint_price_sats / 1000000000).toFixed(4)} SOL` : 'Free'}</p>
                   {phase.whitelist_only && (
                     <p className="text-xs text-[#00d4ff] mt-1">
                       Whitelist Only

@@ -88,7 +88,7 @@ export function LaunchStep({
           const data = await res.json()
           setMintStats(data.summary)
           
-          // Count mints with inscription_id (these will be in the metadata export)
+          // Count mints with inscription_id / mint_id (these will be in the metadata export)
           const mintsWithInscription = (data.mints || []).filter((mint: any) => mint.inscription_id)
           setMetadataRecordCount(mintsWithInscription.length)
         }
@@ -322,10 +322,10 @@ export function LaunchStep({
       
       while (hasMore) {
         const res = await fetch(`/api/collections/${collection.id}/ordinals?limit=100&page=${page}`)
-        if (!res.ok) throw new Error('Failed to fetch ordinals')
+        if (!res.ok) throw new Error('Failed to fetch NFTs')
         
         const data = await res.json()
-        const ordinals = (data.ordinals || []).filter((ordinal: any) => ordinal.image_url) // Only include ordinals with images
+        const ordinals = (data.ordinals || []).filter((ordinal: any) => ordinal.image_url) // Only include NFTs with images
         allOrdinals = allOrdinals.concat(ordinals)
         
         // Check if there are more pages
@@ -335,7 +335,7 @@ export function LaunchStep({
       }
       
       if (allOrdinals.length === 0) {
-        toast.error('No ordinals with images found')
+        toast.error('No NFTs with images found')
         return
       }
 
@@ -362,7 +362,7 @@ export function LaunchStep({
           const fileNumber = ordinal.ordinal_number !== null ? ordinal.ordinal_number : (i + 1)
           const imageResponse = await fetch(ordinal.image_url)
           if (!imageResponse.ok) {
-            console.warn(`Failed to fetch image for ordinal ${fileNumber}`)
+            console.warn(`Failed to fetch image for NFT ${fileNumber}`)
             continue
           }
           const imageBlob = await imageResponse.blob()
@@ -387,7 +387,7 @@ export function LaunchStep({
             toast.info(`Downloaded ${i + 1} of ${allOrdinals.length} images...`, { duration: 1000 })
           }
         } catch (error) {
-          console.error(`Failed to download image for ordinal ${i + 1}:`, error)
+          console.error(`Failed to download image for NFT ${i + 1}:`, error)
           // Continue with other images
         }
       }
@@ -423,7 +423,7 @@ export function LaunchStep({
         const data = await res.json()
         setSizeCheckResult(data)
         if (!data.all_under_limit) {
-          toast.warning(`${data.exceeds_limit} ordinal(s) exceed 200KB limit`)
+          toast.warning(`${data.exceeds_limit} NFT(s) exceed 200KB limit`)
         }
       } else {
         const error = await res.json()
@@ -473,7 +473,7 @@ export function LaunchStep({
       }
     } catch (err) {
       console.error('Failed to recompress:', err)
-      toast.error('Failed to recompress ordinals')
+      toast.error('Failed to recompress NFTs')
     } finally {
       setRecompressing(false)
       setTimeout(() => {
@@ -771,7 +771,7 @@ export function LaunchStep({
                   Recompressing...
                 </>
               ) : (
-                <>🔄 Recompress All Ordinals</>
+                <>🔄 Recompress All NFTs</>
               )}
             </button>
 

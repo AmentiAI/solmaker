@@ -56,7 +56,7 @@ export function ReviewStep({
             ) : (
               phases.map((phase) => (
                 <p key={phase.id}>
-                  <strong>{phase.phase_name}:</strong> {phase.mint_price_sats} sats, starts {new Date(phase.start_time).toLocaleString(undefined, { 
+                  <strong>{phase.phase_name}:</strong> {phase.mint_price_sats ? `${(phase.mint_price_sats / 1000000000).toFixed(4)} SOL` : 'Free'}, starts {new Date(phase.start_time).toLocaleString(undefined, { 
                     year: 'numeric', 
                     month: 'short', 
                     day: 'numeric', 

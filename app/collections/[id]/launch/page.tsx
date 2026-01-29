@@ -290,9 +290,10 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    // Validate price: must be 0 (free) or at least 546 sats
-    if (newPhasePrice > 0 && newPhasePrice <= 545) {
-      toast.error('Price must be 0 (free) or at least 546 sats. Please fix the price.')
+    // Price is in lamports - no minimum validation needed for Solana
+    // Just ensure it's a valid number >= 0
+    if (newPhasePrice < 0) {
+      toast.error('Price cannot be negative')
       return
     }
 

@@ -12,7 +12,7 @@ interface LaunchHeaderProps {
   phasesCount?: number
   actualMintedCount?: number
   totalSupply?: number
-  launchMode?: 'self-inscribe' | 'launchpad' | 'marketplace' | null
+  launchMode?: 'owner-mint' | 'launchpad' | 'marketplace' | null
   onShowMetadata?: () => void
 }
 
@@ -83,47 +83,21 @@ export default function LaunchHeader({
       </div>
 
       {/* Status Banner */}
-      {launchMode === 'self-inscribe' ? (
-        <div className={`mt-4 p-4 rounded-lg ${
-          actualMintedCount === totalSupply 
-            ? 'bg-green-50 border border-green-200' 
-            : actualMintedCount && actualMintedCount > 0
-            ? 'bg-blue-50 border border-blue-200'
-            : 'bg-gray-50 border border-gray-200'
-        }`}>
+      {launchMode === 'owner-mint' ? (
+        <div className="mt-4 p-4 rounded-lg bg-blue-50 border border-blue-200">
           <div className="flex items-center gap-2">
-            <span className="text-lg">
-              {actualMintedCount === totalSupply ? '✅' : actualMintedCount && actualMintedCount > 0 ? '🔵' : '⚪'}
-            </span>
-            <span className={`font-medium ${
-              actualMintedCount === totalSupply 
-                ? 'text-green-700' 
-                : actualMintedCount && actualMintedCount > 0
-                ? 'text-blue-700'
-                : 'text-gray-700'
-            }`}>
-              {actualMintedCount === totalSupply
-                ? 'All Inscriptions Complete!'
-                : actualMintedCount && actualMintedCount > 0
-                ? 'Self-Inscribing in Progress'
-                : 'Ready to Self-Inscribe'}
+            <span className="text-lg font-bold text-blue-700">
+              ⚡ Owner Mint Mode
             </span>
           </div>
-          <div className="flex items-center justify-between mt-2">
-            {totalSupply && (
-              <p className="text-sm text-gray-600">
-                <span className="font-semibold text-green-600">{actualMintedCount || 0}</span> / {totalSupply} inscribed
-              </p>
-            )}
-            {actualMintedCount && actualMintedCount > 0 && onShowMetadata && (
-              <button
-                onClick={onShowMetadata}
-                className="px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg text-sm font-medium transition-colors"
-              >
-                📋 Export Metadata JSON
-              </button>
-            )}
-          </div>
+          <p className="text-sm text-gray-600 mt-2">
+            Mint NFTs directly to specific wallets. Perfect for team reserves, giveaways, or pre-launch distribution.
+          </p>
+          {totalSupply && (
+            <p className="text-sm text-gray-600 mt-2">
+              Minted: <span className="font-semibold text-blue-600">{actualMintedCount || 0}</span> / {totalSupply}
+            </p>
+          )}
         </div>
       ) : (
         <div className={`mt-4 p-4 rounded-lg ${
