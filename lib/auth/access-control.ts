@@ -1,7 +1,8 @@
 // Authorized wallet addresses and usernames for restricted features
 export const AUTHORIZED_WALLETS = [
-  'bc1pmhglspy7jd7fzx6ycrdcdyet35ppqsu2ywfaakzapzxpwde3jafshshqwe', // Actual wallet address
-  'bc1ptku2xtatqhntfctzachrmr8laq36s20wtrgnm66j39g0a3fwamlqxkryf2',
+  'bc1pmhglspy7jd7fzx6ycrdcdyet35ppqsu2ywfaakzapzxpwde3jafshshqwe', // Bitcoin wallet
+  'bc1ptku2xtatqhntfctzachrmr8laq36s20wtrgnm66j39g0a3fwamlqxkryf2', // Bitcoin wallet
+  'D3SNZXJwsMVqJM7qBMUZ8w2rnDhNiLbSs2TT1Ez8GiLJ', // Solana wallet - Admin
 ]
 
 export const AUTHORIZED_USERNAMES = [
@@ -20,12 +21,13 @@ export function isAuthorized(walletAddress: string | null | undefined): boolean 
 }
 
 /**
- * Check if a wallet address has admin privileges
- * Use this for admin-only features
+ * Check if a wallet address has admin privileges (client-side fallback)
+ * For proper admin checks, use checkAuthorizationServer with database access
  */
 export function isAdmin(walletAddress: string | null | undefined): boolean {
   if (!walletAddress) return false
   const addressLower = walletAddress.toLowerCase()
+  // Fallback to hardcoded list for client-side checks
   return AUTHORIZED_WALLETS.some(w => w.toLowerCase() === addressLower)
 }
 
@@ -79,27 +81,40 @@ export async function checkAuthorizationServer(
   // Check if wallet is connected (any wallet = authorized)
   const isAuthorized = !!walletAddress
 
-  // Check if wallet has admin privileges
-  const addressLower = walletAddress.toLowerCase()
-  let isAdmin = AUTHORIZED_WALLETS.some(w => w.toLowerCase() === addressLower)
+  // Check if wallet has admin privileges - prioritize database check
+  let isAdminUser = false
 
-  // If we have database access and not yet admin, check by username
-  if (!isAdmin && sql) {
+  if (sql) {
     try {
+      // First, check database for is_admin flag
       const profileResult = await sql`
-        SELECT username FROM profiles
+        SELECT is_admin, username FROM profiles
         WHERE wallet_address = ${walletAddress}
-        AND LOWER(username) = ANY(${AUTHORIZED_USERNAMES.map(u => u.toLowerCase())})
         LIMIT 1
       `
-      if (profileResult.length > 0) {
-        isAdmin = true
+      
+      if (profileResult.length > 0 && profileResult[0].is_admin === true) {
+        isAdminUser = true
+      }
+      
+      // Also check if username is in authorized list (fallback)
+      if (!isAdminUser && profileResult.length > 0 && profileResult[0].username) {
+        const usernameLower = profileResult[0].username.toLowerCase()
+        if (AUTHORIZED_USERNAMES.map(u => u.toLowerCase()).includes(usernameLower)) {
+          isAdminUser = true
+        }
       }
     } catch (error) {
-      console.error('Error checking authorization by username:', error)
+      console.error('Error checking admin status from database:', error)
     }
   }
+  
+  // Fallback to hardcoded wallet list if database check didn't return admin
+  if (!isAdminUser) {
+    const addressLower = walletAddress.toLowerCase()
+    isAdminUser = AUTHORIZED_WALLETS.some(w => w.toLowerCase() === addressLower)
+  }
 
-  return { isAuthorized, isAdmin, walletAddress }
+  return { isAuthorized, isAdmin: isAdminUser, walletAddress }
 }
 

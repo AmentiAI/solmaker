@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import { WalletConnect } from '@/components/wallet-connect'
 import { AdminSidebar } from '@/components/admin-sidebar'
 import Link from 'next/link'
@@ -115,7 +115,10 @@ export default function AdminPage() {
   const [optInFilter, setOptInFilter] = useState<'all' | 'opted-in' | 'not-opted-in'>('all')
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
 
-  const authorized = isAdmin(currentAddress || null)
+  // Check admin status from database
+  const { isAdmin: isAdminUser, loading: adminLoading } = useAdminCheck(currentAddress)
+  
+  const authorized = isAdminUser
   // Require verification: must be connected, authorized, AND verified
   // isVerifying means the prompt is open but not yet signed - still block access
   // Only allow access when isVerified is true AND isVerifying is false
@@ -438,6 +441,18 @@ export default function AdminPage() {
     )
   }
 
+  // Show loading while checking admin status
+  if (adminLoading) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-400">Verifying admin access...</p>
+        </div>
+      </div>
+    )
+  }
+
   if (!authorized) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-8">
@@ -447,6 +462,9 @@ export default function AdminPage() {
             <p className="text-gray-300 mb-4">This page is restricted to admin accounts only.</p>
             <p className="text-gray-500 text-sm mb-4">
               Connected: {currentAddress?.slice(0, 8)}...{currentAddress?.slice(-6)}
+            </p>
+            <p className="text-gray-400 text-xs mb-4">
+              Admin status is checked from the database profile.
             </p>
             <Link href="/" className="text-blue-600 hover:text-blue-700">
               ← Back to Home
