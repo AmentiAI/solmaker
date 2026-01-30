@@ -356,15 +356,15 @@ export function MintDetailsSection({
             </div>
           )}
 
-          {commitTxid && (
+          {txSignature && (
             <div className="mt-4">
               <a
-                href={`https://mempool.space/tx/${commitTxid}`}
+                href={`https://solscan.io/tx/${txSignature}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#9945FF] hover:text-[#DC1FFF] hover:underline text-sm transition-colors"
               >
-                View commit transaction →
+                View transaction on Solscan →
               </a>
             </div>
           )}

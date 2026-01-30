@@ -9,7 +9,8 @@
       "Bash(npm run build:*)",
       "Bash(wc:*)",
       "Bash(node scripts/run-marketplace-migration.js:*)",
-      "Bash(node scripts/run-ordinal-marketplace-migration.js:*)"
+      "Bash(node scripts/run-ordinal-marketplace-migration.js:*)",
+      "Bash(npx next:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,23 +1,29 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { 
-  Rocket, 
-  Zap, 
-  Clock, 
-  Users, 
+import { useWallet } from '@/lib/wallet/compatibility'
+import {
+  Rocket,
+  Zap,
+  Clock,
+  Users,
   TrendingUp,
   Search,
   Filter,
   Grid3x3,
   List,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Plus,
+  X,
+  Image as ImageIcon,
+  ChevronRight,
 } from 'lucide-react'
 
 interface LaunchpadCollection {
@@ -34,6 +40,17 @@ interface LaunchpadCollection {
   created_at: string
 }
 
+interface UserCollection {
+  id: string
+  name: string
+  description?: string
+  collection_status?: string
+  is_locked?: boolean
+  total_ordinals?: number
+  banner_image_url?: string
+  mobile_image_url?: string
+}
+
 export default function LaunchpadPage() {
   const [collections, setCollections] = useState<LaunchpadCollection[]>([])
   const [loading, setLoading] = useState(true)
@@ -41,9 +58,41 @@ export default function LaunchpadPage() {
   const [filterStatus, setFilterStatus] = useState<'all' | 'live' | 'upcoming' | 'ended'>('all')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
+  // Launch modal state
+  const [showLaunchModal, setShowLaunchModal] = useState(false)
+  const [userCollections, setUserCollections] = useState<UserCollection[]>([])
+  const [loadingUserCollections, setLoadingUserCollections] = useState(false)
+  const { isConnected, currentAddress } = useWallet()
+  const router = useRouter()
+
   useEffect(() => {
     loadCollections()
   }, [])
+
+  // Fetch user's collections when modal opens
+  const loadUserCollections = useCallback(async () => {
+    if (!currentAddress) return
+    setLoadingUserCollections(true)
+    try {
+      const res = await fetch(`/api/collections?wallet_address=${encodeURIComponent(currentAddress)}`)
+      if (res.ok) {
+        const data = await res.json()
+        // Show owned + collaborator collections, exclude already-live launchpad ones
+        const all = [...(data.owned_collections || []), ...(data.collaborator_collections || [])]
+        setUserCollections(all)
+      }
+    } catch (err) {
+      console.error('Error loading user collections:', err)
+    } finally {
+      setLoadingUserCollections(false)
+    }
+  }, [currentAddress])
+
+  const handleOpenLaunchModal = () => {
+    if (!isConnected) return
+    setShowLaunchModal(true)
+    loadUserCollections()
+  }
 
   const loadCollections = async () => {
     try {
@@ -62,7 +111,7 @@ export default function LaunchpadPage() {
           image_url: col.banner_image_url || col.mobile_image_url || '/placeholder.png',
           total_supply: col.total_supply || 0,
           minted_count: col.minted_count || 0,
-          mint_price: col.phases?.[0]?.mint_price_sats ? (col.phases[0].mint_price_sats / 100000000).toFixed(8) : '0',
+          mint_price: (col.phases?.[0]?.mint_price_lamports ?? col.phases?.[0]?.mint_price_sats) ? ((col.phases[0].mint_price_lamports ?? col.phases[0].mint_price_sats) / 1_000_000_000).toFixed(4) : '0',
           is_live: col.launch_status === 'active',
           start_time: col.phases?.[0]?.start_time,
           end_time: col.phases?.[col.phases.length - 1]?.end_time,
@@ -178,9 +227,146 @@ export default function LaunchpadPage() {
                 </div>
               </div>
             </div>
+
+            {/* Launch Collection Button */}
+            <div className="mt-10">
+              {isConnected ? (
+                <Button
+                  onClick={handleOpenLaunchModal}
+                  className="px-8 py-6 text-lg font-bold bg-gradient-to-r from-[var(--solana-purple)] to-[var(--solana-green)] hover:from-[var(--solana-green)] hover:to-[var(--solana-purple)] text-white rounded-xl shadow-lg shadow-[var(--solana-purple)]/25 hover:shadow-[var(--solana-purple)]/40 transition-all"
+                >
+                  <Plus className="h-5 w-5 mr-2" />
+                  Launch Collection
+                </Button>
+              ) : (
+                <p className="text-[var(--text-secondary)] text-sm">
+                  Connect your wallet to launch a collection
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Launch Collection Modal */}
+      {showLaunchModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setShowLaunchModal(false)}
+          />
+
+          {/* Modal */}
+          <div className="relative w-full max-w-lg bg-gradient-to-br from-[#14141e] to-[#1a1a24] border border-[var(--solana-purple)]/30 rounded-2xl shadow-2xl shadow-[var(--solana-purple)]/10 max-h-[80vh] flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-[var(--solana-purple)]/20">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gradient-to-br from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border border-[var(--solana-purple)]/40 rounded-xl">
+                  <Rocket className="h-5 w-5 text-[var(--solana-purple)]" />
+                </div>
+                <h2 className="text-xl font-bold text-white">Launch Collection</h2>
+              </div>
+              <button
+                onClick={() => setShowLaunchModal(false)}
+                className="p-2 rounded-lg hover:bg-white/5 transition-colors text-[var(--text-secondary)] hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-6 overflow-y-auto flex-1">
+              <p className="text-[var(--text-secondary)] text-sm mb-4">
+                Select a collection to set up its launchpad. You&apos;ll configure mint phases, pricing, and whitelists.
+              </p>
+
+              {loadingUserCollections ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="w-10 h-10 border-3 border-[var(--solana-purple)] border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : userCollections.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="text-4xl mb-4 opacity-50">📦</div>
+                  <p className="text-white font-semibold mb-2">No collections found</p>
+                  <p className="text-[var(--text-secondary)] text-sm mb-6">
+                    Create a collection first, then come back to launch it.
+                  </p>
+                  <Link href="/collections/create">
+                    <Button variant="outline">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Create Collection
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {userCollections.map((col) => {
+                    const isAlreadyLive = col.collection_status === 'launchpad_live'
+                    const isLaunchpadReady = col.collection_status === 'launchpad'
+                    const statusLabel = isAlreadyLive
+                      ? 'Live'
+                      : isLaunchpadReady
+                      ? 'Ready'
+                      : col.collection_status === 'marketplace'
+                      ? 'Marketplace'
+                      : 'Draft'
+                    const statusColor = isAlreadyLive
+                      ? 'text-[var(--solana-green)]'
+                      : isLaunchpadReady
+                      ? 'text-[var(--solana-purple)]'
+                      : 'text-[var(--text-secondary)]'
+
+                    return (
+                      <button
+                        key={col.id}
+                        onClick={() => {
+                          setShowLaunchModal(false)
+                          router.push(`/collections/${col.id}/launch`)
+                        }}
+                        className="w-full flex items-center gap-4 p-4 rounded-xl border border-[var(--solana-purple)]/20 hover:border-[var(--solana-purple)]/50 bg-[#0f0f1e]/50 hover:bg-[var(--solana-purple)]/5 transition-all text-left group"
+                      >
+                        {/* Thumbnail */}
+                        <div className="w-14 h-14 rounded-lg overflow-hidden border border-[var(--solana-purple)]/20 bg-[#0a0a0f] flex-shrink-0">
+                          {col.banner_image_url || col.mobile_image_url ? (
+                            <img
+                              src={col.banner_image_url || col.mobile_image_url}
+                              alt={col.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <ImageIcon className="h-6 w-6 text-[var(--text-secondary)]/50" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Info */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white font-semibold truncate">{col.name}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className={`text-xs font-medium ${statusColor}`}>
+                              {statusLabel}
+                            </span>
+                            {col.is_locked && (
+                              <span className="text-xs text-[var(--text-secondary)]">
+                                Locked
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Arrow */}
+                        <ChevronRight className="h-5 w-5 text-[var(--text-secondary)] group-hover:text-[var(--solana-purple)] transition-colors flex-shrink-0" />
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="w-full py-12">

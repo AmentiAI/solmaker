@@ -196,6 +196,7 @@ export async function GET(
       return {
         ...phaseWithoutMaxPerTx,
         is_active: phase.is_active || isActiveByTime, // Use DB flag OR computed time-based status
+        mint_price_lamports: parseInt(phase.mint_price_sats || '0', 10), // Alias for Solana frontend
       }
     })
     

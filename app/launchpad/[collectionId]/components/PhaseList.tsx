@@ -12,7 +12,7 @@ interface PhaseListProps {
   countdown: { [key: string]: string }
   onCheckWhitelist: (phaseId: string) => void
   getPhaseStatus: (phase: Phase) => { status: string; label: string; color: string }
-  formatSats: (sats: number) => string
+  formatLamports: (lamports: number) => string
   formatTimeUntil: (date: string) => string
   formatDateTime: (date: string) => string
 }
@@ -27,7 +27,7 @@ export function PhaseList({
   countdown,
   onCheckWhitelist,
   getPhaseStatus,
-  formatSats,
+  formatLamports,
   formatTimeUntil,
   formatDateTime,
 }: PhaseListProps) {
@@ -121,7 +121,7 @@ export function PhaseList({
                     <div>
                       <span className="text-[#a8a8b8]">Price:</span>
                       <span className="ml-2 font-semibold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">
-                        {phase.mint_price_sats === 0 ? 'Free' : formatSats(phase.mint_price_sats)}
+                        {phase.mint_price_lamports === 0 ? 'Free' : formatLamports(phase.mint_price_lamports)}
                       </span>
                     </div>
                     {phase.max_per_wallet && (

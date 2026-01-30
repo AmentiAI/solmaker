@@ -35,14 +35,13 @@ interface NftChoicesMintProps {
   isLive: boolean
   isPreview: boolean
   countdown: { [key: string]: string }
-  mempoolHealth: any
-  feeRate: number
-  feeRateInput: string
-  onFeeRateChange: (value: string) => void
-  onFeeRateFocus: () => void
-  onFeeRateBlur: (value: number) => void
+  priorityFee: number
+  priorityFeeInput: string
+  onPriorityFeeChange: (value: string) => void
+  onPriorityFeeFocus: () => void
+  onPriorityFeeBlur: (value: number) => void
   formatTimeUntil: (date: string) => string
-  formatSats: (sats: number) => string
+  formatLamports: (lamports: number) => string
   onMint: (nftIds: string[]) => void
   minting: boolean
 }
@@ -56,14 +55,13 @@ export function NftChoicesMint({
   isLive,
   isPreview,
   countdown,
-  mempoolHealth,
-  feeRate,
-  feeRateInput,
-  onFeeRateChange,
-  onFeeRateFocus,
-  onFeeRateBlur,
+  priorityFee,
+  priorityFeeInput,
+  onPriorityFeeChange,
+  onPriorityFeeFocus,
+  onPriorityFeeBlur,
   formatTimeUntil,
-  formatSats,
+  formatLamports,
   onMint,
   minting,
 }: NftChoicesMintProps) {
@@ -310,9 +308,9 @@ export function NftChoicesMint({
           <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 rounded-lg p-6">
             <p className="text-[#a8a8b8] mb-2">Minting starts in:</p>
             <p className="text-3xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">{countdownText}</p>
-            {activePhase.mint_price_sats && (
+            {activePhase.mint_price_lamports > 0 && (
               <p className="text-[#a8a8b8] mt-4">
-                Price: {formatSats(activePhase.mint_price_sats)}
+                Price: {formatLamports(activePhase.mint_price_lamports)}
               </p>
             )}
           </div>
@@ -417,52 +415,19 @@ export function NftChoicesMint({
       {/* Only show when user has locked NFTs (from DB) */}
       {lockedCount > 0 && isConnected && (
         <div className="pt-4 space-y-4">
-          {/* Network Fee Input - matching MintDetailsSection position */}
+          {/* Priority Fee Input - matching MintDetailsSection position */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-white mb-2">
-              Network Fee (sat/vB)
+              Priority Fee (lamports)
             </label>
-            {mempoolHealth && (
-              <div className="mb-3 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 rounded-lg">
-                <p className="text-xs text-[#a8a8b8]">
-                  {mempoolHealth.suggestedFeeRate === -1 ? (
-                    <span className="bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] bg-clip-text text-transparent">
-                      Unavailable - <a 
-                        href="https://mempool.space" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="underline hover:text-[#DC1FFF] transition-colors"
-                      >Check mempool.space</a> to find the last sub-1 sat block
-                    </span>
-                  ) : (
-                    <>
-                      Suggested: <span className="font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">{mempoolHealth.suggestedFeeRate.toFixed(2)} sat/vB</span>
-                      {mempoolHealth.lastSub1SatFee !== null && (
-                        <span className="ml-2">- Last Sub Block: <span className="font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">{mempoolHealth.lastSub1SatFee.toFixed(2)} sat/vB</span></span>
-                      )}
-                      {mempoolHealth.suggestedFeeRate >= 1.0 && (
-                        <span className="ml-2 bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] bg-clip-text text-transparent">
-                          - High Fees - <a 
-                            href="https://mempool.space" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="underline hover:text-[#DC1FFF] transition-colors"
-                          >Check mempool.space</a> to set lower. 
-                        </span>
-                      )}
-                    </>
-                  )}
-                </p>
-              </div>
-            )}
             <input
               type="number"
-              value={feeRateInput}
-              onChange={(e) => onFeeRateChange(e.target.value)}
-              onFocus={onFeeRateFocus}
-              onBlur={(e) => onFeeRateBlur(parseFloat(e.target.value))}
-              step="0.02"
-              min="0.15"
+              value={priorityFeeInput}
+              onChange={(e) => onPriorityFeeChange(e.target.value)}
+              onFocus={onPriorityFeeFocus}
+              onBlur={(e) => onPriorityFeeBlur(parseFloat(e.target.value))}
+              step="1000"
+              min="0"
               disabled={minting || (isPreview && !isLive)}
               className="w-full px-4 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF]/30 focus:border-[#9945FF]/50 placeholder:text-[#a8a8b8] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             />
@@ -472,50 +437,21 @@ export function NftChoicesMint({
           {isConnected && (() => {
             if (!activePhase || lockedCount === 0) return null
 
-            // Calculate cost for ALL locked NFTs
-            // Sum up sizes or use average for each
-            let totalSizeKb = 0
-            for (const nft of myLockedNfts) {
-              totalSizeKb += nft.compressed_size_kb 
-                ? Number(nft.compressed_size_kb) 
-                : (collection.avg_ordinal_size_kb || 50)
-            }
-            const avgSizeKb = totalSizeKb / lockedCount
-            
-            // Calculate reveal cost based on total NFT size
-            // Formula: revealVSize = ((nonWitness * 4) + witnessSize) / 4
-            // witnessSize = 65 + 110 + contentSizeBytes + 33 + 3 + (numChunks * 2)
-            let totalRevealFee = 0
-            for (const nft of myLockedNfts) {
-              const sizeKb = nft.compressed_size_kb ? Number(nft.compressed_size_kb) : (collection.avg_ordinal_size_kb || 50)
-              const sizeBytes = sizeKb * 1024
-              const numChunks = Math.ceil(sizeBytes / 520)
-              const witnessSize = 65 + 110 + sizeBytes + 33 + 3 + (numChunks * 2)
-              const nonWitnessSize = 90 // base + output
-              const revealVSize = Math.ceil(((nonWitnessSize * 4) + witnessSize) / 4)
-              const revealFee = Math.ceil(revealVSize * feeRate)
-              const outputValue = 330 // Taproot output
-              const safetyBuffer = 20
-              totalRevealFee += revealFee + outputValue + safetyBuffer
-            }
-            
-            // Commit fee: base (150) + outputs (N NFTs + creator + platform + change) * 43
-            const commitVSize = 150 + ((lockedCount + 3) * 43) // N NFTs + 3 other outputs
-            const commitFee = Math.ceil(commitVSize * feeRate)
-            
-            // Calculate Inscribe + Fees (Platform Fee per NFT + Reveal Costs + Commit Fee)
-            const platformFees = 2500 * lockedCount // Platform fee is 2500 per NFT
-            const inscribeAndFees = platformFees + totalRevealFee + commitFee
-            
-            const mintPricePerNft = activePhase.mint_price_sats || 0
+            // Solana cost calculation
+            const rentPerNft = 2_039_280 // ~0.00204 SOL rent-exempt minimum for token account
+            const platformFee = 10_000 * lockedCount // Platform fee per NFT in lamports
+            const networkFees = (priorityFee + 5000) * lockedCount // priority fee + base tx fee
+            const mintAndFees = platformFee + networkFees + (rentPerNft * lockedCount)
+
+            const mintPricePerNft = activePhase.mint_price_lamports || 0
             const totalMintPrice = mintPricePerNft * lockedCount
-            const totalEstimate = totalMintPrice + inscribeAndFees
+            const totalEstimate = totalMintPrice + mintAndFees
 
             return (
-              <div className="mt-4 p-4 bg-[#0a0e27]/60 border border-[#00d4ff]/20 rounded-xl">
+              <div className="mt-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-xl">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-xs text-[#a8a8b8] font-semibold">Estimated Cost Breakdown</span>
-                  <span className="text-xs bg-[#00d4ff]/20 text-[#00d4ff] px-2 py-0.5 rounded-full font-medium">
+                  <span className="text-xs bg-[#9945FF]/20 text-[#9945FF] px-2 py-0.5 rounded-full font-medium">
                     {lockedCount} NFT{lockedCount > 1 ? 's' : ''} selected
                   </span>
                 </div>
@@ -523,26 +459,26 @@ export function NftChoicesMint({
                   {/* Mint Price - goes to creator */}
                   <div className="flex justify-between">
                     <span className="text-[#a8a8b8]">
-                      Mint Price {lockedCount > 1 ? `(${formatSats(mintPricePerNft)} × ${lockedCount})` : ''}
+                      Mint Price {lockedCount > 1 ? `(${formatLamports(mintPricePerNft)} × ${lockedCount})` : ''}
                     </span>
                     <span className="text-white font-medium">
-                      {totalMintPrice === 0 
-                        ? 'Free' 
-                        : formatSats(totalMintPrice)}
+                      {totalMintPrice === 0
+                        ? 'Free'
+                        : formatLamports(totalMintPrice)}
                     </span>
                   </div>
-                  {/* Inscribe + Fees - combines Platform Fee, Reveal Cost, and Commit Fee */}
+                  {/* Mint + Fees - combines Platform Fee, Rent, and Network Fee */}
                   <div className="flex justify-between">
-                    <span className="text-[#a8a8b8]">Inscribe + Fees</span>
-                    <span className="text-white font-medium">~{formatSats(inscribeAndFees)}</span>
+                    <span className="text-[#a8a8b8]">Mint + Fees</span>
+                    <span className="text-white font-medium">~{formatLamports(mintAndFees)}</span>
                   </div>
-                  <div className="border-t border-[#00d4ff]/20 pt-2 mt-2 flex justify-between">
-                    <span className="text-white font-semibold">Estimated Total</span>
-                    <span className="text-[#00d4ff] font-bold">~{formatSats(totalEstimate)}</span>
+                  <div className="border-t border-[#9945FF]/20 pt-2 mt-2 flex justify-between">
+                    <span className="text-[#a8a8b8] font-semibold">Estimated Total</span>
+                    <span className="bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent font-bold">~{formatLamports(totalEstimate)}</span>
                   </div>
                 </div>
-                <p className="text-[10px] text-[#a8a8b8]/80 mt-2">
-                  * Based on ~{avgSizeKb.toFixed(0)}KB avg size × {lockedCount} NFT{lockedCount > 1 ? 's' : ''} @ {feeRate.toFixed(2)} sat/vB
+                <p className="text-[10px] text-[#a8a8b8] mt-2">
+                  * Includes rent, platform fee, and network fees
                 </p>
               </div>
             )

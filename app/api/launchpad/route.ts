@@ -59,6 +59,7 @@ export async function GET(request: NextRequest) {
           'start_time', mp.start_time,
           'end_time', mp.end_time,
           'mint_price_sats', mp.mint_price_sats,
+          'mint_price_lamports', mp.mint_price_sats,
           'whitelist_only', mp.whitelist_only,
           'phase_allocation', mp.phase_allocation,
           'phase_minted', COALESCE((
@@ -132,6 +133,7 @@ export async function GET(request: NextRequest) {
           'start_time', mp.start_time,
           'end_time', mp.end_time,
           'mint_price_sats', mp.mint_price_sats,
+          'mint_price_lamports', mp.mint_price_sats,
           'whitelist_only', mp.whitelist_only,
           'phase_allocation', mp.phase_allocation,
           'phase_minted', COALESCE((
@@ -188,6 +190,7 @@ export async function GET(request: NextRequest) {
           'start_time', mp.start_time,
           'end_time', mp.end_time,
           'mint_price_sats', mp.mint_price_sats,
+          'mint_price_lamports', mp.mint_price_sats,
           'whitelist_only', mp.whitelist_only,
           'phase_allocation', mp.phase_allocation,
           'phase_minted', COALESCE((
@@ -248,6 +251,7 @@ export async function GET(request: NextRequest) {
           'id', mp.id,
           'name', mp.phase_name,
           'mint_price_sats', mp.mint_price_sats,
+          'mint_price_lamports', mp.mint_price_sats,
           'is_active', (mp.is_active = true OR (
             mp.is_completed = false
             AND mp.start_time <= NOW()

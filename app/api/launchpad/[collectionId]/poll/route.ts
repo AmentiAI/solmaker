@@ -165,6 +165,7 @@ export async function GET(
         start_time: activePhase.start_time,
         end_time: activePhase.end_time,
         mint_price_sats: parseInt(activePhase.mint_price_sats || '0', 10),
+        mint_price_lamports: parseInt(activePhase.mint_price_sats || '0', 10), // Alias for Solana frontend
         whitelist_only: activePhase.whitelist_only,
         phase_minted: parseInt(activePhase.phase_minted || '0', 10),
         phase_allocation: activePhase.phase_allocation ? parseInt(activePhase.phase_allocation, 10) : null,
