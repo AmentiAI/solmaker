@@ -13,8 +13,8 @@ export async function GET() {
 
   try {
     // Platform wallet
-    const walletBalance = await getPlatformWalletBalance()
     const walletAddress = getPlatformWalletAddress()
+    const walletBalance = walletAddress ? await getPlatformWalletBalance() : null
 
     // Collections stats
     const collectionsStats = await sql`

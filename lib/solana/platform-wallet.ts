@@ -12,12 +12,13 @@ import bs58 from 'bs58'
 
 /**
  * Get the platform wallet public key (address)
+ * Returns null during build time if not configured
  */
-export function getPlatformWalletAddress(): string {
+export function getPlatformWalletAddress(): string | null {
   const address = process.env.SOLANA_PLATFORM_WALLET
   
   if (!address) {
-    throw new Error('SOLANA_PLATFORM_WALLET not configured in environment')
+    return null
   }
   
   return address
@@ -26,8 +27,10 @@ export function getPlatformWalletAddress(): string {
 /**
  * Get the platform wallet as a PublicKey object
  */
-export function getPlatformWalletPublicKey(): PublicKey {
-  return new PublicKey(getPlatformWalletAddress())
+export function getPlatformWalletPublicKey(): PublicKey | null {
+  const address = getPlatformWalletAddress()
+  if (!address) return null
+  return new PublicKey(address)
 }
 
 /**
@@ -53,9 +56,11 @@ export function getPlatformWalletKeypair(): Keypair {
 /**
  * Get platform wallet balance
  */
-export async function getPlatformWalletBalance(): Promise<number> {
-  const connection = getConnection()
+export async function getPlatformWalletBalance(): Promise<number | null> {
   const publicKey = getPlatformWalletPublicKey()
+  if (!publicKey) return null
+  
+  const connection = getConnection()
   const balance = await connection.getBalance(publicKey)
   return balance / LAMPORTS_PER_SOL
 }
@@ -119,6 +124,6 @@ export function calculatePlatformMintFee(
 /**
  * Get platform fee destination for Candy Machine guards
  */
-export function getPlatformFeeDestination(): string {
+export function getPlatformFeeDestination(): string | null {
   return getPlatformWalletAddress()
 }

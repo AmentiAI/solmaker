@@ -3,7 +3,14 @@ import { addCredits } from '@/lib/credits/credits'
 import { sql } from '@/lib/database'
 import { getPlatformWalletAddress } from '@/lib/solana/platform-wallet'
 
-const SOL_PAYMENT_ADDRESS = getPlatformWalletAddress() // Platform Solana wallet
+// Get Solana payment address (may be null during build)
+function getSolPaymentAddress(): string {
+  const address = getPlatformWalletAddress()
+  if (!address) {
+    throw new Error('Solana payment address not configured')
+  }
+  return address
+}
 
 /**
  * Check Solana transaction using RPC - requires on-chain finality
@@ -67,7 +74,7 @@ async function checkSolTransaction(txid: string): Promise<{
 
     // Calculate amount sent to our address
     let amount = 0
-    const paymentPubkey = SOL_PAYMENT_ADDRESS
+    const paymentPubkey = getSolPaymentAddress()
 
     if (tx.meta?.preBalances && tx.meta?.postBalances && tx.transaction?.message?.accountKeys) {
       const accountKeys = tx.transaction.message.accountKeys

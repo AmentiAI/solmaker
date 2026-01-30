@@ -2,6 +2,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 
 // Solana transaction fee constants
 export const SOLANA_BASE_FEE = 5000 // 5000 lamports per signature (0.000005 SOL)
+export const RENT_EXEMPT_MINIMUM = 0.00203928 * LAMPORTS_PER_SOL // ~0.002 SOL minimum rent exemption
 export const NFT_RENT_EXEMPTION = 0.00203928 * LAMPORTS_PER_SOL // ~0.002 SOL for mint account
 export const METADATA_RENT_EXEMPTION = 0.00561672 * LAMPORTS_PER_SOL // ~0.006 SOL for metadata account
 export const TOKEN_ACCOUNT_RENT = 0.00203928 * LAMPORTS_PER_SOL // ~0.002 SOL for token account

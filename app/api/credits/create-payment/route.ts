@@ -7,7 +7,15 @@ import { getPlatformWalletAddress } from '@/lib/solana/platform-wallet';
 // Payment addresses
 const BTC_PAYMENT_ADDRESS = process.env.FEE_WALLET || 'bc1p693zz6n9cvmsewemg4j0pmvfvs4th3ft9c74afrc90l6sah300uqt99vee' // Legacy Bitcoin
 const ETH_PAYMENT_ADDRESS = process.env.ETH_PAYMENT_ADDRESS || '0x5CA2e4B034d2F37D66C6d546F14a52651726118A';
-const SOL_PAYMENT_ADDRESS = getPlatformWalletAddress(); // Platform Solana wallet
+
+// Get Solana payment address (may be null during build)
+function getSolPaymentAddress(): string {
+  const address = getPlatformWalletAddress()
+  if (!address) {
+    throw new Error('Solana payment address not configured')
+  }
+  return address
+}
 
 // Fetch exchange rate from CoinGecko
 async function fetchExchangeRate(coinId: string): Promise<number> {
@@ -168,7 +176,7 @@ export async function POST(request: NextRequest) {
       };
     } else if (payment_type === 'sol') {
       // Solana payment
-      paymentAddress = SOL_PAYMENT_ADDRESS;
+      paymentAddress = getSolPaymentAddress();
       network = 'solana';
 
       // Fetch SOL/USD rate
