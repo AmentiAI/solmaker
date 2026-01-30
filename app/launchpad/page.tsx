@@ -120,16 +120,16 @@ export default function LaunchpadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-white">
+    <div className="min-h-screen text-white">
       {/* Hero Header */}
-      <div className="relative bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-b border-[var(--solana-purple)]/20 overflow-hidden">
+      <div className="relative bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-b border-[var(--solana-purple)]/20 overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12">
         {/* Animated background elements */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-10 left-10 w-72 h-72 bg-[var(--solana-purple)]/20 rounded-full blur-3xl animate-[solanaFloat_6s_ease-in-out_infinite]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[var(--solana-green)]/15 rounded-full blur-3xl animate-[solanaFloat_8s_ease-in-out_infinite]" style={{ animationDelay: '1s' }} />
         </div>
 
-        <div className="container mx-auto px-6 py-16 relative z-10">
+        <div className="w-full py-16 relative z-10">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="p-3 bg-gradient-to-br from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border border-[var(--solana-purple)]/50 rounded-2xl backdrop-blur-md">
@@ -145,7 +145,7 @@ export default function LaunchpadPage() {
             </h1>
             
             <p className="text-[var(--text-secondary)] text-xl font-medium max-w-2xl mx-auto">
-              Mint exclusive NFT collections on Bitcoin. Lightning-fast launches with fair distribution.
+              Mint exclusive NFT collections on Solana. Lightning-fast launches with fair distribution.
             </p>
 
             {/* Stats */}
@@ -183,7 +183,7 @@ export default function LaunchpadPage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-6 py-12">
+      <div className="w-full py-12">
         {/* Filters and Search */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-1">
@@ -308,7 +308,7 @@ function CollectionCard({
                     <p className="text-[var(--text-secondary)] text-sm line-clamp-2">{collection.description}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-black text-[var(--solana-green)]">{collection.mint_price} BTC</p>
+                    <p className="text-2xl font-black text-[var(--solana-green)]">{collection.mint_price} SOL</p>
                     <p className="text-xs text-[var(--text-secondary)]">per NFT</p>
                   </div>
                 </div>
@@ -376,7 +376,7 @@ function CollectionCard({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Price</p>
-                <p className="text-2xl font-black text-[var(--solana-green)]">{collection.mint_price} BTC</p>
+                <p className="text-2xl font-black text-[var(--solana-green)]">{collection.mint_price} SOL</p>
               </div>
               <div className="text-right">
                 <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Minted</p>

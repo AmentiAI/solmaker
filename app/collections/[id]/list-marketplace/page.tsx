@@ -154,7 +154,7 @@ export default function ListMarketplacePage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -166,7 +166,7 @@ export default function ListMarketplacePage() {
           <p className="text-white/70 mb-4">Collection not found</p>
           <Link
             href="/collections"
-            className="px-4 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors"
+            className="px-4 py-2 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors"
           >
             Go to Collections
           </Link>
@@ -182,7 +182,7 @@ export default function ListMarketplacePage() {
           <div className="mb-6">
             <Link
               href="/collections"
-              className="inline-flex items-center gap-2 text-[#00d4ff] hover:text-[#00b8e6] text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-2 text-[#9945FF] hover:text-[#14F195] text-sm font-medium transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -190,7 +190,7 @@ export default function ListMarketplacePage() {
               Back to Collections
             </Link>
           </div>
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-8">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-8">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-white mb-2">💰 List Collection on Marketplace</h2>
               <p className="text-white/70">
@@ -200,10 +200,10 @@ export default function ListMarketplacePage() {
 
             {/* Show active listing status */}
             {collection.marketplace_listing_id && (
-              <div className="mb-6 p-4 cosmic-card border-2 border-[#00d4ff]/50 rounded-lg">
+              <div className="mb-6 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/50 rounded-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-bold text-[#00d4ff] flex items-center gap-2">
+                    <h3 className="font-bold text-[#9945FF] flex items-center gap-2">
                       ✅ Collection is Listed on Marketplace
                     </h3>
                     <p className="text-sm text-white/70 mt-1">
@@ -221,7 +221,7 @@ export default function ListMarketplacePage() {
                   <div className="flex gap-2">
                     <a
                       href={`/marketplace/${collection.marketplace_listing_id}`}
-                      className="px-4 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg text-sm font-semibold transition-colors"
+                      className="px-4 py-2 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg text-sm font-semibold transition-colors"
                     >
                       View Listing
                     </a>
@@ -283,7 +283,7 @@ export default function ListMarketplacePage() {
                       value={marketplaceTitle}
                       onChange={(e) => setMarketplaceTitle(e.target.value)}
                       placeholder={`${collection.name} - Complete Collection`}
-                      className="w-full px-4 py-2 border border-[#00d4ff]/30 cosmic-card text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] placeholder:text-white/50"
+                      className="w-full px-4 py-2 border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] placeholder:text-white/50"
                       maxLength={255}
                     />
                   </div>
@@ -297,10 +297,10 @@ export default function ListMarketplacePage() {
                       value={marketplaceDescription}
                       onChange={(e) => setMarketplaceDescription(e.target.value)}
                       placeholder="Describe your collection, art style, potential use cases, etc."
-                      className="w-full px-4 py-2 border border-[#00d4ff]/30 cosmic-card text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] min-h-[120px] placeholder:text-white/50"
+                      className="w-full px-4 py-2 border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] min-h-[120px] placeholder:text-white/50"
                       maxLength={2000}
                     />
-                    <p className="text-xs text-white/60 mt-1">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-1">
                       {marketplaceDescription.length}/2000 characters
                     </p>
                   </div>
@@ -315,8 +315,8 @@ export default function ListMarketplacePage() {
                         onClick={() => setMarketplacePaymentType('btc')}
                         className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                           marketplacePaymentType === 'btc'
-                            ? 'bg-[#ff6b35] text-white'
-                            : 'cosmic-card text-white/70 hover:text-white hover:bg-[#1a1f3a] border border-[#00d4ff]/30'
+                            ? 'bg-[#DC1FFF] text-white'
+                            : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white/70 hover:text-white hover:bg-[#1a1f3a] border border-[#9945FF]/30'
                         }`}
                       >
                         ₿ BTC Only
@@ -325,8 +325,8 @@ export default function ListMarketplacePage() {
                         onClick={() => setMarketplacePaymentType('credits')}
                         className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                           marketplacePaymentType === 'credits'
-                            ? 'bg-[#00d4ff] text-white'
-                            : 'cosmic-card text-white/70 hover:text-white hover:bg-[#1a1f3a] border border-[#00d4ff]/30'
+                            ? 'bg-[#9945FF] text-white'
+                            : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white/70 hover:text-white hover:bg-[#1a1f3a] border border-[#9945FF]/30'
                         }`}
                       >
                         💳 Credits Only
@@ -335,8 +335,8 @@ export default function ListMarketplacePage() {
                         onClick={() => setMarketplacePaymentType('both')}
                         className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                           marketplacePaymentType === 'both'
-                            ? 'bg-[#00d4ff] text-white'
-                            : 'cosmic-card text-white/70 hover:text-white hover:bg-[#1a1f3a] border border-[#00d4ff]/30'
+                            ? 'bg-[#9945FF] text-white'
+                            : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white/70 hover:text-white hover:bg-[#1a1f3a] border border-[#9945FF]/30'
                         }`}
                       >
                         Both
@@ -352,7 +352,7 @@ export default function ListMarketplacePage() {
                           Price (BTC) *
                         </label>
                         <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#ff6b35] font-bold">₿</span>
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#DC1FFF] font-bold">₿</span>
                           <input
                             type="text"
                             value={marketplacePriceBtc}
@@ -363,10 +363,10 @@ export default function ListMarketplacePage() {
                               }
                             }}
                             placeholder="0.001"
-                            className="w-full pl-8 pr-4 py-2 border border-[#00d4ff]/30 cosmic-card text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35] focus:border-[#ff6b35] placeholder:text-white/50"
+                            className="w-full pl-8 pr-4 py-2 border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white rounded-lg focus:ring-2 focus:ring-[#DC1FFF] focus:border-[#DC1FFF] placeholder:text-white/50"
                           />
                         </div>
-                        <p className="text-xs text-white/60 mt-1">
+                        <p className="text-xs text-[#a8a8b8]/80 mt-1">
                           Set your asking price in Bitcoin
                         </p>
                       </div>
@@ -380,9 +380,9 @@ export default function ListMarketplacePage() {
                           value={sellerBtcAddress}
                           onChange={(e) => setSellerBtcAddress(e.target.value)}
                           placeholder="bc1q... or 3... or 1..."
-                          className="w-full px-4 py-2 border border-[#00d4ff]/30 cosmic-card text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35] focus:border-[#ff6b35] font-mono text-sm placeholder:text-white/50"
+                          className="w-full px-4 py-2 border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white rounded-lg focus:ring-2 focus:ring-[#DC1FFF] focus:border-[#DC1FFF] font-mono text-sm placeholder:text-white/50"
                         />
-                        <p className="text-xs text-white/60 mt-1">
+                        <p className="text-xs text-[#a8a8b8]/80 mt-1">
                           This is where buyers will send BTC payment. Make sure it's correct!
                         </p>
                       </div>
@@ -402,9 +402,9 @@ export default function ListMarketplacePage() {
                         placeholder="100"
                         min="1"
                         step="1"
-                        className="w-full px-4 py-2 border border-[#00d4ff]/30 cosmic-card text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] placeholder:text-white/50"
+                        className="w-full px-4 py-2 border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] placeholder:text-white/50"
                       />
-                      <p className="text-xs text-white/60 mt-1">
+                      <p className="text-xs text-[#a8a8b8]/80 mt-1">
                         Set your asking price in credits
                       </p>
                     </div>
@@ -420,7 +420,7 @@ export default function ListMarketplacePage() {
                         loadPromoHistory()
                         setShowPromoModal(true)
                       }}
-                      className="px-4 py-2 bg-[#00d4ff]/20 hover:bg-[#00d4ff]/30 text-[#00d4ff] rounded-lg text-sm font-medium transition-colors border border-[#00d4ff]/30"
+                      className="px-4 py-2 bg-[#9945FF]/20 hover:bg-[#9945FF]/30 text-[#9945FF] rounded-lg text-sm font-medium transition-colors border border-[#9945FF]/30"
                     >
                       📸 Select from Promotion History
                     </button>
@@ -431,7 +431,7 @@ export default function ListMarketplacePage() {
                             <img
                               src={url}
                               alt={`Promo ${idx + 1}`}
-                              className="w-full h-24 object-cover rounded-lg border-2 border-[#00d4ff]/50"
+                              className="w-full h-24 object-cover rounded-lg border-2 border-[#9945FF]/50"
                             />
                             <button
                               onClick={() => setSelectedPromoUrls(selectedPromoUrls.filter((_, i) => i !== idx))}
@@ -446,9 +446,9 @@ export default function ListMarketplacePage() {
                   </div>
 
                   {/* Terms and Conditions */}
-                  <div className="p-4 cosmic-card border-2 border-[#00d4ff]/50 rounded-lg">
+                  <div className="p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/50 rounded-lg">
                     <h3 className="font-bold text-white mb-2">📋 Marketplace Terms</h3>
-                    <div className="space-y-2 text-sm text-white/80">
+                    <div className="space-y-2 text-sm text-[#a8a8b8]">
                       <p>• Once listed, your collection cannot be modified until sold or cancelled</p>
                       <p>• You agree to sell this collection to ONE buyer only</p>
                       <p>• You will NOT attempt to sell this collection to anyone else (on or off platform)</p>
@@ -571,7 +571,7 @@ export default function ListMarketplacePage() {
                         ((marketplacePaymentType === 'credits' || marketplacePaymentType === 'both') && (!marketplacePrice || marketplacePrice <= 0)) ||
                         ((marketplacePaymentType === 'btc' || marketplacePaymentType === 'both') && (!marketplacePriceBtc || !sellerBtcAddress))
                       }
-                      className="px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-6 py-3 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {creatingListing ? (
                         <span className="flex items-center gap-2">
@@ -584,14 +584,14 @@ export default function ListMarketplacePage() {
                     </button>
                     <div className="text-sm text-white/70">
                       {marketplacePaymentType === 'btc' && (
-                        <span>Collection will be listed for <strong className="text-[#ff6b35]">{marketplacePriceBtc || '0'} BTC</strong></span>
+                        <span>Collection will be listed for <strong className="text-[#DC1FFF]">{marketplacePriceBtc || '0'} BTC</strong></span>
                       )}
                       {marketplacePaymentType === 'credits' && (
-                        <span>Collection will be listed for <strong className="text-[#00d4ff]">{marketplacePrice || 0} credits</strong></span>
+                        <span>Collection will be listed for <strong className="text-[#9945FF]">{marketplacePrice || 0} credits</strong></span>
                       )}
                       {marketplacePaymentType === 'both' && (
                         <span>
-                          Collection will be listed for <strong className="text-[#ff6b35]">{marketplacePriceBtc || '0'} BTC</strong> or <strong className="text-[#00d4ff]">{marketplacePrice || 0} credits</strong>
+                          Collection will be listed for <strong className="text-[#DC1FFF]">{marketplacePriceBtc || '0'} BTC</strong> or <strong className="text-[#9945FF]">{marketplacePrice || 0} credits</strong>
                         </span>
                       )}
                     </div>
@@ -609,17 +609,17 @@ export default function ListMarketplacePage() {
           onClick={() => setShowPromoModal(false)}
         >
           <div
-            className="cosmic-card rounded-xl border border-[#00d4ff]/30 shadow-xl p-0 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+            className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl border border-[#9945FF]/30 shadow-xl p-0 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 border-b border-[#00d4ff]/30 flex items-start justify-between gap-4">
+            <div className="p-6 border-b border-[#9945FF]/30 flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-bold text-white">Choose From Promotion History</h2>
                 <p className="text-sm text-white/70 mt-1">Select a promotional image to use as your banner</p>
               </div>
               <button
                 onClick={() => setShowPromoModal(false)}
-                className="text-white/60 hover:text-white text-2xl font-bold leading-none"
+                className="text-[#a8a8b8]/80 hover:text-white text-2xl font-bold leading-none"
               >
                 ×
               </button>
@@ -628,14 +628,14 @@ export default function ListMarketplacePage() {
             <div className="p-6 overflow-y-auto flex-1">
               {loadingPromo ? (
                 <div className="flex items-center justify-center py-12">
-                  <div className="w-12 h-12 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin" />
+                  <div className="w-12 h-12 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : promoHistory.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-white/70 mb-4">No promotion history found</p>
-                  <p className="text-sm text-white/60">
+                  <p className="text-sm text-[#a8a8b8]/80">
                     Generate promotional images on the{' '}
-                    <a href="/promotion" className="text-[#00d4ff] hover:underline">
+                    <a href="/promotion" className="text-[#9945FF] hover:underline">
                       Promotion page
                     </a>
                   </p>
@@ -646,7 +646,7 @@ export default function ListMarketplacePage() {
                     <div
                       key={item.id}
                       onClick={() => handleChoosePromo(item.image_url)}
-                      className="cosmic-card border border-[#00d4ff]/30 rounded-xl overflow-hidden cursor-pointer hover:shadow-lg hover:border-[#00d4ff] transition-all"
+                      className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl overflow-hidden cursor-pointer hover:shadow-lg hover:border-[#9945FF] transition-all"
                     >
                       {item.image_url?.endsWith('.mp4') || item.image_url?.includes('.mp4') ? (
                         <video
@@ -670,11 +670,11 @@ export default function ListMarketplacePage() {
                       )}
                       <div className="p-4">
                         <h3 className="font-semibold text-white">{item.collection_name}</h3>
-                        <p className="text-xs text-white/60 mt-1">
+                        <p className="text-xs text-[#a8a8b8]/80 mt-1">
                           {new Date(item.created_at).toLocaleDateString()} at{' '}
                           {new Date(item.created_at).toLocaleTimeString()}
                         </p>
-                        <p className="text-xs text-white/60 mt-1">
+                        <p className="text-xs text-[#a8a8b8]/80 mt-1">
                           {item.character_count} character{item.character_count !== 1 ? 's' : ''}
                           {item.no_text
                             ? ' • No text'
@@ -689,10 +689,10 @@ export default function ListMarketplacePage() {
               )}
             </div>
 
-            <div className="p-6 border-t border-[#00d4ff]/30">
+            <div className="p-6 border-t border-[#9945FF]/30">
               <button
                 onClick={() => setShowPromoModal(false)}
-                className="px-6 py-2 cosmic-card hover:bg-[#1a1f3a] text-white rounded-lg font-semibold transition-colors border border-[#00d4ff]/30"
+                className="px-6 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-[#1a1f3a] text-white rounded-lg font-semibold transition-colors border border-[#9945FF]/30"
               >
                 Cancel
               </button>

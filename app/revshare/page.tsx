@@ -57,25 +57,25 @@ export default function RevSharePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#4561ad] via-[#5a7bc4] to-[#e27d0f]">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-4xl mx-auto">
           
           {/* Hero - Compact */}
           <div className="text-center mb-10">
             <Link href="/" className="text-white/70 hover:text-white text-sm mb-4 inline-block">← Back</Link>
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-3">
-              <span className="text-yellow-300">30%</span> RevShare
+            <h1 className="text-5xl md:text-7xl font-black mb-3">
+              <span className="bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent">30%</span> <span className="bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent">RevShare</span>
             </h1>
-            <p className="text-xl text-white/90">
-              Split among <span className="font-bold text-yellow-300">{TOTAL_SUPPLY}</span> collection holders
+            <p className="text-xl text-[#b4b4c8]">
+              Split among <span className="font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent">{TOTAL_SUPPLY}</span> collection holders
             </p>
       </div>
 
           {/* The Formula - Big & Simple */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8 text-center">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 backdrop-blur-sm rounded-2xl p-6 mb-8 text-center border border-[#00E5FF]/30">
             <p className="text-white text-lg">
-              <span className="text-3xl font-black text-yellow-300">Your Share</span>
+              <span className="text-3xl font-black bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent">Your Share</span>
               <span className="mx-3">=</span>
               <span className="text-2xl">(Pieces ÷ {TOTAL_SUPPLY})</span>
               <span className="mx-3">×</span>
@@ -85,47 +85,47 @@ export default function RevSharePage() {
 
           {/* 4 Revenue Sources - Compact Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-            <div className="cosmic-card rounded-xl p-4 text-center border border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-4 text-center border border-[#9945FF]/30">
               <div className="text-3xl mb-2">🎨</div>
               <div className="text-xs text-white/70 uppercase font-bold">Mints</div>
-              <div className="text-lg font-black text-[#ff6b35]">30%</div>
-              <div className="text-xs text-white/60">of mint fees</div>
+              <div className="text-lg font-black text-[#DC1FFF]">30%</div>
+              <div className="text-xs text-[#a8a8b8]/80">of mint fees</div>
               </div>
-            <div className="cosmic-card rounded-xl p-4 text-center border border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-4 text-center border border-[#9945FF]/30">
               <div className="text-3xl mb-2">💳</div>
               <div className="text-xs text-white/70 uppercase font-bold">Credits</div>
-              <div className="text-lg font-black text-[#00d4ff]">30%</div>
-              <div className="text-xs text-white/60">of net profit*</div>
+              <div className="text-lg font-black text-[#9945FF]">30%</div>
+              <div className="text-xs text-[#a8a8b8]/80">of net profit*</div>
             </div>
-            <div className="cosmic-card rounded-xl p-4 text-center border border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-4 text-center border border-[#9945FF]/30">
               <div className="text-3xl mb-2">🏪</div>
               <div className="text-xs text-white/70 uppercase font-bold">Market</div>
-              <div className="text-lg font-black text-[#00d4ff]">30%</div>
-              <div className="text-xs text-white/60">of 3% fee</div>
+              <div className="text-lg font-black text-[#9945FF]">30%</div>
+              <div className="text-xs text-[#a8a8b8]/80">of 3% fee</div>
               </div>
-            <div className="cosmic-card rounded-xl p-4 text-center border border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-4 text-center border border-[#9945FF]/30">
               <div className="text-3xl mb-2">📜</div>
               <div className="text-xs text-white/70 uppercase font-bold">Inscribe</div>
-              <div className="text-lg font-black text-[#00d4ff]">30%</div>
-              <div className="text-xs text-white/60">of service fee</div>
+              <div className="text-lg font-black text-[#9945FF]">30%</div>
+              <div className="text-xs text-[#a8a8b8]/80">of service fee</div>
             </div>
           </div>
 
           {/* Monthly Example - The Main Event */}
-          <div className="cosmic-card rounded-2xl overflow-hidden mb-8 border border-[#00d4ff]/30">
-            <div className="bg-gradient-to-r from-[#0a0e27] to-[#1a1f3a] px-6 py-4">
-              <h2 className="text-xl font-bold text-white text-center">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl overflow-hidden mb-8 border border-[#9945FF]/30">
+            <div className="bg-gradient-to-r from-[#050510] to-[#0f0f1e] px-6 py-4 border-b border-[#00E5FF]/30">
+              <h2 className="text-xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent text-center">
                 📊 Example Monthly Earnings
                 </h2>
               {btcPrice && (
-                <p className="text-center text-white/60 text-xs mt-1">
+                <p className="text-center text-[#b4b4c8] text-xs mt-1">
                   BTC @ ${btcPrice.toLocaleString()}
                 </p>
               )}
                         </div>
             
             {/* Activity Summary */}
-            <div className="grid grid-cols-4 gap-1 p-4 cosmic-card text-center text-xs">
+            <div className="grid grid-cols-4 gap-1 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-center text-xs">
               <div>
                 <div className="font-bold text-white">30K</div>
                 <div className="text-white/70">mints</div>
@@ -145,16 +145,16 @@ export default function RevSharePage() {
             </div>
 
             {/* Rev Share Pool */}
-            <div className="p-6 text-center border-b border-[#00d4ff]/30">
+            <div className="p-6 text-center border-b border-[#9945FF]/30">
               <div className="text-sm text-white/70 mb-1">Total Monthly Rev Share Pool</div>
               {priceLoading ? (
                 <div className="text-2xl text-white/50">Loading...</div>
               ) : (
                 <>
-                  <div className="text-4xl font-black text-[#00d4ff]">
+                  <div className="text-4xl font-black text-[#9945FF]">
                     {formatSats(totalRevShareSats)} sats
               </div>
-                  <div className="text-sm text-white/60 mt-1">
+                  <div className="text-sm text-[#a8a8b8]/80 mt-1">
                     (~{(totalRevShareSats / 100000000).toFixed(3)} BTC)
                         </div>
                 </>
@@ -168,23 +168,23 @@ export default function RevSharePage() {
                 <div className="text-center text-white/50">Calculating...</div>
               ) : (
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="cosmic-card rounded-xl p-4 text-center border border-[#00d4ff]/30">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-4 text-center border border-[#9945FF]/30">
                     <div className="text-xs text-white/70 mb-2">1 piece</div>
-                    <div className="text-2xl font-black text-[#ff6b35]">
+                    <div className="text-2xl font-black text-[#DC1FFF]">
                       {formatSats(Math.floor(totalRevShareSats / TOTAL_SUPPLY))}
                         </div>
                     <div className="text-sm text-white/70">sats/month</div>
                       </div>
-                  <div className="cosmic-card rounded-xl p-4 text-center border-2 border-[#00d4ff]/50">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-4 text-center border-2 border-[#9945FF]/50">
                     <div className="text-xs text-white/70 mb-2">10 pieces</div>
-                    <div className="text-2xl font-black text-[#00d4ff]">
+                    <div className="text-2xl font-black text-[#9945FF]">
                       {formatSats(Math.floor(totalRevShareSats * 10 / TOTAL_SUPPLY))}
                     </div>
                     <div className="text-sm text-white/70">sats/month</div>
                         </div>
-                  <div className="cosmic-card rounded-xl p-4 text-center border border-[#ff6b35]/30">
-                    <div className="text-xs text-white/70 mb-2">22 pieces <span className="text-[#ff6b35]">(10%)</span></div>
-                    <div className="text-2xl font-black text-[#ff6b35]">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-4 text-center border border-[#DC1FFF]/30">
+                    <div className="text-xs text-white/70 mb-2">22 pieces <span className="text-[#DC1FFF]">(10%)</span></div>
+                    <div className="text-2xl font-black text-[#DC1FFF]">
                       {formatSats(Math.floor(totalRevShareSats * 22 / TOTAL_SUPPLY))}
                         </div>
                     <div className="text-sm text-white/70">sats/month</div>
@@ -195,71 +195,71 @@ export default function RevSharePage() {
             </div>
 
           {/* Breakdown - Collapsible or minimal */}
-          <details className="cosmic-card rounded-xl overflow-hidden mb-8 border border-[#00d4ff]/30">
+          <details className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl overflow-hidden mb-8 border border-[#9945FF]/30">
             <summary className="px-6 py-4 cursor-pointer text-white font-bold flex items-center justify-between">
               <span>📋 Detailed Breakdown by Source</span>
               <span className="text-white/50 text-sm">click to expand</span>
             </summary>
             <div className="px-6 pb-6 grid md:grid-cols-2 gap-4">
-              <div className="cosmic-card rounded-lg p-4 border border-[#00d4ff]/30">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg p-4 border border-[#9945FF]/30">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">🎨</span>
                   <span className="font-bold text-white">Mint Fees</span>
               </div>
-                <div className="text-sm text-white/80 space-y-1">
+                <div className="text-sm text-[#a8a8b8] space-y-1">
                         <div className="flex justify-between">
                     <span>30K mints × 4K sats:</span>
                     <span className="font-semibold">1.2 BTC</span>
                         </div>
-                  <div className="flex justify-between text-[#ff6b35]">
+                  <div className="flex justify-between text-[#DC1FFF]">
                     <span>Rev Share (30%):</span>
                     <span className="font-bold">{formatSats(mintRevShare)} sats</span>
                         </div>
                       </div>
                     </div>
-              <div className="cosmic-card rounded-lg p-4 border border-[#00d4ff]/30">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg p-4 border border-[#9945FF]/30">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">💳</span>
                   <span className="font-bold text-white">Credits</span>
                 </div>
-                <div className="text-sm text-white/80 space-y-1">
+                <div className="text-sm text-[#a8a8b8] space-y-1">
                   <div className="flex justify-between">
                     <span>$10K sales → $5K net:</span>
                     <span className="font-semibold">50% costs</span>
                   </div>
-                  <div className="flex justify-between text-[#00d4ff]">
+                  <div className="flex justify-between text-[#9945FF]">
                     <span>Rev Share (30%):</span>
                     <span className="font-bold">${creditRevShareUsd.toLocaleString()} → {formatSats(creditRevShareSats)} sats</span>
                 </div>
               </div>
             </div>
-              <div className="cosmic-card rounded-lg p-4 border border-[#00d4ff]/30">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg p-4 border border-[#9945FF]/30">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">🏪</span>
                   <span className="font-bold text-white">Marketplace</span>
               </div>
-                <div className="text-sm text-white/80 space-y-1">
+                <div className="text-sm text-[#a8a8b8] space-y-1">
                         <div className="flex justify-between">
                     <span>0.2 BTC volume × 3%:</span>
                     <span className="font-semibold">600K sats</span>
                         </div>
-                  <div className="flex justify-between text-[#00d4ff]">
+                  <div className="flex justify-between text-[#9945FF]">
                     <span>Rev Share (30%):</span>
                     <span className="font-bold">{formatSats(marketplaceRevShare)} sats</span>
                         </div>
                       </div>
                     </div>
-              <div className="cosmic-card rounded-lg p-4 border border-[#00d4ff]/30">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg p-4 border border-[#9945FF]/30">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">📜</span>
                   <span className="font-bold text-white">Inscribing</span>
                 </div>
-                <div className="text-sm text-white/80 space-y-1">
+                <div className="text-sm text-[#a8a8b8] space-y-1">
                   <div className="flex justify-between">
                     <span>5K × 2.5K sats:</span>
                     <span className="font-semibold">0.125 BTC</span>
                   </div>
-                  <div className="flex justify-between text-[#00d4ff]">
+                  <div className="flex justify-between text-[#9945FF]">
                     <span>Rev Share (30%):</span>
                     <span className="font-bold">{formatSats(inscribingRevShare)} sats</span>
                 </div>
@@ -269,7 +269,7 @@ export default function RevSharePage() {
           </details>
 
           {/* Fine Print */}
-          <div className="text-center text-white/60 text-xs space-y-1">
+          <div className="text-center text-[#a8a8b8]/80 text-xs space-y-1">
             <p>* Credits: 30% of net profit after 50% platform costs (converted to sats at current BTC price)</p>
             <p>Payouts processed monthly • Must hold ordinal in wallet to qualify</p>
           </div>

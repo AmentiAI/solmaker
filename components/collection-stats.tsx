@@ -2,26 +2,26 @@
 
 import { Card } from "@/components/ui/card"
 import { Sparkles, TrendingUp, Award, Layers } from "lucide-react"
-import type { Ordinal } from "@/types/ordinal"
+import type { Nft } from "@/types/nft"
 import type { TraitRarity } from "@/lib/trait-generator"
 
 interface CollectionStatsProps {
-  ordinals: Ordinal[]
+  nfts: Nft[]
 }
 
 const COLLECTION_GOAL = 2500
 const LEGENDARY_GOAL = 50
 
-export function CollectionStats({ ordinals }: CollectionStatsProps) {
-  const totalCount = ordinals.length
+export function CollectionStats({ nfts }: CollectionStatsProps) {
+  const totalCount = nfts.length
 
   if (totalCount === 0) return null
 
   // Calculate rarity distribution
-  const rarityDistribution = ordinals.reduce(
-    (acc, ordinal) => {
-      if (ordinal.rarityTier) {
-        acc[ordinal.rarityTier] = (acc[ordinal.rarityTier] || 0) + 1
+  const rarityDistribution = nfts.reduce(
+    (acc, nft) => {
+      if (nft.rarityTier) {
+        acc[nft.rarityTier] = (acc[nft.rarityTier] || 0) + 1
       }
       return acc
     },
@@ -29,12 +29,12 @@ export function CollectionStats({ ordinals }: CollectionStatsProps) {
   )
 
   // Calculate average rarity score
-  const avgRarityScore = ordinals.reduce((sum, ordinal) => sum + (ordinal.rarityScore || 0), 0) / totalCount || 0
+  const avgRarityScore = nfts.reduce((sum, nft) => sum + (nft.rarityScore || 0), 0) / totalCount || 0
 
   // Find highest rarity
-  const highestRarity = ordinals.reduce((max, ordinal) => {
-    return (ordinal.rarityScore || 0) > (max.rarityScore || 0) ? ordinal : max
-  }, ordinals[0])
+  const highestRarity = nfts.reduce((max, nft) => {
+    return (nft.rarityScore || 0) > (max.rarityScore || 0) ? nft : max
+  }, nfts[0])
 
   const legendaryCount = rarityDistribution.legendary || 0
   const legendaryPercent = ((legendaryCount / LEGENDARY_GOAL) * 100).toFixed(1)
@@ -44,7 +44,7 @@ export function CollectionStats({ ordinals }: CollectionStatsProps) {
       label: "Total Collection",
       value: `${totalCount} / ${COLLECTION_GOAL}`,
       icon: Layers,
-      color: "text-blue-600 dark:text-blue-400",
+      color: "text-[#9945FF] dark:text-blue-400",
     },
     {
       label: "Legendary Count",

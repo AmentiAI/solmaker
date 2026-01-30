@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2, Sparkles } from "lucide-react"
-import type { Ordinal } from "@/types/ordinal"
+import type { Nft } from "@/types/nft"
 import { useWallet } from "@/lib/wallet/compatibility"
 
 interface GenerateControlsProps {
-  onGenerate: (ordinal: Ordinal) => void
+  onGenerate: (nft: Nft) => void
   currentCount: number
 }
 
@@ -37,7 +37,7 @@ export function GenerateControls({ onGenerate, currentCount }: GenerateControlsP
 
   const handleGenerate = async () => {
     if (!activeWalletConnected || !activeWalletAddress) {
-      setError("Please connect your wallet to generate ordinals")
+      setError("Please connect your wallet to generate NFTs")
       return
     }
 
@@ -58,7 +58,7 @@ export function GenerateControls({ onGenerate, currentCount }: GenerateControlsP
 
         if (!response.ok) {
           const errorData = await response.json()
-          throw new Error(errorData.error || "Failed to generate ordinal")
+          throw new Error(errorData.error || "Failed to generate NFT")
         }
 
         const data = await response.json()
@@ -66,8 +66,8 @@ export function GenerateControls({ onGenerate, currentCount }: GenerateControlsP
         // Trigger credit refresh in header after successful generation
         window.dispatchEvent(new CustomEvent('refreshCredits'))
 
-        const ordinal: Ordinal = {
-          id: `ordinal-${number}`,
+        const nft: Nft = {
+          id: `nft-${number}`,
           number: data.number,
           imageUrl: data.imageUrl,
           metadataUrl: data.metadataUrl,
@@ -78,7 +78,7 @@ export function GenerateControls({ onGenerate, currentCount }: GenerateControlsP
           rarityTier: data.rarityTier,
         }
 
-        onGenerate(ordinal)
+        onGenerate(nft)
 
         // Small delay between generations to avoid rate limits
         if (i < batchSize - 1) {
@@ -95,7 +95,7 @@ export function GenerateControls({ onGenerate, currentCount }: GenerateControlsP
       setTimeout(() => setSuccessMessage(null), 5000)
     } catch (err) {
       console.error("[v0] Generation error:", err)
-      setError(err instanceof Error ? err.message : "Failed to generate ordinal")
+      setError(err instanceof Error ? err.message : "Failed to generate NFT")
       setSuccessMessage(null) // Clear success message on error
     } finally {
       setIsGenerating(false)
@@ -120,7 +120,7 @@ export function GenerateControls({ onGenerate, currentCount }: GenerateControlsP
           />
         </div>
         {remaining > 0 && (
-          <p className="text-xs text-muted-foreground text-center">{remaining} ordinals remaining to reach your goal</p>
+          <p className="text-xs text-muted-foreground text-center">{remaining} NFTs remaining to reach your goal</p>
         )}
         {currentCount >= COLLECTION_GOAL && (
           <p className="text-sm font-medium text-center text-green-600 dark:text-green-400">

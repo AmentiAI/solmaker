@@ -75,10 +75,10 @@ export default function AdminLaunchpadCollectionsPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-[#0a0e27] p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-6 text-center">
-            <p className="text-white/70">Please connect your wallet</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#b4b4c8]">Please connect your wallet</p>
           </div>
         </div>
       </div>
@@ -87,10 +87,10 @@ export default function AdminLaunchpadCollectionsPage() {
 
   if (!isAdminUser) {
     return (
-      <div className="min-h-screen bg-[#0a0e27] p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-6 text-center">
-            <p className="text-red-400 font-semibold">Unauthorized. Admin access only.</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#EF4444] font-semibold">Unauthorized. Admin access only.</p>
           </div>
         </div>
       </div>
@@ -98,38 +98,38 @@ export default function AdminLaunchpadCollectionsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0a0e27]">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       
       <div className="flex-1 ml-64 p-8">
         <div className="max-w-[1800px] mx-auto">
           {/* Header */}
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-white">🚀 Launchpad Collection Stats</h1>
-            <p className="text-white/70 mt-1">View mint statistics for all launched collections</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">🚀 Launchpad Collection Stats</h1>
+            <p className="text-[#b4b4c8] mt-1">View mint statistics for all launched collections</p>
           </div>
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-4 cosmic-card border border-red-500/50 rounded-lg">
-              <p className="text-red-400">{error}</p>
+            <div className="mb-4 p-4 bg-gradient-to-br from-red-900/20 to-red-800/10 border border-[#EF4444]/20/50 rounded-lg">
+              <p className="text-[#EF4444]">{error}</p>
             </div>
           )}
 
           {/* Loading State */}
           {loading ? (
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-12 text-center">
-              <div className="w-16 h-16 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-white/70">Loading collection stats...</p>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-12 text-center">
+              <div className="w-16 h-16 border-4 border-[#00E5FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-[#b4b4c8]">Loading collection stats...</p>
             </div>
           ) : collections.length === 0 ? (
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-12 text-center">
-              <p className="text-white/60 text-lg">No launched collections found</p>
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow p-12 text-center">
+              <p className="text-[#a8a8b8]/80 text-lg">No launched collections found</p>
             </div>
           ) : (
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow overflow-hidden">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-[#00d4ff]/20 text-sm">
+                <table className="min-w-full divide-y divide-[#9945FF]/20 text-sm">
                   <thead className="bg-[#0a0e27]/80">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase">Collection</th>
@@ -144,22 +144,22 @@ export default function AdminLaunchpadCollectionsPage() {
                       <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#00d4ff]/20">
+                  <tbody className="divide-y divide-[#9945FF]/20">
                     {collections.map((collection) => (
-                      <tr key={collection.id} className="hover:bg-[#00d4ff]/5">
+                      <tr key={collection.id} className="hover:bg-[#9945FF]/5">
                         <td className="px-4 py-3">
                           <div className="font-medium text-white">{collection.name}</div>
-                          <div className="text-xs font-mono text-white/60">{collection.id.slice(0, 8)}...</div>
+                          <div className="text-xs font-mono text-[#a8a8b8]/80">{collection.id.slice(0, 8)}...</div>
                         </td>
                         <td className="px-4 py-3 text-white">
                           {collection.total_supply.toLocaleString()}
                         </td>
                         <td className="px-4 py-3">
                           <div className="text-white font-semibold">{collection.completed_mints.toLocaleString()}</div>
-                          <div className="text-xs text-white/60">of {collection.total_mints.toLocaleString()} total</div>
+                          <div className="text-xs text-[#a8a8b8]/80">of {collection.total_mints.toLocaleString()} total</div>
                         </td>
                         <td className="px-4 py-3">
-                          <div className="text-yellow-400 font-semibold">{collection.pending_reveals.toLocaleString()}</div>
+                          <div className="text-[#FBBF24] font-semibold">{collection.pending_reveals.toLocaleString()}</div>
                         </td>
                         <td className="px-4 py-3">
                           <div className="text-blue-400 font-semibold">{collection.commit_confirmed.toLocaleString()}</div>
@@ -168,12 +168,12 @@ export default function AdminLaunchpadCollectionsPage() {
                           <div className="text-purple-400 font-semibold">{collection.reveal_broadcast.toLocaleString()}</div>
                         </td>
                         <td className="px-4 py-3">
-                          <div className="text-red-400 font-semibold">{collection.failed_mints.toLocaleString()}</div>
+                          <div className="text-[#EF4444] font-semibold">{collection.failed_mints.toLocaleString()}</div>
                         </td>
-                        <td className="px-4 py-3 text-white/80">
+                        <td className="px-4 py-3 text-[#a8a8b8]">
                           {collection.unique_minters.toLocaleString()}
                         </td>
-                        <td className="px-4 py-3 text-xs text-white/60">
+                        <td className="px-4 py-3 text-xs text-[#a8a8b8]/80">
                           {formatDate(collection.last_mint_at)}
                         </td>
                         <td className="px-4 py-3">
@@ -187,7 +187,7 @@ export default function AdminLaunchpadCollectionsPage() {
                             <Link
                               href={`/launchpad/${collection.id}`}
                               target="_blank"
-                              className="px-3 py-1.5 text-xs font-medium cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white rounded transition-colors"
+                              className="px-3 py-1.5 text-xs font-medium bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-white rounded transition-colors"
                             >
                               View Launchpad
                             </Link>

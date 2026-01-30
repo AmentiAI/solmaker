@@ -190,13 +190,13 @@ export default function AdminSupportPage() {
       case 'open':
         return 'bg-blue-900/30 text-blue-300 border-blue-700'
       case 'in_progress':
-        return 'bg-yellow-900/30 text-yellow-300 border-yellow-700'
+        return 'bg-yellow-900/30 text-yellow-300 border-[#FBBF24]/20'
       case 'resolved':
         return 'bg-green-900/30 text-green-300 border-green-700'
       case 'closed':
-        return 'bg-gray-800 text-gray-400 border-gray-700'
+        return 'bg-[#1a1a24] text-[#a8a8b8] border-[#9945FF]/20'
       default:
-        return 'bg-gray-800 text-gray-400 border-gray-700'
+        return 'bg-[#1a1a24] text-[#a8a8b8] border-[#9945FF]/20'
     }
   }
 
@@ -208,10 +208,10 @@ export default function AdminSupportPage() {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-4">
               Admin Support Center
             </h1>
-            <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-8 text-center shadow-xl">
+            <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-8 text-center shadow-xl">
               <div className="text-6xl mb-4">🔒</div>
               <h2 className="text-2xl font-bold text-white mb-4">Connect Wallet</h2>
-              <p className="text-gray-400 mb-6">
+              <p className="text-[#a8a8b8] mb-6">
                 Please connect your wallet to access the admin support center.
               </p>
               <div className="flex justify-center mb-6">
@@ -238,10 +238,10 @@ export default function AdminSupportPage() {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-4">
               Admin Support Center
             </h1>
-            <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-8 text-center shadow-xl">
+            <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-8 text-center shadow-xl">
               <div className="text-6xl mb-4">🔒</div>
               <h2 className="text-2xl font-bold text-white mb-4">Unauthorized</h2>
-              <p className="text-gray-400 mb-6">
+              <p className="text-[#a8a8b8] mb-6">
                 You must be an authorized admin to access this page.
               </p>
               <Link
@@ -266,18 +266,18 @@ export default function AdminSupportPage() {
               <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
                 Admin Support Center
               </h1>
-              <p className="text-gray-400">Manage and respond to support tickets</p>
+              <p className="text-[#a8a8b8]">Manage and respond to support tickets</p>
             </div>
             <Link
               href="/support"
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold transition-all duration-200"
+              className="px-4 py-2 bg-[#1a1a24]/80 hover:bg-gray-600 text-white rounded-lg font-semibold transition-all duration-200"
             >
               User View
             </Link>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg text-red-200">
+            <div className="mb-6 p-4 bg-red-900/30 border border-[#EF4444]/20 rounded-lg text-red-200">
               {error}
             </div>
           )}
@@ -285,12 +285,12 @@ export default function AdminSupportPage() {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Tickets List */}
             <div className="lg:col-span-1">
-              <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6 shadow-xl">
+              <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6 shadow-xl">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-bold text-white">All Tickets</h2>
                   <button
                     onClick={loadTickets}
-                    className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm font-semibold transition-all duration-200"
+                    className="px-3 py-1 bg-[#1a1a24]/80 hover:bg-gray-600 text-white rounded-lg text-sm font-semibold transition-all duration-200"
                   >
                     Refresh
                   </button>
@@ -299,10 +299,10 @@ export default function AdminSupportPage() {
                 {loading ? (
                   <div className="text-center py-8">
                     <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                    <p className="text-gray-400 mt-2">Loading tickets...</p>
+                    <p className="text-[#a8a8b8] mt-2">Loading tickets...</p>
                   </div>
                 ) : tickets.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
+                  <div className="text-center py-8 text-[#a8a8b8]">
                     <p>No tickets yet</p>
                   </div>
                 ) : (
@@ -317,7 +317,7 @@ export default function AdminSupportPage() {
                         className={`w-full text-left p-4 rounded-lg border transition-all duration-200 ${
                           selectedTicket?.id === ticket.id
                             ? 'border-purple-500 bg-purple-900/20'
-                            : 'border-gray-800 bg-slate-800/50 hover:border-gray-700'
+                            : 'border-gray-800 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 hover:border-[#9945FF]/20'
                         }`}
                       >
                         <div className="flex justify-between items-start mb-2">
@@ -326,10 +326,10 @@ export default function AdminSupportPage() {
                             {ticket.status.replace('_', ' ')}
                           </span>
                         </div>
-                        <p className="text-xs text-gray-400 mb-1">
+                        <p className="text-xs text-[#a8a8b8] mb-1">
                           {ticket.wallet_address.substring(0, 8)}...
                         </p>
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-[#a8a8b8]">
                           {new Date(ticket.created_at).toLocaleDateString()}
                         </p>
                         {ticket.message_count && ticket.message_count > 0 && (
@@ -347,12 +347,12 @@ export default function AdminSupportPage() {
             {/* Chat Interface */}
             <div className="lg:col-span-2">
               {selectedTicket ? (
-                <div className="bg-slate-900/50 border border-gray-800 rounded-xl shadow-xl flex flex-col h-[700px]">
+                <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl shadow-xl flex flex-col h-[700px]">
                   <div className="p-6 border-b border-gray-800">
                     <div className="flex justify-between items-start mb-4">
                       <div>
                         <h2 className="text-xl font-bold text-white">{selectedTicket.subject}</h2>
-                        <p className="text-sm text-gray-400 mt-1">
+                        <p className="text-sm text-[#a8a8b8] mt-1">
                           Wallet: {selectedTicket.wallet_address}
                         </p>
                       </div>
@@ -361,7 +361,7 @@ export default function AdminSupportPage() {
                           setSelectedTicket(null)
                           setMessages([])
                         }}
-                        className="text-gray-400 hover:text-white"
+                        className="text-[#a8a8b8] hover:text-white"
                       >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -372,7 +372,7 @@ export default function AdminSupportPage() {
                       <select
                         value={selectedTicket.status}
                         onChange={(e) => handleUpdateStatus(e.target.value)}
-                        className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm"
+                        className="px-3 py-1 bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg text-white text-sm"
                       >
                         <option value="open">Open</option>
                         <option value="in_progress">In Progress</option>
@@ -392,7 +392,7 @@ export default function AdminSupportPage() {
                           className={`max-w-[80%] rounded-lg p-4 ${
                             message.sender_type === 'admin'
                               ? 'bg-gradient-to-r from-green-600 to-blue-600 text-white'
-                              : 'bg-gray-800 text-gray-100'
+                              : 'bg-[#1a1a24] text-gray-100'
                           }`}
                         >
                           <p className="text-sm whitespace-pre-wrap">{message.message}</p>
@@ -416,7 +416,7 @@ export default function AdminSupportPage() {
                             handleSendMessage(e)
                           }
                         }}
-                        className="flex-1 border border-gray-700 rounded-lg px-4 py-3 bg-slate-950/50 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none resize-none"
+                        className="flex-1 border border-[#9945FF]/20 rounded-lg px-4 py-3 bg-slate-950/50 text-gray-100 placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none resize-none"
                         placeholder="Type your response... (Press Enter to send, Shift+Enter for new line)"
                         rows={2}
                         required
@@ -432,11 +432,11 @@ export default function AdminSupportPage() {
                   </form>
                 </div>
               ) : (
-                <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-12 shadow-xl text-center h-[700px] flex items-center justify-center">
+                <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-12 shadow-xl text-center h-[700px] flex items-center justify-center">
                   <div>
                     <div className="text-6xl mb-4">💬</div>
                     <h3 className="text-xl font-bold text-white mb-2">Select a Ticket</h3>
-                    <p className="text-gray-400">
+                    <p className="text-[#a8a8b8]">
                       Select a ticket from the list to view and respond
                     </p>
                   </div>

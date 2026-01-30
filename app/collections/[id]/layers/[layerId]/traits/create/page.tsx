@@ -142,7 +142,7 @@ export default function CreateTraitPage() {
         <div className="max-w-2xl mx-auto">
           <div className="text-center py-8">
             <div className="text-white">Layer not found</div>
-            <Link href={`/collections/${params.id}`} className="text-[#00d4ff] hover:text-[#00b8e6] mt-4 inline-block">
+            <Link href={`/collections/${params.id}`} className="text-[#9945FF] hover:text-[#14F195] mt-4 inline-block">
               ← Back to Collection
             </Link>
           </div>
@@ -157,7 +157,7 @@ export default function CreateTraitPage() {
         <div className="mb-6">
           <Link 
             href={`/collections/${params.id}/layers/${params.layerId}`} 
-            className="text-[#00d4ff] hover:text-[#00b8e6] mb-4 inline-block"
+            className="text-[#9945FF] hover:text-[#14F195] mb-4 inline-block"
           >
             ← Back to Layer
           </Link>
@@ -165,24 +165,24 @@ export default function CreateTraitPage() {
           <p className="text-white/70 mt-2">Add a trait to "{layer.name}" layer</p>
         </div>
 
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-6">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Trait Source Tabs: Prompt vs Reference Image */}
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl overflow-hidden mb-4">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl overflow-hidden mb-4">
               {/* Tab Headers */}
-              <div className="flex border-b border-[#00d4ff]/30 bg-white/5">
+              <div className="flex border-b border-[#9945FF]/30 bg-white/5">
                 <button
                   type="button"
                   onClick={() => setTraitSourceTab('prompt')}
                   className={`flex-1 px-6 py-3 text-sm font-semibold transition-colors relative ${
                     traitSourceTab === 'prompt'
-                      ? 'text-[#00d4ff] bg-[#00d4ff]/10'
-                      : 'text-white/70 hover:text-white hover:bg-[#00d4ff]/5'
+                      ? 'text-[#9945FF] bg-[#9945FF]/10'
+                      : 'text-white/70 hover:text-white hover:bg-[#9945FF]/5'
                   }`}
                 >
                   Prompt-Based
                   {traitSourceTab === 'prompt' && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00d4ff]"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#9945FF]"></div>
                   )}
                 </button>
                 <button
@@ -190,13 +190,13 @@ export default function CreateTraitPage() {
                   onClick={() => setTraitSourceTab('reference')}
                   className={`flex-1 px-6 py-3 text-sm font-semibold transition-colors relative ${
                     traitSourceTab === 'reference'
-                      ? 'text-[#00d4ff] bg-[#00d4ff]/10'
-                      : 'text-white/70 hover:text-white hover:bg-[#00d4ff]/5'
+                      ? 'text-[#9945FF] bg-[#9945FF]/10'
+                      : 'text-white/70 hover:text-white hover:bg-[#9945FF]/5'
                   }`}
                 >
                   Reference Image
                   {traitSourceTab === 'reference' && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00d4ff]"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#9945FF]"></div>
                   )}
                 </button>
               </div>
@@ -219,11 +219,11 @@ export default function CreateTraitPage() {
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4 items-start">
-                      <div className="rounded-xl border border-[#00d4ff]/30 cosmic-card overflow-hidden">
+                      <div className="rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md overflow-hidden">
                         {referenceImagePreview ? (
                           <img src={referenceImagePreview} alt="Reference preview" className="w-full h-[160px] object-cover" />
                         ) : (
-                          <div className="w-full h-[160px] flex items-center justify-center text-gray-400">
+                          <div className="w-full h-[160px] flex items-center justify-center text-[#a8a8b8]">
                             Upload an image
                           </div>
                         )}
@@ -324,7 +324,7 @@ export default function CreateTraitPage() {
                   <option value="2">Legendary (2)</option>
                 </select>
               </div>
-              <p className="text-xs text-white/60 mt-1">
+              <p className="text-xs text-[#a8a8b8]/80 mt-1">
                 <strong>Higher weight = More common</strong> (appears more often). Lower weight = Rarer (appears less often). 
                 The system uses weighted random selection, so Common traits (40) appear much more frequently than Legendary (2).
               </p>
@@ -334,7 +334,7 @@ export default function CreateTraitPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                className="bg-[#9945FF] text-white px-4 py-2 rounded hover:bg-[#7C3AED] disabled:opacity-50"
               >
                 {saving ? 'Creating...' : 'Create Trait'}
               </button>

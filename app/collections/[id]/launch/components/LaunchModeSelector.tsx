@@ -25,7 +25,7 @@ export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorP
               <p className="text-gray-600 text-sm mb-3">
                 Let collectors mint NFTs. Set up phases, pricing, and whitelists
               </p>
-              <ul className="text-sm text-gray-500 space-y-1">
+              <ul className="text-sm text-[#a8a8b8]/80 space-y-1">
                 <li>✓ Public or whitelisted minting</li>
                 <li>✓ Multiple mint phases</li>
                 <li>✓ Custom pricing per phase</li>
@@ -49,7 +49,7 @@ export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorP
               <p className="text-gray-600 text-sm mb-3">
                 Mint specific NFTs from your collection outside the launchpad
               </p>
-              <ul className="text-sm text-gray-500 space-y-1">
+              <ul className="text-sm text-[#a8a8b8]/80 space-y-1">
                 <li>✓ Mint to specific wallets</li>
                 <li>✓ Reserve pieces for team/giveaways</li>
                 <li>✓ Pre-mint before launch</li>
@@ -73,7 +73,7 @@ export default function LaunchModeSelector({ onSelectMode }: LaunchModeSelectorP
               <p className="text-gray-600 text-sm mb-3">
                 Sell your entire collection (as images) for SOL or credits before minting
               </p>
-              <ul className="text-sm text-gray-500 space-y-1">
+              <ul className="text-sm text-[#a8a8b8]/80 space-y-1">
                 <li>✓ Sell collection for SOL or credits</li>
                 <li>✓ Include promotional materials</li>
                 <li>✓ Transfer full ownership</li>

@@ -21,23 +21,23 @@ export default function GlobalError({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900 min-h-screen flex items-center justify-center p-4" suppressHydrationWarning>
-        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-8 max-w-md w-full text-center">
-          <h2 className="text-red-400 text-2xl font-bold mb-4">Critical Error</h2>
-          <p className="text-gray-300 mb-6">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-red-500/30 rounded-lg p-8 max-w-md w-full text-center">
+          <h2 className="text-[#EF4444] text-2xl font-bold mb-4">Critical Error</h2>
+          <p className="text-white mb-6">
             A critical error occurred. Please try refreshing the page.
           </p>
           <button
             onClick={reset}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors"
+            className="w-full bg-[#9945FF] hover:bg-[#7C3AED] text-white px-4 py-3 rounded-lg font-medium transition-colors"
           >
             Try again
           </button>
           {error.message && (
             <details className="mt-4 text-left">
-              <summary className="text-gray-500 text-sm cursor-pointer hover:text-gray-400">
+              <summary className="text-[#a8a8b8]/80 text-sm cursor-pointer hover:text-[#a8a8b8]">
                 Technical details
               </summary>
-              <pre className="text-xs text-gray-500 mt-2 overflow-auto p-3 bg-black/20 rounded">
+              <pre className="text-xs text-[#a8a8b8]/80 mt-2 overflow-auto p-3 bg-black/20 rounded">
                 {error.message}
               </pre>
             </details>

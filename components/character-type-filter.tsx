@@ -62,18 +62,18 @@ export function CharacterTypeFilter({
       witch: "bg-indigo-100 text-indigo-800 border-indigo-300",
       demon: "bg-red-100 text-red-800 border-red-300",
       mummy: "bg-yellow-100 text-yellow-800 border-yellow-300",
-      reaper: "bg-black text-white border-gray-600"
+      reaper: "bg-black text-white border-[#9945FF]/30"
     }
     return colors[type] || "bg-gray-100 text-gray-800 border-gray-300"
   }
 
   return (
-    <div className="bg-[#FDFCFA] dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+    <div className="bg-[#FDFCFA] dark:bg-[#1a1a24] border border-gray-200 dark:border-[#9945FF]/20 rounded-lg p-4">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+            className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-100"
           >
             {isExpanded ? (
               <ChevronDownIcon className="h-4 w-4" />
@@ -82,20 +82,20 @@ export function CharacterTypeFilter({
             )}
             Character Types
           </button>
-          <span className="text-xs text-gray-500 dark:text-gray-400">
+          <span className="text-xs text-[#a8a8b8]/80 dark:text-[#a8a8b8]">
             ({filteredCount} of {totalCount})
           </span>
         </div>
         <div className="flex gap-2">
           <button
             onClick={onSelectAll}
-            className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+            className="text-xs text-[#9945FF] hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
           >
             Select All
           </button>
           <button
             onClick={onClearAll}
-            className="text-xs text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+            className="text-xs text-gray-600 hover:text-gray-800 dark:text-[#a8a8b8] dark:hover:text-white"
           >
             Clear All
           </button>
@@ -110,7 +110,7 @@ export function CharacterTypeFilter({
               className={`flex items-center gap-2 p-2 rounded border cursor-pointer transition-colors ${
                 selectedTypes.includes(type)
                   ? getTypeColor(type)
-                  : "bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  : "bg-gray-50 dark:bg-[#1a1a24]/80 text-gray-700 dark:text-white border-gray-200 dark:border-[#9945FF]/30 hover:bg-gray-100 dark:hover:bg-gray-600"
               }`}
             >
               <input

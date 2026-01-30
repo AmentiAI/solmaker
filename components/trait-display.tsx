@@ -1,15 +1,15 @@
 import { Badge } from "@/components/ui/badge"
-import type { OrdinalTraits } from "@/lib/types"
+import type { NftTraits } from "@/lib/types"
 import type { TraitRarity } from "@/lib/trait-generator"
 
 interface TraitDisplayProps {
-  traits: OrdinalTraits
+  traits: NftTraits
   showRarity?: boolean
 }
 
 const rarityColors: Record<TraitRarity, string> = {
-  common: "bg-gray-500/10 text-gray-700 dark:text-gray-300 border-gray-500/20",
-  rare: "bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/20",
+  common: "bg-gray-500/10 text-gray-700 dark:text-white border-[#9945FF]/40/20",
+  rare: "bg-blue-500/10 text-[#14F195] dark:text-blue-300 border-blue-500/20",
   epic: "bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/20",
   legendary: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20",
 }

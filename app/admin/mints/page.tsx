@@ -593,16 +593,16 @@ export default function AdminMintsPage() {
   const getStatusBadge = (status: string) => {
     const statusColors: Record<string, string> = {
       completed: 'bg-green-900/30 border-green-700 text-green-300',
-      pending: 'bg-yellow-900/30 border-yellow-700 text-yellow-300',
-      failed: 'bg-red-900/30 border-red-700 text-red-300',
+      pending: 'bg-yellow-900/30 border-[#FBBF24]/20 text-yellow-300',
+      failed: 'bg-red-900/30 border-[#EF4444]/20 text-red-300',
       stuck: 'bg-orange-900/30 border-orange-700 text-orange-300',
       active: 'bg-blue-900/30 border-blue-700 text-blue-300',
-      draft: 'bg-gray-900/30 border-gray-700 text-gray-300',
+      draft: 'bg-[#14141e]/30 border-[#9945FF]/20 text-white',
       scheduled: 'bg-purple-900/30 border-purple-700 text-purple-300',
-      paused: 'bg-yellow-900/30 border-yellow-700 text-yellow-300',
-      cancelled: 'bg-red-900/30 border-red-700 text-red-300',
+      paused: 'bg-yellow-900/30 border-[#FBBF24]/20 text-yellow-300',
+      cancelled: 'bg-red-900/30 border-[#EF4444]/20 text-red-300',
     }
-    return statusColors[status] || 'bg-gray-900/30 border-gray-700 text-gray-300'
+    return statusColors[status] || 'bg-[#14141e]/30 border-[#9945FF]/20 text-white'
   }
 
   const truncateAddress = (address: string) => {
@@ -612,15 +612,15 @@ export default function AdminMintsPage() {
 
   if (!isConnected) {
     return (
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 py-12 bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] min-h-screen">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-8 text-center shadow-xl backdrop-blur-sm">
-            <h1 className="text-3xl font-bold text-white mb-4">Mint Admin Dashboard</h1>
-            <p className="text-gray-400 mb-6">Please connect your wallet to access the mint administration.</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-8 text-center shadow-xl backdrop-blur-sm">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-4">Mint Admin Dashboard</h1>
+            <p className="text-[#b4b4c8] mb-6">Please connect your wallet to access the mint administration.</p>
             <div className="flex justify-center mb-4">
               <WalletConnect />
             </div>
-            <Link href="/admin" className="text-blue-400 hover:text-blue-300">
+            <Link href="/admin" className="text-[#00E5FF] hover:text-[#FFD60A] transition-colors">
               ← Back to Admin
             </Link>
           </div>
@@ -631,12 +631,12 @@ export default function AdminMintsPage() {
 
   if (!authorized) {
     return (
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 py-12 bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] min-h-screen">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-red-900/20 border border-red-700/50 rounded-xl p-8 text-center shadow-xl backdrop-blur-sm">
-            <h1 className="text-3xl font-bold text-red-400 mb-4">Access Denied</h1>
-            <p className="text-gray-300 mb-4">This page is restricted to admin accounts only.</p>
-            <Link href="/" className="text-blue-400 hover:text-blue-300">
+          <div className="bg-gradient-to-br from-red-900/20 to-red-800/10 border border-[#EF4444]/20/50 rounded-xl p-8 text-center shadow-xl backdrop-blur-sm">
+            <h1 className="text-3xl font-bold text-[#EF4444] mb-4">Access Denied</h1>
+            <p className="text-white mb-4">This page is restricted to admin accounts only.</p>
+            <Link href="/" className="text-[#00E5FF] hover:text-[#FFD60A] transition-colors">
               ← Back to Home
             </Link>
           </div>
@@ -646,7 +646,7 @@ export default function AdminMintsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       <div className="ml-64">
         <div className="container mx-auto px-6 py-8">
@@ -655,28 +655,28 @@ export default function AdminMintsPage() {
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent mb-2">
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent mb-2">
                   🔥 Mint Admin
                 </h1>
-                <p className="text-gray-400 text-lg">Manage collection launches, monitor mints, and handle stuck transactions</p>
+                <p className="text-[#b4b4c8] text-lg">Manage collection launches, monitor mints, and handle stuck transactions</p>
               </div>
               <div className="flex gap-3">
                 <Link
                   href="/admin"
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-gray-300 rounded-lg transition-colors"
+                  className="px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#0f0f1e] text-white rounded-lg transition-all border border-[#00E5FF]/20"
                 >
                   ← Admin Home
                 </Link>
                 <Link
                   href="/admin/launchpad"
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-medium"
+                  className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg transition-all font-medium shadow-lg shadow-[#00E5FF]/20"
                 >
                   🚀 Launchpad Mgmt
                 </Link>
                 <button
                   onClick={handleRefresh}
                   disabled={refreshing}
-                  className="px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white rounded-xl font-semibold shadow-lg shadow-orange-500/20 transition-all duration-200 disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-xl font-semibold shadow-lg shadow-[#00E5FF]/20 transition-all duration-200 disabled:opacity-50 flex items-center gap-2"
                 >
                   {refreshing ? (
                     <>
@@ -710,8 +710,8 @@ export default function AdminMintsPage() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                     activeTab === tab.id
-                      ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-500/30'
-                      : 'bg-slate-800/50 text-gray-400 hover:bg-slate-800 hover:text-gray-300 border border-gray-700'
+                      ? 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white shadow-lg shadow-[#00E5FF]/30'
+                      : 'bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 text-[#b4b4c8] hover:text-white border border-[#00E5FF]/20'
                   }`}
                 >
                   {tab.label}
@@ -727,13 +727,13 @@ export default function AdminMintsPage() {
 
           {loading ? (
             <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400 mx-auto mb-4"></div>
-              <p className="text-gray-400">Loading mint data...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00E5FF] mx-auto mb-4"></div>
+              <p className="text-[#b4b4c8]">Loading mint data...</p>
             </div>
           ) : error ? (
-            <div className="bg-red-900/20 border border-red-700/50 rounded-xl p-6 text-center">
-              <p className="text-red-400">{error}</p>
-              <button onClick={handleRefresh} className="mt-4 text-blue-400 hover:text-blue-300">
+            <div className="bg-gradient-to-br from-red-900/20 to-red-800/10 border border-[#EF4444]/20/50 rounded-xl p-6 text-center">
+              <p className="text-[#EF4444]">{error}</p>
+              <button onClick={handleRefresh} className="mt-4 text-[#00E5FF] hover:text-[#FFD60A] transition-colors">
                 Try again
               </button>
             </div>
@@ -744,35 +744,35 @@ export default function AdminMintsPage() {
                 <div className="space-y-8">
                   {/* Stats Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="bg-gradient-to-br from-blue-900/30 to-blue-800/20 border border-blue-700/50 rounded-2xl p-6 shadow-lg">
-                      <div className="text-sm font-medium text-blue-300 uppercase tracking-wide mb-2">Active Launches</div>
+                    <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-2xl p-6 shadow-lg">
+                      <div className="text-sm font-medium text-[#00E5FF] uppercase tracking-wide mb-2">Active Launches</div>
                       <div className="text-3xl font-bold text-white">{stats.launches.active}</div>
-                      <div className="text-sm text-gray-400 mt-1">{stats.launches.total} total</div>
+                      <div className="text-sm text-[#b4b4c8] mt-1">{stats.launches.total} total</div>
                     </div>
-                    <div className="bg-gradient-to-br from-green-900/30 to-green-800/20 border border-green-700/50 rounded-2xl p-6 shadow-lg">
-                      <div className="text-sm font-medium text-green-300 uppercase tracking-wide mb-2">Completed Mints</div>
+                    <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#FFD60A]/20 rounded-2xl p-6 shadow-lg">
+                      <div className="text-sm font-medium text-[#FFD60A] uppercase tracking-wide mb-2">Completed Mints</div>
                       <div className="text-3xl font-bold text-white">{stats.inscriptions.completed}</div>
-                      <div className="text-sm text-gray-400 mt-1">{stats.inscriptions.total} total</div>
+                      <div className="text-sm text-[#b4b4c8] mt-1">{stats.inscriptions.total} total</div>
                     </div>
-                    <div className="bg-gradient-to-br from-orange-900/30 to-orange-800/20 border border-orange-700/50 rounded-2xl p-6 shadow-lg">
-                      <div className="text-sm font-medium text-orange-300 uppercase tracking-wide mb-2">Stuck/Failed</div>
+                    <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-2xl p-6 shadow-lg">
+                      <div className="text-sm font-medium text-[#00E5FF] uppercase tracking-wide mb-2">Stuck/Failed</div>
                       <div className="text-3xl font-bold text-white">{stats.inscriptions.stuck + stats.inscriptions.failed}</div>
-                      <div className="text-sm text-gray-400 mt-1">{stats.inscriptions.pending} pending</div>
+                      <div className="text-sm text-[#b4b4c8] mt-1">{stats.inscriptions.pending} pending</div>
                     </div>
-                    <div className="bg-gradient-to-br from-purple-900/30 to-purple-800/20 border border-purple-700/50 rounded-2xl p-6 shadow-lg">
-                      <div className="text-sm font-medium text-purple-300 uppercase tracking-wide mb-2">Total Fees</div>
+                    <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-2xl p-6 shadow-lg">
+                      <div className="text-sm font-medium text-[#00E5FF] uppercase tracking-wide mb-2">Total Fees</div>
                       <div className="text-3xl font-bold text-white">{formatSats(stats.revenue.fees_spent)}</div>
-                      <div className="text-sm text-gray-400 mt-1">sats spent on fees</div>
+                      <div className="text-sm text-[#b4b4c8] mt-1">sats spent on fees</div>
                     </div>
                   </div>
 
                   {/* Recent Activity */}
-                  <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
-                    <h2 className="text-xl font-bold text-white mb-4">Recent Inscriptions</h2>
+                  <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6">
+                    <h2 className="text-xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-4">Recent Inscriptions</h2>
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="text-left text-gray-400 border-b border-gray-700">
+                          <tr className="text-left text-[#b4b4c8] border-b border-[#00E5FF]/20">
                             <th className="pb-3 pr-4">Status</th>
                             <th className="pb-3 pr-4">Collection</th>
                             <th className="pb-3 pr-4">Minter</th>
@@ -782,9 +782,9 @@ export default function AdminMintsPage() {
                             <th className="pb-3">Actions</th>
                           </tr>
                         </thead>
-                        <tbody className="text-gray-300">
+                        <tbody className="text-white">
                           {inscriptions.slice(0, 10).map((inscription) => (
-                            <tr key={inscription.id} className="border-b border-gray-800 hover:bg-slate-800/50">
+                            <tr key={inscription.id} className="border-b border-[#00E5FF]/20 hover:bg-[#0f0f1e]/50">
                               <td className="py-3 pr-4">
                                 <span className={`px-2 py-1 rounded-full text-xs border ${getStatusBadge(inscription.mint_status)}`}>
                                   {inscription.mint_status}
@@ -840,11 +840,11 @@ export default function AdminMintsPage() {
                   </div>
 
                   {launches.length === 0 ? (
-                    <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-8 text-center">
-                      <p className="text-gray-400 mb-4">No launches found. Go to Collections tab to create one.</p>
+                    <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-8 text-center">
+                      <p className="text-[#a8a8b8] mb-4">No launches found. Go to Collections tab to create one.</p>
                       <button
                         onClick={loadAllLaunches}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
+                        className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg text-sm"
                       >
                         Refresh Launches
                       </button>
@@ -852,11 +852,11 @@ export default function AdminMintsPage() {
                   ) : (
                     <div className="grid gap-4">
                       {launches.map((launch) => (
-                        <div key={launch.id} className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+                        <div key={launch.id} className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6">
                           <div className="flex justify-between items-start mb-4">
                             <div>
                               <h3 className="text-lg font-bold text-white">{launch.launch_name}</h3>
-                              <p className="text-sm text-gray-400">{launch.collection_name}</p>
+                              <p className="text-sm text-[#a8a8b8]">{launch.collection_name}</p>
                             </div>
                             <span className={`px-3 py-1 rounded-full text-sm border ${getStatusBadge(launch.launch_status)}`}>
                               {launch.launch_status}
@@ -864,19 +864,19 @@ export default function AdminMintsPage() {
                           </div>
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                             <div>
-                              <div className="text-xs text-gray-500 uppercase">Supply</div>
+                              <div className="text-xs text-[#a8a8b8]/80 uppercase">Supply</div>
                               <div className="text-white font-semibold">{launch.minted_count} / {launch.total_supply}</div>
                             </div>
                             <div>
-                              <div className="text-xs text-gray-500 uppercase">Price</div>
+                              <div className="text-xs text-[#a8a8b8]/80 uppercase">Price</div>
                               <div className="text-white font-semibold">{launch.mint_price_sats > 0 ? `${formatSats(launch.mint_price_sats)} sats` : 'Free'}</div>
                             </div>
                             <div>
-                              <div className="text-xs text-gray-500 uppercase">Revenue</div>
+                              <div className="text-xs text-[#a8a8b8]/80 uppercase">Revenue</div>
                               <div className="text-white font-semibold">{formatSats(launch.total_revenue_sats || 0)} sats</div>
                             </div>
                             <div>
-                              <div className="text-xs text-gray-500 uppercase">Minters</div>
+                              <div className="text-xs text-[#a8a8b8]/80 uppercase">Minters</div>
                               <div className="text-white font-semibold">{launch.unique_minters || 0}</div>
                             </div>
                           </div>
@@ -893,13 +893,13 @@ export default function AdminMintsPage() {
                               <>
                                 <button
                                   onClick={() => handleUpdateLaunchStatus(launch.id, 'paused')}
-                                  className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg text-sm"
+                                  className="px-4 py-2 bg-[#FBBF24] hover:bg-[#F59E0B] text-white rounded-lg text-sm"
                                 >
                                   Pause
                                 </button>
                                 <button
                                   onClick={() => handleUpdateLaunchStatus(launch.id, 'completed')}
-                                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
+                                  className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg text-sm"
                                 >
                                   Complete
                                 </button>
@@ -936,7 +936,7 @@ export default function AdminMintsPage() {
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white"
+                      className="px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white"
                     >
                       <option value="">All Statuses</option>
                       <option value="pending">Pending</option>
@@ -944,7 +944,7 @@ export default function AdminMintsPage() {
                       <option value="failed">Failed</option>
                       <option value="stuck">Stuck</option>
                     </select>
-                    <label className="flex items-center gap-2 text-gray-300">
+                    <label className="flex items-center gap-2 text-white">
                       <input
                         type="checkbox"
                         checked={testMintFilter}
@@ -953,7 +953,7 @@ export default function AdminMintsPage() {
                       />
                       Test Mints Only
                     </label>
-                    <label className="flex items-center gap-2 text-gray-300">
+                    <label className="flex items-center gap-2 text-white">
                       <input
                         type="checkbox"
                         checked={flaggedFilter}
@@ -964,17 +964,17 @@ export default function AdminMintsPage() {
                     </label>
                     <button
                       onClick={loadFilteredInscriptions}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                      className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg"
                     >
                       Apply Filters
                     </button>
                   </div>
 
-                  <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+                  <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6">
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="text-left text-gray-400 border-b border-gray-700">
+                          <tr className="text-left text-[#a8a8b8] border-b border-[#9945FF]/20">
                             <th className="pb-3 pr-4">Status</th>
                             <th className="pb-3 pr-4">Collection</th>
                             <th className="pb-3 pr-4">Minter</th>
@@ -984,9 +984,9 @@ export default function AdminMintsPage() {
                             <th className="pb-3">Links</th>
                           </tr>
                         </thead>
-                        <tbody className="text-gray-300">
+                        <tbody className="text-white">
                           {inscriptions.map((inscription) => (
-                            <tr key={inscription.id} className="border-b border-gray-800 hover:bg-slate-800/50">
+                            <tr key={inscription.id} className="border-b border-gray-800 hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50">
                               <td className="py-3 pr-4">
                                 <span className={`px-2 py-1 rounded-full text-xs border ${getStatusBadge(inscription.mint_status)}`}>
                                   {inscription.mint_status}
@@ -1046,10 +1046,10 @@ export default function AdminMintsPage() {
                   ) : (
                     <div className="grid gap-4">
                       {stuckTransactions.map((stuckTx) => (
-                        <div key={stuckTx.id} className="bg-slate-900/50 border border-orange-700/50 rounded-xl p-6">
+                        <div key={stuckTx.id} className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-orange-700/50 rounded-xl p-6">
                           <div className="flex justify-between items-start mb-4">
                             <div>
-                              <div className="text-xs text-gray-500 uppercase mb-1">
+                              <div className="text-xs text-[#a8a8b8]/80 uppercase mb-1">
                                 {stuckTx.tx_type.toUpperCase()} Transaction
                               </div>
                               <a
@@ -1067,19 +1067,19 @@ export default function AdminMintsPage() {
                           </div>
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
                             <div>
-                              <div className="text-xs text-gray-500">Stuck For</div>
+                              <div className="text-xs text-[#a8a8b8]/80">Stuck For</div>
                               <div className="text-orange-400 font-semibold">{stuckTx.stuck_duration_minutes} min</div>
                             </div>
                             <div>
-                              <div className="text-xs text-gray-500">Current Fee</div>
+                              <div className="text-xs text-[#a8a8b8]/80">Current Fee</div>
                               <div className="text-white">{stuckTx.current_fee_rate} sat/vB</div>
                             </div>
                             <div>
-                              <div className="text-xs text-gray-500">Recommended Fee</div>
+                              <div className="text-xs text-[#a8a8b8]/80">Recommended Fee</div>
                               <div className="text-green-400">{stuckTx.recommended_fee_rate} sat/vB</div>
                             </div>
                             <div>
-                              <div className="text-xs text-gray-500">Collection</div>
+                              <div className="text-xs text-[#a8a8b8]/80">Collection</div>
                               <div className="text-white">{stuckTx.collection_name || '-'}</div>
                             </div>
                           </div>
@@ -1093,7 +1093,7 @@ export default function AdminMintsPage() {
                               </button>
                               <button
                                 onClick={() => handleStuckAction(stuckTx.id, 'request_rbf')}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
+                                className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg text-sm"
                               >
                                 Request RBF
                               </button>
@@ -1121,11 +1121,11 @@ export default function AdminMintsPage() {
 
                   <div className="grid gap-4">
                     {collections.map((collection) => (
-                      <div key={collection.id} className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+                      <div key={collection.id} className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6">
                         <div className="flex justify-between items-start mb-4">
                           <div>
                             <h3 className="text-lg font-bold text-white">{collection.name}</h3>
-                            <p className="text-sm text-gray-400">{collection.description?.substring(0, 100) || 'No description'}</p>
+                            <p className="text-sm text-[#a8a8b8]">{collection.description?.substring(0, 100) || 'No description'}</p>
                           </div>
                           <div className="flex items-center gap-2">
                             {collection.is_locked ? (
@@ -1133,7 +1133,7 @@ export default function AdminMintsPage() {
                                 🔒 Locked
                               </span>
                             ) : (
-                              <span className="px-3 py-1 bg-yellow-900/30 border border-yellow-700 text-yellow-300 rounded-full text-sm">
+                              <span className="px-3 py-1 bg-yellow-900/30 border border-[#FBBF24]/20 text-yellow-300 rounded-full text-sm">
                                 🔓 Unlocked
                               </span>
                             )}
@@ -1146,19 +1146,19 @@ export default function AdminMintsPage() {
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
                           <div>
-                            <div className="text-xs text-gray-500">Total Ordinals</div>
+                            <div className="text-xs text-[#a8a8b8]/80">Total Ordinals</div>
                             <div className="text-white font-semibold">{collection.total_ordinals}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-gray-500">Minted</div>
+                            <div className="text-xs text-[#a8a8b8]/80">Minted</div>
                             <div className="text-white font-semibold">{collection.minted_ordinals}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-gray-500">Available</div>
+                            <div className="text-xs text-[#a8a8b8]/80">Available</div>
                             <div className="text-green-400 font-semibold">{parseInt(String(collection.total_ordinals)) - parseInt(String(collection.minted_ordinals))}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-gray-500">Owner</div>
+                            <div className="text-xs text-[#a8a8b8]/80">Owner</div>
                             <div className="text-white font-mono text-xs">{truncateAddress(collection.owner_wallet || '')}</div>
                           </div>
                         </div>
@@ -1182,39 +1182,39 @@ export default function AdminMintsPage() {
                   {/* Create Launch Modal */}
                   {createLaunchOpen && selectedCollection && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                      <div className="bg-slate-900 border border-gray-700 rounded-xl p-6 max-w-md w-full mx-4">
+                      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border border-[#9945FF]/20 rounded-xl p-6 max-w-md w-full mx-4">
                         <h3 className="text-xl font-bold text-white mb-4">Create Mint Launch</h3>
-                        <p className="text-gray-400 mb-4">Collection: {selectedCollection.name}</p>
+                        <p className="text-[#a8a8b8] mb-4">Collection: {selectedCollection.name}</p>
                         
                         <div className="space-y-4">
                           <div>
-                            <label className="block text-sm text-gray-400 mb-1">Launch Name</label>
+                            <label className="block text-sm text-[#a8a8b8] mb-1">Launch Name</label>
                             <input
                               type="text"
                               value={launchName}
                               onChange={(e) => setLaunchName(e.target.value)}
                               placeholder={`${selectedCollection.name} Launch`}
-                              className="w-full px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white"
+                              className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm text-gray-400 mb-1">Mint Price (sats)</label>
+                            <label className="block text-sm text-[#a8a8b8] mb-1">Mint Price (sats)</label>
                             <input
                               type="number"
                               value={mintPrice}
                               onChange={(e) => setMintPrice(e.target.value)}
                               placeholder="0"
-                              className="w-full px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white"
+                              className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm text-gray-400 mb-1">Creator Wallet (receives payment)</label>
+                            <label className="block text-sm text-[#a8a8b8] mb-1">Creator Wallet (receives payment)</label>
                             <input
                               type="text"
                               value={creatorWallet}
                               onChange={(e) => setCreatorWallet(e.target.value)}
                               placeholder={currentAddress || ''}
-                              className="w-full px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white font-mono text-sm"
+                              className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white font-mono text-sm"
                             />
                           </div>
                         </div>
@@ -1231,7 +1231,7 @@ export default function AdminMintsPage() {
                               setCreateLaunchOpen(false)
                               setSelectedCollection(null)
                             }}
-                            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg"
+                            className="px-4 py-2 bg-[#1a1a24]/80 hover:bg-gray-600 text-white rounded-lg"
                           >
                             Cancel
                           </button>
@@ -1246,26 +1246,26 @@ export default function AdminMintsPage() {
               {activeTab === 'test-mint' && (
                 <div className="space-y-6">
                   {/* Wallet Info */}
-                  <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
-                    <h3 className="text-sm font-semibold text-gray-400 mb-2">Connected Wallet</h3>
+                  <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
+                    <h3 className="text-sm font-semibold text-[#a8a8b8] mb-2">Connected Wallet</h3>
                     <div className="grid md:grid-cols-2 gap-4 text-sm">
                       <div>
-                        <div className="text-gray-500">Ordinal Address</div>
+                        <div className="text-[#a8a8b8]/80">Ordinal Address</div>
                         <div className="text-white font-mono text-xs truncate">{currentAddress || 'Not connected'}</div>
                       </div>
                       <div>
-                        <div className="text-gray-500">Payment Address</div>
+                        <div className="text-[#a8a8b8]/80">Payment Address</div>
                         <div className="text-white font-mono text-xs truncate">{paymentAddress || currentAddress || 'Not connected'}</div>
                       </div>
                     </div>
                     {!paymentPublicKey && !testMintDryRun && (
-                      <div className="mt-2 text-yellow-400 text-xs">
+                      <div className="mt-2 text-[#FBBF24] text-xs">
                         ⚠️ Payment public key not available. Some wallets may not support PSBT signing.
                       </div>
                     )}
                   </div>
 
-                  <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+                  <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6">
                     <div className="flex justify-between items-center mb-4">
                       <h2 className="text-xl font-bold text-white">🧪 Test Mint</h2>
                       {testMintResult && (
@@ -1281,27 +1281,27 @@ export default function AdminMintsPage() {
                     {/* Step indicator */}
                     {!testMintDryRun && testMintResult && (
                       <div className="flex items-center gap-2 mb-4 text-sm">
-                        <span className={`px-2 py-1 rounded ${testMintStep === 'create' ? 'bg-blue-600' : 'bg-green-600'}`}>1. Create</span>
+                        <span className={`px-2 py-1 rounded ${testMintStep === 'create' ? 'bg-[#9945FF]' : 'bg-green-600'}`}>1. Create</span>
                         <span className="text-gray-600">→</span>
-                        <span className={`px-2 py-1 rounded ${testMintStep === 'sign' ? 'bg-blue-600' : ['commit', 'reveal', 'done'].includes(testMintStep) ? 'bg-green-600' : 'bg-gray-700'}`}>2. Sign</span>
+                        <span className={`px-2 py-1 rounded ${testMintStep === 'sign' ? 'bg-[#9945FF]' : ['commit', 'reveal', 'done'].includes(testMintStep) ? 'bg-green-600' : 'bg-[#1a1a24]/80'}`}>2. Sign</span>
                         <span className="text-gray-600">→</span>
-                        <span className={`px-2 py-1 rounded ${testMintStep === 'commit' ? 'bg-blue-600' : ['reveal', 'done'].includes(testMintStep) ? 'bg-green-600' : 'bg-gray-700'}`}>3. Commit</span>
+                        <span className={`px-2 py-1 rounded ${testMintStep === 'commit' ? 'bg-[#9945FF]' : ['reveal', 'done'].includes(testMintStep) ? 'bg-green-600' : 'bg-[#1a1a24]/80'}`}>3. Commit</span>
                         <span className="text-gray-600">→</span>
-                        <span className={`px-2 py-1 rounded ${testMintStep === 'reveal' ? 'bg-blue-600' : testMintStep === 'done' ? 'bg-green-600' : 'bg-gray-700'}`}>4. Reveal</span>
+                        <span className={`px-2 py-1 rounded ${testMintStep === 'reveal' ? 'bg-[#9945FF]' : testMintStep === 'done' ? 'bg-green-600' : 'bg-[#1a1a24]/80'}`}>4. Reveal</span>
                         <span className="text-gray-600">→</span>
-                        <span className={`px-2 py-1 rounded ${testMintStep === 'done' ? 'bg-green-600' : 'bg-gray-700'}`}>5. Done</span>
+                        <span className={`px-2 py-1 rounded ${testMintStep === 'done' ? 'bg-green-600' : 'bg-[#1a1a24]/80'}`}>5. Done</span>
                       </div>
                     )}
 
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-4">
                         <div>
-                          <label className="block text-sm text-gray-400 mb-1">Collection</label>
+                          <label className="block text-sm text-[#a8a8b8] mb-1">Collection</label>
                           <select
                             value={testMintCollectionId}
                             onChange={(e) => setTestMintCollectionId(e.target.value)}
                             disabled={testMintStep !== 'create' || testMintLoading}
-                            className="w-full px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white disabled:opacity-50"
+                            className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white disabled:opacity-50"
                           >
                             <option value="">Select a collection...</option>
                             {collections.map((c) => (
@@ -1312,18 +1312,18 @@ export default function AdminMintsPage() {
                           </select>
                         </div>
                         <div>
-                          <label className="block text-sm text-gray-400 mb-1">Receiving Address (optional)</label>
+                          <label className="block text-sm text-[#a8a8b8] mb-1">Receiving Address (optional)</label>
                           <input
                             type="text"
                             value={testMintReceivingAddress}
                             onChange={(e) => setTestMintReceivingAddress(e.target.value)}
                             placeholder={currentAddress || 'Your address'}
                             disabled={testMintStep !== 'create' || testMintLoading}
-                            className="w-full px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white font-mono text-sm disabled:opacity-50"
+                            className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white font-mono text-sm disabled:opacity-50"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm text-gray-400 mb-1">Fee Rate (sat/vB)</label>
+                          <label className="block text-sm text-[#a8a8b8] mb-1">Fee Rate (sat/vB)</label>
                           <input
                             type="number"
                             value={testMintFeeRate}
@@ -1332,12 +1332,12 @@ export default function AdminMintsPage() {
                             step="0.1"
                             min="0.1"
                             disabled={testMintStep !== 'create' || testMintLoading}
-                            className="w-full px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white disabled:opacity-50"
+                            className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white disabled:opacity-50"
                           />
                         </div>
                         
                         {/* Dry Run Toggle */}
-                        <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-gray-700">
+                        <div className="flex items-center gap-3 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 rounded-lg border border-[#9945FF]/20">
                           <input
                             type="checkbox"
                             id="dryRunToggle"
@@ -1347,10 +1347,10 @@ export default function AdminMintsPage() {
                             className="w-5 h-5 accent-green-500"
                           />
                           <label htmlFor="dryRunToggle" className="flex-1">
-                            <div className={`font-semibold ${!testMintDryRun ? 'text-green-400' : 'text-gray-400'}`}>
+                            <div className={`font-semibold ${!testMintDryRun ? 'text-green-400' : 'text-[#a8a8b8]'}`}>
                               {testMintDryRun ? '🔒 Dry Run Mode' : '🔥 LIVE MODE - Real Bitcoin'}
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-[#a8a8b8]/80">
                               {testMintDryRun 
                                 ? 'Only calculates costs, no transactions sent'
                                 : 'Will create real transactions and spend sats!'}
@@ -1360,16 +1360,16 @@ export default function AdminMintsPage() {
 
                         {/* Step Progress Indicator */}
                         {!testMintDryRun && testMintStep !== 'create' && (
-                          <div className="p-3 bg-slate-800/50 rounded-lg border border-gray-700 mb-2">
-                            <div className="text-xs text-gray-400 mb-2">Current Step</div>
+                          <div className="p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 rounded-lg border border-[#9945FF]/20 mb-2">
+                            <div className="text-xs text-[#a8a8b8] mb-2">Current Step</div>
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className={`px-2 py-1 rounded text-xs font-bold ${testMintStep === 'sign' ? 'bg-orange-600 text-white' : 'bg-gray-700 text-gray-400'}`}>1. Sign</span>
+                              <span className={`px-2 py-1 rounded text-xs font-bold ${testMintStep === 'sign' ? 'bg-orange-600 text-white' : 'bg-[#1a1a24]/80 text-[#a8a8b8]'}`}>1. Sign</span>
                               <span className="text-gray-600">→</span>
-                              <span className={`px-2 py-1 rounded text-xs font-bold ${testMintStep === 'commit' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-400'}`}>2. Broadcast</span>
+                              <span className={`px-2 py-1 rounded text-xs font-bold ${testMintStep === 'commit' ? 'bg-[#9945FF] text-white' : 'bg-[#1a1a24]/80 text-[#a8a8b8]'}`}>2. Broadcast</span>
                               <span className="text-gray-600">→</span>
-                              <span className={`px-2 py-1 rounded text-xs font-bold ${testMintStep === 'reveal' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-400'}`}>3. Reveal</span>
+                              <span className={`px-2 py-1 rounded text-xs font-bold ${testMintStep === 'reveal' ? 'bg-green-600 text-white' : 'bg-[#1a1a24]/80 text-[#a8a8b8]'}`}>3. Reveal</span>
                               <span className="text-gray-600">→</span>
-                              <span className={`px-2 py-1 rounded text-xs font-bold ${testMintStep === 'done' ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-400'}`}>4. Done</span>
+                              <span className={`px-2 py-1 rounded text-xs font-bold ${testMintStep === 'done' ? 'bg-purple-600 text-white' : 'bg-[#1a1a24]/80 text-[#a8a8b8]'}`}>4. Done</span>
                             </div>
                           </div>
                         )}
@@ -1396,7 +1396,7 @@ export default function AdminMintsPage() {
                           <div className="space-y-3">
                             <div className="p-3 bg-orange-900/30 border border-orange-500/50 rounded-lg text-center">
                               <p className="text-orange-400 font-semibold">📦 Commit PSBT Ready</p>
-                              <p className="text-xs text-gray-400">Click below to sign with your wallet</p>
+                              <p className="text-xs text-[#a8a8b8]">Click below to sign with your wallet</p>
                             </div>
                             <button
                               onClick={handleSignAndBroadcastCommit}
@@ -1420,58 +1420,58 @@ export default function AdminMintsPage() {
                       </div>
 
                       {testMintResult && (
-                        <div className="bg-slate-800/50 border border-gray-700 rounded-xl p-4">
+                        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 rounded-xl p-4">
                           <h3 className="text-lg font-bold text-white mb-3">
                             {testMintDryRun ? 'Dry Run Result' : 'Mint Progress'}
                           </h3>
                           {testMintResult.error ? (
-                            <p className="text-red-400">{testMintResult.error}</p>
+                            <p className="text-[#EF4444]">{testMintResult.error}</p>
                           ) : (
                             <div className="space-y-3 text-sm">
                               {/* Ordinal Info */}
-                              <div className="p-2 bg-slate-900 rounded">
-                                <div className="text-gray-500 text-xs mb-1">Ordinal</div>
+                              <div className="p-2 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] rounded">
+                                <div className="text-[#a8a8b8]/80 text-xs mb-1">Ordinal</div>
                                 <div className="text-white">#{testMintResult.ordinal?.ordinal_number || 'Random'}</div>
                               </div>
                               
                               {/* Compression */}
                               <div className="grid grid-cols-2 gap-2">
-                                <div className="text-gray-400">Original Size</div>
+                                <div className="text-[#a8a8b8]">Original Size</div>
                                 <div className="text-white">{(testMintResult.compression?.original_size / 1024 / 1024).toFixed(2)} MB</div>
                               </div>
                               <div className="grid grid-cols-2 gap-2">
-                                <div className="text-gray-400">Compressed Size</div>
+                                <div className="text-[#a8a8b8]">Compressed Size</div>
                                 <div className="text-green-400 font-semibold">{(testMintResult.compression?.compressed_size / 1024).toFixed(1)} KB ({testMintResult.compression?.reduction_percent}% reduction)</div>
                               </div>
                               
                               {/* Costs */}
-                              <div className="border-t border-gray-700 pt-2 mt-2">
+                              <div className="border-t border-[#9945FF]/20 pt-2 mt-2">
                                 <div className="grid grid-cols-2 gap-2">
-                                  <div className="text-gray-400">Commit Fee</div>
+                                  <div className="text-[#a8a8b8]">Commit Fee</div>
                                   <div className="text-white">{formatSats(testMintResult.costs?.commit_fee || 0)} sats</div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2">
-                                  <div className="text-gray-400">Reveal Fee</div>
+                                  <div className="text-[#a8a8b8]">Reveal Fee</div>
                                   <div className="text-white">{formatSats(testMintResult.costs?.reveal_fee || 0)} sats</div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2">
-                                  <div className="text-gray-400">Total Cost</div>
+                                  <div className="text-[#a8a8b8]">Total Cost</div>
                                   <div className="text-orange-400 font-bold">{formatSats(testMintResult.costs?.total_cost || 0)} sats</div>
                                 </div>
                               </div>
                               
                               {/* Taproot Address */}
-                              <div className="border-t border-gray-700 pt-2 mt-2">
-                                <div className="text-gray-400 mb-1 text-xs">Inscription Taproot Address</div>
-                                <div className="text-white font-mono text-xs break-all bg-slate-900 p-2 rounded">{testMintResult.inscription?.taproot_address}</div>
+                              <div className="border-t border-[#9945FF]/20 pt-2 mt-2">
+                                <div className="text-[#a8a8b8] mb-1 text-xs">Inscription Taproot Address</div>
+                                <div className="text-white font-mono text-xs break-all bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] p-2 rounded">{testMintResult.inscription?.taproot_address}</div>
                               </div>
                               
                               {/* Transaction Progress (for live mints) */}
                               {!testMintDryRun && (
-                                <div className="border-t border-gray-700 pt-2 mt-2 space-y-2">
+                                <div className="border-t border-[#9945FF]/20 pt-2 mt-2 space-y-2">
                                   {testMintResult.commit_tx_id && (
                                     <div>
-                                      <div className="text-gray-400 text-xs">Commit TX</div>
+                                      <div className="text-[#a8a8b8] text-xs">Commit TX</div>
                                       <a 
                                         href={`https://mempool.space/tx/${testMintResult.commit_tx_id}`}
                                         target="_blank"
@@ -1483,11 +1483,11 @@ export default function AdminMintsPage() {
                                     </div>
                                   )}
                                   {testMintResult.commit_error && (
-                                    <div className="text-red-400 text-sm">❌ Commit Error: {testMintResult.commit_error}</div>
+                                    <div className="text-[#EF4444] text-sm">❌ Commit Error: {testMintResult.commit_error}</div>
                                   )}
                                   {testMintResult.reveal_tx_id && (
                                     <div>
-                                      <div className="text-gray-400 text-xs">Reveal TX</div>
+                                      <div className="text-[#a8a8b8] text-xs">Reveal TX</div>
                                       <a 
                                         href={`https://mempool.space/tx/${testMintResult.reveal_tx_id}`}
                                         target="_blank"
@@ -1499,7 +1499,7 @@ export default function AdminMintsPage() {
                                     </div>
                                   )}
                                   {testMintResult.reveal_error && (
-                                    <div className="text-red-400 text-sm">❌ Reveal Error: {testMintResult.reveal_error}</div>
+                                    <div className="text-[#EF4444] text-sm">❌ Reveal Error: {testMintResult.reveal_error}</div>
                                   )}
                                   {testMintResult.inscription_id && (
                                     <div className="p-3 bg-green-900/30 border border-green-700 rounded-lg">
@@ -1524,11 +1524,11 @@ export default function AdminMintsPage() {
                   </div>
 
                   {/* Test Mint History */}
-                  <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+                  <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                       <div className="flex items-center gap-3">
                         <h2 className="text-xl font-bold text-white">📜 Test Mint History</h2>
-                        <span className="text-gray-400 text-sm">({testMintHistoryTotal} total)</span>
+                        <span className="text-[#a8a8b8] text-sm">({testMintHistoryTotal} total)</span>
                       </div>
                       
                       {/* Filters and Sort */}
@@ -1540,7 +1540,7 @@ export default function AdminMintsPage() {
                             setTestMintHistoryStatus(e.target.value)
                             setTestMintHistoryPage(1)
                           }}
-                          className="px-3 py-1.5 bg-slate-700 border border-gray-600 rounded text-white text-sm"
+                          className="px-3 py-1.5 bg-slate-700 border border-[#9945FF]/30 rounded text-white text-sm"
                         >
                           <option value="">All Status</option>
                           <option value="pending">Pending</option>
@@ -1560,7 +1560,7 @@ export default function AdminMintsPage() {
                             setTestMintHistorySortBy(e.target.value)
                             setTestMintHistoryPage(1)
                           }}
-                          className="px-3 py-1.5 bg-slate-700 border border-gray-600 rounded text-white text-sm"
+                          className="px-3 py-1.5 bg-slate-700 border border-[#9945FF]/30 rounded text-white text-sm"
                         >
                           <option value="created_at">Sort: Date</option>
                           <option value="mint_status">Sort: Status</option>
@@ -1572,7 +1572,7 @@ export default function AdminMintsPage() {
                             setTestMintHistorySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')
                             setTestMintHistoryPage(1)
                           }}
-                          className="px-3 py-1.5 bg-slate-700 border border-gray-600 rounded text-white text-sm hover:bg-slate-600"
+                          className="px-3 py-1.5 bg-slate-700 border border-[#9945FF]/30 rounded text-white text-sm hover:bg-slate-600"
                         >
                           {testMintHistorySortOrder === 'desc' ? '↓ Newest' : '↑ Oldest'}
                         </button>
@@ -1588,25 +1588,25 @@ export default function AdminMintsPage() {
                     </div>
 
                     {testMintHistoryLoading ? (
-                      <div className="text-center py-8 text-gray-400">Loading test mint history...</div>
+                      <div className="text-center py-8 text-[#a8a8b8]">Loading test mint history...</div>
                     ) : testMintHistory.length === 0 ? (
-                      <div className="text-center py-8 text-gray-400">
+                      <div className="text-center py-8 text-[#a8a8b8]">
                         No test mints yet. Create one above to get started.
                       </div>
                     ) : (
                       <div className="space-y-4">
                         {testMintHistory.map((mint) => (
-                          <div key={mint.id} className="bg-slate-800/50 border border-gray-700 rounded-lg p-4">
+                          <div key={mint.id} className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 rounded-lg p-4">
                             <div className="flex items-start justify-between gap-4">
                               {/* Left: Basic info */}
                               <div className="flex items-center gap-4">
                                 {mint.thumbnail_url && (
-                                  <img src={mint.thumbnail_url} alt="" className="w-16 h-16 rounded-lg object-cover border border-gray-600" />
+                                  <img src={mint.thumbnail_url} alt="" className="w-16 h-16 rounded-lg object-cover border border-[#9945FF]/30" />
                                 )}
                                 <div>
                                   <div className="text-white font-medium">{mint.collection_name || 'Unknown Collection'}</div>
-                                  <div className="text-gray-400 text-sm">#{mint.ordinal_number || 'N/A'} • {(mint.content_size_bytes / 1024).toFixed(1)} KB</div>
-                                  <div className="text-gray-500 text-xs mt-1">
+                                  <div className="text-[#a8a8b8] text-sm">#{mint.ordinal_number || 'N/A'} • {(mint.content_size_bytes / 1024).toFixed(1)} KB</div>
+                                  <div className="text-[#a8a8b8]/80 text-xs mt-1">
                                     {new Date(mint.created_at).toLocaleDateString()} {new Date(mint.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                   </div>
                                 </div>
@@ -1619,14 +1619,14 @@ export default function AdminMintsPage() {
                                   mint.mint_status === 'reveal_broadcast' ? 'bg-purple-900/50 text-purple-400 border border-purple-700' :
                                   mint.mint_status === 'commit_confirmed' ? 'bg-cyan-900/50 text-cyan-400 border border-cyan-700' :
                                   mint.mint_status === 'commit_broadcast' ? 'bg-blue-900/50 text-blue-400 border border-blue-700' :
-                                  mint.mint_status === 'pending' ? 'bg-yellow-900/50 text-yellow-400 border border-yellow-700' :
-                                  mint.mint_status === 'failed' ? 'bg-red-900/50 text-red-400 border border-red-700' :
-                                  'bg-gray-900/50 text-gray-400 border border-gray-700'
+                                  mint.mint_status === 'pending' ? 'bg-yellow-900/50 text-[#FBBF24] border border-[#FBBF24]/20' :
+                                  mint.mint_status === 'failed' ? 'bg-red-900/50 text-[#EF4444] border border-[#EF4444]/20' :
+                                  'bg-[#14141e]/50 text-[#a8a8b8] border border-[#9945FF]/20'
                                 }`}>
                                   {mint.mint_status.replace(/_/g, ' ')}
                                 </span>
                                 <div className="text-orange-400 text-sm mt-2">{formatSats(mint.total_cost_sats)} sats</div>
-                                <div className="text-gray-500 text-xs">{mint.fee_rate} sat/vB</div>
+                                <div className="text-[#a8a8b8]/80 text-xs">{mint.fee_rate} sat/vB</div>
                               </div>
 
                               {/* Right: Actions */}
@@ -1696,7 +1696,7 @@ export default function AdminMintsPage() {
                                         navigator.clipboard.writeText(mint.reveal_hex)
                                         alert('✅ Reveal hex copied to clipboard')
                                       }}
-                                      className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white text-xs rounded font-medium"
+                                      className="px-3 py-1.5 bg-gray-600 hover:bg-[#1a1a24]/80 text-white text-xs rounded font-medium"
                                     >
                                       📋 Copy Reveal Hex
                                     </button>
@@ -1742,10 +1742,10 @@ export default function AdminMintsPage() {
                             </div>
 
                             {/* Transaction IDs */}
-                            <div className="mt-4 pt-4 border-t border-gray-700 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div className="mt-4 pt-4 border-t border-[#9945FF]/20 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                               {/* Commit TX */}
                               <div>
-                                <div className="text-gray-500 mb-1">Commit TX</div>
+                                <div className="text-[#a8a8b8]/80 mb-1">Commit TX</div>
                                 {mint.commit_tx_id ? (
                                   <a 
                                     href={`https://mempool.space/tx/${mint.commit_tx_id}`}
@@ -1765,7 +1765,7 @@ export default function AdminMintsPage() {
 
                               {/* Reveal TX */}
                               <div>
-                                <div className="text-gray-500 mb-1">Reveal TX</div>
+                                <div className="text-[#a8a8b8]/80 mb-1">Reveal TX</div>
                                 {mint.reveal_tx_id ? (
                                   <a 
                                     href={`https://mempool.space/tx/${mint.reveal_tx_id}`}
@@ -1776,7 +1776,7 @@ export default function AdminMintsPage() {
                                     {mint.reveal_tx_id.substring(0, 16)}...
                                   </a>
                                 ) : mint.reveal_hex ? (
-                                  <span className="text-yellow-400">Created (not broadcast)</span>
+                                  <span className="text-[#FBBF24]">Created (not broadcast)</span>
                                 ) : (
                                   <span className="text-gray-600">Not created</span>
                                 )}
@@ -1784,7 +1784,7 @@ export default function AdminMintsPage() {
 
                               {/* Inscription ID */}
                               <div>
-                                <div className="text-gray-500 mb-1">Inscription</div>
+                                <div className="text-[#a8a8b8]/80 mb-1">Inscription</div>
                                 {mint.inscription_id ? (
                                   <a 
                                     href={`https://ordinals.com/inscription/${mint.inscription_id}`}
@@ -1802,7 +1802,7 @@ export default function AdminMintsPage() {
 
                             {/* Error message if any */}
                             {mint.error_message && (
-                              <div className="mt-3 p-2 bg-red-900/30 border border-red-700 rounded text-red-400 text-xs">
+                              <div className="mt-3 p-2 bg-red-900/30 border border-[#EF4444]/20 rounded text-[#EF4444] text-xs">
                                 ⚠️ {mint.error_message}
                               </div>
                             )}
@@ -1811,8 +1811,8 @@ export default function AdminMintsPage() {
                         
                         {/* Pagination Controls */}
                         {testMintHistoryTotalPages > 1 && (
-                          <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-700">
-                            <div className="text-gray-400 text-sm">
+                          <div className="flex items-center justify-between mt-6 pt-4 border-t border-[#9945FF]/20">
+                            <div className="text-[#a8a8b8] text-sm">
                               Page {testMintHistoryPage} of {testMintHistoryTotalPages}
                             </div>
                             <div className="flex items-center gap-2">
@@ -1852,7 +1852,7 @@ export default function AdminMintsPage() {
                                       className={`w-8 h-8 rounded text-sm ${
                                         testMintHistoryPage === pageNum
                                           ? 'bg-orange-600 text-white'
-                                          : 'bg-slate-700 hover:bg-slate-600 text-gray-300'
+                                          : 'bg-slate-700 hover:bg-slate-600 text-white'
                                       } disabled:opacity-50`}
                                     >
                                       {pageNum}

@@ -63,17 +63,17 @@ export default function UTXOTesterPage() {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-6 py-8 bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] min-h-screen">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link
             href="/admin"
-            className="text-gray-600 hover:text-[#4561ad] transition-colors"
+            className="text-[#b4b4c8] hover:text-[#00E5FF] transition-colors"
           >
             ← Back to Admin
           </Link>
-          <h1 className="text-3xl font-black text-gray-900">UTXO Tester</h1>
+          <h1 className="text-3xl font-black bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">UTXO Tester</h1>
         </div>
 
         {/* Description */}
@@ -110,9 +110,9 @@ export default function UTXOTesterPage() {
 
         {/* Error */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
-            <p className="text-red-700 font-semibold">❌ Error</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
+          <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-[#EF4444]/20/50 rounded-xl p-4 mb-6">
+            <p className="text-red-300 font-semibold">❌ Error</p>
+            <p className="text-[#EF4444] text-sm mt-1">{error}</p>
           </div>
         )}
 
@@ -120,79 +120,79 @@ export default function UTXOTesterPage() {
         {result && (
           <div className="space-y-6">
             {/* Summary */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6">
-              <h2 className="text-lg font-bold text-green-800 mb-4">✅ Results</h2>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6">
+              <h2 className="text-lg font-bold bg-gradient-to-r from-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent mb-4">✅ Results</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white rounded-lg p-4 border border-green-100">
-                  <div className="text-sm text-gray-500">Total UTXOs</div>
-                  <div className="text-2xl font-bold text-gray-900">{result.totalUtxos}</div>
+                <div className="bg-gradient-to-br from-[#050510] to-[#0f0f1e] rounded-lg p-4 border border-[#00E5FF]/20">
+                  <div className="text-sm text-[#b4b4c8]">Total UTXOs</div>
+                  <div className="text-2xl font-bold text-white">{result.totalUtxos}</div>
                 </div>
-                <div className="bg-white rounded-lg p-4 border border-green-100">
-                  <div className="text-sm text-gray-500">Total Value</div>
-                  <div className="text-2xl font-bold text-[#e27d0f]">{formatSats(result.totalValue)}</div>
+                <div className="bg-gradient-to-br from-[#050510] to-[#0f0f1e] rounded-lg p-4 border border-[#00E5FF]/20">
+                  <div className="text-sm text-[#b4b4c8]">Total Value</div>
+                  <div className="text-2xl font-bold text-[#FFD60A]">{formatSats(result.totalValue)}</div>
                 </div>
-                <div className="bg-white rounded-lg p-4 border border-green-100">
-                  <div className="text-sm text-gray-500">BTC Value</div>
-                  <div className="text-xl font-bold text-gray-900">
+                <div className="bg-gradient-to-br from-[#050510] to-[#0f0f1e] rounded-lg p-4 border border-[#00E5FF]/20">
+                  <div className="text-sm text-[#b4b4c8]">BTC Value</div>
+                  <div className="text-xl font-bold text-white">
                     {(result.totalValue / 100000000).toFixed(8)} BTC
                   </div>
                 </div>
-                <div className="bg-white rounded-lg p-4 border border-green-100">
-                  <div className="text-sm text-gray-500">Excluded</div>
-                  <div className="text-2xl font-bold text-gray-900">{result.excludedCount}</div>
+                <div className="bg-gradient-to-br from-[#050510] to-[#0f0f1e] rounded-lg p-4 border border-[#00E5FF]/20">
+                  <div className="text-sm text-[#b4b4c8]">Excluded</div>
+                  <div className="text-2xl font-bold text-white">{result.excludedCount}</div>
                 </div>
               </div>
             </div>
 
             {/* UTXO List */}
-            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-900">UTXOs ({result.utxos.length})</h2>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl overflow-hidden">
+              <div className="px-6 py-4 border-b border-[#00E5FF]/20 flex items-center justify-between">
+                <h2 className="text-lg font-bold text-white">UTXOs ({result.utxos.length})</h2>
                 <button
                   onClick={() => setShowRaw(!showRaw)}
-                  className="text-sm text-[#4561ad] hover:underline"
+                  className="text-sm text-[#00E5FF] hover:text-[#FFD60A] hover:underline transition-colors"
                 >
                   {showRaw ? 'Show Table' : 'Show Raw JSON'}
                 </button>
               </div>
 
               {showRaw ? (
-                <div className="p-4 bg-gray-900 overflow-x-auto">
-                  <pre className="text-green-400 text-xs font-mono whitespace-pre-wrap">
+                <div className="p-4 bg-[#050510] overflow-x-auto">
+                  <pre className="text-[#FFD60A] text-xs font-mono whitespace-pre-wrap">
                     {rawResponse}
                   </pre>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-[#050510]">
                       <tr>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">#</th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">TXID</th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Vout</th>
-                        <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Value</th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Type</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-[#b4b4c8] uppercase">#</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-[#b4b4c8] uppercase">TXID</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-[#b4b4c8] uppercase">Vout</th>
+                        <th className="px-4 py-3 text-right text-xs font-semibold text-[#b4b4c8] uppercase">Value</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-[#b4b4c8] uppercase">Type</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-[#00E5FF]/20">
                       {result.utxos.map((utxo, index) => (
-                        <tr key={`${utxo.txid}:${utxo.vout}`} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 text-sm text-gray-500">{index + 1}</td>
+                        <tr key={`${utxo.txid}:${utxo.vout}`} className="hover:bg-[#0f0f1e]/50">
+                          <td className="px-4 py-3 text-sm text-[#b4b4c8]">{index + 1}</td>
                           <td className="px-4 py-3">
                             <a
                               href={`https://mempool.space/tx/${utxo.txid}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm font-mono text-[#4561ad] hover:underline"
+                              className="text-sm font-mono text-[#00E5FF] hover:text-[#FFD60A] hover:underline transition-colors"
                             >
                               {utxo.txid.slice(0, 8)}...{utxo.txid.slice(-8)}
                             </a>
                           </td>
-                          <td className="px-4 py-3 text-sm font-mono text-gray-600">{utxo.vout}</td>
-                          <td className="px-4 py-3 text-sm font-bold text-right text-[#e27d0f]">
+                          <td className="px-4 py-3 text-sm font-mono text-white">{utxo.vout}</td>
+                          <td className="px-4 py-3 text-sm font-bold text-right text-[#FFD60A]">
                             {formatSats(utxo.value)}
                           </td>
-                          <td className="px-4 py-3 text-xs font-mono text-gray-500">
+                          <td className="px-4 py-3 text-xs font-mono text-[#b4b4c8]">
                             {utxo.scriptpubkey_type || '-'}
                           </td>
                         </tr>
@@ -206,10 +206,10 @@ export default function UTXOTesterPage() {
         )}
 
         {/* API Info */}
-        <div className="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-6">
-          <h3 className="font-bold text-gray-900 mb-3">API Details</h3>
-          <div className="space-y-2 text-sm text-gray-600">
-            <p><strong>Endpoint:</strong> <code className="bg-gray-100 px-2 py-1 rounded">/api/utxos?address=ADDRESS</code></p>
+        <div className="mt-8 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6">
+          <h3 className="font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-3">API Details</h3>
+          <div className="space-y-2 text-sm text-[#b4b4c8]">
+            <p><strong>Endpoint:</strong> <code className="bg-[#050510] px-2 py-1 rounded border border-[#00E5FF]/20">/api/utxos?address=ADDRESS</code></p>
             <p><strong>Method:</strong> GET</p>
             <p><strong>Backend:</strong> Sandshrew API (<code>sandshrew_balances</code>)</p>
             <p><strong>Returns:</strong> Spendable UTXOs with txid, vout, value, and script info</p>

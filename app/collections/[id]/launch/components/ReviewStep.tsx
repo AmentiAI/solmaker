@@ -37,7 +37,7 @@ export function ReviewStep({
       <div className="space-y-6">
         <div>
           <h3 className="font-bold text-white mb-2">Collection Settings</h3>
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-2 text-sm">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg p-4 space-y-2 text-sm">
             <p><strong>Description:</strong> {collectionDescription || 'None'}</p>
             <p><strong>Banner:</strong> {bannerUrl ? '✓ Uploaded' : '✗ Missing'}</p>
             <p><strong>Payment Wallet:</strong> {creatorRoyaltyWallet || 'Not set'}</p>
@@ -50,9 +50,9 @@ export function ReviewStep({
 
         <div>
           <h3 className="font-bold text-white mb-2">Mint Phases ({phases.length})</h3>
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-2 text-sm">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg p-4 space-y-2 text-sm">
             {phases.length === 0 ? (
-              <p className="text-white/60">No phases configured</p>
+              <p className="text-[#a8a8b8]/80">No phases configured</p>
             ) : (
               phases.map((phase) => (
                 <p key={phase.id}>
@@ -82,9 +82,9 @@ export function ReviewStep({
 
         <div>
           <h3 className="font-bold text-white mb-2">Whitelists ({whitelists.length})</h3>
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-2 text-sm">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg p-4 space-y-2 text-sm">
             {whitelists.length === 0 ? (
-              <p className="text-white/60">No whitelists configured</p>
+              <p className="text-[#a8a8b8]/80">No whitelists configured</p>
             ) : (
               whitelists.map((wl) => (
                 <p key={wl.id}>
@@ -105,7 +105,7 @@ export function ReviewStep({
         </button>
         <button
           onClick={onContinue}
-          className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors"
+          className="px-6 py-2 bg-[#00d4ff] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors"
         >
           Continue →
         </button>

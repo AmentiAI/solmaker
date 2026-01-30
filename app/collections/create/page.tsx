@@ -635,7 +635,7 @@ export default function CreateCollectionPage() {
       {/* Lazy Mode Confirmation Modal */}
       {showLazyConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowLazyConfirm(false)}>
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <div className="bg-gradient-to-r from-[#e27d0f] to-[#d66f0d] p-6">
               <h2 className="text-2xl font-bold text-white">✨ Auto-Create Collection</h2>
               <p className="text-orange-100 mt-1">Confirm what will be created automatically</p>
@@ -643,7 +643,7 @@ export default function CreateCollectionPage() {
             
             <div className="p-6">
               <div className="space-y-4">
-                <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-3">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4 space-y-3">
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-2xl">🎨</span>
                     <h3 className="text-lg font-semibold text-white">Collection Setup</h3>
@@ -654,7 +654,7 @@ export default function CreateCollectionPage() {
                   </div>
                 </div>
 
-                <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-3">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4 space-y-3">
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-2xl">📚</span>
                     <h3 className="text-lg font-semibold text-white">Layers & Traits</h3>
@@ -668,16 +668,16 @@ export default function CreateCollectionPage() {
                       <span className="text-white/70">Traits per layer:</span>
                       <span className="font-bold text-white">8 traits</span>
                     </div>
-                    <div className="border-t border-[#00d4ff]/30 pt-2 mt-2">
+                    <div className="border-t border-[#9945FF]/30 pt-2 mt-2">
                       <div className="flex justify-between items-center">
                         <span className="text-white font-semibold">Total traits:</span>
-                        <span className="text-xl font-bold text-[#00d4ff]">48 traits</span>
+                        <span className="text-xl font-bold text-[#9945FF]">48 traits</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-3">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4 space-y-3">
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-2xl">💳</span>
                     <h3 className="text-lg font-semibold text-white">Credit Cost</h3>
@@ -693,10 +693,10 @@ export default function CreateCollectionPage() {
                             {calculateTraitCredits(48, creditCosts.trait_generation)} credit{calculateTraitCredits(48, creditCosts.trait_generation) !== 1 ? 's' : ''}
                           </span>
                         </div>
-                        <div className="border-t border-[#00d4ff]/30 pt-2 mt-2">
+                        <div className="border-t border-[#9945FF]/30 pt-2 mt-2">
                           <div className="flex justify-between items-center">
                             <span className="text-white font-semibold">Total cost:</span>
-                            <span className="text-xl font-bold text-[#00d4ff]">
+                            <span className="text-xl font-bold text-[#9945FF]">
                               {calculateTraitCredits(48, creditCosts.trait_generation)} credit{calculateTraitCredits(48, creditCosts.trait_generation) !== 1 ? 's' : ''}
                             </span>
                           </div>
@@ -706,18 +706,18 @@ export default function CreateCollectionPage() {
                   </div>
                 </div>
 
-                <div className="cosmic-card border border-[#ff6b35]/30 rounded-lg p-3">
-                  <p className="text-xs text-[#ff6b35]">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#DC1FFF]/30 rounded-lg p-3">
+                  <p className="text-xs text-[#DC1FFF]">
                     ⚠️ This will automatically create 6 layers (Background, Character Skin, Eyes, Mouth, Outfit, Headwear) and generate 8 AI traits for each layer. This process may take a few minutes.
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-white/10 px-6 py-4 flex gap-3 justify-end border-t border-[#00d4ff]/30">
+            <div className="bg-white/10 px-6 py-4 flex gap-3 justify-end border-t border-[#9945FF]/30">
               <button
                 onClick={() => setShowLazyConfirm(false)}
-                className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#00d4ff]/30"
+                className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#9945FF]/30"
               >
                 Cancel
               </button>
@@ -736,8 +736,8 @@ export default function CreateCollectionPage() {
       {/* Color Mood Selection Modal */}
       {showColorMoodModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4">
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="px-4 py-3 border-b border-[#00d4ff]/30 flex items-center justify-between bg-[#e27d0f]/10">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="px-4 py-3 border-b border-[#9945FF]/30 flex items-center justify-between bg-[#e27d0f]/10">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <span>🎨</span> Choose a Color Mood
               </h3>
@@ -746,7 +746,7 @@ export default function CreateCollectionPage() {
                   setShowColorMoodModal(false)
                   setColorMoodSuggestions([])
                 }}
-                className="text-white/60 hover:text-white p-1"
+                className="text-[#a8a8b8]/80 hover:text-white p-1"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -762,7 +762,7 @@ export default function CreateCollectionPage() {
                   <button
                     key={index}
                     onClick={() => selectColorMood(mood)}
-                    className="w-full text-left px-2 py-2 rounded-lg border border-[#00d4ff]/30 hover:border-[#e27d0f] hover:bg-[#e27d0f]/10 transition-colors group cosmic-card"
+                    className="w-full text-left px-2 py-2 rounded-lg border border-[#9945FF]/30 hover:border-[#e27d0f] hover:bg-[#e27d0f]/10 transition-colors group bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                   >
                     <div className="flex items-center gap-2">
                       <span className="text-[#e27d0f] font-bold text-xs flex-shrink-0 w-4">{index + 1}</span>
@@ -772,7 +772,7 @@ export default function CreateCollectionPage() {
                 ))}
               </div>
             </div>
-            <div className="px-4 py-3 border-t border-[#00d4ff]/30 bg-white/10">
+            <div className="px-4 py-3 border-t border-[#9945FF]/30 bg-white/10">
               <button
                 onClick={() => {
                   setShowColorMoodModal(false)
@@ -790,8 +790,8 @@ export default function CreateCollectionPage() {
       {/* Lighting Selection Modal */}
       {showLightingModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4">
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="px-4 py-3 border-b border-[#00d4ff]/30 flex items-center justify-between bg-[#00d4ff]/10">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="px-4 py-3 border-b border-[#9945FF]/30 flex items-center justify-between bg-[#9945FF]/10">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <span>💡</span> Choose a Lighting Style
               </h3>
@@ -800,7 +800,7 @@ export default function CreateCollectionPage() {
                   setShowLightingModal(false)
                   setLightingSuggestions([])
                 }}
-                className="text-white/60 hover:text-white p-1"
+                className="text-[#a8a8b8]/80 hover:text-white p-1"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -816,17 +816,17 @@ export default function CreateCollectionPage() {
                   <button
                     key={index}
                     onClick={() => selectLighting(lighting)}
-                    className="w-full text-left px-2 py-2 rounded-lg border border-[#00d4ff]/30 hover:border-[#00d4ff] hover:bg-[#00d4ff]/10 transition-colors group cosmic-card"
+                    className="w-full text-left px-2 py-2 rounded-lg border border-[#9945FF]/30 hover:border-[#9945FF] hover:bg-[#9945FF]/10 transition-colors group bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="text-[#00d4ff] font-bold text-xs flex-shrink-0 w-4">{index + 1}</span>
-                      <span className="text-white text-xs group-hover:text-[#00d4ff]">{lighting}</span>
+                      <span className="text-[#9945FF] font-bold text-xs flex-shrink-0 w-4">{index + 1}</span>
+                      <span className="text-white text-xs group-hover:text-[#9945FF]">{lighting}</span>
                     </div>
                   </button>
                 ))}
               </div>
             </div>
-            <div className="px-4 py-3 border-t border-[#00d4ff]/30 bg-white/10">
+            <div className="px-4 py-3 border-t border-[#9945FF]/30 bg-white/10">
               <button
                 onClick={() => {
                   setShowLightingModal(false)
@@ -844,8 +844,8 @@ export default function CreateCollectionPage() {
       {/* Collection Suggestions Modal */}
       {showCollectionSuggestionsModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4">
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="px-4 py-3 border-b border-[#00d4ff]/30 flex items-center justify-between bg-[#00d4ff]/10">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="px-4 py-3 border-b border-[#9945FF]/30 flex items-center justify-between bg-[#9945FF]/10">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <span>✨</span> Collection Suggestions
               </h3>
@@ -855,7 +855,7 @@ export default function CreateCollectionPage() {
                   setCollectionSuggestionsKeyword('')
                   setCollectionSuggestions([])
                 }}
-                className="text-white/60 hover:text-white p-1"
+                className="text-[#a8a8b8]/80 hover:text-white p-1"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -879,7 +879,7 @@ export default function CreateCollectionPage() {
                           generateCollectionSuggestions()
                         }
                       }}
-                      className="w-full border border-[#00d4ff]/30 rounded-lg px-4 py-2.5 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none"
+                      className="w-full border border-[#9945FF]/30 rounded-lg px-4 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none"
                       placeholder="e.g., cyberpunk, medieval, space, animals"
                       autoFocus
                     />
@@ -890,7 +890,7 @@ export default function CreateCollectionPage() {
                       id="suggestionsPfp"
                       checked={collectionSuggestionsPfp}
                       onChange={(e) => setCollectionSuggestionsPfp(e.target.checked)}
-                      className="w-5 h-5 text-[#00d4ff] border-[#00d4ff]/30 rounded focus:ring-[#00d4ff] cosmic-card"
+                      className="w-5 h-5 text-[#9945FF] border-[#9945FF]/30 rounded focus:ring-[#9945FF] bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                     />
                     <label htmlFor="suggestionsPfp" className="text-sm font-medium text-white cursor-pointer">
                       This is a PFP collection
@@ -922,12 +922,12 @@ export default function CreateCollectionPage() {
                       <button
                         key={index}
                         onClick={() => selectCollectionSuggestion(suggestion)}
-                        className="w-full text-left px-4 py-3 rounded-lg border border-[#00d4ff]/30 hover:border-[#00d4ff] hover:bg-[#00d4ff]/10 transition-colors group cosmic-card"
+                        className="w-full text-left px-4 py-3 rounded-lg border border-[#9945FF]/30 hover:border-[#9945FF] hover:bg-[#9945FF]/10 transition-colors group bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                       >
                         <div className="flex items-start gap-3">
-                          <span className="text-[#00d4ff] font-bold text-sm flex-shrink-0 w-6">{index + 1}</span>
+                          <span className="text-[#9945FF] font-bold text-sm flex-shrink-0 w-6">{index + 1}</span>
                           <div className="flex-1 min-w-0">
-                            <div className="text-white font-semibold text-sm group-hover:text-[#00d4ff] mb-1">
+                            <div className="text-white font-semibold text-sm group-hover:text-[#9945FF] mb-1">
                               {suggestion.name}
                             </div>
                             <div className="text-white/70 text-xs group-hover:text-white">
@@ -939,7 +939,7 @@ export default function CreateCollectionPage() {
                     ))}
                   </div>
                 </div>
-                <div className="px-4 py-3 border-t border-[#00d4ff]/30 bg-white/10">
+                <div className="px-4 py-3 border-t border-[#9945FF]/30 bg-white/10">
                   <button
                     onClick={() => {
                       setCollectionSuggestions([])
@@ -960,7 +960,7 @@ export default function CreateCollectionPage() {
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-12">
             <Link 
               href="/collections" 
-              className="text-[#00d4ff] hover:text-[#00b8e6] mb-6 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+              className="text-[#9945FF] hover:text-[#14F195] mb-6 inline-flex items-center gap-2 text-sm font-medium transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -972,10 +972,10 @@ export default function CreateCollectionPage() {
             </h1>
 
         {/* Instructions - Collapsible */}
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl mb-6 overflow-hidden">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl mb-6 overflow-hidden">
           <button
             onClick={() => setShowInstructions(!showInstructions)}
-            className="w-full flex items-center justify-between p-4 hover:bg-[#00d4ff]/10 transition-colors"
+            className="w-full flex items-center justify-between p-4 hover:bg-[#9945FF]/10 transition-colors"
           >
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
               <span>📝</span> Creating Your Collection
@@ -991,21 +991,21 @@ export default function CreateCollectionPage() {
           </button>
           {showInstructions && (
             <div className="px-6 pb-6 pt-2">
-              <div className="space-y-2 text-sm text-white/80">
+              <div className="space-y-2 text-sm text-[#a8a8b8]">
                 <p className="flex items-start gap-2">
-                  <span className="text-[#00d4ff] mt-1">1.</span>
+                  <span className="text-[#9945FF] mt-1">1.</span>
                   <span><strong>Name your collection</strong> - Choose something memorable that represents your project</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-1">2.</span>
+                  <span className="text-[#9945FF] mt-1">2.</span>
                   <span><strong>Add layers and traits</strong> - Once created, add layers and traits to your collection to start generating ordinals</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-1">3.</span>
+                  <span className="text-[#9945FF] mt-1">3.</span>
                   <span><strong>Invite collaborators</strong> - Click "+ Invite" on the collection page to invite team members by username or wallet address</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-blue-600 mt-1">4.</span>
+                  <span className="text-[#9945FF] mt-1">4.</span>
                   <span><strong>Configure compression</strong> - Edit collection to set image compression (quality, dimensions, or target KB size)</span>
                 </p>
               </div>
@@ -1013,14 +1013,14 @@ export default function CreateCollectionPage() {
           )}
         </div>
 
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4 sm:p-6 md:p-8 shadow-xl backdrop-blur-sm">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4 sm:p-6 md:p-8 shadow-xl backdrop-blur-sm">
           {!activeWalletConnected && (
-            <div className="mb-6 p-4 cosmic-card border border-[#ff6b35]/50 rounded-xl backdrop-blur-sm">
+            <div className="mb-6 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#DC1FFF]/50 rounded-xl backdrop-blur-sm">
               <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-[#ff6b35]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-[#DC1FFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <p className="text-[#ff6b35] text-sm">
+                <p className="text-[#DC1FFF] text-sm">
                   Please connect your wallet in the header to create a collection.
                 </p>
               </div>
@@ -1030,7 +1030,7 @@ export default function CreateCollectionPage() {
             {/* Fancy Step Indicator with Theme Colors */}
             <div className="relative mb-8">
               {/* Progress Bar Background */}
-              <div className="absolute top-1/2 left-0 right-0 h-1 bg-[#00d4ff]/20 rounded-full transform -translate-y-1/2"></div>
+              <div className="absolute top-1/2 left-0 right-0 h-1 bg-[#9945FF]/20 rounded-full transform -translate-y-1/2"></div>
               
               {/* Animated Progress Fill */}
               <div 
@@ -1088,7 +1088,7 @@ export default function CreateCollectionPage() {
             {/* STEP 1: Basic Info */}
             {formStep === 1 && (
             <div className="animate-fadeIn">
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-3 sm:p-4 space-y-3 sm:space-y-4">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-3 sm:p-4 space-y-3 sm:space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-white mb-2">
                   Collection Name *
@@ -1098,7 +1098,7 @@ export default function CreateCollectionPage() {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="flex-1 border border-[#00d4ff]/30 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none transition-all duration-200 text-base"
+                    className="flex-1 border border-[#9945FF]/30 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none transition-all duration-200 text-base"
                     placeholder="Enter collection name"
                     required
                   />
@@ -1123,27 +1123,27 @@ export default function CreateCollectionPage() {
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full border border-[#00d4ff]/30 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none text-base resize-y"
+                  className="w-full border border-[#9945FF]/30 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none text-base resize-y"
                   placeholder="Enter collection description"
                   rows={3}
                 />
               </div>
 
               {/* PFP Checkbox */}
-              <div className="pt-4 border-t border-[#00d4ff]/30">
+              <div className="pt-4 border-t border-[#9945FF]/30">
                 <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
                     id="isPfpCollection"
                     checked={isPfpCollection}
                     onChange={(e) => setIsPfpCollection(e.target.checked)}
-                    className="w-5 h-5 text-[#00d4ff] border-[#00d4ff]/30 rounded focus:ring-[#00d4ff] cosmic-card"
+                    className="w-5 h-5 text-[#9945FF] border-[#9945FF]/30 rounded focus:ring-[#9945FF] bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                   />
                   <label htmlFor="isPfpCollection" className="text-sm font-semibold text-white cursor-pointer">
                     This is a Profile Picture (PFP) collection
                   </label>
                 </div>
-                <p className="text-xs text-white/60 mt-2 ml-8">
+                <p className="text-xs text-[#a8a8b8]/80 mt-2 ml-8">
                   Check this if you're creating profile pictures with character traits
                 </p>
               </div>
@@ -1154,7 +1154,7 @@ export default function CreateCollectionPage() {
               <button
                 type="button"
                 onClick={() => setFormStep(2)}
-                className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#ff6b35] to-[#ff5722] hover:from-[#ff5722] hover:to-[#ff4500] text-white rounded-lg sm:rounded-full font-bold shadow-lg shadow-[#ff6b35]/30 hover:shadow-[#ff6b35]/50 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 hover:scale-105"
+                className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] hover:from-[#9945FF] hover:to-[#ff4500] text-white rounded-lg sm:rounded-full font-bold shadow-lg shadow-[#DC1FFF]/30 hover:shadow-[#DC1FFF]/50 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 hover:scale-105"
               >
                 <span className="text-sm sm:text-base">Next: Art Style</span>
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1173,7 +1173,7 @@ export default function CreateCollectionPage() {
               <button
                 type="button"
                 onClick={() => setFormStep(1)}
-                className="group px-6 py-3 cosmic-card border-2 border-[#00d4ff]/30 hover:border-[#00d4ff] text-white/70 hover:text-white rounded-full font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105"
+                className="group px-6 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 hover:border-[#9945FF] text-white/70 hover:text-white rounded-full font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105"
               >
                 <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1183,22 +1183,22 @@ export default function CreateCollectionPage() {
             </div>
 
             {/* Image Source Tabs: Prompt Image vs Reference Image */}
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl overflow-hidden">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl overflow-hidden">
               {/* Tab Headers */}
-              <div className="flex border-b border-[#00d4ff]/30 cosmic-card">
+              <div className="flex border-b border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
                 <button
                   type="button"
                   onClick={() => setImageSourceTab('prompt')}
                   className={`flex-1 px-3 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold transition-colors relative ${
                     imageSourceTab === 'prompt'
-                      ? 'text-[#00d4ff] bg-[#00d4ff]/10'
-                      : 'text-white/70 hover:text-white hover:bg-[#00d4ff]/5'
+                      ? 'text-[#9945FF] bg-[#9945FF]/10'
+                      : 'text-white/70 hover:text-white hover:bg-[#9945FF]/5'
                   }`}
                 >
                   <span className="hidden sm:inline">Prompt Image</span>
                   <span className="sm:hidden">Prompt</span>
                   {imageSourceTab === 'prompt' && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00d4ff]"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#9945FF]"></div>
                   )}
                 </button>
                 <button
@@ -1206,8 +1206,8 @@ export default function CreateCollectionPage() {
                   onClick={() => setImageSourceTab('reference')}
                   className={`flex-1 px-3 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold transition-colors relative ${
                     imageSourceTab === 'reference'
-                      ? 'text-[#00d4ff] bg-[#00d4ff]/10'
-                      : 'text-white/70 hover:text-white hover:bg-[#00d4ff]/5'
+                      ? 'text-[#9945FF] bg-[#9945FF]/10'
+                      : 'text-white/70 hover:text-white hover:bg-[#9945FF]/5'
                   }`}
                 >
                   <span className="hidden sm:inline">Reference Image</span>
@@ -1232,13 +1232,13 @@ export default function CreateCollectionPage() {
                         id="pixelPerfect"
                         checked={pixelPerfect}
                         onChange={(e) => setPixelPerfect(e.target.checked)}
-                        className="w-4 h-4 text-[#00d4ff] border-[#00d4ff]/30 rounded focus:ring-[#00d4ff] cosmic-card"
+                        className="w-4 h-4 text-[#9945FF] border-[#9945FF]/30 rounded focus:ring-[#9945FF] bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                       />
                       <label htmlFor="pixelPerfect" className="text-sm font-medium text-white cursor-pointer">
                         Use pixel-perfect character bodies
                       </label>
                     </div>
-                    <p className="text-[10px] sm:text-xs text-white/60 break-words">
+                    <p className="text-[10px] sm:text-xs text-[#a8a8b8]/80 break-words">
                       When enabled, character skin/body traits will include precise positioning prompts for consistent body alignment across all variations
                     </p>
 
@@ -1251,7 +1251,7 @@ export default function CreateCollectionPage() {
                           <select
                             value={facingDirection}
                             onChange={(e) => setFacingDirection(e.target.value)}
-                            className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white focus:border-[#00d4ff] focus:outline-none"
+                            className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:outline-none"
                           >
                             <option value="left">Left</option>
                             <option value="left-front">Left-Front</option>
@@ -1268,20 +1268,20 @@ export default function CreateCollectionPage() {
                           <select
                             value={bodyStyle}
                             onChange={(e) => setBodyStyle(e.target.value as 'full' | 'half' | 'headonly')}
-                            className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white focus:border-[#00d4ff] focus:outline-none"
+                            className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:outline-none"
                           >
                             <option value="full" className="bg-[#0f172a]">Full Body</option>
                             <option value="half" className="bg-[#0f172a]">Upper Body (Waist Up)</option>
                             <option value="headonly" className="bg-[#0f172a]">Head & Shoulders Only</option>
                           </select>
-                          <p className="text-xs text-white/60 mt-1">
+                          <p className="text-xs text-[#a8a8b8]/80 mt-1">
                             Choose how much of the character to show in generated images
                           </p>
                         </div>
 
                         {/* Wireframe Editor - Show when pixel perfect + headonly */}
                         {pixelPerfect && bodyStyle === 'headonly' && (
-                          <div className="mt-4 sm:mt-6 p-3 sm:p-4 cosmic-card border-2 border-[#00d4ff]/30 rounded-lg">
+                          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-lg">
                             <WireframeEditor
                               config={wireframeConfig}
                               onChange={setWireframeConfig}
@@ -1304,7 +1304,7 @@ export default function CreateCollectionPage() {
                     </p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] md:grid-cols-[220px_1fr] gap-4 items-start">
-                      <div className="rounded-xl border border-[#00d4ff]/30 cosmic-card overflow-hidden">
+                      <div className="rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md overflow-hidden">
                         {futureImagePreview ? (
                           <img src={futureImagePreview} alt="Reference preview" className="w-full h-[160px] object-cover" />
                         ) : (
@@ -1361,7 +1361,7 @@ export default function CreateCollectionPage() {
 
                         {/* Reference Type Selection - Only show when image is uploaded */}
                         {futureImage && !referenceType && (
-                          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-3 space-y-2">
+                          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-3 space-y-2">
                             <p className="text-sm font-semibold text-white mb-2">What type of reference is this?</p>
                             <div className="flex flex-col sm:flex-row gap-2">
                               <button
@@ -1374,12 +1374,12 @@ export default function CreateCollectionPage() {
                               <button
                                 type="button"
                                 onClick={() => setReferenceType('artwork')}
-                                className="flex-1 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors"
+                                className="flex-1 px-4 py-2.5 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg font-medium text-sm transition-colors"
                               >
                                 🎨 Artwork
                               </button>
                             </div>
-                            <p className="text-xs text-white/60 mt-1">
+                            <p className="text-xs text-[#a8a8b8]/80 mt-1">
                               PFP: Character-focused images for profile pictures. Artwork: General artwork style reference.
                             </p>
                           </div>
@@ -1387,18 +1387,18 @@ export default function CreateCollectionPage() {
 
                         {/* Character Prompt Checkbox - Only show when PFP is selected */}
                         {referenceType === 'pfp' && (
-                          <div className="flex items-start gap-2 pt-2 cosmic-card border border-[#00d4ff]/30 rounded-lg p-3">
+                          <div className="flex items-start gap-2 pt-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-3">
                             <input
                               type="checkbox"
                               id="generateCharacterPrompt"
                               checked={generateCharacterPrompt}
                               onChange={(e) => setGenerateCharacterPrompt(e.target.checked)}
-                              className="w-4 h-4 mt-0.5 text-[#00d4ff] border-[#00d4ff]/30 rounded focus:ring-[#00d4ff] cosmic-card flex-shrink-0"
+                              className="w-4 h-4 mt-0.5 text-[#9945FF] border-[#9945FF]/30 rounded focus:ring-[#9945FF] bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md flex-shrink-0"
                             />
-                            <label htmlFor="generateCharacterPrompt" className="text-xs sm:text-sm text-white/80 cursor-pointer">
+                            <label htmlFor="generateCharacterPrompt" className="text-xs sm:text-sm text-[#a8a8b8] cursor-pointer">
                               <span className="font-semibold text-white">Generate hardcoded character & trait description prompt</span>
                               <br />
-                              <span className="text-white/60">
+                              <span className="text-[#a8a8b8]/80">
                                 This will create a detailed prompt describing the character's features, gender, expressions, colors, lighting, and background. The prompt will fill in the description, colors, and lighting fields on the next steps.
                               </span>
                             </label>
@@ -1406,21 +1406,21 @@ export default function CreateCollectionPage() {
                         )}
 
                         {referenceType && (
-                          <div className="text-xs text-white/60">
+                          <div className="text-xs text-[#a8a8b8]/80">
                             <p className="font-medium mb-1">
                               {referenceType === 'pfp' 
                                 ? '🎭 PFP Mode: Will analyze character features and generate basic character description.'
                                 : '🎨 Artwork Mode: Will analyze art style and composition settings.'}
                             </p>
                             {referenceType === 'pfp' && generateCharacterPrompt && (
-                              <p className="text-[#00d4ff] mt-1">
+                              <p className="text-[#9945FF] mt-1">
                                 ✨ Enhanced mode: Will generate comprehensive character & trait description with colors and lighting.
                               </p>
                             )}
                           </div>
                         )}
 
-                        <p className="text-[10px] sm:text-xs text-white/60 break-words">
+                        <p className="text-[10px] sm:text-xs text-[#a8a8b8]/80 break-words">
                           Tip: Use a single, representative image (same style you want for the collection). You can edit any fields after it fills.
                         </p>
                       </div>
@@ -1431,11 +1431,11 @@ export default function CreateCollectionPage() {
             </div>
 
             {/* Art Style Section - Compact horizontal layout with hover preview */}
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-3 sm:p-4">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-3 sm:p-4">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4">
                 {/* Preview Image - Larger Thumbnail with hover support */}
                 <div className="flex-shrink-0 w-full sm:w-auto">
-                  <div className="relative w-full sm:w-[120px] md:w-[160px] h-[120px] sm:h-[120px] md:h-[160px] rounded-lg overflow-hidden border-2 border-[#00d4ff]/30 cosmic-card shadow-inner mx-auto sm:mx-0">
+                  <div className="relative w-full sm:w-[120px] md:w-[160px] h-[120px] sm:h-[120px] md:h-[160px] rounded-lg overflow-hidden border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md shadow-inner mx-auto sm:mx-0">
                     {(() => {
                       const displayStyle = artStyleDropdownOpen && hoveredArtStyle ? hoveredArtStyle : selectedArtStyle
                       return displayStyle !== 'custom' ? (
@@ -1470,7 +1470,7 @@ export default function CreateCollectionPage() {
                     type="button"
                     onClick={() => setArtStyleDropdownOpen(!artStyleDropdownOpen)}
                     onBlur={() => setTimeout(() => setArtStyleDropdownOpen(false), 200)}
-                    className="w-full border border-[#00d4ff]/30 rounded-lg px-3 py-2.5 sm:py-1.5 cosmic-card text-white text-base sm:text-sm focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none text-left flex items-center justify-between hover:bg-white/10 transition-colors"
+                    className="w-full border border-[#9945FF]/30 rounded-lg px-3 py-2.5 sm:py-1.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white text-base sm:text-sm focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none text-left flex items-center justify-between hover:bg-white/10 transition-colors"
                   >
                     <span className="pr-2 flex-1 min-w-0 text-left break-words">{ART_STYLES.find(s => s.id === selectedArtStyle)?.name || 'Select style'}</span>
                     <svg
@@ -1485,7 +1485,7 @@ export default function CreateCollectionPage() {
 
                   {/* Custom Dropdown Menu */}
                   {artStyleDropdownOpen && (
-                    <div className="absolute z-50 left-0 right-0 mt-1 cosmic-card border border-[#00d4ff]/30 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <div className="absolute z-50 left-0 right-0 mt-1 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                       {ART_STYLES.map(style => (
                         <button
                           key={style.id}
@@ -1500,7 +1500,7 @@ export default function CreateCollectionPage() {
                           onMouseLeave={() => setHoveredArtStyle(null)}
                           className={`w-full text-left px-3 py-2.5 sm:py-2 text-base sm:text-sm transition-colors break-words whitespace-normal ${
                             selectedArtStyle === style.id
-                              ? 'bg-[#00d4ff]/20 text-[#00d4ff] font-medium'
+                              ? 'bg-[#9945FF]/20 text-[#9945FF] font-medium'
                               : 'hover:bg-white/10 text-white'
                           }`}
                         >
@@ -1511,7 +1511,7 @@ export default function CreateCollectionPage() {
                   )}
 
                   {selectedArtStyle !== 'custom' && !artStyleDropdownOpen && (
-                    <p className="text-xs text-white/60 mt-1 truncate">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-1 truncate">
                       {ART_STYLES.find(s => s.id === selectedArtStyle)?.description}
                     </p>
                   )}
@@ -1530,7 +1530,7 @@ export default function CreateCollectionPage() {
                   <textarea
                     value={customArtStyle}
                     onChange={(e) => setCustomArtStyle(e.target.value)}
-                    className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white placeholder-white/50 text-sm focus:border-[#00d4ff] focus:outline-none"
+                    className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 text-sm focus:border-[#9945FF] focus:outline-none"
                     placeholder="Describe your custom art style..."
                     rows={2}
                   />
@@ -1539,11 +1539,11 @@ export default function CreateCollectionPage() {
             </div>
 
             {/* Step 2 Navigation */}
-            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-0 pt-4 sm:pt-6 border-t border-[#00d4ff]/30">
+            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-0 pt-4 sm:pt-6 border-t border-[#9945FF]/30">
               <button
                 type="button"
                 onClick={() => setFormStep(1)}
-                className="group w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 cosmic-card border-2 border-[#00d4ff]/30 hover:border-[#00d4ff] text-white hover:text-[#00d4ff] rounded-lg sm:rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                className="group w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 hover:border-[#9945FF] text-white hover:text-[#9945FF] rounded-lg sm:rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
               >
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1572,7 +1572,7 @@ export default function CreateCollectionPage() {
               <button
                 type="button"
                 onClick={() => setFormStep(2)}
-                className="group px-6 py-3 cosmic-card border-2 border-[#00d4ff]/30 hover:border-[#00d4ff] text-white hover:text-[#00d4ff] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105"
+                className="group px-6 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 hover:border-[#9945FF] text-white hover:text-[#9945FF] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105"
               >
                 <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1582,9 +1582,9 @@ export default function CreateCollectionPage() {
             </div>
 
             {/* Style Details Tabs: Color | Lighting | Border */}
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl overflow-hidden">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl overflow-hidden">
               {/* Tab Headers */}
-              <div className="flex border-b border-[#00d4ff]/30 bg-white/5">
+              <div className="flex border-b border-[#9945FF]/30 bg-white/5">
                 <button
                   type="button"
                   onClick={() => setStyleDetailTab('color')}
@@ -1641,7 +1641,7 @@ export default function CreateCollectionPage() {
                         type="text"
                         value={colorsDescription}
                         onChange={(e) => setColorsDescription(e.target.value)}
-                        className="flex-1 border border-[#00d4ff]/30 rounded-lg px-3 py-2.5 cosmic-card text-white placeholder-white/50 text-base sm:text-sm focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none"
+                        className="flex-1 border border-[#9945FF]/30 rounded-lg px-3 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 text-base sm:text-sm focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none"
                         placeholder="e.g., 'high contrast with deep shadows', 'soft muted tones', 'neon glows on dark backgrounds'"
                       />
                       <button
@@ -1657,7 +1657,7 @@ export default function CreateCollectionPage() {
                         )}
                       </button>
                     </div>
-                    <p className="text-xs text-white/60 mt-2">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-2">
                       Describe the color mood: contrast, saturation, brightness, warmth, etc.
                     </p>
                   </div>
@@ -1673,7 +1673,7 @@ export default function CreateCollectionPage() {
                         type="text"
                         value={lightingDescription}
                         onChange={(e) => setLightingDescription(e.target.value)}
-                        className="flex-1 border border-[#00d4ff]/30 rounded-lg px-3 py-2.5 cosmic-card text-white placeholder-white/50 text-base sm:text-sm focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none"
+                        className="flex-1 border border-[#9945FF]/30 rounded-lg px-3 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 text-base sm:text-sm focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none"
                         placeholder="e.g., 'dramatic rim lighting', 'soft diffused', 'harsh shadows'"
                       />
                       <button
@@ -1689,7 +1689,7 @@ export default function CreateCollectionPage() {
                         )}
                       </button>
                     </div>
-                    <p className="text-xs text-white/60 mt-2">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-2">
                       Describe the lighting: direction, intensity, mood, shadows, etc.
                     </p>
                   </div>
@@ -1705,7 +1705,7 @@ export default function CreateCollectionPage() {
                         type="text"
                         value={borderRequirements}
                         onChange={(e) => setBorderRequirements(e.target.value)}
-                        className="flex-1 border border-[#00d4ff]/30 rounded-lg px-3 py-2.5 cosmic-card text-white placeholder-white/50 text-base sm:text-sm focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none"
+                        className="flex-1 border border-[#9945FF]/30 rounded-lg px-3 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 text-base sm:text-sm focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none"
                         placeholder="e.g., 'thick golden ornate frame', 'thin black line' — leave empty for no border"
                       />
                       <button
@@ -1721,7 +1721,7 @@ export default function CreateCollectionPage() {
                         )}
                       </button>
                     </div>
-                    <p className="text-xs text-white/60 mt-2">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-2">
                       <strong>Note:</strong> Leave empty for no border. Describe border style, thickness, color, and ornamentations.
                     </p>
                   </div>
@@ -1730,16 +1730,16 @@ export default function CreateCollectionPage() {
             </div>
 
             {/* Advanced Prompt Settings - Simplified */}
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg overflow-hidden">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg overflow-hidden">
               <button
                 type="button"
                 onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
-                className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-[#00d4ff]/10 transition-colors"
+                className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-[#9945FF]/10 transition-colors"
               >
                 <span className="text-sm font-semibold text-white">
                   Advanced Settings
                   {customRules && (
-                    <span className="ml-2 text-xs text-[#00d4ff] font-normal">(configured)</span>
+                    <span className="ml-2 text-xs text-[#9945FF] font-normal">(configured)</span>
                   )}
                 </span>
                 <svg
@@ -1753,7 +1753,7 @@ export default function CreateCollectionPage() {
               </button>
 
               {showAdvancedSettings && (
-                <div className="px-4 pb-4 space-y-4 border-t border-[#00d4ff]/30">
+                <div className="px-4 pb-4 space-y-4 border-t border-[#9945FF]/30">
                   {/* Custom Rules */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
@@ -1763,7 +1763,7 @@ export default function CreateCollectionPage() {
                       <textarea
                         value={customRules}
                         onChange={(e) => setCustomRules(e.target.value)}
-                        className="flex-1 border border-[#00d4ff]/30 rounded-lg px-3 py-2.5 cosmic-card text-white placeholder-white/50 text-base sm:text-sm focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none resize-y"
+                        className="flex-1 border border-[#9945FF]/30 rounded-lg px-3 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 text-base sm:text-sm focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none resize-y"
                         placeholder="Any additional rules for AI generation (e.g., 'always include reflections', 'no backgrounds', 'include particle effects')"
                         rows={2}
                       />
@@ -1786,11 +1786,11 @@ export default function CreateCollectionPage() {
             </div>
 
             {/* Step 3 Navigation */}
-            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-0 pt-4 sm:pt-6 border-t border-[#00d4ff]/30">
+            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-0 pt-4 sm:pt-6 border-t border-[#9945FF]/30">
               <button
                 type="button"
                 onClick={() => setFormStep(2)}
-                className="group w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 cosmic-card border-2 border-[#00d4ff]/30 hover:border-[#00d4ff] text-white hover:text-[#00d4ff] rounded-lg sm:rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                className="group w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 hover:border-[#9945FF] text-white hover:text-[#9945FF] rounded-lg sm:rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
               >
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1819,7 +1819,7 @@ export default function CreateCollectionPage() {
               <button
                 type="button"
                 onClick={() => setFormStep(3)}
-                className="group px-6 py-3 cosmic-card border-2 border-[#00d4ff]/30 hover:border-[#00d4ff] text-white hover:text-[#00d4ff] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105"
+                className="group px-6 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 hover:border-[#9945FF] text-white hover:text-[#9945FF] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105"
               >
                 <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1829,18 +1829,18 @@ export default function CreateCollectionPage() {
             </div>
 
             {/* Compression Settings */}
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 sm:p-6">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4 sm:p-6">
               <h3 className="text-lg font-semibold text-white mb-4">Image Compression Settings</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
                     File Format
                   </label>
                   <select
                     value={compressionFormat}
                     onChange={(e) => setCompressionFormat(e.target.value as 'jpg' | 'png' | 'webp')}
-                    className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white focus:border-[#00d4ff] focus:outline-none"
+                    className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:outline-none"
                   >
                     <option value="webp" className="bg-[#0f172a]">WebP (Recommended - Best compression)</option>
                     <option value="jpg" className="bg-[#0f172a]">JPEG (Good compression, widely supported)</option>
@@ -1849,7 +1849,7 @@ export default function CreateCollectionPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
                     Compression Quality: {compressionQuality !== '' ? `${compressionQuality}%` : 'Not set'}
                   </label>
                   <input
@@ -1866,7 +1866,7 @@ export default function CreateCollectionPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
                     Image Dimensions (Width × Height)
                   </label>
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-2 items-start sm:items-center">
@@ -1888,7 +1888,7 @@ export default function CreateCollectionPage() {
                         }
                       }}
                       placeholder="Width"
-                        className="flex-1 sm:w-24 border border-[#00d4ff]/30 rounded-lg px-3 py-2.5 cosmic-card text-white focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none text-base"
+                        className="flex-1 sm:w-24 border border-[#9945FF]/30 rounded-lg px-3 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none text-base"
                     />
                       <span className="text-white text-lg sm:text-base">×</span>
                     <input
@@ -1908,7 +1908,7 @@ export default function CreateCollectionPage() {
                         }
                       }}
                       placeholder="Height"
-                        className="flex-1 sm:w-24 border border-[#00d4ff]/30 rounded-lg px-3 py-2.5 cosmic-card text-white focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none text-base"
+                        className="flex-1 sm:w-24 border border-[#9945FF]/30 rounded-lg px-3 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none text-base"
                     />
                     </div>
                     <span className="text-white/70 text-xs sm:text-sm">px (square, max 1024×1024)</span>
@@ -1960,9 +1960,9 @@ export default function CreateCollectionPage() {
                   const formatName = compressionFormat === 'jpg' ? 'JPEG' : compressionFormat.toUpperCase()
                   
                   return (
-                    <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-3">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-3">
                       <p className="text-sm font-medium text-white">
-                        Estimated File Size: <span className="font-bold text-[#00d4ff]">{estimatedKB} KB</span> ({formatName})
+                        Estimated File Size: <span className="font-bold text-[#9945FF]">{estimatedKB} KB</span> ({formatName})
                       </p>
                       {compressionFormat === 'png' && (
                         <p className="text-xs text-white/70 mt-1">
@@ -2019,7 +2019,7 @@ export default function CreateCollectionPage() {
                   </button>
                   {!lazyLoading && !loading && (lazyLoading || loading || !activeWalletConnected || !activeWalletAddress || !name.trim()) && (
                     <div className="absolute -bottom-6 left-0 right-0 text-center">
-                      <p className="text-xs text-red-400 font-medium">
+                      <p className="text-xs text-[#EF4444] font-medium">
                         {!activeWalletConnected || !activeWalletAddress ? '⚠️ Connect wallet first' : !name.trim() ? '⚠️ Enter collection name first' : ''}
                       </p>
                     </div>

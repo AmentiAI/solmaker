@@ -24,7 +24,7 @@ export default function MarketplaceInterface({
             Sell your entire collection (as generated images) for credits or BTC. The buyer will receive full ownership to generate more, inscribe, or launch as they wish.
           </p>
         </div>
-        <p className="text-gray-500">Marketplace interface - to be implemented</p>
+        <p className="text-[#a8a8b8]/80">Marketplace interface - to be implemented</p>
       </div>
     </div>
   )

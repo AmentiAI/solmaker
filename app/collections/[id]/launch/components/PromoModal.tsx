@@ -41,7 +41,7 @@ export default function PromoModal({
         <div className="p-6 border-b border-gray-200 flex items-start justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Choose From Promotion History</h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-[#a8a8b8]/80 mt-1">
               {mode === 'marketplace' 
                 ? 'Select promotional images to include in your listing'
                 : mode === 'mobile'
@@ -51,7 +51,7 @@ export default function PromoModal({
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none"
+            className="text-[#a8a8b8] hover:text-gray-600 text-2xl font-bold leading-none"
           >
             ×
           </button>
@@ -64,8 +64,8 @@ export default function PromoModal({
             </div>
           ) : promoHistory.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">No promotion history found</p>
-              <p className="text-sm text-gray-400">
+              <p className="text-[#a8a8b8]/80 mb-4">No promotion history found</p>
+              <p className="text-sm text-[#a8a8b8]">
                 Generate promotional images on the{' '}
                 <a href="/promotion" className="text-[#4561ad] hover:underline">
                   Promotion page
@@ -102,11 +102,11 @@ export default function PromoModal({
                   )}
                   <div className="p-4">
                     <h3 className="font-semibold text-gray-900">{item.collection_name}</h3>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-1">
                       {new Date(item.created_at).toLocaleDateString()} at{' '}
                       {new Date(item.created_at).toLocaleTimeString()}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-1">
                       {item.character_count} character{item.character_count !== 1 ? 's' : ''}
                       {item.no_text
                         ? ' • No text'

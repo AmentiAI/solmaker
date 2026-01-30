@@ -1,27 +1,27 @@
 "use client"
 
-import { OrdinalCard } from "@/components/ordinal-card"
-import type { Ordinal } from "@/types/ordinal"
+import { NftCard } from "@/components/nft-card"
+import type { Nft } from "@/types/nft"
 
 export interface CharacterTypeGroupsProps {
-  ordinals: Ordinal[]
+  nfts: Nft[]
   selectedTypes: string[]
   onDelete: (id: string) => void
 }
 
-export function CharacterTypeGroups({ ordinals, selectedTypes, onDelete }: CharacterTypeGroupsProps) {
-  // Group ordinals by character type
-  const groupedOrdinals = ordinals.reduce((groups, ordinal) => {
-    const characterType = ordinal.traits.characterType
+export function CharacterTypeGroups({ nfts, selectedTypes, onDelete }: CharacterTypeGroupsProps) {
+  // Group NFTs by character type
+  const groupedNfts = nfts.reduce((groups, nft) => {
+    const characterType = nft.traits.characterType
     if (!groups[characterType]) {
       groups[characterType] = []
     }
-    groups[characterType].push(ordinal)
+    groups[characterType].push(nft)
     return groups
-  }, {} as Record<string, Ordinal[]>)
+  }, {} as Record<string, Nft[]>)
 
   // Filter groups based on selected types
-  const filteredGroups = Object.entries(groupedOrdinals).filter(([type]) => 
+  const filteredGroups = Object.entries(groupedNfts).filter(([type]) => 
     selectedTypes.length === 0 || selectedTypes.includes(type)
   )
 
@@ -52,7 +52,7 @@ export function CharacterTypeGroups({ ordinals, selectedTypes, onDelete }: Chara
       witch: "bg-indigo-100 text-indigo-800 border-indigo-300",
       demon: "bg-red-100 text-red-800 border-red-300",
       mummy: "bg-yellow-100 text-yellow-800 border-yellow-300",
-      reaper: "bg-black text-white border-gray-600"
+      reaper: "bg-black text-white border-[#9945FF]/30"
     }
     return colors[type] || "bg-gray-100 text-gray-800 border-gray-300"
   }
@@ -76,7 +76,7 @@ export function CharacterTypeGroups({ ordinals, selectedTypes, onDelete }: Chara
 
   return (
     <div className="space-y-8">
-      {filteredGroups.map(([characterType, typeOrdinals]) => (
+      {filteredGroups.map(([characterType, typeNfts]) => (
         <div key={characterType} className="space-y-4">
           {/* Character Type Header */}
           <div className={`flex items-center gap-3 p-4 rounded-lg border ${getTypeColor(characterType)}`}>
@@ -84,17 +84,17 @@ export function CharacterTypeGroups({ ordinals, selectedTypes, onDelete }: Chara
             <div>
               <h3 className="text-lg font-semibold capitalize">{characterType}s</h3>
               <p className="text-sm opacity-75">
-                {typeOrdinals.length} {typeOrdinals.length === 1 ? 'character' : 'characters'}
+                {typeNfts.length} {typeNfts.length === 1 ? 'character' : 'characters'}
               </p>
             </div>
           </div>
 
           {/* Characters Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {typeOrdinals.map((ordinal) => (
-              <OrdinalCard 
-                key={ordinal.id} 
-                ordinal={ordinal} 
+            {typeNfts.map((nft) => (
+              <NftCard 
+                key={nft.id} 
+                nft={nft} 
                 onDelete={onDelete} 
               />
             ))}

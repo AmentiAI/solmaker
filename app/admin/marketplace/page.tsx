@@ -356,10 +356,10 @@ export default function MarketplaceAdminPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Connect Wallet</h1>
-          <p className="text-gray-400 mb-6">Connect your wallet to access admin</p>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-4">Connect Wallet</h1>
+          <p className="text-[#b4b4c8] mb-6">Connect your wallet to access admin</p>
         </div>
       </div>
     )
@@ -367,17 +367,17 @@ export default function MarketplaceAdminPage() {
 
   if (!authorized) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-500 mb-4">Unauthorized</h1>
-          <p className="text-gray-400">You don't have permission to view this page</p>
+          <h1 className="text-2xl font-bold text-[#EF4444] mb-4">Unauthorized</h1>
+          <p className="text-[#b4b4c8]">You don't have permission to view this page</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] text-white">
       <AdminSidebar />
       <div className="ml-64">
         <div className="p-6">
@@ -385,13 +385,13 @@ export default function MarketplaceAdminPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold">🏪 Marketplace Admin</h1>
-            <p className="text-gray-400 mt-1">View all marketplace sales, pending payments, and listings</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">🏪 Marketplace Admin</h1>
+            <p className="text-[#b4b4c8] mt-1">View all marketplace sales, pending payments, and listings</p>
           </div>
           <div className="flex gap-3">
             <Link
               href="/admin"
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors"
+              className="px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#0f0f1e] rounded-lg text-sm font-medium transition-all border border-[#00E5FF]/20"
             >
               ← Back to Admin
             </Link>
@@ -406,7 +406,7 @@ export default function MarketplaceAdminPage() {
             <button
               onClick={loadData}
               disabled={loading}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
             >
               {loading ? 'Loading...' : '🔄 Refresh'}
             </button>
@@ -416,43 +416,43 @@ export default function MarketplaceAdminPage() {
         {/* Summary Cards */}
         {summary && (
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
-            <div className="bg-gray-800 rounded-lg p-4">
+            <div className="bg-[#1a1a24] rounded-lg p-4">
               <div className="text-2xl font-bold text-green-400">{summary.total_sales}</div>
-              <div className="text-sm text-gray-400">Total Sales</div>
+              <div className="text-sm text-[#a8a8b8]">Total Sales</div>
             </div>
-            <div className="bg-gray-800 rounded-lg p-4">
+            <div className="bg-[#1a1a24] rounded-lg p-4">
               <div className="text-2xl font-bold text-green-400">{summary.total_credits_volume.toFixed(2)}</div>
-              <div className="text-sm text-gray-400">Credits Volume</div>
+              <div className="text-sm text-[#a8a8b8]">Credits Volume</div>
             </div>
-            <div className="bg-gray-800 rounded-lg p-4">
+            <div className="bg-[#1a1a24] rounded-lg p-4">
               <div className="text-2xl font-bold text-orange-400">{summary.total_btc_volume.toFixed(8)}</div>
-              <div className="text-sm text-gray-400">BTC Volume</div>
+              <div className="text-sm text-[#a8a8b8]">BTC Volume</div>
             </div>
-            <div className="bg-gray-800 rounded-lg p-4">
+            <div className="bg-[#1a1a24] rounded-lg p-4">
               <div className="text-2xl font-bold text-blue-400">{summary.active_listings}</div>
-              <div className="text-sm text-gray-400">Active Listings</div>
+              <div className="text-sm text-[#a8a8b8]">Active Listings</div>
             </div>
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="text-2xl font-bold text-yellow-400">{summary.pending_payments}</div>
-              <div className="text-sm text-gray-400">Pending Payments</div>
+            <div className="bg-[#1a1a24] rounded-lg p-4">
+              <div className="text-2xl font-bold text-[#FBBF24]">{summary.pending_payments}</div>
+              <div className="text-sm text-[#a8a8b8]">Pending Payments</div>
             </div>
-            <div className="bg-gray-800 rounded-lg p-4">
+            <div className="bg-[#1a1a24] rounded-lg p-4">
               <div className="text-2xl font-bold text-purple-400">{summary.unique_sellers}</div>
-              <div className="text-sm text-gray-400">Unique Sellers</div>
+              <div className="text-sm text-[#a8a8b8]">Unique Sellers</div>
             </div>
-            <div className="bg-gray-800 rounded-lg p-4">
+            <div className="bg-[#1a1a24] rounded-lg p-4">
               <div className="text-2xl font-bold text-pink-400">{summary.unique_buyers}</div>
-              <div className="text-sm text-gray-400">Unique Buyers</div>
+              <div className="text-sm text-[#a8a8b8]">Unique Buyers</div>
             </div>
           </div>
         )}
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-gray-700 pb-4">
+        <div className="flex gap-2 mb-6 border-b border-[#9945FF]/20 pb-4">
           <button
             onClick={() => setActiveTab('sales')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeTab === 'sales' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              activeTab === 'sales' ? 'bg-gradient-to-r from-[#FFD60A] to-[#00E5FF] text-white shadow-lg shadow-[#FFD60A]/20' : 'bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 text-[#b4b4c8] hover:text-white border border-[#00E5FF]/20'
             }`}
           >
             💰 Completed Sales ({transactions.length})
@@ -460,7 +460,7 @@ export default function MarketplaceAdminPage() {
           <button
             onClick={() => setActiveTab('pending')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeTab === 'pending' ? 'bg-yellow-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              activeTab === 'pending' ? 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white shadow-lg shadow-[#00E5FF]/20' : 'bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 text-[#b4b4c8] hover:text-white border border-[#00E5FF]/20'
             }`}
           >
             ⏳ Pending Payments ({pendingPayments.length})
@@ -468,7 +468,7 @@ export default function MarketplaceAdminPage() {
           <button
             onClick={() => setActiveTab('listings')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeTab === 'listings' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              activeTab === 'listings' ? 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white shadow-lg shadow-[#00E5FF]/20' : 'bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 text-[#b4b4c8] hover:text-white border border-[#00E5FF]/20'
             }`}
           >
             📋 Active Listings ({listings.length})
@@ -501,16 +501,16 @@ export default function MarketplaceAdminPage() {
             {activeTab === 'sales' && (
               <div className="space-y-4">
                 {transactions.length === 0 ? (
-                  <div className="bg-gray-800 rounded-lg p-8 text-center">
-                    <p className="text-gray-400">No completed sales yet</p>
+                  <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg p-8 text-center">
+                    <p className="text-[#a8a8b8]">No completed sales yet</p>
                   </div>
                 ) : (
                   transactions.map((tx) => (
-                    <div key={tx.id} className="bg-gray-800 rounded-lg p-6">
+                    <div key={tx.id} className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-bold text-white">{tx.listing_title || tx.collection_name}</h3>
-                          <p className="text-sm text-gray-400">{tx.collection_description || 'No description'}</p>
+                          <p className="text-sm text-[#a8a8b8]">{tx.collection_description || 'No description'}</p>
                         </div>
                         <div className="text-right">
                           {tx.payment_type === 'btc' || tx.btc_amount ? (
@@ -533,14 +533,14 @@ export default function MarketplaceAdminPage() {
                       </div>
 
                       {/* Seller → Buyer Flow */}
-                      <div className="flex items-center gap-4 mb-4 p-3 bg-gray-900 rounded-lg">
+                      <div className="flex items-center gap-4 mb-4 p-3 bg-[#050510] border border-[#00E5FF]/20 rounded-lg">
                         <div className="flex-1">
-                          <div className="text-xs text-gray-500 mb-1">Seller</div>
+                          <div className="text-xs text-[#a8a8b8]/80 mb-1">Seller</div>
                           <div className="font-mono text-sm text-purple-400">{truncateWallet(tx.seller_wallet)}</div>
                         </div>
                         <div className="text-2xl">→</div>
                         <div className="flex-1">
-                          <div className="text-xs text-gray-500 mb-1">Buyer</div>
+                          <div className="text-xs text-[#a8a8b8]/80 mb-1">Buyer</div>
                           <div className="font-mono text-sm text-pink-400">{truncateWallet(tx.buyer_wallet)}</div>
                         </div>
                       </div>
@@ -548,12 +548,12 @@ export default function MarketplaceAdminPage() {
                       {/* Collection Info */}
                       <div className="grid md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <div className="text-xs text-gray-500 mb-2">Collection</div>
+                          <div className="text-xs text-[#a8a8b8]/80 mb-2">Collection</div>
                           <div className="text-sm text-white">{tx.collection_name}</div>
-                          <div className="text-xs text-gray-400">{tx.ordinal_count} images • {tx.art_style || 'Unknown style'}</div>
+                          <div className="text-xs text-[#a8a8b8]">{tx.ordinal_count} images • {tx.art_style || 'Unknown style'}</div>
                         </div>
                         <div>
-                          <div className="text-xs text-gray-500 mb-2">Completed</div>
+                          <div className="text-xs text-[#a8a8b8]/80 mb-2">Completed</div>
                           <div className="text-sm text-white">
                             {tx.completed_at ? new Date(tx.completed_at).toLocaleString() : 'N/A'}
                           </div>
@@ -563,18 +563,18 @@ export default function MarketplaceAdminPage() {
                       {/* Sample Images */}
                       {tx.sample_images && tx.sample_images.length > 0 && (
                         <div className="mb-4">
-                          <div className="text-xs text-gray-500 mb-2">Sample Images</div>
+                          <div className="text-xs text-[#a8a8b8]/80 mb-2">Sample Images</div>
                           <div className="flex gap-2 overflow-x-auto pb-2">
                             {tx.sample_images.slice(0, 6).map((img, idx) => (
                               <img
                                 key={idx}
                                 src={img}
                                 alt={`Sample ${idx + 1}`}
-                                className="w-20 h-20 object-cover rounded-lg border border-gray-700"
+                                className="w-20 h-20 object-cover rounded-lg border border-[#9945FF]/20"
                               />
                             ))}
                             {tx.sample_images.length > 6 && (
-                              <div className="w-20 h-20 bg-gray-700 rounded-lg flex items-center justify-center text-sm text-gray-400">
+                              <div className="w-20 h-20 bg-[#050510] border border-[#00E5FF]/30 rounded-lg flex items-center justify-center text-sm text-[#b4b4c8]">
                                 +{tx.sample_images.length - 6}
                               </div>
                             )}
@@ -585,7 +585,7 @@ export default function MarketplaceAdminPage() {
                       {/* Promo Images */}
                       {tx.promo_images && tx.promo_images.length > 0 && (
                         <div className="mb-4">
-                          <div className="text-xs text-gray-500 mb-2">✨ Promotional Images</div>
+                          <div className="text-xs text-[#a8a8b8]/80 mb-2">✨ Promotional Images</div>
                           <div className="flex gap-2 overflow-x-auto pb-2">
                             {tx.promo_images.map((img, idx) => (
                               <img
@@ -618,7 +618,7 @@ export default function MarketplaceAdminPage() {
                       <div className="mt-4 flex gap-2">
                         <Link
                           href={`/collections/${tx.collection_id}`}
-                          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm transition-colors"
+                          className="px-3 py-1 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#0f0f1e] border border-[#00E5FF]/20 rounded text-sm transition-all"
                         >
                           View Collection →
                         </Link>
@@ -633,12 +633,12 @@ export default function MarketplaceAdminPage() {
             {activeTab === 'pending' && (
               <div className="space-y-4">
                 {pendingPayments.length === 0 ? (
-                  <div className="bg-gray-800 rounded-lg p-8 text-center">
-                    <p className="text-gray-400">No pending payments</p>
+                  <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg p-8 text-center">
+                    <p className="text-[#a8a8b8]">No pending payments</p>
                   </div>
                 ) : (
                   pendingPayments.map((payment) => (
-                    <div key={payment.id} className="bg-gray-800 rounded-lg p-6">
+                    <div key={payment.id} className="bg-[#1a1a24] rounded-lg p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-bold text-white">{payment.listing_title || payment.collection_name}</h3>
@@ -654,35 +654,35 @@ export default function MarketplaceAdminPage() {
                           <div className="text-xl font-bold text-orange-400">
                             {parseFloat(payment.btc_amount).toFixed(8)} BTC
                           </div>
-                          <div className="text-xs text-gray-400">{payment.btc_amount_sats.toLocaleString()} sats</div>
+                          <div className="text-xs text-[#a8a8b8]">{payment.btc_amount_sats.toLocaleString()} sats</div>
                         </div>
                       </div>
 
                       <div className="grid md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <div className="text-xs text-gray-500">Buyer</div>
+                          <div className="text-xs text-[#a8a8b8]/80">Buyer</div>
                           <div className="font-mono text-sm text-pink-400">{truncateWallet(payment.buyer_wallet)}</div>
                         </div>
                         <div>
-                          <div className="text-xs text-gray-500">Seller</div>
+                          <div className="text-xs text-[#a8a8b8]/80">Seller</div>
                           <div className="font-mono text-sm text-purple-400">{truncateWallet(payment.seller_wallet)}</div>
                         </div>
                       </div>
 
                       <div className="grid md:grid-cols-3 gap-4 mb-4">
                         <div>
-                          <div className="text-xs text-gray-500">Payment Address</div>
-                          <div className="font-mono text-xs text-gray-300 break-all">{payment.payment_address}</div>
+                          <div className="text-xs text-[#a8a8b8]/80">Payment Address</div>
+                          <div className="font-mono text-xs text-white break-all">{payment.payment_address}</div>
                         </div>
                         <div>
-                          <div className="text-xs text-gray-500">Confirmations</div>
-                          <div className={`text-lg font-bold ${payment.confirmations > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
+                          <div className="text-xs text-[#a8a8b8]/80">Confirmations</div>
+                          <div className={`text-lg font-bold ${payment.confirmations > 0 ? 'text-green-400' : 'text-[#FBBF24]'}`}>
                             {payment.confirmations}
                           </div>
                         </div>
                         <div>
-                          <div className="text-xs text-gray-500">Expires</div>
-                          <div className="text-sm text-gray-300">{new Date(payment.expires_at).toLocaleString()}</div>
+                          <div className="text-xs text-[#a8a8b8]/80">Expires</div>
+                          <div className="text-sm text-white">{new Date(payment.expires_at).toLocaleString()}</div>
                         </div>
                       </div>
 
@@ -695,7 +695,7 @@ export default function MarketplaceAdminPage() {
                                 setEditingTxid(payment.id)
                                 setTxidInput(payment.payment_txid || '')
                               }}
-                              className="text-xs text-gray-400 hover:text-white"
+                              className="text-xs text-[#a8a8b8] hover:text-white"
                             >
                               ✏️ Edit
                             </button>
@@ -707,7 +707,7 @@ export default function MarketplaceAdminPage() {
                                 value={txidInput}
                                 onChange={(e) => setTxidInput(e.target.value)}
                                 placeholder="Enter 64-char txid"
-                                className="flex-1 px-2 py-1 bg-gray-900 border border-gray-600 rounded text-xs font-mono text-white"
+                                className="flex-1 px-2 py-1 bg-[#050510] border border-[#00E5FF]/30 rounded text-xs font-mono text-white"
                               />
                               <button
                                 onClick={() => updateTxid(payment.id)}
@@ -718,7 +718,7 @@ export default function MarketplaceAdminPage() {
                               </button>
                               <button
                                 onClick={() => { setEditingTxid(null); setTxidInput('') }}
-                                className="px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded text-xs"
+                                className="px-2 py-1 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] rounded text-xs transition-all"
                               >
                                 ✕
                               </button>
@@ -735,8 +735,8 @@ export default function MarketplaceAdminPage() {
                           )}
                         </div>
                       ) : (
-                        <div className="p-3 bg-yellow-900/30 border border-yellow-700 rounded-lg">
-                          <div className="text-xs text-yellow-400 mb-1">⚠️ No Transaction ID</div>
+                        <div className="p-3 bg-yellow-900/30 border border-[#FBBF24]/20 rounded-lg">
+                          <div className="text-xs text-[#FBBF24] mb-1">⚠️ No Transaction ID</div>
                           {editingTxid === payment.id ? (
                             <div className="flex gap-2 mt-2">
                               <input
@@ -744,7 +744,7 @@ export default function MarketplaceAdminPage() {
                                 value={txidInput}
                                 onChange={(e) => setTxidInput(e.target.value)}
                                 placeholder="Enter 64-char txid from mempool"
-                                className="flex-1 px-2 py-1 bg-gray-900 border border-gray-600 rounded text-xs font-mono text-white"
+                                className="flex-1 px-2 py-1 bg-[#050510] border border-[#00E5FF]/30 rounded text-xs font-mono text-white"
                               />
                               <button
                                 onClick={() => updateTxid(payment.id)}
@@ -755,7 +755,7 @@ export default function MarketplaceAdminPage() {
                               </button>
                               <button
                                 onClick={() => { setEditingTxid(null); setTxidInput('') }}
-                                className="px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded text-xs"
+                                className="px-2 py-1 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] rounded text-xs transition-all"
                               >
                                 Cancel
                               </button>
@@ -767,7 +767,7 @@ export default function MarketplaceAdminPage() {
                               </div>
                               <button
                                 onClick={() => setEditingTxid(payment.id)}
-                                className="px-2 py-1 bg-yellow-600 hover:bg-yellow-700 rounded text-xs font-medium"
+                                className="px-2 py-1 bg-[#FBBF24] hover:bg-[#F59E0B] rounded text-xs font-medium"
                               >
                                 + Add TX ID
                               </button>
@@ -785,14 +785,14 @@ export default function MarketplaceAdminPage() {
             {activeTab === 'listings' && (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {listings.length === 0 ? (
-                  <div className="col-span-full bg-gray-800 rounded-lg p-8 text-center">
-                    <p className="text-gray-400">No active listings</p>
+                  <div className="col-span-full bg-[#1a1a24] rounded-lg p-8 text-center">
+                    <p className="text-[#a8a8b8]">No active listings</p>
                   </div>
                 ) : (
                   listings.map((listing) => (
-                    <div key={listing.id} className="bg-gray-800 rounded-lg overflow-hidden">
+                    <div key={listing.id} className="bg-[#1a1a24] rounded-lg overflow-hidden">
                       {/* Image */}
-                      <div className="h-40 bg-gray-700">
+                      <div className="h-40 bg-[#1a1a24]/80">
                         {listing.sample_image ? (
                           <img
                             src={listing.sample_image}
@@ -806,7 +806,7 @@ export default function MarketplaceAdminPage() {
                       
                       <div className="p-4">
                         <h3 className="font-bold text-white mb-1">{listing.title}</h3>
-                        <p className="text-xs text-gray-400 mb-3">{listing.collection_name} • {listing.ordinal_count} images</p>
+                        <p className="text-xs text-[#a8a8b8] mb-3">{listing.collection_name} • {listing.ordinal_count} images</p>
                         
                         <div className="flex items-center gap-2 mb-3">
                           {(listing.payment_type === 'credits' || listing.payment_type === 'both') && (
@@ -821,17 +821,17 @@ export default function MarketplaceAdminPage() {
                           )}
                         </div>
 
-                        <div className="text-xs text-gray-500">
-                          Seller: <span className="font-mono text-gray-400">{truncateWallet(listing.seller_wallet)}</span>
+                        <div className="text-xs text-[#a8a8b8]/80">
+                          Seller: <span className="font-mono text-[#a8a8b8]">{truncateWallet(listing.seller_wallet)}</span>
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">
+                        <div className="text-xs text-[#a8a8b8]/80 mt-1">
                           Listed: {new Date(listing.created_at).toLocaleDateString()}
                         </div>
 
                         <div className="flex gap-2 mt-3">
                           <Link
                             href={`/marketplace/${listing.id}`}
-                            className="flex-1 text-center px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm font-medium transition-colors"
+                            className="flex-1 text-center px-3 py-2 bg-[#9945FF] hover:bg-[#7C3AED] rounded text-sm font-medium transition-colors"
                           >
                             View →
                           </Link>
@@ -845,7 +845,7 @@ export default function MarketplaceAdminPage() {
                           <button
                             onClick={() => handleCancelListing(listing.id)}
                             disabled={cancellingListing === listing.id}
-                            className="px-3 py-2 bg-yellow-600 hover:bg-yellow-700 rounded text-sm font-medium transition-colors disabled:opacity-50"
+                            className="px-3 py-2 bg-[#FBBF24] hover:bg-[#F59E0B] rounded text-sm font-medium transition-colors disabled:opacity-50"
                             title="Cancel listing"
                           >
                             {cancellingListing === listing.id ? '...' : '🚫'}
@@ -871,13 +871,13 @@ export default function MarketplaceAdminPage() {
         {/* Edit Listing Modal */}
         {editingListing && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-white">Edit Listing</h2>
                   <button
                     onClick={closeEditModal}
-                    className="text-gray-400 hover:text-white text-2xl leading-none"
+                    className="text-[#a8a8b8] hover:text-white text-2xl leading-none"
                   >
                     ×
                   </button>
@@ -885,37 +885,37 @@ export default function MarketplaceAdminPage() {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Title
                     </label>
                     <input
                       type="text"
                       value={editForm.title}
                       onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                      className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white focus:ring-2 focus:ring-[#00E5FF] focus:border-transparent"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Description
                     </label>
                     <textarea
                       value={editForm.description}
                       onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
                       rows={4}
-                      className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white focus:ring-2 focus:ring-[#00E5FF] focus:border-transparent"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Payment Type
                     </label>
                     <select
                       value={editForm.payment_type}
                       onChange={(e) => setEditForm({ ...editForm, payment_type: e.target.value as 'credits' | 'btc' | 'both' })}
-                      className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white focus:ring-2 focus:ring-[#00E5FF] focus:border-transparent"
                     >
                       <option value="credits">Credits Only</option>
                       <option value="btc">BTC Only</option>
@@ -925,7 +925,7 @@ export default function MarketplaceAdminPage() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-white mb-2">
                         Price (Credits)
                       </label>
                       <input
@@ -934,12 +934,12 @@ export default function MarketplaceAdminPage() {
                         onChange={(e) => setEditForm({ ...editForm, price_credits: parseFloat(e.target.value) || 0 })}
                         min="0"
                         step="0.01"
-                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-3 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white focus:ring-2 focus:ring-[#00E5FF] focus:border-transparent"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-white mb-2">
                         Price (BTC)
                       </label>
                       <input
@@ -947,13 +947,13 @@ export default function MarketplaceAdminPage() {
                         value={editForm.price_btc}
                         onChange={(e) => setEditForm({ ...editForm, price_btc: e.target.value })}
                         placeholder="0.00000000"
-                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-3 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white focus:ring-2 focus:ring-[#00E5FF] focus:border-transparent"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Seller BTC Address (optional)
                     </label>
                     <input
@@ -961,7 +961,7 @@ export default function MarketplaceAdminPage() {
                       value={editForm.seller_btc_address}
                       onChange={(e) => setEditForm({ ...editForm, seller_btc_address: e.target.value })}
                       placeholder="bc1..."
-                      className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white focus:ring-2 focus:ring-[#00E5FF] focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -977,7 +977,7 @@ export default function MarketplaceAdminPage() {
                   <button
                     onClick={closeEditModal}
                     disabled={savingListing}
-                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white font-medium transition-colors disabled:opacity-50"
+                    className="px-4 py-2 bg-[#1a1a24]/80 hover:bg-gray-600 rounded-lg text-white font-medium transition-colors disabled:opacity-50"
                   >
                     Cancel
                   </button>

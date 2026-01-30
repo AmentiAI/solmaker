@@ -104,28 +104,28 @@ export function ProfileNameModal({ isOpen, onClose }: ProfileNameModalProps) {
         }
       }}
     >
-      <div className="bg-slate-900 border border-gray-700 rounded-lg shadow-2xl w-full max-w-md mx-4">
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border border-[#9945FF]/20 rounded-lg shadow-2xl w-full max-w-md mx-4">
         <div className="p-6">
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-2xl font-bold text-white">Profile Name</h2>
             <button
               onClick={handleClose}
               disabled={isSubmitting}
-              className="text-gray-400 hover:text-white transition-colors disabled:opacity-50"
+              className="text-[#a8a8b8] hover:text-white transition-colors disabled:opacity-50"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
-          <p className="text-gray-400 text-sm mb-6">
+          <p className="text-[#a8a8b8] text-sm mb-6">
             Welcome! Please choose a profile name to get started.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-semibold text-gray-300 mb-2">
-                Profile Name <span className="text-red-400">*</span>
+              <label htmlFor="username" className="block text-sm font-semibold text-white mb-2">
+                Profile Name <span className="text-[#EF4444]">*</span>
               </label>
               <input
                 id="username"
@@ -136,18 +136,18 @@ export function ProfileNameModal({ isOpen, onClose }: ProfileNameModalProps) {
                   setError(null)
                 }}
                 placeholder="Enter your profile name"
-                className="w-full px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 disabled={isSubmitting}
                 autoFocus
                 maxLength={50}
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-[#a8a8b8]/80 mt-1">
                 3-50 characters, letters, numbers, underscores, and hyphens only
               </p>
             </div>
 
             <div>
-              <label htmlFor="displayName" className="block text-sm font-semibold text-gray-300 mb-2">
+              <label htmlFor="displayName" className="block text-sm font-semibold text-white mb-2">
                 Display Name (Optional)
               </label>
               <input
@@ -156,14 +156,14 @@ export function ProfileNameModal({ isOpen, onClose }: ProfileNameModalProps) {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 placeholder="Enter your display name"
-                className="w-full px-4 py-2 bg-slate-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 disabled={isSubmitting}
                 maxLength={100}
               />
             </div>
 
             {error && (
-              <div className="bg-red-900/30 border border-red-700/50 rounded-lg p-3 text-red-300 text-sm">
+              <div className="bg-red-900/30 border border-[#EF4444]/20/50 rounded-lg p-3 text-red-300 text-sm">
                 {error}
               </div>
             )}

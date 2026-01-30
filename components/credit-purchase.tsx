@@ -356,11 +356,11 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
     const hasConfirmations = paymentStatus?.confirmations && paymentStatus.confirmations > 0
 
     return (
-      <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-6 space-y-4">
+      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg p-6 space-y-4">
         <h3 className="text-xl font-bold text-white">Payment Status</h3>
         
         {isCompleted ? (
-          <div className="cosmic-card border border-[#00d4ff]/50 rounded-lg p-6 space-y-4 bg-[#00d4ff]/10">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/50 rounded-lg p-6 space-y-4 bg-[#00d4ff]/10">
             <div className="flex items-center gap-2">
               <svg className="w-6 h-6 text-[#00d4ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -379,10 +379,10 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
               <div className="bg-black/60 border border-[#00d4ff]/30 rounded-lg p-4 space-y-3">
                 <p className="text-sm text-white mb-1">Transaction Signature:</p>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <p className="text-white/80 font-mono text-sm break-all flex-1 min-w-0">{txid}</p>
+                  <p className="text-[#a8a8b8] font-mono text-sm break-all flex-1 min-w-0">{txid}</p>
                   <button
                     onClick={() => navigator.clipboard.writeText(txid)}
-                    className="text-xs text-[#00d4ff] hover:text-[#00b8e6] px-3 py-1.5 border border-[#00d4ff]/50 rounded transition-colors whitespace-nowrap hover:bg-[#00d4ff]/10"
+                    className="text-xs text-[#00d4ff] hover:text-[#14F195] px-3 py-1.5 border border-[#00d4ff]/50 rounded transition-colors whitespace-nowrap hover:bg-[#00d4ff]/10"
                   >
                     Copy
                   </button>
@@ -391,7 +391,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
                   href={`https://solscan.io/tx/${txid}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[#00d4ff] hover:text-[#00b8e6] text-sm underline transition-colors"
+                  className="inline-flex items-center gap-1 text-[#00d4ff] hover:text-[#14F195] text-sm underline transition-colors"
                 >
                   View on Solscan →
                 </a>
@@ -404,7 +404,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
                 setPaymentStatus(null)
                 onPurchaseComplete?.()
               }}
-              className="w-full px-4 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold text-lg transition-colors shadow-lg shadow-[#00d4ff]/20"
+              className="w-full px-4 py-3 bg-[#00d4ff] hover:bg-[#14F195] text-white rounded-lg font-semibold text-lg transition-colors shadow-lg shadow-[#00d4ff]/20"
             >
               Close
             </button>
@@ -413,7 +413,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
           <>
             {/* Transaction Status */}
             {hasTxid ? (
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-3">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg p-4 space-y-3">
                 <div className="flex items-center gap-2">
                   <div className="animate-pulse w-3 h-3 bg-[#00d4ff] rounded-full"></div>
                   <p className="text-white font-bold">
@@ -426,10 +426,10 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
                   <div>
                     <p className="text-sm text-white mb-1">Transaction Signature:</p>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-white/80 font-mono text-sm break-all">{txid}</p>
+                      <p className="text-[#a8a8b8] font-mono text-sm break-all">{txid}</p>
                       <button
                         onClick={() => navigator.clipboard.writeText(txid)}
-                        className="text-xs text-[#00d4ff] hover:text-[#00b8e6] px-2 py-1 border border-[#00d4ff]/50 rounded hover:bg-[#00d4ff]/10"
+                        className="text-xs text-[#00d4ff] hover:text-[#14F195] px-2 py-1 border border-[#00d4ff]/50 rounded hover:bg-[#00d4ff]/10"
                       >
                         Copy
                       </button>
@@ -439,7 +439,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
                     href={`https://solscan.io/tx/${txid}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[#00d4ff] hover:text-[#00b8e6] text-sm underline"
+                    className="inline-flex items-center gap-1 text-[#00d4ff] hover:text-[#14F195] text-sm underline"
                   >
                     View on Solscan →
                   </a>
@@ -463,18 +463,18 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
   }
 
   return (
-    <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-8 shadow-xl backdrop-blur-sm">
+    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-xl p-8 shadow-xl backdrop-blur-sm">
       <h3 className="text-3xl font-bold text-cosmic-gradient mb-2">Purchase Credits</h3>
       
       {/* Holder Discount Banner */}
       {holderStatus?.isHolder && (
-        <div className="mb-4 p-4 cosmic-card border border-[#00d4ff]/50 rounded-xl bg-[#00d4ff]/10">
+        <div className="mb-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/50 rounded-xl bg-[#00d4ff]/10">
           <div className="flex items-center gap-3">
             <span className="text-2xl">🎉</span>
             <div>
               <p className="text-[#00d4ff] font-bold text-lg">50% Holder Discount Active!</p>
-              <p className="text-white/80 text-sm">
-                You hold {holderStatus.holdingCount} OrdMaker ordinal{holderStatus.holdingCount !== 1 ? 's' : ''} - enjoy half-price credits!
+              <p className="text-[#a8a8b8] text-sm">
+                You hold {holderStatus.holdingCount} OrdMaker NFT{holderStatus.holdingCount !== 1 ? 's' : ''} - enjoy half-price credits!
               </p>
             </div>
           </div>
@@ -482,23 +482,23 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
       )}
       
       {checkingHolder && (
-        <div className="mb-4 p-3 cosmic-card border border-[#00d4ff]/30 rounded-lg flex items-center gap-2">
+        <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg flex items-center gap-2">
           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#00d4ff]"></div>
-          <p className="text-white/80 text-sm">Checking holder status for discounts...</p>
+          <p className="text-[#a8a8b8] text-sm">Checking holder status for discounts...</p>
         </div>
       )}
       
       {/* Auto-detected payment method indicator */}
-      <div className="mb-6 p-3 cosmic-card border border-[#00d4ff]/30 rounded-lg">
-        <p className="text-sm text-white/80">
+      <div className="mb-6 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg">
+        <p className="text-sm text-[#a8a8b8]">
           <span className="font-semibold text-white">Payment Method:</span>{' '}
           {paymentMethod === 'sol' && <span className="text-[#00d4ff]">◎ Solana</span>}
-          <span className="text-white/60 ml-2">(Auto-detected from your wallet)</span>
+          <span className="text-[#a8a8b8]/80 ml-2">(Auto-detected from your wallet)</span>
         </p>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 cosmic-card border border-[#ff4757]/50 text-[#ff4757] rounded-lg">
+        <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 text-[#EF4444] rounded-lg">
           {error}
         </div>
       )}
@@ -512,7 +512,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
           return (
             <div
               key={index}
-              className={`cosmic-card border rounded-xl p-6 transition-all duration-200 shadow-lg relative ${
+              className={`bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border rounded-xl p-6 transition-all duration-200 shadow-lg relative ${
                 isSelected
                   ? 'border-[#00d4ff]/50 bg-[#00d4ff]/10 shadow-[#00d4ff]/20'
                   : hasDiscount
@@ -552,18 +552,18 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
                       ${tier.totalPrice.toFixed(2)}
                     </p>
                   )}
-                  <p className="text-xs text-white/60">Total</p>
+                  <p className="text-xs text-[#a8a8b8]/80">Total</p>
                 </div>
               </div>
               
               {/* What you can do with these credits */}
-              <div className="cosmic-card border border-[#00d4ff]/20 rounded-lg p-3 mb-4">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/20 rounded-lg p-3 mb-4">
                
                 <div className="flex flex-wrap gap-2 text-xs">
                   <span className="px-2 py-1 bg-[#00d4ff]/20 text-[#00d4ff] rounded font-medium border border-[#00d4ff]/30">
                     {imagesCanGenerate} images
                   </span>
-                  <span className="px-2 py-1 bg-[#ff6b35]/20 text-[#ff6b35] rounded font-medium border border-[#ff6b35]/30">
+                  <span className="px-2 py-1 bg-[#DC1FFF]/20 text-[#DC1FFF] rounded font-medium border border-[#DC1FFF]/30">
                     {traitsCanGenerate} traits
                   </span>
                 </div>
@@ -575,8 +575,8 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
                 disabled={purchasing}
                 className={`w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 ${
                   purchasing
-                    ? 'cosmic-card border border-[#00d4ff]/20 text-white/50 cursor-not-allowed'
-                    : 'bg-[#00d4ff] hover:bg-[#00b8e6] text-white shadow-md hover:shadow-lg shadow-[#00d4ff]/20'
+                    ? 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/20 text-white/50 cursor-not-allowed'
+                    : 'bg-[#00d4ff] hover:bg-[#14F195] text-white shadow-md hover:shadow-lg shadow-[#00d4ff]/20'
                 }`}
               >
                 {purchasing && selectedTier === index ? 'Processing...' : 'Buy Now'}
@@ -589,7 +589,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
       {purchasing && (
         <div className="mt-4 text-center">
           <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#00d4ff]"></div>
-          <p className="text-white/80 text-sm mt-2">Creating payment...</p>
+          <p className="text-[#a8a8b8] text-sm mt-2">Creating payment...</p>
         </div>
       )}
 

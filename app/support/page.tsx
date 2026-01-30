@@ -210,15 +210,15 @@ export default function SupportPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'open':
-        return 'bg-[#00d4ff]/20 text-[#00d4ff] border-[#00d4ff]/30'
+        return 'bg-[#9945FF]/20 text-[#9945FF] border-[#9945FF]/30'
       case 'in_progress':
-        return 'bg-[#ff6b35]/20 text-[#ff6b35] border-[#ff6b35]/30'
+        return 'bg-[#DC1FFF]/20 text-[#DC1FFF] border-[#DC1FFF]/30'
       case 'resolved':
-        return 'bg-[#00d4ff]/20 text-[#00d4ff] border-[#00d4ff]/30'
+        return 'bg-[#9945FF]/20 text-[#9945FF] border-[#9945FF]/30'
       case 'closed':
-        return 'bg-white/10 text-white/70 border-[#00d4ff]/30'
+        return 'bg-white/10 text-white/70 border-[#9945FF]/30'
       default:
-        return 'bg-white/10 text-white/70 border-[#00d4ff]/30'
+        return 'bg-white/10 text-white/70 border-[#9945FF]/30'
     }
   }
 
@@ -226,7 +226,7 @@ export default function SupportPage() {
     return (
       <div className="min-h-screen">
         {/* Hero Header */}
-        <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+        <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
           <div className="container mx-auto px-6 py-8">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
@@ -241,7 +241,7 @@ export default function SupportPage() {
 
         <div className="container mx-auto px-6 py-12">
           <div className="max-w-4xl mx-auto">
-            <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-8 text-center shadow-xl">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-xl p-8 text-center shadow-xl">
               <div className="text-6xl mb-4">🔐</div>
               <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
               <p className="text-white/70 mb-6">
@@ -249,7 +249,7 @@ export default function SupportPage() {
               </p>
               <Link
                 href="/"
-                className="inline-block px-6 py-3 bg-[#e27d0f] hover:bg-[#d66f0d] text-white rounded-lg font-semibold transition-all duration-200"
+                className="inline-block px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg font-semibold transition-all duration-200"
               >
                 Go Home
               </Link>
@@ -263,7 +263,7 @@ export default function SupportPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Header */}
-      <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+      <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
         <div className="container mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
@@ -280,13 +280,13 @@ export default function SupportPage() {
         <div className="max-w-7xl mx-auto">
 
           {error && (
-            <div className="mb-6 p-4 cosmic-card border border-[#ff4757]/50 rounded-lg text-[#ff4757]">
+            <div className="mb-6 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 rounded-lg text-[#EF4444]">
               {error}
             </div>
           )}
 
           {rateLimitError && (
-            <div className="mb-6 p-4 cosmic-card border border-[#ff6b35]/50 rounded-lg text-[#ff6b35]">
+            <div className="mb-6 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#DC1FFF]/50 rounded-lg text-[#DC1FFF]">
               {rateLimitError}
             </div>
           )}
@@ -294,7 +294,7 @@ export default function SupportPage() {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Tickets List */}
             <div className="lg:col-span-1">
-              <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-xl">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-xl p-6 shadow-xl">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-bold text-white">Your Tickets</h2>
                   <button
@@ -303,7 +303,7 @@ export default function SupportPage() {
                       setSelectedTicket(null)
                       setMessages([])
                     }}
-                    className="px-4 py-2 bg-[#e27d0f] hover:bg-[#d66f0d] text-white rounded-lg text-sm font-semibold transition-all duration-200"
+                    className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg text-sm font-semibold transition-all duration-200"
                   >
                     + New Ticket
                   </button>
@@ -312,26 +312,26 @@ export default function SupportPage() {
                 {showNewTicketForm ? (
                   <form onSubmit={handleCreateTicket} className="space-y-4 mb-4">
                     <div>
-                      <label className="block text-sm font-medium text-white/80 mb-2">
+                      <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
                         Subject *
                       </label>
                       <input
                         type="text"
                         value={subject}
                         onChange={(e) => setSubject(e.target.value)}
-                        className="w-full border-2 border-[#00d4ff]/30 rounded-lg px-4 py-2 cosmic-card text-white placeholder-gray-400 focus:border-[#e27d0f] focus:ring-2 focus:ring-[#e27d0f]/20 focus:outline-none"
+                        className="w-full border-2 border-[#9945FF]/30 rounded-lg px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-gray-400 focus:border-[#e27d0f] focus:ring-2 focus:ring-[#e27d0f]/20 focus:outline-none"
                         placeholder="What do you need help with?"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-white/80 mb-2">
+                      <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
                         Message *
                       </label>
                       <textarea
                         value={initialMessage}
                         onChange={(e) => setInitialMessage(e.target.value)}
-                        className="w-full border-2 border-[#00d4ff]/30 rounded-lg px-4 py-2 cosmic-card text-white placeholder-gray-400 focus:border-[#e27d0f] focus:ring-2 focus:ring-[#e27d0f]/20 focus:outline-none"
+                        className="w-full border-2 border-[#9945FF]/30 rounded-lg px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-gray-400 focus:border-[#e27d0f] focus:ring-2 focus:ring-[#e27d0f]/20 focus:outline-none"
                         placeholder="Describe your issue or question..."
                         rows={4}
                         required
@@ -341,7 +341,7 @@ export default function SupportPage() {
                       <button
                         type="submit"
                         disabled={sending}
-                        className="flex-1 px-4 py-2 bg-[#e27d0f] hover:bg-[#d66f0d] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
+                        className="flex-1 px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
                       >
                         {sending ? 'Creating...' : 'Create Ticket'}
                       </button>
@@ -353,7 +353,7 @@ export default function SupportPage() {
                           setInitialMessage('')
                           setError(null)
                         }}
-                        className="px-4 py-2 cosmic-card hover:cosmic-card text-white/80 rounded-lg font-semibold transition-all duration-200"
+                        className="px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-[#a8a8b8] rounded-lg font-semibold transition-all duration-200"
                       >
                         Cancel
                       </button>
@@ -383,8 +383,8 @@ export default function SupportPage() {
                         }}
                         className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
                           selectedTicket?.id === ticket.id
-                            ? 'border-[#e27d0f] bg-[#e27d0f]/10'
-                            : 'border-[#00d4ff]/30 cosmic-card hover:border-[#00d4ff]/50'
+                            ? 'border-[#00E5FF] bg-[#00E5FF]/10'
+                            : 'border-[#00E5FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:border-[#00E5FF]/50'
                         }`}
                       >
                         <div className="flex justify-between items-start mb-2">
@@ -393,11 +393,11 @@ export default function SupportPage() {
                             {ticket.status.replace('_', ' ')}
                           </span>
                         </div>
-                        <p className="text-xs text-white/60">
+                        <p className="text-xs text-[#a8a8b8]/80">
                           {new Date(ticket.created_at).toLocaleDateString()}
                         </p>
                         {ticket.message_count && ticket.message_count > 0 && (
-                          <p className="text-xs text-[#e27d0f] mt-1">
+                          <p className="text-xs text-[#00E5FF] mt-1">
                             {ticket.message_count} message{ticket.message_count !== 1 ? 's' : ''}
                           </p>
                         )}
@@ -411,8 +411,8 @@ export default function SupportPage() {
             {/* Chat Interface */}
             <div className="lg:col-span-2">
               {selectedTicket ? (
-                <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl shadow-xl flex flex-col h-[700px]">
-                  <div className="p-6 border-b border-[#00d4ff]/30">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-xl shadow-xl flex flex-col h-[700px]">
+                  <div className="p-6 border-b border-[#9945FF]/30">
                     <div className="flex justify-between items-start">
                       <div>
                         <h2 className="text-xl font-bold text-white">{selectedTicket.subject}</h2>
@@ -427,7 +427,7 @@ export default function SupportPage() {
                           setSelectedTicket(null)
                           setMessages([])
                         }}
-                        className="text-white/60 hover:text-white/80"
+                        className="text-[#a8a8b8]/80 hover:text-[#a8a8b8]"
                       >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -436,7 +436,7 @@ export default function SupportPage() {
                     </div>
                   </div>
 
-                  <div className="flex-1 overflow-y-auto p-6 space-y-4 cosmic-card">
+                  <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
                     {messages.map((message) => (
                       <div
                         key={message.id}
@@ -445,12 +445,12 @@ export default function SupportPage() {
                         <div
                           className={`max-w-[80%] rounded-lg p-4 ${
                             message.sender_type === 'user'
-                              ? 'bg-[#e27d0f] text-white'
-                              : 'cosmic-card border-2 border-[#00d4ff]/30 text-white'
+                              ? 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white'
+                              : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00E5FF]/30 text-white'
                           }`}
                         >
                           <p className="text-sm whitespace-pre-wrap">{message.message}</p>
-                          <p className={`text-xs mt-2 ${message.sender_type === 'user' ? 'opacity-70' : 'text-white/60'}`}>
+                          <p className={`text-xs mt-2 ${message.sender_type === 'user' ? 'opacity-70' : 'text-[#a8a8b8]/80'}`}>
                             {message.sender_type === 'admin' ? '👨‍💼 Support Team' : 'You'} • {new Date(message.created_at).toLocaleString()}
                           </p>
                         </div>
@@ -459,7 +459,7 @@ export default function SupportPage() {
                     <div ref={messagesEndRef} />
                   </div>
 
-                  <form onSubmit={handleSendMessage} className="p-6 border-t border-[#00d4ff]/30 cosmic-card">
+                  <form onSubmit={handleSendMessage} className="p-6 border-t border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
                     <div className="flex gap-2">
                       <textarea
                         value={newMessage}
@@ -470,7 +470,7 @@ export default function SupportPage() {
                             handleSendMessage(e)
                           }
                         }}
-                        className="flex-1 border-2 border-[#00d4ff]/30 rounded-lg px-4 py-3 cosmic-card text-white placeholder-gray-400 focus:border-[#e27d0f] focus:ring-2 focus:ring-[#e27d0f]/20 focus:outline-none resize-none"
+                        className="flex-1 border-2 border-[#9945FF]/30 rounded-lg px-4 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-gray-400 focus:border-[#e27d0f] focus:ring-2 focus:ring-[#e27d0f]/20 focus:outline-none resize-none"
                         placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
                         rows={2}
                         required
@@ -478,7 +478,7 @@ export default function SupportPage() {
                       <button
                         type="submit"
                         disabled={sending || !newMessage.trim()}
-                        className="px-6 py-3 bg-[#e27d0f] hover:bg-[#d66f0d] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {sending ? '...' : 'Send'}
                       </button>
@@ -486,7 +486,7 @@ export default function SupportPage() {
                   </form>
                 </div>
               ) : (
-                <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-12 shadow-xl text-center h-[700px] flex items-center justify-center">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-xl p-12 shadow-xl text-center h-[700px] flex items-center justify-center">
                   <div>
                     <div className="text-6xl mb-4">💬</div>
                     <h3 className="text-xl font-bold text-white mb-2">Select a Ticket</h3>

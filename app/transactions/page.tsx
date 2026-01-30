@@ -121,11 +121,11 @@ export default function TransactionsPage() {
     const baseClasses = "px-2 py-1 rounded-full text-xs font-semibold border"
     switch (type) {
       case 'purchase':
-        return `${baseClasses} bg-[#00d4ff]/20 text-[#00d4ff] border-[#00d4ff]/30`
+        return `${baseClasses} bg-[#9945FF]/20 text-[#9945FF] border-[#9945FF]/30`
       case 'usage':
-        return `${baseClasses} bg-red-500/20 text-red-400 border-red-500/30`
+        return `${baseClasses} bg-red-500/20 text-[#EF4444] border-red-500/30`
       case 'refund':
-        return `${baseClasses} bg-[#00d4ff]/20 text-[#00d4ff] border-[#00d4ff]/30`
+        return `${baseClasses} bg-[#9945FF]/20 text-[#9945FF] border-[#9945FF]/30`
       default:
         return `${baseClasses} bg-white/10 text-white/70 border-white/20`
     }
@@ -139,7 +139,7 @@ export default function TransactionsPage() {
     return (
       <div className="min-h-screen">
         {/* Hero Header */}
-        <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+        <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
           <div className="container mx-auto px-6 py-8">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
@@ -153,7 +153,7 @@ export default function TransactionsPage() {
         </div>
 
         <div className="w-full max-w-[1200px] mx-auto px-6 py-12">
-          <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-8 text-center shadow-xl">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-xl p-8 text-center shadow-xl">
             <div className="text-6xl mb-4">🔐</div>
             <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
             <p className="text-white/70 mb-6">Please connect your wallet to view transactions.</p>
@@ -162,7 +162,7 @@ export default function TransactionsPage() {
             </div>
             <Link
               href="/"
-              className="inline-block px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors"
+              className="inline-block px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg font-semibold transition-colors"
             >
               Go Home
             </Link>
@@ -175,7 +175,7 @@ export default function TransactionsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Header */}
-      <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+      <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
         <div className="container mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
@@ -204,7 +204,7 @@ export default function TransactionsPage() {
               <select
                 value={filterType}
                 onChange={(e) => handleTypeFilterChange(e.target.value)}
-                className="px-3 py-2 cosmic-card border-2 border-[#00d4ff]/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20 focus:border-[#00d4ff]"
+                className="px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 focus:border-[#9945FF]"
               >
                 <option value="all">All Types</option>
                 <option value="purchase">Purchase</option>
@@ -213,7 +213,7 @@ export default function TransactionsPage() {
               </select>
             </div>
             {!loading && total > 0 && (
-              <div className="text-sm text-white/60">
+              <div className="text-sm text-[#a8a8b8]/80">
                 Showing {((currentPage - 1) * limit) + 1} - {Math.min(currentPage * limit, total)} of {total} transactions
               </div>
             )}
@@ -221,31 +221,31 @@ export default function TransactionsPage() {
         </div>
 
         {loading ? (
-          <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-8 text-center shadow-lg">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#00d4ff] border-t-transparent"></div>
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-xl p-8 text-center shadow-lg">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#9945FF] border-t-transparent"></div>
             <p className="text-white/70 mt-4">Loading transactions...</p>
           </div>
         ) : error ? (
-          <div className="cosmic-card border-2 border-red-500/50 rounded-xl p-4 text-red-400">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-red-500/50 rounded-xl p-4 text-[#EF4444]">
             {error}
           </div>
         ) : transactions.length === 0 ? (
-          <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-8 text-center shadow-lg">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-xl p-8 text-center shadow-lg">
             <div className="text-6xl mb-4">📋</div>
             <p className="text-white mb-4">No transactions found.</p>
             <Link
               href="/"
-              className="inline-block px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors"
+              className="inline-block px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg font-semibold transition-colors"
             >
               Purchase Credits
             </Link>
           </div>
         ) : (
           <>
-            <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl overflow-hidden shadow-lg">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/30 rounded-xl overflow-hidden shadow-lg">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="cosmic-card border-b-2 border-[#00d4ff]/30">
+                  <thead className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-b-2 border-[#9945FF]/30">
                     <tr>
                       <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
                         Date
@@ -264,11 +264,11 @@ export default function TransactionsPage() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#00d4ff]/20">
+                  <tbody className="divide-y divide-[#9945FF]/20">
                     {transactions.map((tx) => {
                       const isPending = tx.status === 'pending' || tx.status === 'confirming'
                       return (
-                        <tr key={tx.id} className={`hover:bg-[#1a1f3a] ${isPending ? 'bg-[#ff6b35]/10' : ''}`}>
+                        <tr key={tx.id} className={`hover:bg-[#1a1f3a] ${isPending ? 'bg-[#DC1FFF]/10' : ''}`}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                             {formatDate(tx.createdAt)}
                           </td>
@@ -278,7 +278,7 @@ export default function TransactionsPage() {
                                 {tx.transactionType}
                               </span>
                               {isPending && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/30">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-[#DC1FFF]/20 text-[#DC1FFF] border border-[#DC1FFF]/30">
                                   <span className="animate-pulse">●</span>
                                   {tx.status === 'confirming' ? `Confirming (${tx.confirmations || 0}/1)` : 'Pending Payment'}
                                 </span>
@@ -286,7 +286,7 @@ export default function TransactionsPage() {
                             </div>
                           </td>
                           <td className={`px-6 py-4 whitespace-nowrap text-sm font-semibold ${
-                            isPending ? 'text-[#ff6b35]' : tx.amount > 0 ? 'text-[#00d4ff]' : 'text-red-400'
+                            isPending ? 'text-[#DC1FFF]' : tx.amount > 0 ? 'text-[#9945FF]' : 'text-[#EF4444]'
                           }`}>
                             {isPending ? '⏳ ' : tx.amount > 0 ? '+' : ''}{tx.amount} credits
                           </td>
@@ -294,13 +294,13 @@ export default function TransactionsPage() {
                             <div className="flex flex-col">
                               <span>{tx.description || '-'}</span>
                               {isPending && tx.paymentType && (
-                                <span className="text-xs text-white/60">
+                                <span className="text-xs text-[#a8a8b8]/80">
                                   via {tx.paymentType.toUpperCase()}
                                 </span>
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 text-sm text-white/60 font-mono">
+                          <td className="px-6 py-4 text-sm text-[#a8a8b8]/80 font-mono">
                             {tx.paymentTxId ? (
                               <a
                                 href={tx.paymentType === 'sol' 
@@ -309,12 +309,12 @@ export default function TransactionsPage() {
                                 }
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#00d4ff] hover:text-[#00b8e6] hover:underline"
+                                className="text-[#9945FF] hover:text-[#14F195] hover:underline"
                               >
                                 {tx.paymentTxId.substring(0, 16)}...
                               </a>
                             ) : isPending ? (
-                              <span className="text-[#ff6b35] italic">Awaiting payment...</span>
+                              <span className="text-[#DC1FFF] italic">Awaiting payment...</span>
                             ) : (
                               <span className="text-white/40">-</span>
                             )}
@@ -333,7 +333,7 @@ export default function TransactionsPage() {
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 cosmic-card hover:bg-[#1a1f3a] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-[#00d4ff]/30"
+                  className="px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-[#1a1f3a] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-[#9945FF]/30"
                 >
                   Previous
                 </button>
@@ -357,8 +357,8 @@ export default function TransactionsPage() {
                         onClick={() => handlePageChange(pageNum)}
                         className={`px-3 py-2 rounded-lg font-semibold transition-colors ${
                           currentPage === pageNum
-                            ? 'bg-[#00d4ff] text-white'
-                            : 'cosmic-card hover:bg-[#1a1f3a] text-white border border-[#00d4ff]/30'
+                            ? 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white'
+                            : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-[#0f0f1e] text-white border border-[#00E5FF]/30'
                         }`}
                       >
                         {pageNum}
@@ -370,7 +370,7 @@ export default function TransactionsPage() {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 cosmic-card hover:bg-[#1a1f3a] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-[#00d4ff]/30"
+                  className="px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-[#1a1f3a] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-[#9945FF]/30"
                 >
                   Next
                 </button>

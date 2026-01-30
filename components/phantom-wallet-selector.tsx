@@ -17,7 +17,7 @@ export function PhantomWalletSelector({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="bg-slate-900 border border-gray-800 rounded-xl shadow-2xl p-6 max-w-md w-full mx-4">
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border border-gray-800 rounded-xl shadow-2xl p-6 max-w-md w-full mx-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center gap-3">
             <span className="text-3xl">👻</span>
@@ -25,7 +25,7 @@ export function PhantomWalletSelector({
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-[#a8a8b8] hover:text-white transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -33,7 +33,7 @@ export function PhantomWalletSelector({
           </button>
         </div>
 
-        <p className="text-gray-400 mb-6">
+        <p className="text-[#a8a8b8] mb-6">
           Connect your Phantom wallet to use Solana network.
         </p>
 
@@ -50,7 +50,7 @@ export function PhantomWalletSelector({
             </div>
             <div className="flex-1 text-left">
               <div className="text-white font-semibold text-lg">Solana</div>
-              <div className="text-gray-400 text-sm">Connect with Solana network</div>
+              <div className="text-[#a8a8b8] text-sm">Connect with Solana network</div>
             </div>
             <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -60,7 +60,7 @@ export function PhantomWalletSelector({
 
         <button
           onClick={onClose}
-          className="w-full mt-6 px-4 py-2 text-gray-400 hover:text-white transition-colors text-sm"
+          className="w-full mt-6 px-4 py-2 text-[#a8a8b8] hover:text-white transition-colors text-sm"
         >
           Cancel
         </button>

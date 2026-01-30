@@ -413,7 +413,7 @@ export default function LayerDetailsPage() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center py-8">
           <div className="text-white">Layer not found</div>
-          <Link href={`/collections/${params.id}`} className="text-blue-600 hover:text-blue-700 mt-4 inline-block">
+          <Link href={`/collections/${params.id}`} className="text-[#9945FF] hover:text-[#14F195] mt-4 inline-block">
             ← Back to Collection
           </Link>
         </div>
@@ -429,7 +429,7 @@ export default function LayerDetailsPage() {
           <div className="mb-6">
             <Link 
               href={`/collections/${params.id}`} 
-              className="text-[#00d4ff] hover:text-[#00b8e6] mb-4 inline-block"
+              className="text-[#9945FF] hover:text-[#14F195] mb-4 inline-block"
             >
               ← Back to Collection
             </Link>
@@ -437,7 +437,7 @@ export default function LayerDetailsPage() {
               <div>
                 <h1 className="text-3xl font-bold text-white">{layer.name}</h1>
                
-                <div className="flex items-center gap-4 mt-4 text-sm text-white/60">
+                <div className="flex items-center gap-4 mt-4 text-sm text-[#a8a8b8]/80">
                   <span>Created: {new Date(layer.created_at).toLocaleDateString()}</span>
                   <span>Order: {layer.display_order}</span>
                 </div>
@@ -454,19 +454,19 @@ export default function LayerDetailsPage() {
           </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
             <h3 className="font-semibold text-white mb-2">Traits</h3>
-            <p className="text-2xl font-bold text-[#00d4ff]">{traits.length}</p>
+            <p className="text-2xl font-bold text-[#9945FF]">{traits.length}</p>
            
           </div>
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
             <h3 className="font-semibold text-white mb-2">AI Generated</h3>
             <p className="text-2xl font-bold text-green-400">
               {traits.filter(t => t.trait_prompt).length}
             </p>
            
           </div>
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
             <h3 className="font-semibold text-white mb-2">Average Rarity</h3>
             <p className="text-2xl font-bold text-purple-400">
               {traits.length > 0 ? Math.round(traits.reduce((sum, t) => sum + t.rarity_weight, 0) / traits.length) : 0}
@@ -495,7 +495,7 @@ export default function LayerDetailsPage() {
               </button>
             </div>
           </div>
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl shadow-sm overflow-hidden">
             <form onSubmit={handleGenerateTraits}>
               {/* Main input area */}
               <div className="p-6">
@@ -509,7 +509,7 @@ export default function LayerDetailsPage() {
                       type="text"
                       value={theme}
                       onChange={(e) => setTheme(e.target.value)}
-                      className="w-full border border-[#00d4ff]/30 rounded-lg px-4 py-2.5 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none transition-all"
+                      className="w-full border border-[#9945FF]/30 rounded-lg px-4 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none transition-all"
                       placeholder="e.g., halloween, cyberpunk, medieval"
                       disabled={generating}
                     />
@@ -550,7 +550,7 @@ export default function LayerDetailsPage() {
                           }
                         }
                       }}
-                      className="w-full border border-[#00d4ff]/30 rounded-lg px-4 py-2.5 cosmic-card text-white focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none transition-all"
+                      className="w-full border border-[#9945FF]/30 rounded-lg px-4 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none transition-all"
                       disabled={generating}
                     />
                     <p className="text-xs text-[#e27d0f] mt-1.5 font-medium">
@@ -566,7 +566,7 @@ export default function LayerDetailsPage() {
                     <select
                       value={rarityOptions.findIndex(r => r.weight === rarity.weight)}
                       onChange={(e) => setRarity(rarityOptions[parseInt(e.target.value)])}
-                      className="w-full border border-[#00d4ff]/30 rounded-lg px-3 py-2.5 cosmic-card text-white focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none transition-all"
+                      className="w-full border border-[#9945FF]/30 rounded-lg px-3 py-2.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none transition-all"
                       disabled={generating}
                     >
                       {rarityOptions.map((r, idx) => (
@@ -575,7 +575,7 @@ export default function LayerDetailsPage() {
                         </option>
                       ))}
                     </select>
-                    <p className="text-xs text-white/60 mt-1.5">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-1.5">
                       Weight: {rarity.weight}
                     </p>
                   </div>
@@ -605,14 +605,14 @@ export default function LayerDetailsPage() {
               </div>
               
               {/* Bottom bar with checkbox and help */}
-              <div className="bg-white/10 border-t border-[#00d4ff]/30 px-6 py-3 flex items-center justify-between">
+              <div className="bg-white/10 border-t border-[#9945FF]/30 px-6 py-3 flex items-center justify-between">
                 <label className="flex items-center gap-2 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     id="useItemWord"
                     checked={useItemWord}
                     onChange={(e) => setUseItemWord(e.target.checked)}
-                    className="w-4 h-4 text-[#00d4ff] cosmic-card border-[#00d4ff]/30 rounded focus:ring-[#00d4ff] cursor-pointer"
+                    className="w-4 h-4 text-[#9945FF] bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-[#9945FF]/30 rounded focus:ring-[#9945FF] cursor-pointer"
                     disabled={generating}
                   />
                   <span className="text-sm text-white/70">
@@ -625,7 +625,7 @@ export default function LayerDetailsPage() {
                   <button
                     type="button"
                     onClick={() => setShowGenerateInstructions(!showGenerateInstructions)}
-                    className="flex items-center gap-1.5 text-sm text-white/60 hover:text-white transition-colors"
+                    className="flex items-center gap-1.5 text-sm text-[#a8a8b8]/80 hover:text-white transition-colors"
                     aria-label="Show trait generation instructions"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -635,14 +635,14 @@ export default function LayerDetailsPage() {
                   </button>
                   
                   {/* Tooltip Content */}
-                  <div className={`absolute right-0 bottom-full mb-2 w-80 bg-gray-900 text-white rounded-lg shadow-xl p-4 z-50 transition-all duration-200 ${
+                  <div className={`absolute right-0 bottom-full mb-2 w-80 bg-[#14141e] text-white rounded-lg shadow-xl p-4 z-50 transition-all duration-200 ${
                     showGenerateInstructions ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'
                   }`}>
-                    <div className="absolute -bottom-1.5 right-4 w-3 h-3 bg-gray-900 transform rotate-45"></div>
+                    <div className="absolute -bottom-1.5 right-4 w-3 h-3 bg-[#14141e] transform rotate-45"></div>
                     <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
                       💡 How to Generate Traits
                     </h3>
-                    <ul className="text-xs text-gray-300 space-y-1.5">
+                    <ul className="text-xs text-white space-y-1.5">
                       <li>• <strong className="text-white">Theme:</strong> Enter a style like "halloween" or "cyberpunk"</li>
                       <li>• <strong className="text-white">Quantity:</strong> Generate 1-10 traits per batch</li>
                       <li>• <strong className="text-white">Rarity:</strong> Common traits appear more often, Legendary are rare</li>
@@ -679,7 +679,7 @@ export default function LayerDetailsPage() {
 
         <h2 className="text-2xl font-bold text-white mb-4">
           All Traits 
-          <span className="text-lg font-normal text-white/60 ml-2">
+          <span className="text-lg font-normal text-[#a8a8b8]/80 ml-2">
             ({filteredAndSortedTraits.length} {filteredAndSortedTraits.length === 1 ? 'trait' : 'traits'})
           </span>
         </h2>
@@ -703,10 +703,10 @@ export default function LayerDetailsPage() {
           </button>
           
           {/* Tooltip Content */}
-          <div className={`absolute left-0 top-full mt-2 w-96 cosmic-card border border-[#00d4ff]/30 rounded-lg shadow-xl p-4 z-50 transition-all duration-200 ${
+          <div className={`absolute left-0 top-full mt-2 w-96 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow-xl p-4 z-50 transition-all duration-200 ${
             showManageInstructions ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'
           }`}>
-            <div className="absolute -top-2 left-6 w-4 h-4 cosmic-card border-l border-t border-[#00d4ff]/30 transform rotate-45"></div>
+            <div className="absolute -top-2 left-6 w-4 h-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-l border-t border-[#9945FF]/30 transform rotate-45"></div>
             <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
               <span className="text-lg">💡</span> Managing Your Traits
             </h3>
@@ -731,7 +731,7 @@ export default function LayerDetailsPage() {
               rarityColor = 'text-green-400';
             } else if (trait.rarity_weight >= 20 && trait.rarity_weight < 35) {
               rarityLabel = 'Rare';
-              rarityColor = 'text-[#00d4ff]';
+              rarityColor = 'text-[#9945FF]';
             } else if (trait.rarity_weight >= 10 && trait.rarity_weight < 20) {
               rarityLabel = 'Epic';
               rarityColor = 'text-purple-400';
@@ -748,10 +748,10 @@ export default function LayerDetailsPage() {
                 key={trait.id}
                 className={`border rounded-lg p-3 transition-all duration-500 ${
                   isNewlyGenerated
-                    ? 'border-green-500 bg-green-500/20 shadow-lg shadow-green-500/30 ring-2 ring-green-500/50 cosmic-card'
+                    ? 'border-green-500 bg-green-500/20 shadow-lg shadow-green-500/30 ring-2 ring-green-500/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md'
                     : trait.is_ignored
-                    ? 'border-orange-500/50 bg-orange-500/10 opacity-75 cosmic-card'
-                    : 'border-[#00d4ff]/30 cosmic-card hover:border-[#00d4ff] hover:shadow-sm'
+                    ? 'border-orange-500/50 bg-orange-500/10 opacity-75 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md'
+                    : 'border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:border-[#9945FF] hover:shadow-sm'
                 }`}
               >
                 <div className="flex justify-between items-start gap-3">
@@ -765,7 +765,7 @@ export default function LayerDetailsPage() {
                       )}
                     </div>
               
-                    <div className="flex items-center gap-3 mt-2 text-xs text-white/60">
+                    <div className="flex items-center gap-3 mt-2 text-xs text-[#a8a8b8]/80">
                       <span>{new Date(trait.created_at).toLocaleDateString()}</span>
                       <span className={`font-medium ${rarityColor}`}>{rarityLabel}</span>
                       <span>Weight: {trait.rarity_weight}</span>
@@ -777,7 +777,7 @@ export default function LayerDetailsPage() {
                         type="checkbox"
                         checked={!trait.is_ignored}
                         onChange={() => handleToggleIgnore(trait.id)}
-                        className="w-4 h-4 text-[#00d4ff] border-[#00d4ff]/30 rounded focus:ring-[#00d4ff] cosmic-card"
+                        className="w-4 h-4 text-[#9945FF] border-[#9945FF]/30 rounded focus:ring-[#9945FF] bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                       />
                       <span className="text-xs text-white/70 whitespace-nowrap">
                         {trait.is_ignored ? 'Ignored' : 'Active'}
@@ -803,12 +803,12 @@ export default function LayerDetailsPage() {
         </div>
 
         {filteredAndSortedTraits.length === 0 && traits.length > 0 && (
-          <div className="text-center py-8 text-white/70 cosmic-card border border-[#00d4ff]/30 rounded-lg">
+          <div className="text-center py-8 text-white/70 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg">
             <p className="text-lg font-semibold mb-2 text-white">No traits match your search</p>
-            <p className="text-sm text-white/60">Try adjusting your search query or filters</p>
+            <p className="text-sm text-[#a8a8b8]/80">Try adjusting your search query or filters</p>
             <button
               onClick={() => setSearchQuery('')}
-              className="mt-4 text-[#00d4ff] hover:text-[#00b8e6] underline"
+              className="mt-4 text-[#9945FF] hover:text-[#14F195] underline"
             >
               Clear search
             </button>
@@ -816,14 +816,14 @@ export default function LayerDetailsPage() {
         )}
 
         {traits.length === 0 && (
-          <div className="text-center py-8 text-white/70 cosmic-card border border-[#00d4ff]/30 rounded-lg">
+          <div className="text-center py-8 text-white/70 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg">
             No traits created yet. Add your first trait to get started!
           </div>
         )}
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between mt-6 cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
+          <div className="flex items-center justify-between mt-6 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
             <div className="text-sm text-white/70">
               Showing {startIndex + 1} to {Math.min(endIndex, filteredAndSortedTraits.length)} of {filteredAndSortedTraits.length} traits
             </div>
@@ -831,7 +831,7 @@ export default function LayerDetailsPage() {
               <button
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                 disabled={currentPage === 1}
-                className="px-4 py-2 border border-[#00d4ff]/30 rounded cosmic-card hover:bg-white/10 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 border border-[#9945FF]/30 rounded bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-white/10 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Previous
               </button>
@@ -854,7 +854,7 @@ export default function LayerDetailsPage() {
                       className={`px-3 py-1 rounded ${
                         currentPage === pageNum
                           ? 'bg-[#e27d0f] text-white'
-                          : 'border border-[#00d4ff]/30 cosmic-card hover:bg-white/10 text-white'
+                          : 'border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-white/10 text-white'
                       }`}
                     >
                       {pageNum}
@@ -865,7 +865,7 @@ export default function LayerDetailsPage() {
               <button
                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 border border-[#00d4ff]/30 rounded cosmic-card hover:bg-white/10 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 border border-[#9945FF]/30 rounded bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-white/10 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
               </button>
@@ -876,18 +876,18 @@ export default function LayerDetailsPage() {
         {/* Upload Trait Modal */}
         {showUploadModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b border-[#9945FF]/30">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#00d4ff]/20 flex items-center justify-center border border-[#00d4ff]/30">
-                      <svg className="w-5 h-5 text-[#00d4ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-10 h-10 rounded-xl bg-[#9945FF]/20 flex items-center justify-center border border-[#9945FF]/30">
+                      <svg className="w-5 h-5 text-[#9945FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Upload Existing Trait</h3>
-                      <p className="text-sm text-white/60">AI will analyze and describe it</p>
+                      <p className="text-sm text-[#a8a8b8]/80">AI will analyze and describe it</p>
                     </div>
                   </div>
                   <button
@@ -930,11 +930,11 @@ export default function LayerDetailsPage() {
                   ) : (
                     <label className="block cursor-pointer">
                       <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-purple-400 hover:bg-purple-50/50 transition-all">
-                        <svg className="w-12 h-12 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-12 h-12 mx-auto text-[#a8a8b8] mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
                         <p className="text-sm font-medium text-gray-700">Click to upload or drag & drop</p>
-                        <p className="text-xs text-gray-500 mt-1">PNG, JPG, WEBP up to 10MB</p>
+                        <p className="text-xs text-[#a8a8b8]/80 mt-1">PNG, JPG, WEBP up to 10MB</p>
                       </div>
                       <input
                         type="file"
@@ -1048,7 +1048,7 @@ export default function LayerDetailsPage() {
               <h2 className="text-xl font-bold text-gray-900">Delete Trait</h2>
               <button
                 onClick={() => setShowDeleteConfirm(null)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-[#a8a8b8] hover:text-gray-600 transition-colors"
                 disabled={deletingTrait}
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1070,7 +1070,7 @@ export default function LayerDetailsPage() {
                   <button
                     onClick={() => executeDeleteTrait(false)}
                     disabled={deletingTrait}
-                    className="w-full px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-2 bg-gray-600 hover:bg-[#1a1a24]/80 text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {deletingTrait ? 'Deleting...' : 'Delete Trait Only (Preserve Ordinals)'}
                   </button>

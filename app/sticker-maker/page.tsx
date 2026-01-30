@@ -274,7 +274,7 @@ export default function StickerMakerPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Header */}
-      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
         <div className="container mx-auto px-6 py-8">
       
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
@@ -284,7 +284,7 @@ export default function StickerMakerPage() {
                 Transform any image into a sticker with transparent backgrounds
               </p>
             </div>
-            <div className="px-4 py-2 rounded-xl bg-[#ff6b35] text-sm font-bold shadow-lg shadow-[#ff6b35]/20">
+            <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-sm font-bold shadow-lg shadow-[#00E5FF]/20">
               {CREDITS_PER_STICKER} credit{CREDITS_PER_STICKER > 1 ? 's' : ''} / sticker
             </div>
           </div>
@@ -295,13 +295,13 @@ export default function StickerMakerPage() {
         <div className="max-w-6xl mx-auto">
 
         {!activeWalletConnected && (
-          <div className="rounded-lg border border-[#ff6b35]/50 cosmic-card p-4 text-[#ff6b35]">
+          <div className="rounded-lg border border-[#DC1FFF]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 text-[#DC1FFF]">
             <p className="text-sm">Please connect your wallet to use Sticker Creator Beta.</p>
           </div>
         )}
 
         {activeWalletConnected && credits !== null && typeof credits === 'number' && credits < CREDITS_PER_STICKER && (
-          <div className="rounded-lg border border-[#ff4757]/50 cosmic-card p-4 text-[#ff4757]">
+          <div className="rounded-lg border border-[#EF4444]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 text-[#EF4444]">
             <p className="text-sm">
               Insufficient credits. You need {CREDITS_PER_STICKER} credit{CREDITS_PER_STICKER > 1 ? 's' : ''} to generate a sticker. 
               You have {credits.toFixed(1)} credit{credits !== 1 ? 's' : ''}. Please purchase credits.
@@ -310,12 +310,12 @@ export default function StickerMakerPage() {
         )}
 
         <section className="grid gap-8 lg:grid-cols-2">
-          <div className="space-y-6 rounded-xl border border-[#00d4ff]/30 cosmic-card p-6 shadow-xl">
+          <div className="space-y-6 rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl">
             <div className="space-y-3">
               <div className="block text-sm font-semibold text-white">
                 Reference Image{selectedFiles.length > 1 ? 's' : ''} {selectedFiles.length > 0 && `(${selectedFiles.length})`}
               </div>
-              <div className="relative flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-[#00d4ff]/30 cosmic-card p-6 text-center">
+              <div className="relative flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 text-center">
                 <input
                   type="file"
                   accept="image/*"
@@ -326,7 +326,7 @@ export default function StickerMakerPage() {
                 />
                 <label
                   htmlFor="sticker-maker-file-input"
-                  className="relative z-20 inline-flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all duration-200 pointer-events-none"
+                  className="relative z-20 inline-flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-[#00E5FF]/20 transition-all duration-200 pointer-events-none"
                 >
                   {selectedFiles.length > 0 ? `Change Image${selectedFiles.length > 1 ? 's' : ''}` : "Select Image(s)"}
                 </label>
@@ -345,7 +345,7 @@ export default function StickerMakerPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {previewUrls.map((url, index) => (
                     <div key={index} className="relative space-y-2">
-                      <div className="relative overflow-hidden rounded-lg border border-[#00d4ff]/30">
+                      <div className="relative overflow-hidden rounded-lg border border-[#9945FF]/30">
                         <Image
                           src={url}
                           alt={`Selected image ${index + 1} preview`}
@@ -400,9 +400,9 @@ export default function StickerMakerPage() {
                   : "Describe how you want the sticker to look. Examples: 'make it more colorful', 'add sparkles', 'make it cute', etc."}
                 value={customInstructions}
                 onChange={(event) => setCustomInstructions(event.target.value)}
-                className="h-32 w-full rounded-lg border border-[#00d4ff]/30 cosmic-card p-3 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/50"
+                className="h-32 w-full rounded-lg border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-3 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#9945FF]/50"
               />
-              <p className="text-xs text-white/60">
+              <p className="text-xs text-[#a8a8b8]/80">
                 Optional: Add custom instructions to modify the sticker style or appearance.
               </p>
             </div>
@@ -415,8 +415,8 @@ export default function StickerMakerPage() {
                   onClick={() => setBackgroundMode("original")}
                   className={`flex-1 rounded-lg border px-4 py-2 text-sm font-semibold transition ${
                     backgroundMode === "original"
-                      ? "border-[#00d4ff] bg-[#00d4ff]/20 text-[#00d4ff]"
-                      : "border-[#00d4ff]/30 cosmic-card text-white/70 hover:border-[#00d4ff]/50 hover:text-white"
+                      ? "border-[#9945FF] bg-[#9945FF]/20 text-[#9945FF]"
+                      : "border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white/70 hover:border-[#9945FF]/50 hover:text-white"
                   }`}
                 >
                   Keep Original Background
@@ -426,14 +426,14 @@ export default function StickerMakerPage() {
                   onClick={() => setBackgroundMode("transparent")}
                   className={`flex-1 rounded-lg border px-4 py-2 text-sm font-semibold transition ${
                     backgroundMode === "transparent"
-                      ? "border-[#00d4ff] bg-[#00d4ff]/20 text-[#00d4ff]"
-                      : "border-[#00d4ff]/30 cosmic-card text-white/70 hover:border-[#00d4ff]/50 hover:text-white"
+                      ? "border-[#9945FF] bg-[#9945FF]/20 text-[#9945FF]"
+                      : "border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white/70 hover:border-[#9945FF]/50 hover:text-white"
                   }`}
                 >
                   Transparent Background
                 </button>
               </div>
-              <p className="text-xs text-white/60">
+              <p className="text-xs text-[#a8a8b8]/80">
                 Transparent mode creates a sticker with no background. Original mode preserves the full scene.
               </p>
             </div>
@@ -442,7 +442,7 @@ export default function StickerMakerPage() {
               <button
                 onClick={handleProcess}
                 disabled={selectedFiles.length === 0 || isProcessing || !activeWalletConnected || (credits !== null && typeof credits === 'number' && credits < CREDITS_PER_STICKER)}
-                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#00d4ff] to-[#ff6b35] hover:from-[#00b8e6] hover:to-[#ff5722] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-[#00d4ff]/20 transition-all duration-200 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:text-gray-200"
+                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-[#00E5FF]/20 transition-all duration-200 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:text-gray-200"
               >
                 {isProcessing ? (
                   <>
@@ -454,25 +454,25 @@ export default function StickerMakerPage() {
                 )}
               </button>
               {lastUpdated && (
-                <p className="text-xs text-white/60">Last processed: {lastUpdated}</p>
+                <p className="text-xs text-[#a8a8b8]/80">Last processed: {lastUpdated}</p>
               )}
             </div>
 
             {error && (
-              <div className="rounded-lg border border-[#ff4757]/50 cosmic-card p-3 text-sm text-[#ff4757]">
+              <div className="rounded-lg border border-[#EF4444]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-3 text-sm text-[#EF4444]">
                 {error}
               </div>
             )}
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-xl border border-[#00d4ff]/30 cosmic-card p-6 shadow-xl">
+            <div className="rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-white">AI Analysis</h2>
                 {result?.analysis && (
                   <button
                     onClick={() => navigator.clipboard.writeText(result.analysis)}
-                    className="text-xs font-semibold text-[#00d4ff] hover:text-[#00b8e6] transition-colors"
+                    className="text-xs font-semibold text-[#9945FF] hover:text-[#14F195] transition-colors"
                   >
                     Copy Text
                   </button>
@@ -483,17 +483,17 @@ export default function StickerMakerPage() {
                 readOnly
                 value={formattedAnalysis}
                 placeholder="Detailed description of the uploaded image will appear here after processing."
-                className="h-32 w-full resize-none rounded-lg border border-[#00d4ff]/30 cosmic-card p-3 font-mono text-[10px] leading-tight text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/50"
+                className="h-32 w-full resize-none rounded-lg border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-3 font-mono text-[10px] leading-tight text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#9945FF]/50"
               />
             </div>
 
-            <div className="rounded-xl border border-[#00d4ff]/30 cosmic-card p-6 shadow-xl">
+            <div className="rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-white">Generation Prompt</h2>
                 {result?.chromaticPrompt && (
                   <button
                     onClick={() => navigator.clipboard.writeText(result.chromaticPrompt)}
-                    className="text-xs font-semibold text-[#00d4ff] hover:text-[#00b8e6] transition-colors"
+                    className="text-xs font-semibold text-[#9945FF] hover:text-[#14F195] transition-colors"
                   >
                     Copy Prompt
                   </button>
@@ -503,12 +503,12 @@ export default function StickerMakerPage() {
                 readOnly
                 value={result?.chromaticPrompt ?? ""}
                 placeholder="The sticker generation prompt will appear here after processing."
-                className="h-32 w-full resize-none rounded-lg border border-[#00d4ff]/30 cosmic-card p-3 font-mono text-[10px] leading-tight text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/50"
+                className="h-32 w-full resize-none rounded-lg border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-3 font-mono text-[10px] leading-tight text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#9945FF]/50"
               />
             </div>
 
             {result?.chromaticImageUrl && (
-              <div className="space-y-3 rounded-xl border border-[#00d4ff]/30 cosmic-card p-6 shadow-xl">
+              <div className="space-y-3 rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-white">Your Sticker</h2>
                   <div className="flex items-center gap-3 text-xs text-white/70">
@@ -516,13 +516,13 @@ export default function StickerMakerPage() {
                       href={result.chromaticImageUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="font-semibold text-[#00d4ff] hover:text-[#00b8e6] transition-colors"
+                      className="font-semibold text-[#9945FF] hover:text-[#14F195] transition-colors"
                     >
                       Open Full Size
                     </a>
                   </div>
                 </div>
-                <div className="relative overflow-hidden rounded-lg border border-[#00d4ff]/30 cosmic-card">
+                <div className="relative overflow-hidden rounded-lg border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
                   <Image
                     src={result.chromaticImageUrl}
                     alt="Generated sticker"
@@ -532,8 +532,8 @@ export default function StickerMakerPage() {
                     unoptimized
                   />
                 </div>
-                <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-3 text-xs text-white/80">
-                  <p className="font-semibold mb-1 text-[#00d4ff]">💡 Tip:</p>
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-3 text-xs text-[#a8a8b8]">
+                  <p className="font-semibold mb-1 text-[#9945FF]">💡 Tip:</p>
                   <p>Right-click the image and select "Save image as..." to download your sticker!</p>
                 </div>
               </div>

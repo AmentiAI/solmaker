@@ -369,12 +369,12 @@ export default function SimpleGeneratePage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="text-center space-y-4 max-w-md mx-auto px-6">
-          <h1 className="text-3xl font-bold text-red-400">Access Restricted</h1>
-          <p className="text-gray-300">
+          <h1 className="text-3xl font-bold text-[#EF4444]">Access Restricted</h1>
+          <p className="text-white">
             This feature is only available to authorized users.
           </p>
           {!isConnected && (
-            <p className="text-gray-400 text-sm">Please connect your wallet to continue.</p>
+            <p className="text-[#a8a8b8] text-sm">Please connect your wallet to continue.</p>
           )}
           <Link
             href="/"
@@ -413,7 +413,7 @@ export default function SimpleGeneratePage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-xl font-bold text-white mb-4">Generate Unique Images</h2>
-                  <p className="text-gray-400 text-sm mb-6">
+                  <p className="text-[#a8a8b8] text-sm mb-6">
                     Create unique images with edge-to-edge borders. No traits needed - just describe what you want!
                   </p>
                 </div>
@@ -421,21 +421,21 @@ export default function SimpleGeneratePage() {
                 <div className="space-y-4">
                   {/* Image Description */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Image Description *
                     </label>
                     <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="Describe what you want to generate... (e.g., 'A mystical crystal glowing with blue energy', 'A medieval sword with ornate handle', etc.)"
-                      className="w-full h-32 p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
+                      className="w-full h-32 p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
                       disabled={isGenerating}
                     />
                   </div>
 
                   {/* Batch Count */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Generate Count (1-10)
                     </label>
                     <div className="flex gap-2 mb-2">
@@ -448,7 +448,7 @@ export default function SimpleGeneratePage() {
                           className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-colors ${
                             batchCount === count
                               ? 'bg-purple-600 text-white'
-                              : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                              : 'bg-[#1a1a24] text-white hover:bg-[#1a1a24]/80'
                           }`}
                         >
                           {count}
@@ -464,10 +464,10 @@ export default function SimpleGeneratePage() {
                         const val = Math.max(1, Math.min(10, parseInt(e.target.value) || 1))
                         setBatchCount(val)
                       }}
-                      className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                      className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
                       disabled={isGenerating}
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-1">
                       Each image will be unique but follow the same art style and vibe
                     </p>
                   </div>
@@ -481,18 +481,18 @@ export default function SimpleGeneratePage() {
                       </h3>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-400">Per Image:</span>
+                          <span className="text-[#a8a8b8]">Per Image:</span>
                           <span className="text-white font-mono font-semibold">{formatCost(costEstimation.perImage)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-400">Total ({batchCount} image{batchCount > 1 ? 's' : ''}):</span>
+                          <span className="text-[#a8a8b8]">Total ({batchCount} image{batchCount > 1 ? 's' : ''}):</span>
                           <span className="text-green-400 font-mono font-bold text-lg">{formatCost(costEstimation.total)}</span>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-gray-500 pt-2 border-t border-gray-700">
+                        <div className="flex justify-between items-center text-xs text-[#a8a8b8]/80 pt-2 border-t border-[#9945FF]/20">
                           <span>Estimated Prompt Length:</span>
                           <span className="font-mono">{costEstimation.estimatedTokens} tokens</span>
                         </div>
-                        <div className="text-xs text-gray-500 pt-1">
+                        <div className="text-xs text-[#a8a8b8]/80 pt-1">
                           <span>Model: gpt-image-1 | Size: {costEstimation.size} | Quality: {costEstimation.quality.toUpperCase()}</span>
                         </div>
                       </div>
@@ -501,7 +501,7 @@ export default function SimpleGeneratePage() {
 
                   {/* Art Style */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Art Style
                     </label>
                     <input
@@ -509,20 +509,20 @@ export default function SimpleGeneratePage() {
                       value={artStyle}
                       onChange={(e) => setArtStyle(e.target.value)}
                       placeholder="Professional digital illustration style..."
-                      className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                      className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
                       disabled={isGenerating}
                     />
                   </div>
 
                   {/* Border Style */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Border Style
                     </label>
                     <select
                       value={borderStyle}
                       onChange={(e) => setBorderStyle(e.target.value)}
-                      className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white focus:border-purple-500 focus:outline-none"
+                      className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white focus:border-purple-500 focus:outline-none"
                       disabled={isGenerating}
                     >
                       {borderOptions.map((option) => (
@@ -557,7 +557,7 @@ export default function SimpleGeneratePage() {
                   </button>
 
                   {error && (
-                    <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-lg">
+                    <div className="bg-red-900/50 border border-[#EF4444]/20 text-red-200 px-4 py-3 rounded-lg">
                       {error}
                     </div>
                   )}
@@ -570,11 +570,11 @@ export default function SimpleGeneratePage() {
               </div>
 
               {/* Right: Generation Prompt Display */}
-              <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg">
-                <div className="flex items-center justify-between p-4 border-b border-gray-700">
+              <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg shadow-lg">
+                <div className="flex items-center justify-between p-4 border-b border-[#9945FF]/20">
                   <h3 className="text-lg font-semibold text-white">Generation Prompt</h3>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-400">
+                    <span className="text-sm text-[#a8a8b8]">
                       {currentPrompt.length.toLocaleString()} characters
                     </span>
                     {currentPrompt && (
@@ -582,7 +582,7 @@ export default function SimpleGeneratePage() {
                         onClick={() => {
                           navigator.clipboard.writeText(currentPrompt)
                         }}
-                        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-[#9945FF] text-sm"
                       >
                         Copy
                       </button>
@@ -594,7 +594,7 @@ export default function SimpleGeneratePage() {
                   <textarea
                     value={currentPrompt}
                     onChange={(e) => setCurrentPrompt(e.target.value)}
-                    className="w-full h-64 p-3 border border-gray-600 rounded-md bg-gray-900 text-gray-100 font-mono text-sm resize-none"
+                    className="w-full h-64 p-3 border border-[#9945FF]/30 rounded-md bg-[#14141e] text-gray-100 font-mono text-sm resize-none"
                     placeholder="Generation prompt will appear here after creating an image..."
                     readOnly
                   />
@@ -612,7 +612,7 @@ export default function SimpleGeneratePage() {
                 </h2>
                 <button
                   onClick={() => setImages([])}
-                  className="text-sm text-gray-400 hover:text-white"
+                  className="text-sm text-[#a8a8b8] hover:text-white"
                 >
                   Clear All
                 </button>
@@ -622,7 +622,7 @@ export default function SimpleGeneratePage() {
                 {images.map((image) => (
                   <div
                     key={image.id}
-                    className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-lg"
+                    className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg overflow-hidden shadow-lg"
                   >
                     <div className="relative aspect-square">
                       <Image
@@ -633,17 +633,17 @@ export default function SimpleGeneratePage() {
                       />
                     </div>
                     <div className="p-4">
-                      <p className="text-sm text-gray-300 mb-2 line-clamp-2">
+                      <p className="text-sm text-white mb-2 line-clamp-2">
                         {image.description}
                       </p>
-                      <p className="text-xs text-gray-500 mb-3">
+                      <p className="text-xs text-[#a8a8b8]/80 mb-3">
                         {new Date(image.createdAt).toLocaleString()}
                       </p>
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleSaveToCollection(image)}
                           disabled={!christmasCollectionId || savingImages.has(image.id)}
-                          className="flex-1 text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white py-2 px-4 rounded transition-colors"
+                          className="flex-1 text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-[#1a1a24]/80 disabled:cursor-not-allowed text-white py-2 px-4 rounded transition-colors"
                         >
                           {savingImages.has(image.id) ? (
                             <span className="flex items-center justify-center gap-1">
@@ -667,8 +667,8 @@ export default function SimpleGeneratePage() {
                       {saveMessages[image.id] && (
                         <p className={`text-xs mt-2 ${
                           saveMessages[image.id].startsWith('✅')
-                            ? 'text-emerald-400'
-                            : 'text-red-400'
+                            ? 'text-[#14F195]'
+                            : 'text-[#EF4444]'
                         }`}>
                           {saveMessages[image.id]}
                         </p>
@@ -683,8 +683,8 @@ export default function SimpleGeneratePage() {
           {images.length === 0 && !isGenerating && (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">🎨</div>
-              <p className="text-xl text-gray-400 mb-2">No images generated yet</p>
-              <p className="text-gray-500">Describe what you want and generate your first image!</p>
+              <p className="text-xl text-[#a8a8b8] mb-2">No images generated yet</p>
+              <p className="text-[#a8a8b8]/80">Describe what you want and generate your first image!</p>
             </div>
           )}
         </div>

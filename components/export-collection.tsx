@@ -2,21 +2,21 @@
 
 import { Button } from "@/components/ui/button"
 import { Download, FileJson } from "lucide-react"
-import type { Ordinal } from "@/types/ordinal"
+import type { Nft } from "@/types/nft"
 import JSZip from "jszip"
 
 interface ExportCollectionProps {
-  ordinals: Ordinal[]
+  nfts: Nft[]
 }
 
-export function ExportCollection({ ordinals }: ExportCollectionProps) {
+export function ExportCollection({ nfts }: ExportCollectionProps) {
   const handleExportMetadata = () => {
-    const metadata = ordinals.map((ordinal) => ({
-      number: ordinal.number,
-      traits: ordinal.traits,
-      rarityScore: ordinal.rarityScore,
-      rarityTier: ordinal.rarityTier,
-      imageUrl: ordinal.imageUrl,
+    const metadata = nfts.map((nft) => ({
+      number: nft.number,
+      traits: nft.traits,
+      rarityScore: nft.rarityScore,
+      rarityTier: nft.rarityTier,
+      imageUrl: nft.imageUrl,
     }))
 
     const dataStr = JSON.stringify(metadata, null, 2)
@@ -24,7 +24,7 @@ export function ExportCollection({ ordinals }: ExportCollectionProps) {
     const url = window.URL.createObjectURL(dataBlob)
     const a = document.createElement("a")
     a.href = url
-    a.download = "halloween-ordinals-metadata.json"
+    a.download = "halloween-nfts-metadata.json"
     document.body.appendChild(a)
     a.click()
     window.URL.revokeObjectURL(url)
@@ -32,29 +32,29 @@ export function ExportCollection({ ordinals }: ExportCollectionProps) {
   }
 
   const handleExportAll = async () => {
-    if (ordinals.length === 0) return
+    if (nfts.length === 0) return
 
     const zip = new JSZip()
     const imagesFolder = zip.folder("images")
 
     // Add metadata
-    const metadata = ordinals.map((ordinal) => ({
-      number: ordinal.number,
-      traits: ordinal.traits,
-      rarityScore: ordinal.rarityScore,
-      rarityTier: ordinal.rarityTier,
-      filename: `ordinal-${ordinal.number}.png`,
+    const metadata = nfts.map((nft) => ({
+      number: nft.number,
+      traits: nft.traits,
+      rarityScore: nft.rarityScore,
+      rarityTier: nft.rarityTier,
+      filename: `nft-${nft.number}.png`,
     }))
     zip.file("metadata.json", JSON.stringify(metadata, null, 2))
 
     // Download all images
-    for (const ordinal of ordinals) {
+    for (const nft of nfts) {
       try {
-        const response = await fetch(ordinal.imageUrl)
+        const response = await fetch(nft.imageUrl)
         const blob = await response.blob()
-        imagesFolder?.file(`ordinal-${ordinal.number}.png`, blob)
+        imagesFolder?.file(`nft-${nft.number}.png`, blob)
       } catch (error) {
-        console.error(`Failed to download ordinal #${ordinal.number}:`, error)
+        console.error(`Failed to download NFT #${nft.number}:`, error)
       }
     }
 
@@ -62,14 +62,14 @@ export function ExportCollection({ ordinals }: ExportCollectionProps) {
     const url = window.URL.createObjectURL(content)
     const a = document.createElement("a")
     a.href = url
-    a.download = "halloween-ordinals-collection.zip"
+    a.download = "halloween-nfts-collection.zip"
     document.body.appendChild(a)
     a.click()
     window.URL.revokeObjectURL(url)
     document.body.removeChild(a)
   }
 
-  if (ordinals.length === 0) return null
+  if (nfts.length === 0) return null
 
   return (
     <div className="flex gap-2">
@@ -79,7 +79,7 @@ export function ExportCollection({ ordinals }: ExportCollectionProps) {
       </Button>
       <Button onClick={handleExportAll} variant="default" size="sm">
         <Download className="w-4 h-4 mr-2" />
-        Download All ({ordinals.length})
+        Download All ({nfts.length})
       </Button>
     </div>
   )

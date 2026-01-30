@@ -111,7 +111,7 @@ function OrdinalContentDisplay({ listing }: { listing: OrdinalListing }) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1f3a] to-[#0a0e27] p-4">
         <span className="text-6xl mb-2">📜</span>
-        <span className="text-white/60 text-sm uppercase tracking-wider">Text Content</span>
+        <span className="text-[#a8a8b8]/80 text-sm uppercase tracking-wider">Text Content</span>
       </div>
     )
   }
@@ -438,11 +438,11 @@ export default function OrdinalDetailPage() {
   if (!listing) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-12 text-center">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-12 text-center">
           <h2 className="text-2xl font-bold text-white mb-4">Listing Not Found</h2>
           <button
             onClick={() => router.push('/marketplace')}
-            className="px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold"
+            className="px-6 py-3 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-semibold"
           >
             Back to Marketplace
           </button>
@@ -454,11 +454,11 @@ export default function OrdinalDetailPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
         <div className="container mx-auto px-6 py-8">
           <button
             onClick={() => router.push('/marketplace')}
-            className="text-[#00d4ff] hover:text-[#00b8e6] mb-4 flex items-center gap-2"
+            className="text-[#9945FF] hover:text-[#14F195] mb-4 flex items-center gap-2"
           >
             ← Back to Marketplace
           </button>
@@ -474,7 +474,7 @@ export default function OrdinalDetailPage() {
           {step === 'view' && (
             <div className="grid md:grid-cols-2 gap-8">
               {/* Image */}
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl overflow-hidden">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl overflow-hidden">
                 <div className="aspect-square bg-[#0a0e27] flex items-center justify-center">
                   <OrdinalContentDisplay listing={listing} />
                 </div>
@@ -482,47 +482,47 @@ export default function OrdinalDetailPage() {
 
               {/* Details */}
               <div>
-                <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-6 mb-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6 mb-6">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-bold text-white">Price</h3>
                     <div className="text-right">
-                      <p className="text-3xl font-black text-[#00d4ff]">
+                      <p className="text-3xl font-black text-[#9945FF]">
                         {(listing.price_sats / 100000000).toFixed(6)} BTC
                       </p>
-                      <p className="text-sm text-white/60">{listing.price_sats.toLocaleString()} sats</p>
+                      <p className="text-sm text-[#a8a8b8]/80">{listing.price_sats.toLocaleString()} sats</p>
                     </div>
                   </div>
 
                   {listing.description && (
                     <div className="mb-4">
                       <h4 className="text-sm font-medium text-white mb-2">Description</h4>
-                      <p className="text-white/80">{listing.description}</p>
+                      <p className="text-[#a8a8b8]">{listing.description}</p>
                     </div>
                   )}
 
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-white/60">Inscription ID:</span>
+                      <span className="text-[#a8a8b8]/80">Inscription ID:</span>
                       <span className="text-white font-mono text-xs">{listing.inscription_id.substring(0, 16)}...</span>
                     </div>
                     {listing.inscription_number && (
                       <div className="flex justify-between">
-                        <span className="text-white/60">Inscription #:</span>
+                        <span className="text-[#a8a8b8]/80">Inscription #:</span>
                         <span className="text-white font-bold">#{listing.inscription_number.toLocaleString()}</span>
                       </div>
                     )}
                     {listing.collection_symbol && (
                       <div className="flex justify-between">
-                        <span className="text-white/60">Collection:</span>
+                        <span className="text-[#a8a8b8]/80">Collection:</span>
                         <span className="text-white font-medium">{listing.collection_symbol}</span>
                       </div>
                     )}
                     <div className="flex justify-between">
-                      <span className="text-white/60">Listed:</span>
+                      <span className="text-[#a8a8b8]/80">Listed:</span>
                       <span className="text-white">{new Date(listing.created_at).toLocaleDateString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-white/60">Seller:</span>
+                      <span className="text-[#a8a8b8]/80">Seller:</span>
                       <span className="text-white font-mono text-xs">
                         {listing.seller_wallet.substring(0, 8)}...{listing.seller_wallet.substring(listing.seller_wallet.length - 6)}
                       </span>
@@ -532,12 +532,12 @@ export default function OrdinalDetailPage() {
 
                 {/* Action Button */}
                 {listing.seller_wallet === currentAddress ? (
-                  <div className="cosmic-card border border-yellow-500/30 rounded-xl p-4 text-center">
-                    <p className="text-yellow-400 font-medium">This is your listing</p>
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-yellow-500/30 rounded-xl p-4 text-center">
+                    <p className="text-[#FBBF24] font-medium">This is your listing</p>
                   </div>
                 ) : !isConnected ? (
-                  <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4 text-center">
-                    <p className="text-white/60 mb-3">Connect your wallet to purchase</p>
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4 text-center">
+                    <p className="text-[#a8a8b8]/80 mb-3">Connect your wallet to purchase</p>
                   </div>
                 ) : (
                   <button
@@ -552,14 +552,14 @@ export default function OrdinalDetailPage() {
           )}
 
           {step === 'confirm' && (
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-8 max-w-2xl mx-auto">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-8 max-w-2xl mx-auto">
               <h2 className="text-2xl font-bold text-white mb-6">Confirm Purchase</h2>
 
-              <div className="cosmic-card border border-[#ff6b35]/30 rounded-xl p-6 mb-6">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#DC1FFF]/30 rounded-xl p-6 mb-6">
                 <p className="text-white/90 mb-4">
                   <strong>You are about to purchase:</strong>
                 </p>
-                <ul className="text-sm text-white/80 space-y-2">
+                <ul className="text-sm text-[#a8a8b8] space-y-2">
                   <li>• Inscription ID: {listing.inscription_id.substring(0, 20)}...</li>
                   {listing.inscription_number && <li>• Inscription #{listing.inscription_number.toLocaleString()}</li>}
                   <li>• Price: {(listing.price_sats / 100000000).toFixed(6)} BTC ({listing.price_sats.toLocaleString()} sats)</li>
@@ -571,7 +571,7 @@ export default function OrdinalDetailPage() {
                 <button
                   onClick={() => setStep('view')}
                   disabled={purchasing}
-                  className="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors"
+                  className="flex-1 px-6 py-3 bg-gray-600 hover:bg-[#1a1a24]/80 text-white rounded-lg font-semibold transition-colors"
                 >
                   Cancel
                 </button>
@@ -587,7 +587,7 @@ export default function OrdinalDetailPage() {
           )}
 
           {step === 'sign' && (
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-8 max-w-2xl mx-auto">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-8 max-w-2xl mx-auto">
               <div className="flex items-center justify-center mb-6">
                 <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
               </div>
@@ -599,17 +599,17 @@ export default function OrdinalDetailPage() {
           )}
 
           {step === 'complete' && txId && (
-            <div className="cosmic-card border border-green-500/30 rounded-xl p-8 max-w-2xl mx-auto">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-green-500/30 rounded-xl p-8 max-w-2xl mx-auto">
               <div className="text-center mb-6">
                 <div className="text-6xl mb-4">✅</div>
                 <h2 className="text-2xl font-bold text-white mb-2">Purchase Successful!</h2>
-                <p className="text-white/80">
+                <p className="text-[#a8a8b8]">
                   Your transaction has been broadcast to the Bitcoin network
                 </p>
               </div>
 
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4 mb-6">
-                <p className="text-sm text-white/60 mb-2">Transaction ID:</p>
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4 mb-6">
+                <p className="text-sm text-[#a8a8b8]/80 mb-2">Transaction ID:</p>
                 <p className="text-white font-mono text-sm break-all">{txId}</p>
               </div>
 
@@ -617,14 +617,14 @@ export default function OrdinalDetailPage() {
                 href={`https://mempool.space/tx/${txId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white text-center rounded-lg font-semibold transition-colors mb-3"
+                className="block w-full px-6 py-3 bg-gray-600 hover:bg-[#1a1a24]/80 text-white text-center rounded-lg font-semibold transition-colors mb-3"
               >
                 View on Mempool.space →
               </a>
 
               <button
                 onClick={() => router.push('/marketplace')}
-                className="w-full px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors"
+                className="w-full px-6 py-3 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors"
               >
                 Back to Marketplace
               </button>

@@ -31,7 +31,7 @@ export function RulesManager({ onRuleAdded }: RulesManagerProps) {
   }
 
   return (
-    <div className="bg-[#FDFCFA] dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+    <div className="bg-[#FDFCFA] dark:bg-[#1a1a24] border border-gray-200 dark:border-[#9945FF]/20 rounded-lg p-4">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
           Custom Rules Manager
@@ -47,13 +47,13 @@ export function RulesManager({ onRuleAdded }: RulesManagerProps) {
       {isOpen && (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">
               Rule Type
             </label>
             <select
               value={newRule.type}
               onChange={(e) => setNewRule({ ...newRule, type: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-[#FDFCFA] dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-[#9945FF]/30 rounded-md bg-[#FDFCFA] dark:bg-[#14141e] text-gray-900 dark:text-gray-100"
               required
             >
               <option value="">Select Rule Type</option>
@@ -66,13 +66,13 @@ export function RulesManager({ onRuleAdded }: RulesManagerProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">
               Rule Content
             </label>
             <textarea
               value={newRule.content}
               onChange={(e) => setNewRule({ ...newRule, content: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-[#FDFCFA] dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-[#9945FF]/30 rounded-md bg-[#FDFCFA] dark:bg-[#14141e] text-gray-900 dark:text-gray-100"
               rows={4}
               placeholder="Enter your custom rule (this will be added to the generation prompt)"
               required

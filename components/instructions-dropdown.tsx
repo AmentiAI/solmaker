@@ -80,10 +80,10 @@ export function InstructionsDropdown() {
               </h4>
               <ol className="list-decimal list-inside space-y-1 ml-6 text-xs">
                 <li><strong>Ensure All Layers Have Traits:</strong> Every layer must have at least one trait before generating</li>
-                <li><strong>Set Quantity:</strong> Choose how many ordinals to generate (1-100)</li>
-                <li><strong>Click "Generate Ordinals":</strong> The system will randomly select one trait from each layer</li>
-                <li><strong>Result:</strong> Each generated ordinal will have a unique random combination of traits from all layers</li>
-                <li><strong>Example:</strong> Ordinal #1 might get "Blood Moon Graveyard" background + "Vampire" character + "Red Eyes" + "Fangs" mouth, while Ordinal #2 gets completely different traits</li>
+                <li><strong>Set Quantity:</strong> Choose how many NFTs to generate (1-100)</li>
+                <li><strong>Click "Generate NFTs":</strong> The system will randomly select one trait from each layer</li>
+                <li><strong>Result:</strong> Each generated NFT will have a unique random combination of traits from all layers</li>
+                <li><strong>Example:</strong> NFT #1 might get "Blood Moon Graveyard" background + "Vampire" character + "Red Eyes" + "Fangs" mouth, while NFT #2 gets completely different traits</li>
               </ol>
             </div>
 
@@ -107,8 +107,8 @@ export function InstructionsDropdown() {
                   </ul>
                 </li>
                 <li><strong>Partial Filters:</strong> You can filter some layers and leave others random. Only filtered layers will be fixed; others will be randomized</li>
-                <li><strong>Generate:</strong> Click "⚠️ Generate Ordinals (Filtered)" - the button will turn orange when filters are active</li>
-                <li><strong>Result:</strong> All generated ordinals will have the filtered traits, with remaining layers randomized</li>
+                <li><strong>Generate:</strong> Click "⚠️ Generate NFTs (Filtered)" - the button will turn orange when filters are active</li>
+                <li><strong>Result:</strong> All generated NFTs will have the filtered traits, with remaining layers randomized</li>
                 <li><strong>Use Case:</strong> Perfect for creating variations of a specific character design or ensuring certain traits always appear together</li>
               </ol>
             </div>
@@ -170,7 +170,7 @@ export function InstructionsDropdown() {
                 <li>Add 5-10 traits per layer for good variety without overwhelming options</li>
                 <li>Use filters to create themed subsets (e.g., all "Vampire" characters with different backgrounds)</li>
                 <li>Preview prompts before generating to see how traits will be combined</li>
-                <li>Check existing ordinals to see what combinations have already been generated</li>
+                <li>Check existing NFTs to see what combinations have already been generated</li>
                 <li>Use descriptive trait names and detailed descriptions for better AI results</li>
                 <li>Invite team members to help build your collection - they can add layers and traits</li>
                 <li>Set compression target KB for consistent file sizes across your collection</li>

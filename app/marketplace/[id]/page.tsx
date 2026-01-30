@@ -216,7 +216,7 @@ export default function MarketplaceListingDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -225,8 +225,8 @@ export default function MarketplaceListingDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-white/80 mb-4">Listing not found</p>
-          <Link href="/marketplace" className="text-[#00d4ff] hover:text-[#00b8e6] hover:underline transition-colors">
+          <p className="text-[#a8a8b8] mb-4">Listing not found</p>
+          <Link href="/marketplace" className="text-[#9945FF] hover:text-[#14F195] hover:underline transition-colors">
             Back to Marketplace
           </Link>
         </div>
@@ -242,7 +242,7 @@ export default function MarketplaceListingDetailPage() {
         {/* Back Button */}
         <Link
           href="/marketplace"
-          className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
+          className="inline-flex items-center text-[#a8a8b8] hover:text-white mb-6 transition-colors"
         >
           ← Back to Marketplace
         </Link>
@@ -252,14 +252,14 @@ export default function MarketplaceListingDetailPage() {
           <div>
             {/* Sample Images Gallery */}
             {listing.sample_images && listing.sample_images.length > 0 && (
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-6 mb-6">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6 mb-6">
                 <h3 className="font-bold text-white mb-4">Sample Images from Collection</h3>
                 <div className="grid grid-cols-3 gap-3">
                   {listing.sample_images.map((url, idx) => (
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(url)}
-                      className="w-full aspect-square rounded-lg border border-[#00d4ff]/30 overflow-hidden hover:border-[#00d4ff] hover:shadow-md transition-all cursor-pointer"
+                      className="w-full aspect-square rounded-lg border border-[#9945FF]/30 overflow-hidden hover:border-[#9945FF] hover:shadow-md transition-all cursor-pointer"
                     >
                       <img
                         src={url}
@@ -274,7 +274,7 @@ export default function MarketplaceListingDetailPage() {
 
             {/* Promotional Materials */}
             {listing.included_promo_urls && listing.included_promo_urls.length > 0 && (
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-6">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6">
                 <h3 className="font-bold text-white mb-4">
                   ✨ Included Promotional Materials ({listing.included_promo_urls.length})
                 </h3>
@@ -283,7 +283,7 @@ export default function MarketplaceListingDetailPage() {
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(url)}
-                      className="w-full aspect-[2/3] rounded-lg border border-[#00d4ff]/30 overflow-hidden hover:border-[#00d4ff] hover:shadow-md transition-all cursor-pointer"
+                      className="w-full aspect-[2/3] rounded-lg border border-[#9945FF]/30 overflow-hidden hover:border-[#9945FF] hover:shadow-md transition-all cursor-pointer"
                     >
                       <img
                         src={url}
@@ -299,19 +299,19 @@ export default function MarketplaceListingDetailPage() {
 
           {/* Right Column - Details */}
           <div>
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-8 sticky top-6">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-8 sticky top-6">
               <h1 className="text-3xl font-bold text-white mb-4">
                 {listing.title}
               </h1>
 
               <div className="flex items-center gap-3 mb-6">
-                <span className="px-3 py-1 bg-[#00d4ff]/20 text-[#00d4ff] border border-[#00d4ff]/30 rounded-full text-sm font-medium">
+                <span className="px-3 py-1 bg-[#9945FF]/20 text-[#9945FF] border border-[#9945FF]/30 rounded-full text-sm font-medium">
                   {listing.ordinal_count} images
                 </span>
               </div>
 
               {/* Price */}
-              <div className="mb-6 p-6 cosmic-card border-2 border-[#00d4ff]/50 rounded-xl">
+              <div className="mb-6 p-6 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/50 rounded-xl">
                 <div className="text-sm text-white/70 mb-2">Price</div>
                 
                 {/* Payment method selector - only show if both options available */}
@@ -321,8 +321,8 @@ export default function MarketplaceListingDetailPage() {
                       onClick={() => setSelectedPaymentMethod('credits')}
                       className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                         selectedPaymentMethod === 'credits'
-                          ? 'bg-[#00d4ff] text-white shadow-lg shadow-[#00d4ff]/20'
-                          : 'cosmic-card border border-[#00d4ff]/30 text-white/70 hover:border-[#00d4ff]/50 hover:text-white'
+                          ? 'bg-[#9945FF] text-white shadow-lg shadow-[#9945FF]/20'
+                          : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white/70 hover:border-[#9945FF]/50 hover:text-white'
                       }`}
                     >
                       💳 Credits
@@ -331,8 +331,8 @@ export default function MarketplaceListingDetailPage() {
                       onClick={() => setSelectedPaymentMethod('btc')}
                       className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                         selectedPaymentMethod === 'btc'
-                          ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/20'
-                          : 'cosmic-card border border-[#00d4ff]/30 text-white/70 hover:border-[#00d4ff]/50 hover:text-white'
+                          ? 'bg-[#DC1FFF] text-white shadow-lg shadow-[#DC1FFF]/20'
+                          : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white/70 hover:border-[#9945FF]/50 hover:text-white'
                       }`}
                     >
                       ₿ Bitcoin
@@ -343,7 +343,7 @@ export default function MarketplaceListingDetailPage() {
                 {/* Show appropriate price based on payment type */}
                 {(selectedPaymentMethod === 'credits' && (listing.payment_type === 'credits' || listing.payment_type === 'both')) && (
                   <>
-                    <div className="text-4xl font-bold text-[#00d4ff]">
+                    <div className="text-4xl font-bold text-[#9945FF]">
                       {listing.price_credits} <span className="text-2xl">Credits</span>
                     </div>
                     {activeWalletAddress && (
@@ -354,7 +354,7 @@ export default function MarketplaceListingDetailPage() {
                           <span className="font-semibold">{userCredits.toFixed(2)}</span>
                         )} credits
                         {!loadingCredits && userCredits < listing.price_credits && (
-                          <span className="ml-2 text-[#ff4757] font-semibold">
+                          <span className="ml-2 text-[#EF4444] font-semibold">
                             (Need {(listing.price_credits - userCredits).toFixed(2)} more)
                           </span>
                         )}
@@ -364,7 +364,7 @@ export default function MarketplaceListingDetailPage() {
                 )}
 
                 {(selectedPaymentMethod === 'btc' || listing.payment_type === 'btc') && listing.price_btc && (
-                  <div className="text-4xl font-bold text-[#ff6b35]">
+                  <div className="text-4xl font-bold text-[#DC1FFF]">
                     {parseFloat(listing.price_btc).toFixed(8)} <span className="text-2xl">BTC</span>
                   </div>
                 )}
@@ -391,7 +391,7 @@ export default function MarketplaceListingDetailPage() {
               {listing.description && (
                 <div className="mb-6">
                   <h3 className="font-bold text-white mb-2">Description</h3>
-                  <p className="text-white/80 whitespace-pre-wrap">{listing.description}</p>
+                  <p className="text-[#a8a8b8] whitespace-pre-wrap">{listing.description}</p>
                 </div>
               )}
 
@@ -403,9 +403,9 @@ export default function MarketplaceListingDetailPage() {
               )}
 
               {/* What You Get */}
-              <div className="mb-6 p-4 cosmic-card border border-[#00d4ff]/30 rounded-lg">
-                <h3 className="font-bold text-[#00d4ff] mb-2">What You Get:</h3>
-                <ul className="text-sm text-white/80 space-y-1">
+              <div className="mb-6 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg">
+                <h3 className="font-bold text-[#9945FF] mb-2">What You Get:</h3>
+                <ul className="text-sm text-[#a8a8b8] space-y-1">
                   <li>✓ Full ownership of {listing.ordinal_count} generated images</li>
                   <li>✓ Ability to generate more images in the collection</li>
                   <li>✓ Rights to self-inscribe or launch on launchpad</li>
@@ -418,7 +418,7 @@ export default function MarketplaceListingDetailPage() {
 
               {/* Sold Status */}
               {isSold && (
-                <div className="p-4 cosmic-card border border-[#00d4ff]/50 rounded-lg text-center mb-4">
+                <div className="p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/50 rounded-lg text-center mb-4">
                   <p className="text-lg font-bold text-white">🎉 This collection has been sold</p>
                   {soldTo && (
                     <p className="text-sm text-white/70 mt-1">
@@ -430,8 +430,8 @@ export default function MarketplaceListingDetailPage() {
 
               {/* Pending Payment Warning */}
               {!isSold && pendingPayment && pendingPayment.has_pending && pendingPayment.buyer_wallet !== activeWalletAddress && (
-                <div className="p-4 cosmic-card border border-[#ff6b35]/50 rounded-lg mb-4">
-                  <p className="text-sm font-medium text-[#ff6b35]">
+                <div className="p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#DC1FFF]/50 rounded-lg mb-4">
+                  <p className="text-sm font-medium text-[#DC1FFF]">
                     ⏳ Another buyer has a pending BTC payment
                   </p>
                   <p className="text-xs text-white/70 mt-1">
@@ -445,8 +445,8 @@ export default function MarketplaceListingDetailPage() {
 
               {/* Your Pending Payment */}
               {!isSold && pendingPayment && pendingPayment.has_pending && pendingPayment.buyer_wallet === activeWalletAddress && (
-                <div className="p-4 cosmic-card border border-[#00d4ff]/50 rounded-lg mb-4">
-                  <p className="text-sm font-medium text-[#00d4ff]">
+                <div className="p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/50 rounded-lg mb-4">
+                  <p className="text-sm font-medium text-[#9945FF]">
                     📝 You have a pending payment on this listing
                   </p>
                   <p className="text-xs text-white/70 mt-1">
@@ -462,11 +462,11 @@ export default function MarketplaceListingDetailPage() {
               {!showBtcPurchase && !isSold && (
                 <div className="space-y-3">
                   {isOwner ? (
-                    <div className="px-4 py-3 cosmic-card border border-[#00d4ff]/30 rounded-lg text-center">
+                    <div className="px-4 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg text-center">
                       <p className="text-sm text-white/70">This is your listing</p>
                       <Link
                         href={`/collections/${listing.collection_id}/list-marketplace`}
-                        className="text-sm text-[#00d4ff] hover:text-[#00b8e6] hover:underline transition-colors"
+                        className="text-sm text-[#9945FF] hover:text-[#14F195] hover:underline transition-colors"
                       >
                         Manage Listing
                       </Link>
@@ -474,7 +474,7 @@ export default function MarketplaceListingDetailPage() {
                   ) : pendingPayment && pendingPayment.has_pending && pendingPayment.buyer_wallet !== activeWalletAddress ? (
                     <button
                       disabled
-                      className="w-full px-6 py-4 cosmic-card border border-[#00d4ff]/30 text-white/50 rounded-lg text-lg font-bold cursor-not-allowed"
+                      className="w-full px-6 py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white/50 rounded-lg text-lg font-bold cursor-not-allowed"
                     >
                       Pending Payment from Another Buyer
                     </button>
@@ -482,7 +482,7 @@ export default function MarketplaceListingDetailPage() {
                     <button
                       onClick={handlePurchase}
                       disabled={!activeWalletAddress || purchasing || loadingCredits || userCredits < listing.price_credits}
-                      className="w-full px-6 py-4 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg text-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#00d4ff]/20"
+                      className="w-full px-6 py-4 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg text-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#9945FF]/20"
                     >
                       {!activeWalletAddress ? (
                         'Connect Wallet to Purchase'
@@ -503,7 +503,7 @@ export default function MarketplaceListingDetailPage() {
                     <button
                       onClick={handleBtcPurchase}
                       disabled={!activeWalletAddress || purchasing}
-                      className="w-full px-6 py-4 bg-[#ff6b35] hover:bg-[#ff5722] text-white rounded-lg text-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#ff6b35]/20"
+                      className="w-full px-6 py-4 bg-[#DC1FFF] hover:bg-[#9945FF] text-white rounded-lg text-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#DC1FFF]/20"
                     >
                       {!activeWalletAddress ? (
                         'Connect Wallet to Purchase'
@@ -519,7 +519,7 @@ export default function MarketplaceListingDetailPage() {
                   )}
 
                   {!activeWalletAddress && (
-                    <p className="text-xs text-white/60 text-center">
+                    <p className="text-xs text-[#a8a8b8]/80 text-center">
                       Connect your wallet to purchase
                     </p>
                   )}
@@ -527,7 +527,7 @@ export default function MarketplaceListingDetailPage() {
               )}
 
               {/* Listing Info */}
-              <div className="mt-6 pt-6 border-t border-[#00d4ff]/30 text-xs text-white/60">
+              <div className="mt-6 pt-6 border-t border-[#9945FF]/30 text-xs text-[#a8a8b8]/80">
                 <p>Listed on {new Date(listing.created_at).toLocaleDateString()}</p>
                 <p className="mt-1">Listing ID: {listing.id.substring(0, 8)}...</p>
               </div>
@@ -536,7 +536,7 @@ export default function MarketplaceListingDetailPage() {
         </div>
 
         {/* Reviews Section */}
-        <div className="mt-8 cosmic-card border border-[#00d4ff]/30 rounded-xl p-6">
+        <div className="mt-8 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6">
           <h2 className="text-2xl font-bold text-white mb-6">Reviews & Ratings</h2>
           
           {/* Review Form (for buyers who just purchased) */}
@@ -580,7 +580,7 @@ export default function MarketplaceListingDetailPage() {
         >
           <button
             onClick={() => setSelectedImage(null)}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 text-4xl font-bold leading-none z-10"
+            className="absolute top-4 right-4 text-white hover:text-white text-4xl font-bold leading-none z-10"
             aria-label="Close"
           >
             ×

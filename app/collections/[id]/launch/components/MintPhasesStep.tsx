@@ -104,7 +104,7 @@ export function MintPhasesStep({
       )}
 
       {showNewPhaseForm && (
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-6">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-xl p-6">
           <h3 className="text-lg font-bold text-white mb-4">{editingPhaseId ? 'Edit Mint Phase' : 'New Mint Phase'}</h3>
           <div className="grid gap-4">
             <div>
@@ -114,7 +114,7 @@ export function MintPhasesStep({
                 value={newPhaseName}
                 onChange={(e) => setNewPhaseName(e.target.value)}
                 placeholder="e.g. OG Mint, Whitelist, Public Sale"
-                className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
               />
             </div>
 
@@ -125,9 +125,9 @@ export function MintPhasesStep({
                   type="datetime-local"
                   value={newPhaseStartTime}
                   onChange={(e) => setNewPhaseStartTime(e.target.value)}
-                  className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white"
+                  className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white"
                 />
-                <p className="text-xs text-white/60 mt-1">Your local time ({Intl.DateTimeFormat().resolvedOptions().timeZone})</p>
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">Your local time ({Intl.DateTimeFormat().resolvedOptions().timeZone})</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-white/70 mb-1">Phase End Time</label>
@@ -138,11 +138,11 @@ export function MintPhasesStep({
                   className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] ${
                     newPhaseEndTime && newPhaseStartTime && 
                     (new Date(newPhaseEndTime).getTime() - new Date(newPhaseStartTime).getTime()) / (1000 * 60 * 60 * 24) > 10
-                      ? 'border-[#ff6b35] bg-[#ff6b35]/20 cosmic-card' 
-                      : 'border-[#00d4ff]/30 cosmic-card'
+                      ? 'border-[#DC1FFF] bg-[#DC1FFF]/20 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md' 
+                      : 'border-[#00d4ff]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md'
                   } text-white`}
                 />
-                <p className="text-xs text-white/60 mt-1">Your local time ({Intl.DateTimeFormat().resolvedOptions().timeZone})</p>
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">Your local time ({Intl.DateTimeFormat().resolvedOptions().timeZone})</p>
                 {newPhaseEndTime && newPhaseStartTime && (() => {
                   const daysDifference = (new Date(newPhaseEndTime).getTime() - new Date(newPhaseStartTime).getTime()) / (1000 * 60 * 60 * 24)
                   if (daysDifference > 10) {
@@ -167,13 +167,13 @@ export function MintPhasesStep({
                   min={0}
                   step={1000000}
                   placeholder="0"
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] border-[#00d4ff]/30 cosmic-card text-white placeholder:text-white/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] border-[#00d4ff]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder:text-white/50"
                 />
                 {newPhasePrice === 0 && (
-                  <p className="text-xs text-white/60 mt-1">Free mint (0 ◎)</p>
+                  <p className="text-xs text-[#a8a8b8]/80 mt-1">Free mint (0 ◎)</p>
                 )}
                 {newPhasePrice > 0 && (
-                  <p className="text-xs text-white/60 mt-1">{(newPhasePrice / 1000000000).toFixed(4)} SOL</p>
+                  <p className="text-xs text-[#a8a8b8]/80 mt-1">{(newPhasePrice / 1000000000).toFixed(4)} SOL</p>
                 )}
               </div>
               <div>
@@ -195,9 +195,9 @@ export function MintPhasesStep({
                   min={1}
                   max={10}
                   placeholder="Unlimited"
-                  className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                  className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
                 />
-                <p className="text-xs text-white/60 mt-1">Maximum: 10 per wallet</p>
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">Maximum: 10 per wallet</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-white/70 mb-1">Phase Allocation</label>
@@ -207,9 +207,9 @@ export function MintPhasesStep({
                   onChange={(e) => setNewPhaseAllocation(e.target.value ? Number(e.target.value) : null)}
                   min={1}
                   placeholder="All remaining"
-                  className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                  className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
                 />
-                <p className="text-xs text-white/60 mt-1">Max total mints during phase (blank for all)</p>
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">Max total mints during phase (blank for all)</p>
               </div>
             </div>
 
@@ -240,7 +240,7 @@ export function MintPhasesStep({
                   <select
                     value={newPhaseWhitelistId || ''}
                     onChange={(e) => setNewPhaseWhitelistId(e.target.value || null)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white"
                   >
                     <option value="" className="bg-[#0f172a]">-- No Whitelist Selected --</option>
                     {whitelists.map((wl) => (
@@ -249,7 +249,7 @@ export function MintPhasesStep({
                       </option>
                     ))}
                   </select>
-                  <p className="text-xs text-white/60 mt-1">
+                  <p className="text-xs text-[#a8a8b8]/80 mt-1">
                     Select a whitelist to restrict this phase to specific addresses
                   </p>
                 </div>
@@ -264,7 +264,7 @@ export function MintPhasesStep({
                   (newPhaseEndTime && newPhaseStartTime && (new Date(newPhaseEndTime).getTime() - new Date(newPhaseStartTime).getTime()) / (1000 * 60 * 60 * 24) > 10) ||
                   (newPhasePrice > 0 && newPhasePrice <= 545)
                 }
-                className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-[#00d4ff] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? (editingPhaseId ? 'Updating...' : 'Creating...') : (editingPhaseId ? 'Update Phase' : 'Create Phase')}
               </button>
@@ -286,7 +286,7 @@ export function MintPhasesStep({
       {phases.length > 0 && (
         <div className="space-y-4">
           {phases.map((phase) => (
-            <div key={phase.id} className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4">
+            <div key={phase.id} className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-xl p-4">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <h3 className="font-bold text-white">{phase.phase_name}</h3>
@@ -319,7 +319,7 @@ export function MintPhasesStep({
                     </p>
                   )}
                   {!phase.whitelist_only && phase.whitelist_id && (
-                    <p className="text-xs text-white/60 mt-1">
+                    <p className="text-xs text-[#a8a8b8]/80 mt-1">
                       Whitelist: {phase.whitelist_name || 'Unknown'} ({phase.whitelist_entries || 0} addresses)
                     </p>
                   )}
@@ -327,7 +327,7 @@ export function MintPhasesStep({
                 <div className="flex gap-2 ml-4">
                   <button
                     onClick={() => onEditPhase(phase.id)}
-                    className="px-3 py-1.5 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                    className="px-3 py-1.5 text-sm bg-blue-500 hover:bg-[#9945FF] text-white rounded-lg transition-colors"
                   >
                     Edit
                   </button>
@@ -353,7 +353,7 @@ export function MintPhasesStep({
         </button>
         <button
           onClick={onContinue}
-          className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors"
+          className="px-6 py-2 bg-[#00d4ff] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors"
         >
           Continue →
         </button>

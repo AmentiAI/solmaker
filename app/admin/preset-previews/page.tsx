@@ -148,7 +148,7 @@ export default function AdminPresetPreviewsPage() {
 
   if (!isConnected) {
     return (
-      <div className="flex min-h-screen bg-slate-900">
+      <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
         <AdminSidebar />
         <div className="flex-1 ml-64 p-8">
           <div className="max-w-7xl mx-auto">
@@ -161,11 +161,11 @@ export default function AdminPresetPreviewsPage() {
 
   if (!authorized) {
     return (
-      <div className="flex min-h-screen bg-slate-900">
+      <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
         <AdminSidebar />
         <div className="flex-1 ml-64 p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-red-900/30 border border-red-700 rounded-lg p-6 text-center">
+            <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-[#EF4444]/20/50 rounded-lg p-6 text-center">
               <h2 className="text-2xl font-bold text-red-200 mb-2">Access Denied</h2>
               <p className="text-red-300">You do not have admin access to this page.</p>
             </div>
@@ -176,20 +176,20 @@ export default function AdminPresetPreviewsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-900">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
 
       <div className="flex-1 ml-64 p-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent mb-2">
               Preset Preview Management
             </h1>
-            <p className="text-gray-400 text-lg">Manage positioning preset preview images and prompts</p>
+            <p className="text-[#b4b4c8] text-lg">Manage positioning preset preview images and prompts</p>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg text-red-200">
+            <div className="mb-6 p-4 bg-gradient-to-br from-red-900/30 to-red-800/20 border border-[#EF4444]/20/50 rounded-lg text-red-200">
               {error}
             </div>
           )}
@@ -198,7 +198,7 @@ export default function AdminPresetPreviewsPage() {
             <button
               onClick={loadPreviews}
               disabled={loading}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 flex items-center gap-2"
+              className="px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-[#00E5FF]/20"
             >
               {loading ? (
                 <>
@@ -218,11 +218,11 @@ export default function AdminPresetPreviewsPage() {
 
           {loading ? (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-              <p className="text-gray-400 mt-4">Loading preset previews...</p>
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#00E5FF]"></div>
+              <p className="text-[#b4b4c8] mt-4">Loading preset previews...</p>
             </div>
           ) : previews.length === 0 ? (
-            <div className="text-center py-12 text-gray-400">
+            <div className="text-center py-12 text-[#b4b4c8]">
               <p className="text-lg">No preset previews found</p>
               <p className="text-sm mt-2">Preview images will be created when generated in the Wireframe Editor</p>
             </div>
@@ -231,7 +231,7 @@ export default function AdminPresetPreviewsPage() {
               {previews.map((preview) => (
                 <div
                   key={preview.id}
-                  className="bg-slate-800/50 border border-gray-800 rounded-xl p-6"
+                  className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6"
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Preview Image */}
@@ -239,14 +239,14 @@ export default function AdminPresetPreviewsPage() {
                       <h3 className="text-white font-semibold mb-3">
                         {getPresetName(preview.preset_id)}
                       </h3>
-                      <div className="aspect-square bg-gray-900 rounded-lg overflow-hidden border border-gray-700">
+                      <div className="aspect-square bg-[#050510] rounded-lg overflow-hidden border border-[#00E5FF]/30">
                         <img
                           src={preview.image_url}
                           alt={preview.preset_id}
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="mt-3 text-xs text-gray-400 space-y-1">
+                      <div className="mt-3 text-xs text-[#b4b4c8] space-y-1">
                         <div>Preset ID: <span className="font-mono">{preview.preset_id}</span></div>
                         <div>Created: {new Date(preview.created_at).toLocaleString()}</div>
                         <div>Updated: {new Date(preview.updated_at).toLocaleString()}</div>
@@ -256,7 +256,7 @@ export default function AdminPresetPreviewsPage() {
                     {/* Prompt Editor */}
                     <div className="lg:col-span-2">
                       <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-white mb-2">
                           Generation Prompt
                         </label>
                         {editingId === preview.preset_id ? (
@@ -265,14 +265,14 @@ export default function AdminPresetPreviewsPage() {
                               value={editPrompt}
                               onChange={(e) => setEditPrompt(e.target.value)}
                               rows={8}
-                              className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none font-mono text-sm"
+                              className="w-full px-4 py-3 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white placeholder-[#b4b4c8] focus:border-[#00E5FF] focus:outline-none font-mono text-sm"
                               placeholder="Enter prompt for generating preview image..."
                             />
                             <div className="flex gap-2">
                               <button
                                 onClick={() => handleSavePrompt(preview.preset_id)}
                                 disabled={saving || !editPrompt.trim()}
-                                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 flex items-center gap-2"
+                                className="px-4 py-2 bg-gradient-to-r from-[#FFD60A] to-[#00E5FF] hover:from-[#11c97a] hover:to-[#7a35cc] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-[#FFD60A]/20"
                               >
                                 {saving ? (
                                   <>
@@ -294,7 +294,7 @@ export default function AdminPresetPreviewsPage() {
                                   setEditPrompt('')
                                 }}
                                 disabled={saving}
-                                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
+                                className="px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#0f0f1e] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 border border-[#00E5FF]/20"
                               >
                                 Cancel
                               </button>
@@ -302,13 +302,13 @@ export default function AdminPresetPreviewsPage() {
                           </div>
                         ) : (
                           <div className="space-y-3">
-                            <div className="px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white font-mono text-sm whitespace-pre-wrap break-words">
+                            <div className="px-4 py-3 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white font-mono text-sm whitespace-pre-wrap break-words">
                               {preview.prompt}
                             </div>
                             <div className="flex gap-2">
                               <button
                                 onClick={() => handleEditPrompt(preview)}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center gap-2"
+                                className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 shadow-lg shadow-[#00E5FF]/20"
                               >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -318,7 +318,7 @@ export default function AdminPresetPreviewsPage() {
                               <button
                                 onClick={() => handleRegenerate(preview)}
                                 disabled={regeneratingId === preview.preset_id}
-                                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 flex items-center gap-2"
+                                className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-[#00E5FF]/20"
                               >
                                 {regeneratingId === preview.preset_id ? (
                                   <>
@@ -341,15 +341,15 @@ export default function AdminPresetPreviewsPage() {
 
                       {/* Image URL */}
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-white mb-2">
                           Image URL
                         </label>
-                        <div className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg">
+                        <div className="px-4 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg">
                           <a
                             href={preview.image_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-400 hover:text-blue-300 font-mono text-xs break-all hover:underline"
+                            className="text-[#00E5FF] hover:text-[#FFD60A] font-mono text-xs break-all hover:underline transition-colors"
                           >
                             {preview.image_url}
                           </a>

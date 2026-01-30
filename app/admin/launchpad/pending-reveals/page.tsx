@@ -204,12 +204,12 @@ export default function AdminLaunchpadPendingRevealsPage() {
 
   if (!isConnected) {
     return (
-      <div className="flex min-h-screen bg-slate-900">
+      <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
         <AdminSidebar />
         <div className="flex-1 ml-64 p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-slate-800 rounded-lg shadow p-6 text-center">
-              <p className="text-gray-300">Please connect your wallet</p>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+              <p className="text-[#b4b4c8]">Please connect your wallet</p>
             </div>
           </div>
         </div>
@@ -219,12 +219,12 @@ export default function AdminLaunchpadPendingRevealsPage() {
 
   if (!isAdminUser) {
     return (
-      <div className="flex min-h-screen bg-slate-900">
+      <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
         <AdminSidebar />
         <div className="flex-1 ml-64 p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-slate-800 rounded-lg shadow p-6 text-center">
-              <p className="text-red-400 font-semibold">Unauthorized. Admin access only.</p>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+              <p className="text-[#EF4444] font-semibold">Unauthorized. Admin access only.</p>
             </div>
           </div>
         </div>
@@ -233,7 +233,7 @@ export default function AdminLaunchpadPendingRevealsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-900">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       
       <div className="flex-1 ml-64 p-8">
@@ -242,12 +242,12 @@ export default function AdminLaunchpadPendingRevealsPage() {
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-white">Launchpad Pending Reveals</h1>
-              <p className="text-gray-400 mt-1">Manage pending reveal transactions for launchpad mints</p>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">Launchpad Pending Reveals</h1>
+              <p className="text-[#b4b4c8] mt-1">Manage pending reveal transactions for launchpad mints</p>
             </div>
             <Link
               href="/admin"
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-gray-300 rounded-lg font-medium"
+              className="px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#0f0f1e] border border-[#00E5FF]/20 text-white rounded-lg font-medium transition-all"
             >
               ← Back to Admin
             </Link>
@@ -256,11 +256,11 @@ export default function AdminLaunchpadPendingRevealsPage() {
           {/* Filters */}
           <div className="flex items-center gap-4 mb-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-300 mb-1">Filter by Collection</label>
+              <label className="block text-sm font-medium text-white mb-1">Filter by Collection</label>
               <select
                 value={collectionFilter}
                 onChange={(e) => setCollectionFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-700 bg-slate-800 text-white rounded-lg"
+                className="w-full px-3 py-2 border border-[#00E5FF]/30 bg-[#050510] text-white rounded-lg focus:ring-2 focus:ring-[#00E5FF]"
               >
                 <option value="">All Collections</option>
                 {collections.map((col) => (
@@ -273,7 +273,7 @@ export default function AdminLaunchpadPendingRevealsPage() {
             <div className="flex items-end gap-2">
               <button
                 onClick={loadPendingReveals}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium"
+                className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg font-medium shadow-lg shadow-[#00E5FF]/20"
               >
                 🔄 Refresh
               </button>
@@ -281,7 +281,7 @@ export default function AdminLaunchpadPendingRevealsPage() {
                 <button
                   onClick={handleBatchReveal}
                   disabled={processing === 'batch'}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium disabled:opacity-50"
+                  className="px-4 py-2 bg-gradient-to-r from-[#FFD60A] to-[#00E5FF] hover:from-[#11c97a] hover:to-[#7a35cc] text-white rounded-lg font-medium disabled:opacity-50 shadow-lg shadow-[#FFD60A]/20"
                 >
                   {processing === 'batch' ? 'Processing...' : `🚀 Reveal All (${inscriptions.length})`}
                 </button>
@@ -292,43 +292,43 @@ export default function AdminLaunchpadPendingRevealsPage() {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-4 p-4 bg-red-900/20 border border-red-700 rounded-lg">
+          <div className="mb-4 p-4 bg-gradient-to-br from-red-900/20 to-red-800/10 border border-[#EF4444]/20/50 rounded-lg">
             <p className="text-red-300">{error}</p>
           </div>
         )}
 
         {/* Loading State */}
         {loading ? (
-          <div className="bg-slate-800 rounded-lg shadow p-12 text-center">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-12 text-center">
             <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-gray-300">Loading pending reveals...</p>
+            <p className="text-white">Loading pending reveals...</p>
           </div>
         ) : inscriptions.length === 0 ? (
-          <div className="bg-slate-800 rounded-lg shadow p-12 text-center">
-            <p className="text-gray-300 text-lg">✅ No pending reveals!</p>
-            <p className="text-gray-400 text-sm mt-2">All launchpad mints have been revealed.</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-12 text-center">
+            <p className="text-white text-lg">✅ No pending reveals!</p>
+            <p className="text-[#a8a8b8] text-sm mt-2">All launchpad mints have been revealed.</p>
           </div>
         ) : (
-          <div className="bg-slate-800 rounded-lg shadow overflow-hidden">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-700">
-                <thead className="bg-slate-900">
+              <table className="min-w-full divide-y divide-[#00E5FF]/20">
+                <thead className="bg-[#050510] border-b border-[#00E5FF]/20">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Collection</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Ordinal #</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Minter</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Commit TX</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Commit Time</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Action</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-[#b4b4c8] uppercase tracking-wider">Collection</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-[#b4b4c8] uppercase tracking-wider">Ordinal #</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-[#b4b4c8] uppercase tracking-wider">Minter</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-[#b4b4c8] uppercase tracking-wider">Commit TX</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-[#b4b4c8] uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-[#b4b4c8] uppercase tracking-wider">Commit Time</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-[#b4b4c8] uppercase tracking-wider">Action</th>
                   </tr>
                 </thead>
-                <tbody className="bg-slate-800 divide-y divide-gray-700">
+                <tbody className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 divide-y divide-[#00E5FF]/20">
                   {inscriptions.map((inscription) => (
-                    <tr key={inscription.id} className="hover:bg-slate-700/50">
+                    <tr key={inscription.id} className="hover:bg-[#0f0f1e]/50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-white">{inscription.collection_name}</div>
-                        <div className="text-xs text-gray-400">{inscription.collection_id.slice(0, 8)}...</div>
+                        <div className="text-xs text-[#a8a8b8]">{inscription.collection_id.slice(0, 8)}...</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-white">
@@ -345,7 +345,7 @@ export default function AdminLaunchpadPendingRevealsPage() {
                           href={`https://mempool.space/tx/${inscription.commit_tx_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-blue-600 hover:text-blue-800 font-mono"
+                          className="text-sm text-[#9945FF] hover:text-blue-800 font-mono"
                         >
                           {inscription.commit_tx_id.slice(0, 12)}...
                         </a>
@@ -364,14 +364,14 @@ export default function AdminLaunchpadPendingRevealsPage() {
                           </div>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[#a8a8b8]">
                         {formatDate(inscription.commit_broadcast_at)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <button
                           onClick={() => handleReveal(inscription)}
                           disabled={processing === inscription.id || !!processing}
-                          className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="px-3 py-1 bg-gradient-to-r from-[#FFD60A] to-[#00E5FF] hover:from-[#11c97a] hover:to-[#7a35cc] text-white rounded text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#FFD60A]/20"
                         >
                           {processing === inscription.id ? 'Processing...' : '🚀 Reveal'}
                         </button>

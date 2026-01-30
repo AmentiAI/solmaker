@@ -135,14 +135,14 @@ export default function CreateLayerPage() {
         <div className="mb-6">
           <Link 
             href={`/collections/${params.id}`} 
-            className="text-blue-600 hover:text-blue-700 mb-4 inline-block"
+            className="text-[#9945FF] hover:text-[#14F195] mb-4 inline-block"
           >
             ← Back to Collection
           </Link>
           <h1 className="text-3xl font-bold text-white">Create New Layer</h1>
         </div>
 
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-6">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -156,7 +156,7 @@ export default function CreateLayerPage() {
                     handleGetSuggestions([])
                   }}
                   disabled={loadingSuggestions}
-                  className="text-sm bg-[#00d4ff] text-white px-3 py-1.5 rounded hover:bg-[#00b8e6] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="text-sm bg-[#9945FF] text-white px-3 py-1.5 rounded hover:bg-[#14F195] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {loadingSuggestions ? 'Getting suggestions...' : '💡 Give suggestions'}
                 </button>
@@ -165,18 +165,18 @@ export default function CreateLayerPage() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:outline-none"
+                className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:outline-none"
                 placeholder="Enter layer name (e.g., Background, Eyes, Headwear, etc)"
                 required
               />
-              <p className="text-sm text-white/60 mt-1">Layers are used to group the different parts of the art or pfp, name it whatever you wish.</p>
+              <p className="text-sm text-[#a8a8b8]/80 mt-1">Layers are used to group the different parts of the art or pfp, name it whatever you wish.</p>
             </div>
 
             <div className="flex gap-3 pt-4">
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                className="bg-[#9945FF] text-white px-4 py-2 rounded hover:bg-[#7C3AED] disabled:opacity-50"
               >
                 {loading ? 'Creating...' : 'Create Layer'}
               </button>
@@ -193,12 +193,12 @@ export default function CreateLayerPage() {
         {/* Suggestions Modal */}
         {showSuggestions && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-6 max-w-md w-full mx-4">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-6 max-w-md w-full mx-4">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-white">Layer Suggestions</h2>
                 <button
                   onClick={() => setShowSuggestions(false)}
-                  className="text-white/60 hover:text-white"
+                  className="text-[#a8a8b8]/80 hover:text-white"
                 >
                   ✕
                 </button>
@@ -206,7 +206,7 @@ export default function CreateLayerPage() {
               
               {loadingSuggestions ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin w-8 h-8 border-4 border-[#00d4ff] border-t-transparent rounded-full mx-auto"></div>
+                  <div className="animate-spin w-8 h-8 border-4 border-[#9945FF] border-t-transparent rounded-full mx-auto"></div>
                   <p className="mt-4 text-white/70">Getting AI suggestions...</p>
                 </div>
               ) : suggestions.length > 0 ? (
@@ -218,18 +218,18 @@ export default function CreateLayerPage() {
                     <button
                       key={index}
                       onClick={() => handleSelectSuggestion(suggestion)}
-                      className="w-full text-left px-4 py-3 cosmic-card hover:bg-[#00d4ff]/10 border border-[#00d4ff]/30 hover:border-[#00d4ff] rounded-lg transition-colors"
+                      className="w-full text-left px-4 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:bg-[#9945FF]/10 border border-[#9945FF]/30 hover:border-[#9945FF] rounded-lg transition-colors"
                     >
                       <span className="font-medium text-white">{suggestion}</span>
                     </button>
                   ))}
                   
                   {/* Give 5 more button */}
-                  <div className="pt-4 border-t border-[#00d4ff]/30 mt-4">
+                  <div className="pt-4 border-t border-[#9945FF]/30 mt-4">
                     <button
                       onClick={handleGetMoreSuggestions}
                       disabled={loadingSuggestions}
-                      className="w-full px-4 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-4 py-2 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {loadingSuggestions ? 'Getting more suggestions...' : '💡 Give 5 more'}
                     </button>
@@ -247,7 +247,7 @@ export default function CreateLayerPage() {
                     setShowSuggestions(false)
                     setAllShownSuggestions([]) // Reset ignore list when closing
                   }}
-                  className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded transition-colors border border-[#00d4ff]/30"
+                  className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded transition-colors border border-[#9945FF]/30"
                 >
                   Cancel
                 </button>

@@ -24,7 +24,7 @@ export default function SettingsTab({
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6">
       <h2 className="text-xl font-bold text-gray-900 mb-6">Collection Settings</h2>
-      <p className="text-gray-500">Settings tab - to be implemented</p>
+      <p className="text-[#a8a8b8]/80">Settings tab - to be implemented</p>
     </div>
   )
 }

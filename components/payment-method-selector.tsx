@@ -24,7 +24,7 @@ export function PaymentMethodSelector({
 
   return (
     <div className="space-y-3">
-      <label className="block text-sm font-medium text-gray-300 mb-2">
+      <label className="block text-sm font-medium text-white mb-2">
         Payment Method
       </label>
       <div className="grid grid-cols-2 gap-3">
@@ -39,14 +39,14 @@ export function PaymentMethodSelector({
               ${
                 selectedMethod === method.id
                   ? 'border-[#4561ad] bg-[#4561ad]/10 shadow-lg shadow-[#4561ad]/20'
-                  : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                  : 'border-[#9945FF]/20 bg-[#1a1a24]/50 hover:border-[#9945FF]/30'
               }
               ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}
             `}
           >
             <div className="text-3xl mb-2">{method.icon}</div>
             <div className="text-sm font-semibold text-white">{method.name}</div>
-            <div className="text-xs text-gray-400 mt-1">{method.description}</div>
+            <div className="text-xs text-[#a8a8b8] mt-1">{method.description}</div>
             {selectedMethod === method.id && (
               <div className="absolute top-2 right-2">
                 <div className="w-3 h-3 bg-[#4561ad] rounded-full"></div>

@@ -49,14 +49,14 @@ export default function GuidePage() {
   ]
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       {/* Hero Header */}
-      <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+      <div className="bg-gradient-to-r from-[#050510] via-[#0f0f1e] to-[#15152a] text-white border-b border-[#00E5FF]/30">
         <div className="container mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-              <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white">Collection Creation Guide</h1>
-              <p className="text-[#a5b4fc] mt-2 text-lg">
+              <h1 className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent">Collection Creation Guide</h1>
+              <p className="text-[#b4b4c8] mt-2 text-lg">
                 Everything you need to know about creating, compressing, and inscribing your ordinal collection.
               </p>
             </div>
@@ -65,7 +65,7 @@ export default function GuidePage() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="cosmic-card border-b border-[#00d4ff]/30">
+      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-b border-[#9945FF]/30">
         <div className="container mx-auto px-6">
           <div className="flex gap-1 overflow-x-auto py-3 scrollbar-hide">
             {sections.map((section) => (
@@ -77,8 +77,8 @@ export default function GuidePage() {
                 }}
                 className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-all ${
                   activeSection === section.id
-                    ? 'bg-[#00d4ff] text-white shadow-lg'
-                    : 'cosmic-card text-white/70 hover:text-white hover:bg-[#1a1f3a] border border-[#00d4ff]/30'
+                    ? 'bg-[#9945FF] text-white shadow-lg'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white/70 hover:text-white hover:bg-[#1a1f3a] border border-[#9945FF]/30'
                 }`}
               >
                 {section.icon} {section.label}
@@ -99,14 +99,14 @@ export default function GuidePage() {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white">Image Creation</h2>
-                <p className="text-white/60">Choose your creation mode</p>
+                <p className="text-[#a8a8b8]/80">Choose your creation mode</p>
               </div>
             </div>
 
             {/* Three Mode Cards - Simplified */}
             <div className="grid lg:grid-cols-3 gap-6 mb-8">
               {/* Maker Mode */}
-              <div className="cosmic-card rounded-2xl border-2 border-[#4561ad] overflow-hidden hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#4561ad] overflow-hidden hover:shadow-xl transition-all">
                 <div className="bg-gradient-to-r from-[#4561ad] to-[#5a7bc4] px-5 py-4">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🎯</span>
@@ -114,7 +114,7 @@ export default function GuidePage() {
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-white/80 text-sm mb-4">You give prompts, AI generates the traits</p>
+                  <p className="text-[#a8a8b8] text-sm mb-4">You give prompts, AI generates the traits</p>
                   <div className="bg-[#4561ad]/5 rounded-xl p-3 text-xs text-center">
                     <span className="font-bold text-[#4561ad]">Guided creation with AI assistance</span>
                   </div>
@@ -122,7 +122,7 @@ export default function GuidePage() {
               </div>
 
               {/* Lazy Mode */}
-              <div className="cosmic-card rounded-2xl border-2 border-[#e27d0f] overflow-hidden hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#e27d0f] overflow-hidden hover:shadow-xl transition-all">
                 <div className="bg-gradient-to-r from-[#e27d0f] to-[#f09840] px-5 py-4">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🪄</span>
@@ -130,7 +130,7 @@ export default function GuidePage() {
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-white/80 text-sm mb-4">AI does everything for you</p>
+                  <p className="text-[#a8a8b8] text-sm mb-4">AI does everything for you</p>
                   <div className="bg-[#e27d0f]/5 rounded-xl p-3 text-xs text-center">
                     <span className="font-bold text-[#e27d0f]">Fastest way to get started</span>
                   </div>
@@ -138,7 +138,7 @@ export default function GuidePage() {
               </div>
 
               {/* Artist Mode */}
-              <div className="cosmic-card rounded-2xl border-2 border-purple-500 overflow-hidden hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-purple-500 overflow-hidden hover:shadow-xl transition-all">
                 <div className="bg-gradient-to-r from-purple-500 to-purple-600 px-5 py-4">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🎨</span>
@@ -146,7 +146,7 @@ export default function GuidePage() {
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-white/80 text-sm mb-4">Manual setup, upload your own images</p>
+                  <p className="text-[#a8a8b8] text-sm mb-4">Manual setup, upload your own images</p>
                   <div className="bg-purple-500/5 rounded-xl p-3 text-xs text-center">
                     <span className="font-bold text-purple-600">Full control for artists</span>
                   </div>
@@ -155,10 +155,10 @@ export default function GuidePage() {
             </div>
 
             {/* Art Styles Gallery */}
-            <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 overflow-hidden">
-              <div className="cosmic-card px-6 py-4 border-b border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 overflow-hidden">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-6 py-4 border-b border-[#9945FF]/30">
                 <h3 className="font-black text-white">Available Art Styles</h3>
-                <p className="text-sm text-white/60">Real examples from the generator</p>
+                <p className="text-sm text-[#a8a8b8]/80">Real examples from the generator</p>
               </div>
               <div className="p-6 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {artStyles.map((style) => {
@@ -166,7 +166,7 @@ export default function GuidePage() {
                   const imageUrl = artStyleExamples[style.id] || style.fallbackImage
                   return (
                     <div key={style.id} className="group cursor-pointer">
-                      <div className="aspect-square rounded-xl overflow-hidden cosmic-card border-2 border-transparent group-hover:border-[#4561ad] transition-all shadow-sm group-hover:shadow-lg">
+                      <div className="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-transparent group-hover:border-[#4561ad] transition-all shadow-sm group-hover:shadow-lg">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={imageUrl}
@@ -181,7 +181,7 @@ export default function GuidePage() {
                   )
                 })}
                 <div className="group cursor-pointer">
-                  <div className="aspect-square rounded-xl overflow-hidden cosmic-card border-2 border-dashed border-[#00d4ff]/30 flex items-center justify-center group-hover:border-[#4561ad] transition-all">
+                  <div className="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-dashed border-[#9945FF]/30 flex items-center justify-center group-hover:border-[#4561ad] transition-all">
                     <span className="text-3xl">✏️</span>
                   </div>
                   <div className="mt-2 text-center">
@@ -192,7 +192,7 @@ export default function GuidePage() {
             </div>
 
             {/* Future Mode */}
-            <div className="mt-6 cosmic-card rounded-2xl border border-[#00d4ff]/30 p-6">
+            <div className="mt-6 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 p-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl flex-shrink-0">
                   🔮
@@ -221,13 +221,13 @@ export default function GuidePage() {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white">Marketing Tools</h2>
-                <p className="text-white/60">Create promotional content for your collection</p>
+                <p className="text-[#a8a8b8]/80">Create promotional content for your collection</p>
               </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-6">
               {/* Promotion Flyer Tool */}
-              <div className="cosmic-card rounded-2xl border-2 border-[#e27d0f] overflow-hidden hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#e27d0f] overflow-hidden hover:shadow-xl transition-all">
                 <div className="bg-gradient-to-r from-[#e27d0f] to-[#f09840] px-6 py-5">
                   <div className="flex items-center gap-4">
                     <span className="text-4xl">📣</span>
@@ -235,34 +235,34 @@ export default function GuidePage() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <p className="text-white/80 text-sm mb-4">
+                  <p className="text-[#a8a8b8] text-sm mb-4">
                     Pick images from your collection, describe a scene, AI generates a promotional flyer
                   </p>
                   
                   <div className="grid grid-cols-3 gap-2 mb-4">
-                    <div className="cosmic-card rounded-lg p-2 text-center">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg p-2 text-center">
                       <div className="text-lg">⬜</div>
-                      <div className="text-[10px] font-bold text-white/80">Square</div>
+                      <div className="text-[10px] font-bold text-[#a8a8b8]">Square</div>
                     </div>
-                    <div className="cosmic-card rounded-lg p-2 text-center">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg p-2 text-center">
                       <div className="text-lg">📱</div>
-                      <div className="text-[10px] font-bold text-white/80">Portrait</div>
+                      <div className="text-[10px] font-bold text-[#a8a8b8]">Portrait</div>
                     </div>
-                    <div className="cosmic-card rounded-lg p-2 text-center">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg p-2 text-center">
                       <div className="text-lg">🖼️</div>
-                      <div className="text-[10px] font-bold text-white/80">Landscape</div>
+                      <div className="text-[10px] font-bold text-[#a8a8b8]">Landscape</div>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between p-3 bg-[#e27d0f]/5 rounded-xl">
-                    <span className="text-sm font-medium text-white/80">Cost</span>
+                    <span className="text-sm font-medium text-[#a8a8b8]">Cost</span>
                     <span className="font-black text-[#e27d0f]">1 credit</span>
                   </div>
                 </div>
               </div>
 
               {/* Sticker Maker Tool */}
-              <div className="cosmic-card rounded-2xl border-2 border-[#4561ad] overflow-hidden hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#4561ad] overflow-hidden hover:shadow-xl transition-all">
                 <div className="bg-gradient-to-r from-[#4561ad] to-[#5a7bc4] px-6 py-5">
                   <div className="flex items-center gap-4">
                     <span className="text-4xl">🎨</span>
@@ -270,7 +270,7 @@ export default function GuidePage() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <p className="text-white/80 text-sm mb-4">
+                  <p className="text-[#a8a8b8] text-sm mb-4">
                     Describe any sticker idea, AI generates a transparent PNG sticker
                   </p>
                   
@@ -282,7 +282,7 @@ export default function GuidePage() {
                   </div>
 
                   <div className="flex items-center justify-between p-3 bg-[#4561ad]/5 rounded-xl">
-                    <span className="text-sm font-medium text-white/80">Cost</span>
+                    <span className="text-sm font-medium text-[#a8a8b8]">Cost</span>
                     <span className="font-black text-[#4561ad]">1 credit</span>
                   </div>
                 </div>
@@ -298,13 +298,13 @@ export default function GuidePage() {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white">Collection Marketplace</h2>
-                <p className="text-white/60">Buy and sell complete collections</p>
+                <p className="text-[#a8a8b8]/80">Buy and sell complete collections</p>
               </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-6 mb-8">
               {/* Selling Collections */}
-              <div className="cosmic-card rounded-2xl border-2 border-green-500 overflow-hidden hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-green-500 overflow-hidden hover:shadow-xl transition-all">
                 <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-5">
                   <div className="flex items-center gap-4">
                     <span className="text-4xl">💰</span>
@@ -312,7 +312,7 @@ export default function GuidePage() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <p className="text-white/80 text-sm mb-4">
+                  <p className="text-[#a8a8b8] text-sm mb-4">
                     List your entire collection for sale. Includes all generated images and promotional materials.
                   </p>
                   
@@ -324,19 +324,19 @@ export default function GuidePage() {
                       { step: '4', text: 'Accept terms and list' },
                     ].map((item) => (
                       <div key={item.step} className="flex items-center gap-3">
-                        <div className="w-6 h-6 rounded-full bg-[#00d4ff]/20 text-[#00d4ff] border border-[#00d4ff]/30 flex items-center justify-center text-xs font-black">
+                        <div className="w-6 h-6 rounded-full bg-[#9945FF]/20 text-[#9945FF] border border-[#9945FF]/30 flex items-center justify-center text-xs font-black">
                           {item.step}
                         </div>
-                        <span className="text-sm text-white/80">{item.text}</span>
+                        <span className="text-sm text-[#a8a8b8]">{item.text}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="cosmic-card bg-[#0f172a]/80 rounded-xl p-3 border border-[#00d4ff]/30">
-                    <div className="text-xs font-bold text-white/80 mb-1">Payment Options:</div>
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-[#0f172a]/80 rounded-xl p-3 border border-[#9945FF]/30">
+                    <div className="text-xs font-bold text-[#a8a8b8] mb-1">Payment Options:</div>
                     <div className="flex gap-2">
-                      <span className="px-2 py-1 bg-[#ff6b35]/20 text-[#ff6b35] rounded text-xs font-bold border border-[#ff6b35]/30">₿ Bitcoin</span>
-                      <span className="px-2 py-1 bg-[#00d4ff]/20 text-[#00d4ff] rounded text-xs font-bold border border-[#00d4ff]/30">💳 Credits</span>
+                      <span className="px-2 py-1 bg-[#DC1FFF]/20 text-[#DC1FFF] rounded text-xs font-bold border border-[#DC1FFF]/30">₿ Bitcoin</span>
+                      <span className="px-2 py-1 bg-[#9945FF]/20 text-[#9945FF] rounded text-xs font-bold border border-[#9945FF]/30">💳 Credits</span>
                       <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs font-bold border border-purple-500/30">Both</span>
                     </div>
                   </div>
@@ -344,7 +344,7 @@ export default function GuidePage() {
               </div>
 
               {/* Buying Collections */}
-              <div className="cosmic-card rounded-2xl border-2 border-[#4561ad] overflow-hidden hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#4561ad] overflow-hidden hover:shadow-xl transition-all">
                 <div className="bg-gradient-to-r from-[#4561ad] to-[#5a7bc4] px-6 py-5">
                   <div className="flex items-center gap-4">
                     <span className="text-4xl">🛒</span>
@@ -352,13 +352,13 @@ export default function GuidePage() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <p className="text-white/80 text-sm mb-4">
+                  <p className="text-[#a8a8b8] text-sm mb-4">
                     Purchase ready-made collections with all images and promotional materials included.
                   </p>
                   
                   <div className="bg-[#4561ad]/5 rounded-xl p-4 mb-4">
                     <div className="text-xs font-bold text-[#4561ad] mb-2">What You Get:</div>
-                    <ul className="text-xs text-white/80 space-y-1">
+                    <ul className="text-xs text-[#a8a8b8] space-y-1">
                       <li>✓ Full ownership of all generated images</li>
                       <li>✓ Ability to generate more images</li>
                       <li>✓ Rights to inscribe or launch</li>
@@ -368,15 +368,15 @@ export default function GuidePage() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="cosmic-card bg-[#0f172a]/80 rounded-lg p-3 text-center border border-[#ff6b35]/30">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-[#0f172a]/80 rounded-lg p-3 text-center border border-[#DC1FFF]/30">
                       <div className="text-lg">₿</div>
-                      <div className="text-xs font-bold text-[#ff6b35]">Pay with BTC</div>
-                      <div className="text-[10px] text-white/60">Direct to seller</div>
+                      <div className="text-xs font-bold text-[#DC1FFF]">Pay with BTC</div>
+                      <div className="text-[10px] text-[#a8a8b8]/80">Direct to seller</div>
                     </div>
-                    <div className="cosmic-card bg-[#0f172a]/80 rounded-lg p-3 text-center border border-[#00d4ff]/30">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-[#0f172a]/80 rounded-lg p-3 text-center border border-[#9945FF]/30">
                       <div className="text-lg">💳</div>
-                      <div className="text-xs font-bold text-[#00d4ff]">Pay with Credits</div>
-                      <div className="text-[10px] text-white/60">Instant transfer</div>
+                      <div className="text-xs font-bold text-[#9945FF]">Pay with Credits</div>
+                      <div className="text-[10px] text-[#a8a8b8]/80">Instant transfer</div>
                     </div>
                   </div>
                 </div>
@@ -385,21 +385,21 @@ export default function GuidePage() {
 
             {/* Marketplace Info Cards */}
             <div className="grid md:grid-cols-3 gap-4">
-              <div className="cosmic-card rounded-xl border border-[#00d4ff]/30 p-5">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl border border-[#9945FF]/30 p-5">
                 <div className="text-2xl mb-2">🔒</div>
                 <h4 className="font-black text-white mb-1">Collection Locking</h4>
                 <p className="text-xs text-white/70">
                   Collections must be locked before listing. This prevents modifications while for sale.
                 </p>
               </div>
-              <div className="cosmic-card rounded-xl border border-[#00d4ff]/30 p-5">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl border border-[#9945FF]/30 p-5">
                 <div className="text-2xl mb-2">🤝</div>
                 <h4 className="font-black text-white mb-1">Secure Transfer</h4>
                 <p className="text-xs text-white/70">
                   Ownership transfers automatically when payment confirms. All collaborators are removed.
                 </p>
               </div>
-              <div className="cosmic-card rounded-xl border border-[#00d4ff]/30 p-5">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl border border-[#9945FF]/30 p-5">
                 <div className="text-2xl mb-2">📣</div>
                 <h4 className="font-black text-white mb-1">Promos Included</h4>
                 <p className="text-xs text-white/70">
@@ -409,7 +409,7 @@ export default function GuidePage() {
             </div>
 
             {/* BTC Payment Flow */}
-            <div className="mt-8 cosmic-card rounded-2xl border border-[#ff6b35]/30 p-6">
+            <div className="mt-8 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#DC1FFF]/30 p-6">
               <h3 className="font-black text-white mb-4 flex items-center gap-2">
                 <span className="text-2xl">₿</span> Bitcoin Payment Flow
               </h3>
@@ -421,7 +421,7 @@ export default function GuidePage() {
                   { step: '4', title: 'Confirm', desc: 'Wait for blockchain confirmation' },
                 ].map((item) => (
                   <div key={item.step} className="text-center">
-                    <div className="w-10 h-10 rounded-full bg-[#ff6b35] text-white flex items-center justify-center font-black mx-auto mb-2">
+                    <div className="w-10 h-10 rounded-full bg-[#DC1FFF] text-white flex items-center justify-center font-black mx-auto mb-2">
                       {item.step}
                     </div>
                     <div className="font-bold text-white text-sm">{item.title}</div>
@@ -440,68 +440,68 @@ export default function GuidePage() {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white">Image Compression</h2>
-                <p className="text-white/60">Optimize for affordable inscriptions</p>
+                <p className="text-[#a8a8b8]/80">Optimize for affordable inscriptions</p>
               </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-4 mb-8">
-              <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 p-6 hover:border-green-400/50 hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 p-6 hover:border-green-400/50 hover:shadow-xl transition-all">
                 <div className="text-4xl mb-3">💎</div>
                 <div className="text-2xl font-black text-white">Under 10KB</div>
-                <div className="text-sm text-white/60 mt-1">Best value inscriptions</div>
+                <div className="text-sm text-[#a8a8b8]/80 mt-1">Best value inscriptions</div>
                 <div className="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
                   <div className="h-full w-full bg-gradient-to-r from-green-400 to-green-600" />
                 </div>
               </div>
-              <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 p-6 hover:border-[#e27d0f]/50 hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 p-6 hover:border-[#e27d0f]/50 hover:shadow-xl transition-all">
                 <div className="text-4xl mb-3">⚖️</div>
                 <div className="text-2xl font-black text-white">10-50KB</div>
-                <div className="text-sm text-white/60 mt-1">Balanced quality/cost</div>
+                <div className="text-sm text-[#a8a8b8]/80 mt-1">Balanced quality/cost</div>
                 <div className="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
                   <div className="h-full w-3/4 bg-gradient-to-r from-yellow-400 to-[#e27d0f]" />
                 </div>
               </div>
-              <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 p-6 hover:border-red-400/50 hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 p-6 hover:border-red-400/50 hover:shadow-xl transition-all">
                 <div className="text-4xl mb-3">🔥</div>
                 <div className="text-2xl font-black text-white">50KB+</div>
-                <div className="text-sm text-white/60 mt-1">Premium inscriptions</div>
+                <div className="text-sm text-[#a8a8b8]/80 mt-1">Premium inscriptions</div>
                 <div className="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
                   <div className="h-full w-1/2 bg-gradient-to-r from-red-400 to-red-600" />
                 </div>
               </div>
             </div>
 
-            <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 overflow-hidden">
-              <div className="bg-gradient-to-r from-[#4561ad]/10 to-[#4561ad]/5 px-6 py-4 border-b border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 overflow-hidden">
+              <div className="bg-gradient-to-r from-[#4561ad]/10 to-[#4561ad]/5 px-6 py-4 border-b border-[#9945FF]/30">
                 <h3 className="font-black text-white">Recommended Settings</h3>
               </div>
               <div className="p-6 grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-[#00d4ff]/30">
+                  <div className="flex justify-between items-center py-3 border-b border-[#9945FF]/30">
                     <span className="text-white/70 font-medium">Format</span>
-                    <span className="font-black text-[#00d4ff]">WebP</span>
+                    <span className="font-black text-[#9945FF]">WebP</span>
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-[#00d4ff]/30">
+                  <div className="flex justify-between items-center py-3 border-b border-[#9945FF]/30">
                     <span className="text-white/70 font-medium">Resolution</span>
-                    <span className="font-black text-[#00d4ff]">666 × 666px</span>
+                    <span className="font-black text-[#9945FF]">666 × 666px</span>
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-[#00d4ff]/30">
+                  <div className="flex justify-between items-center py-3 border-b border-[#9945FF]/30">
                     <span className="text-white/70 font-medium">Quality</span>
-                    <span className="font-black text-[#00d4ff]">70-80%</span>
+                    <span className="font-black text-[#9945FF]">70-80%</span>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-[#00d4ff]/30">
+                  <div className="flex justify-between items-center py-3 border-b border-[#9945FF]/30">
                     <span className="text-white/70 font-medium">Target Size</span>
-                    <span className="font-black text-[#00d4ff]">Under 50KB</span>
+                    <span className="font-black text-[#9945FF]">Under 50KB</span>
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-[#00d4ff]/30">
+                  <div className="flex justify-between items-center py-3 border-b border-[#9945FF]/30">
                     <span className="text-white/70 font-medium">Maximum</span>
-                    <span className="font-black text-[#ff6b35]">350KB</span>
+                    <span className="font-black text-[#DC1FFF]">350KB</span>
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-[#00d4ff]/30">
+                  <div className="flex justify-between items-center py-3 border-b border-[#9945FF]/30">
                     <span className="text-white/70 font-medium">Color Space</span>
-                    <span className="font-black text-[#00d4ff]">sRGB</span>
+                    <span className="font-black text-[#9945FF]">sRGB</span>
                   </div>
                 </div>
               </div>
@@ -516,28 +516,28 @@ export default function GuidePage() {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white">Inscription Cost Table</h2>
-                <p className="text-white/60">Total cost = reveal fee + 330 sat dust output</p>
+                <p className="text-[#a8a8b8]/80">Total cost = reveal fee + 330 sat dust output</p>
               </div>
             </div>
 
-            <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 overflow-hidden">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="cosmic-card text-white">
+                    <tr className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white">
                       <th className="px-4 py-4 text-left font-black">Size</th>
                       {feeRates.map(rate => (
                         <th key={rate} className="px-4 py-4 text-center font-black">
                           <div>{rate}</div>
-                          <div className="text-xs font-medium text-white/60">sat/vB</div>
+                          <div className="text-xs font-medium text-[#a8a8b8]/80">sat/vB</div>
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {fileSizes.map((size, idx) => (
-                      <tr key={size} className={`${idx % 2 === 0 ? 'cosmic-card' : 'cosmic-card'} hover:bg-[#4561ad]/5 transition-colors`}>
-                        <td className="px-4 py-3 font-black text-white border-r border-[#00d4ff]/30">
+                      <tr key={size} className={`${idx % 2 === 0 ? 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md' : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md'} hover:bg-[#4561ad]/5 transition-colors`}>
+                        <td className="px-4 py-3 font-black text-white border-r border-[#9945FF]/30">
                           {size} KB
                         </td>
                         {feeRates.map(rate => {
@@ -545,7 +545,7 @@ export default function GuidePage() {
                           return (
                             <td key={rate} className="px-4 py-3 text-center">
                               <div className="font-black text-[#e27d0f]">{total.toLocaleString()}</div>
-                              <div className="text-xs text-white/60">{(total / 100000000).toFixed(8)}</div>
+                              <div className="text-xs text-[#a8a8b8]/80">{(total / 100000000).toFixed(8)}</div>
                             </td>
                           )
                         })}
@@ -554,7 +554,7 @@ export default function GuidePage() {
                   </tbody>
                 </table>
               </div>
-              <div className="px-6 py-4 cosmic-card border-t border-[#00d4ff]/30 text-sm text-white/60">
+              <div className="px-6 py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-t border-[#9945FF]/30 text-sm text-[#a8a8b8]/80">
                 * Commit transaction adds ~150-300 sats depending on wallet type and input count
               </div>
             </div>
@@ -568,13 +568,13 @@ export default function GuidePage() {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white">Launchpad Minting</h2>
-                <p className="text-white/60">Let collectors pay for inscriptions</p>
+                <p className="text-[#a8a8b8]/80">Let collectors pay for inscriptions</p>
               </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
               <div className="space-y-6">
-                <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 p-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 p-6">
                   <h3 className="font-black text-white mb-4">How It Works</h3>
                   <div className="space-y-4">
                     {[
@@ -588,15 +588,15 @@ export default function GuidePage() {
                         <div className="w-8 h-8 rounded-full bg-[#4561ad] text-white flex items-center justify-center font-black text-sm flex-shrink-0">
                           {step}
                         </div>
-                        <div className="text-white/80 pt-1">{text}</div>
+                        <div className="text-[#a8a8b8] pt-1">{text}</div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="cosmic-card border border-[#00d4ff]/30 rounded-2xl p-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-2xl p-6">
                   <h3 className="font-black text-white mb-3">✓ Benefits</h3>
-                  <ul className="space-y-2 text-white/80 text-sm">
+                  <ul className="space-y-2 text-[#a8a8b8] text-sm">
                     <li>• No upfront inscription costs</li>
                     <li>• Collectors pay network fees</li>
                     <li>• Multiple mint phases supported</li>
@@ -608,13 +608,13 @@ export default function GuidePage() {
 
               {/* Live Preview - Collection Card */}
               <div>
-                <div className="text-sm text-white/60 mb-3 font-medium">Preview: Collection Card</div>
-                <div className="cosmic-card rounded-2xl overflow-hidden border border-[#00d4ff]/30 shadow-xl max-w-sm">
-                  <div className="flex items-center justify-between gap-2 px-4 py-3 border-b border-[#00d4ff]/30">
+                <div className="text-sm text-[#a8a8b8]/80 mb-3 font-medium">Preview: Collection Card</div>
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl overflow-hidden border border-[#9945FF]/30 shadow-xl max-w-sm">
+                  <div className="flex items-center justify-between gap-2 px-4 py-3 border-b border-[#9945FF]/30">
                     <span className="px-3 py-1 rounded-full text-xs font-black text-white bg-green-600">
                       🔴 LIVE
                     </span>
-                    <button className="px-3 py-2 rounded-xl border border-[#00d4ff]/30 text-white">
+                    <button className="px-3 py-2 rounded-xl border border-[#9945FF]/30 text-white">
                       🔕
                     </button>
                   </div>
@@ -635,7 +635,7 @@ export default function GuidePage() {
                     </div>
                     <div className="mt-3">
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-white/60">150 / 500</span>
+                        <span className="text-[#a8a8b8]/80">150 / 500</span>
                         <span className="text-[#e27d0f] font-semibold">30%</span>
                       </div>
                       <div className="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -656,13 +656,13 @@ export default function GuidePage() {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white">Self-Inscribing</h2>
-                <p className="text-white/60">Full control - inscribe directly to your wallet</p>
+                <p className="text-[#a8a8b8]/80">Full control - inscribe directly to your wallet</p>
               </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
-              <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 overflow-hidden">
-                <div className="bg-gradient-to-r from-purple-500/10 to-purple-500/5 px-6 py-4 border-b border-[#00d4ff]/30">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 overflow-hidden">
+                <div className="bg-gradient-to-r from-purple-500/10 to-purple-500/5 px-6 py-4 border-b border-[#9945FF]/30">
                   <h3 className="font-black text-white">The Inscription Process</h3>
                 </div>
                 <div className="p-6 space-y-6">
@@ -678,7 +678,7 @@ export default function GuidePage() {
                       </div>
                       <div>
                         <div className="font-black text-white">{step.title}</div>
-                        <div className="text-sm text-white/60">{step.desc}</div>
+                        <div className="text-sm text-[#a8a8b8]/80">{step.desc}</div>
                       </div>
                     </div>
                   ))}
@@ -687,8 +687,8 @@ export default function GuidePage() {
 
               {/* Live Preview - Batch Row */}
               <div>
-                <div className="text-sm text-white/60 mb-3 font-medium">Preview: Batch Selection</div>
-                <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 overflow-hidden shadow-xl">
+                <div className="text-sm text-[#a8a8b8]/80 mb-3 font-medium">Preview: Batch Selection</div>
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 overflow-hidden shadow-xl">
                   {[
                     { batch: 1, status: 'complete', count: '10/10', cost: 52340 },
                     { batch: 2, status: 'pending', count: '5/10', cost: 51280 },
@@ -696,30 +696,30 @@ export default function GuidePage() {
                   ].map((row) => (
                     <div
                       key={row.batch}
-                      className={`px-4 py-3 border-b border-[#00d4ff]/30 flex items-center gap-4 ${
-                        row.status === 'complete' ? 'bg-[#00d4ff]/10 border-l-4 border-l-[#00d4ff]' :
-                        row.status === 'pending' ? 'bg-[#ff6b35]/10 border-l-4 border-l-[#ff6b35]' : ''
+                      className={`px-4 py-3 border-b border-[#9945FF]/30 flex items-center gap-4 ${
+                        row.status === 'complete' ? 'bg-[#9945FF]/10 border-l-4 border-l-[#9945FF]' :
+                        row.status === 'pending' ? 'bg-[#DC1FFF]/10 border-l-4 border-l-[#DC1FFF]' : ''
                       }`}
                     >
                       {row.status === 'complete' ? (
-                        <div className="w-6 h-6 rounded bg-[#00d4ff] text-white flex items-center justify-center text-sm">✓</div>
+                        <div className="w-6 h-6 rounded bg-[#9945FF] text-white flex items-center justify-center text-sm">✓</div>
                       ) : (
-                        <input type="checkbox" className="w-5 h-5 rounded border-[#00d4ff]/30" defaultChecked={row.status === 'pending'} />
+                        <input type="checkbox" className="w-5 h-5 rounded border-[#9945FF]/30" defaultChecked={row.status === 'pending'} />
                       )}
                       <div className="font-black text-white">Batch {row.batch}</div>
                       <div className="flex-1" />
                       <div className={`px-2 py-1 rounded-lg text-xs font-black ${
-                        row.status === 'complete' ? 'bg-[#00d4ff]/20 text-[#00d4ff] border border-[#00d4ff]/30' :
-                        row.status === 'pending' ? 'bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/30' :
-                        'cosmic-card text-white/70'
+                        row.status === 'complete' ? 'bg-[#9945FF]/20 text-[#9945FF] border border-[#9945FF]/30' :
+                        row.status === 'pending' ? 'bg-[#DC1FFF]/20 text-[#DC1FFF] border border-[#DC1FFF]/30' :
+                        'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white/70'
                       }`}>
                         {row.status === 'complete' ? `✓ ${row.count}` : row.status === 'pending' ? `⏳ ${row.count}` : 'Ready'}
                       </div>
                       <div className="font-black text-[#e27d0f]">{row.cost.toLocaleString()} sats</div>
                     </div>
                   ))}
-                  <div className="px-4 py-4 cosmic-card flex items-center justify-between">
-                    <div className="text-sm text-white/60">3 batches selected</div>
+                  <div className="px-4 py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md flex items-center justify-between">
+                    <div className="text-sm text-[#a8a8b8]/80">3 batches selected</div>
                     <button className="px-4 py-2 bg-[#4561ad] text-white rounded-xl font-black text-sm hover:bg-[#3a5294] transition-colors">
                       Inscribe Selected
                     </button>
@@ -727,17 +727,17 @@ export default function GuidePage() {
                 </div>
 
                 <div className="mt-6 grid grid-cols-2 gap-4">
-                  <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4">
-                    <div className="text-sm text-[#00d4ff] font-medium">Advantages</div>
-                    <div className="mt-2 text-sm text-white/80 space-y-1">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4">
+                    <div className="text-sm text-[#9945FF] font-medium">Advantages</div>
+                    <div className="mt-2 text-sm text-[#a8a8b8] space-y-1">
                       <div>✓ Own all inscriptions</div>
                       <div>✓ Control fee rates</div>
                       <div>✓ Batch processing</div>
                     </div>
                   </div>
-                  <div className="cosmic-card border border-[#ff6b35]/30 rounded-xl p-4">
-                    <div className="text-sm text-[#ff6b35] font-medium">Considerations</div>
-                    <div className="mt-2 text-sm text-white/80 space-y-1">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#DC1FFF]/30 rounded-xl p-4">
+                    <div className="text-sm text-[#DC1FFF] font-medium">Considerations</div>
+                    <div className="mt-2 text-sm text-[#a8a8b8] space-y-1">
                       <div>• Upfront costs</div>
                       <div>• Wallet required</div>
                       <div>• Manual management</div>
@@ -756,19 +756,19 @@ export default function GuidePage() {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white">Metadata Export</h2>
-                <p className="text-white/60">Get your collection data for marketplaces</p>
+                <p className="text-[#a8a8b8]/80">Get your collection data for marketplaces</p>
               </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
-              <div className="cosmic-card rounded-2xl overflow-hidden border border-[#00d4ff]/30">
-                <div className="px-6 py-4 border-b border-[#00d4ff]/30 flex items-center justify-between">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl overflow-hidden border border-[#9945FF]/30">
+                <div className="px-6 py-4 border-b border-[#9945FF]/30 flex items-center justify-between">
                   <div className="text-sm text-white/70">metadata.json</div>
-                  <button className="px-3 py-1 cosmic-card border border-[#00d4ff]/30 text-white/70 hover:text-white hover:border-[#00d4ff]/50 rounded-lg text-sm transition-colors">
+                  <button className="px-3 py-1 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white/70 hover:text-white hover:border-[#9945FF]/50 rounded-lg text-sm transition-colors">
                     Copy
                   </button>
                 </div>
-                <pre className="p-6 text-sm text-[#00d4ff] overflow-x-auto font-mono">
+                <pre className="p-6 text-sm text-[#9945FF] overflow-x-auto font-mono">
 {`[
   {
     "name": "My Collection #1",
@@ -788,27 +788,27 @@ export default function GuidePage() {
               </div>
 
               <div className="space-y-6">
-                <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 p-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 p-6">
                   <h3 className="font-black text-white mb-4">Export Options</h3>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-4 p-4 cosmic-card rounded-xl border border-[#00d4ff]/30">
+                    <div className="flex items-center gap-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl border border-[#9945FF]/30">
                       <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl">📋</div>
                       <div className="flex-1">
                         <div className="font-bold text-white">Copy JSON</div>
-                        <div className="text-sm text-white/60">Copy to clipboard</div>
+                        <div className="text-sm text-[#a8a8b8]/80">Copy to clipboard</div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4 p-4 cosmic-card rounded-xl border border-[#00d4ff]/30">
-                      <div className="w-10 h-10 rounded-xl bg-[#00d4ff]/20 border border-[#00d4ff]/30 flex items-center justify-center text-xl">💾</div>
+                    <div className="flex items-center gap-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl border border-[#9945FF]/30">
+                      <div className="w-10 h-10 rounded-xl bg-[#9945FF]/20 border border-[#9945FF]/30 flex items-center justify-center text-xl">💾</div>
                       <div className="flex-1">
                         <div className="font-bold text-white">Download File</div>
-                        <div className="text-sm text-white/60">{`{collection}-metadata.json`}</div>
+                        <div className="text-sm text-[#a8a8b8]/80">{`{collection}-metadata.json`}</div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="cosmic-card rounded-2xl border border-[#00d4ff]/30 p-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border border-[#9945FF]/30 p-6">
                   <h3 className="font-black text-white mb-4">Included Fields</h3>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     {['name', 'ordinal_number', 'inscription_id', 'commit_tx', 'reveal_tx', 'attributes', 'image_url', 'content_type'].map((field) => (

@@ -62,10 +62,10 @@ export function NftTicker({ section = 'top' }: NftTickerProps) {
 
   if (loading) {
     return (
-      <div className="w-full bg-[#0a0a0a] border-y border-[#222] py-6">
+      <div className="w-full bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-y border-[#9945FF]/20 py-6">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#333] border-t-[#9945FF]"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#9945FF]/30 border-t-[#9945FF]"></div>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@ export function NftTicker({ section = 'top' }: NftTickerProps) {
   const animation = section === 'top' ? 'scrollLeft 90s linear infinite' : 'scrollRight 90s linear infinite'
 
   return (
-    <div className="w-full bg-[#0a0a0a] border-y border-[#222] py-6 overflow-hidden relative">
+    <div className="w-full bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-y border-[#9945FF]/20 py-6 overflow-hidden relative">
       <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent z-10 pointer-events-none"></div>
       <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent z-10 pointer-events-none"></div>
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#9945FF]/5 to-transparent opacity-50"></div>
@@ -138,7 +138,7 @@ function TickerItem({ nft }: { nft: Nft }) {
 
   return (
     <div className="flex-shrink-0 group relative">
-      <div className="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-lg overflow-hidden border-2 border-[#333] group-hover:border-[#9945FF] transition-all duration-300 shadow-lg shadow-black/20 group-hover:shadow-[#9945FF]/20 group-hover:scale-105">
+      <div className="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-lg overflow-hidden border-2 border-[#9945FF]/30 group-hover:border-[#9945FF] transition-all duration-300 shadow-lg shadow-black/20 group-hover:shadow-[#9945FF]/20 group-hover:scale-105">
         <Image
           src={imageUrl}
           alt={`${nft.collection_name} #${nft.ordinal_number || nft.id}`}

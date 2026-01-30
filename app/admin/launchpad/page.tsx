@@ -200,10 +200,10 @@ export default function AdminLaunchpadHubPage() {
 
   if (!isConnected || !isAdminUser) {
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-lg shadow p-6 text-center">
-            <p className="text-gray-600">Please connect your wallet</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#b4b4c8]">Please connect your wallet</p>
           </div>
         </div>
       </div>
@@ -211,60 +211,60 @@ export default function AdminLaunchpadHubPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       
       <div className="flex-1 ml-64 p-8">
         <div className="max-w-[1800px] mx-auto">
           {/* Header */}
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">🚀 Launchpad Hub</h1>
-            <p className="text-gray-600 mt-1">Comprehensive launchpad management - all mints, collections, and transactions</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">🚀 Launchpad Hub</h1>
+            <p className="text-[#b4b4c8] mt-1">Comprehensive launchpad management - all mints, collections, and transactions</p>
           </div>
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700">Error: {error}</p>
+            <div className="mb-4 p-4 bg-gradient-to-br from-red-900/20 to-red-800/10 border border-[#EF4444]/20/50 rounded-lg">
+              <p className="text-red-300">Error: {error}</p>
             </div>
           )}
 
           {/* Loading State */}
           {loading ? (
-            <div className="bg-white rounded-lg shadow p-12 text-center mb-6">
-              <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600">Loading launchpad stats...</p>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-12 text-center mb-6">
+              <div className="w-16 h-16 border-4 border-[#00E5FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-[#b4b4c8]">Loading launchpad stats...</p>
             </div>
           ) : (
             <>
           {/* Quick Stats Cards */}
           {overallStats && (
             <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
-                <div className="text-sm text-gray-600">Total Mints</div>
-                <div className="text-2xl font-bold text-gray-900">{(overallStats.completed_mints || 0).toLocaleString()}</div>
-                <div className="text-xs text-gray-500 mt-1">
+              <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-4">
+                <div className="text-sm text-[#b4b4c8]">Total Mints</div>
+                <div className="text-2xl font-bold text-white">{(overallStats.completed_mints || 0).toLocaleString()}</div>
+                <div className="text-xs text-[#b4b4c8] mt-1">
                   {overallStats.failed_mints || 0} failed
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                 <div className="text-sm text-gray-600">Pending Reveals</div>
                 <div className="text-2xl font-bold text-yellow-600">{overallStats.pending_reveals || 0}</div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-[#a8a8b8]/80 mt-1">
                   {overallStats.unconfirmed_commits || 0} unconfirmed commits
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                 <div className="text-sm text-gray-600">Total Revenue</div>
                 <div className="text-2xl font-bold text-green-600">{formatSats(overallStats.total_revenue_sats || 0)}</div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-[#a8a8b8]/80 mt-1">
                   {overallStats.unique_minters || 0} unique minters
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
                 <div className="text-sm text-gray-600">Collections</div>
                 <div className="text-2xl font-bold text-purple-600">{overallStats.collections_with_mints || 0}</div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-[#a8a8b8]/80 mt-1">
                   launchpad collections
                 </div>
               </div>
@@ -286,8 +286,8 @@ export default function AdminLaunchpadHubPage() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`px-6 py-3 font-medium text-sm border-b-2 transition-colors ${
                     activeTab === tab.id
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                      ? 'border-blue-600 text-[#9945FF]'
+                      : 'border-transparent text-[#a8a8b8]/80 hover:text-gray-700'
                   }`}
                 >
                   {tab.label}
@@ -309,7 +309,7 @@ export default function AdminLaunchpadHubPage() {
                         </div>
                         <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
                           <span className="text-sm font-medium text-gray-700">Total Mints</span>
-                          <span className="text-lg font-bold text-blue-600">{overallStats.total_mints || 0}</span>
+                          <span className="text-lg font-bold text-[#9945FF]">{overallStats.total_mints || 0}</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
                           <span className="text-sm font-medium text-gray-700">Failed</span>
@@ -325,7 +325,7 @@ export default function AdminLaunchpadHubPage() {
                         </div>
                         <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
                           <span className="text-sm font-medium text-gray-700">Unconfirmed Commits</span>
-                          <span className="text-lg font-bold text-blue-600">{overallStats.unconfirmed_commits || 0}</span>
+                          <span className="text-lg font-bold text-[#9945FF]">{overallStats.unconfirmed_commits || 0}</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
                           <span className="text-sm font-medium text-gray-700">Unconfirmed Reveals</span>
@@ -358,7 +358,7 @@ export default function AdminLaunchpadHubPage() {
                     <div className="flex gap-2">
                       <Link
                         href="/admin/collections"
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium"
+                        className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg text-sm font-medium"
                       >
                         Admin Collections Manager →
                       </Link>
@@ -367,26 +367,26 @@ export default function AdminLaunchpadHubPage() {
                   {loading ? (
                     <div className="text-center py-8">Loading...</div>
                   ) : collections.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">No collections with mints found</div>
+                    <div className="text-center py-8 text-[#a8a8b8]/80">No collections with mints found</div>
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-[#050510] border-b border-[#00E5FF]/20">
                           <tr>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Collection</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Mints</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Completed</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Pending Reveals</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revenue</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Collection</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Total Mints</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Completed</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Pending Reveals</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Revenue</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                           {collections.map((collection) => (
-                            <tr key={collection.id} className="hover:bg-gray-50">
+                            <tr key={collection.id} className="hover:bg-[#0f0f1e]/50 border-b border-[#00E5FF]/20">
                               <td className="px-4 py-3">
                                 <div className="font-medium text-gray-900">{collection.name}</div>
-                                <div className="text-xs text-gray-500">Supply: {collection.total_supply}</div>
+                                <div className="text-xs text-[#a8a8b8]/80">Supply: {collection.total_supply}</div>
                                 {collection.phase_mints && collection.phase_mints.length > 0 && (
                                   <div className="text-xs text-gray-600 mt-1">
                                     {collection.phase_mints.map((phase, idx) => (
@@ -404,8 +404,8 @@ export default function AdminLaunchpadHubPage() {
                               </td>
                               <td className="px-4 py-3 text-sm text-gray-900 font-bold">{collection.total_mints}</td>
                               <td className="px-4 py-3 text-sm">
-                                <div className="text-blue-600 font-medium">{collection.completed_mints || 0}</div>
-                                <div className="text-xs text-gray-500">{collection.unique_minters || 0} minters</div>
+                                <div className="text-[#9945FF] font-medium">{collection.completed_mints || 0}</div>
+                                <div className="text-xs text-[#a8a8b8]/80">{collection.unique_minters || 0} minters</div>
                               </td>
                               <td className="px-4 py-3 text-sm text-yellow-600 font-medium">{collection.pending_reveals || 0}</td>
                               <td className="px-4 py-3 text-sm text-gray-900">{formatSats(collection.revenue_sats || 0)}</td>
@@ -413,7 +413,7 @@ export default function AdminLaunchpadHubPage() {
                                 <div className="flex items-center gap-3">
                                   <Link
                                     href={`/admin/launchpad/transactions?collection_id=${collection.id}`}
-                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                                    className="text-[#9945FF] hover:text-blue-800 text-sm font-medium"
                                   >
                                     View Mints →
                                   </Link>
@@ -443,7 +443,7 @@ export default function AdminLaunchpadHubPage() {
                     <h3 className="font-bold text-gray-900">All Transactions</h3>
                     <Link
                       href="/admin/launchpad/transactions"
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium"
+                      className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg text-sm font-medium"
                     >
                       Full Transaction Manager →
                     </Link>
@@ -467,7 +467,7 @@ export default function AdminLaunchpadHubPage() {
                     <button
                       onClick={loadCompletedCollections}
                       disabled={loadingCompleted}
-                      className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm font-medium disabled:opacity-50"
+                      className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg text-sm font-medium disabled:opacity-50 transition-all shadow-lg shadow-[#00E5FF]/20"
                     >
                       {loadingCompleted ? 'Loading...' : '🔄 Refresh'}
                     </button>
@@ -475,26 +475,26 @@ export default function AdminLaunchpadHubPage() {
                   {loadingCompleted ? (
                     <div className="text-center py-8">Loading...</div>
                   ) : completedCollections.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">No completed collections found</div>
+                    <div className="text-center py-8 text-[#a8a8b8]/80">No completed collections found</div>
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-[#050510] border-b border-[#00E5FF]/20">
                           <tr>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Collection</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Supply</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Minted</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Test Mints</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phases</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Collection</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Total Supply</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Minted</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Test Mints</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Phases</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                           {completedCollections.map((collection) => (
-                            <tr key={collection.id} className="hover:bg-gray-50">
+                            <tr key={collection.id} className="hover:bg-[#0f0f1e]/50 border-b border-[#00E5FF]/20">
                               <td className="px-4 py-3">
                                 <div className="font-medium text-gray-900">{collection.name}</div>
-                                <div className="text-xs text-gray-500">{collection.id}</div>
+                                <div className="text-xs text-[#a8a8b8]/80">{collection.id}</div>
                               </td>
                               <td className="px-4 py-3 text-sm text-gray-900">{collection.total_supply || 0}</td>
                               <td className="px-4 py-3 text-sm text-gray-900">{collection.minted_count || 0}</td>
@@ -528,11 +528,11 @@ export default function AdminLaunchpadHubPage() {
                   {loading ? (
                     <div className="text-center py-8">Loading...</div>
                   ) : recentMints.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">No recent mints</div>
+                    <div className="text-center py-8 text-[#a8a8b8]/80">No recent mints</div>
                   ) : (
                     <div className="space-y-2">
                       {recentMints.map((mint) => (
-                        <div key={mint.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                        <div key={mint.id} className="flex items-center justify-between p-4 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg hover:from-[#15152a] hover:to-[#0f0f1e]">
                           <div className="flex-1">
                             <div className="flex items-center gap-3">
                               <span className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -543,11 +543,11 @@ export default function AdminLaunchpadHubPage() {
                                 {mint.mint_status}
                               </span>
                               <span className="font-medium text-gray-900">{mint.collection_name}</span>
-                              <span className="text-sm text-gray-500 font-mono">
+                              <span className="text-sm text-[#a8a8b8]/80 font-mono">
                                 {mint.minter_wallet.slice(0, 8)}...{mint.minter_wallet.slice(-6)}
                               </span>
                             </div>
-                            <div className="text-xs text-gray-500 mt-1">
+                            <div className="text-xs text-[#a8a8b8]/80 mt-1">
                               {formatDate(mint.created_at)}
                               {mint.completed_at && ` • Completed: ${formatDate(mint.completed_at)}`}
                             </div>
@@ -558,7 +558,7 @@ export default function AdminLaunchpadHubPage() {
                                 href={`https://mempool.space/tx/${mint.commit_tx_id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-xs text-blue-600 hover:text-blue-800"
+                                className="text-xs text-[#9945FF] hover:text-blue-800"
                               >
                                 Commit
                               </a>
@@ -568,7 +568,7 @@ export default function AdminLaunchpadHubPage() {
                                 href={`https://mempool.space/tx/${mint.reveal_tx_id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-xs text-blue-600 hover:text-blue-800"
+                                className="text-xs text-[#9945FF] hover:text-blue-800"
                               >
                                 Reveal
                               </a>

@@ -107,7 +107,7 @@ export default function EditTraitPage() {
         <div className="max-w-2xl mx-auto">
           <div className="text-center py-8">
             <div className="text-white">Trait not found</div>
-            <Link href={`/collections/${params.id}/layers/${params.layerId}`} className="text-[#00d4ff] hover:text-[#00b8e6] mt-4 inline-block">
+            <Link href={`/collections/${params.id}/layers/${params.layerId}`} className="text-[#9945FF] hover:text-[#14F195] mt-4 inline-block">
               ← Back to Layer
             </Link>
           </div>
@@ -122,7 +122,7 @@ export default function EditTraitPage() {
         <div className="mb-6">
           <Link 
             href={`/collections/${params.id}/layers/${params.layerId}`} 
-            className="text-[#00d4ff] hover:text-[#00b8e6] mb-4 inline-block"
+            className="text-[#9945FF] hover:text-[#14F195] mb-4 inline-block"
           >
             ← Back to Layer
           </Link>
@@ -130,7 +130,7 @@ export default function EditTraitPage() {
           <p className="text-white/70 mt-2">Editing "{trait.name}" in "{trait.layer_name}" layer</p>
         </div>
 
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-6">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-white mb-2">
@@ -140,7 +140,7 @@ export default function EditTraitPage() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:outline-none"
+                className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:outline-none"
                 placeholder="Enter trait name"
                 required
               />
@@ -153,12 +153,12 @@ export default function EditTraitPage() {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:outline-none"
+                className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:outline-none"
                 placeholder="Enter trait description"
                 rows={4}
                 required
               />
-              <p className="text-xs text-white/60 mt-1">
+              <p className="text-xs text-[#a8a8b8]/80 mt-1">
                 Visual description that will be used in AI image generation. This is what the AI reads to generate the trait.
               </p>
             </div>
@@ -174,12 +174,12 @@ export default function EditTraitPage() {
                   max="100"
                   value={rarityWeight}
                   onChange={(e) => setRarityWeight(parseInt(e.target.value) || 1)}
-                  className="flex-1 border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white focus:border-[#00d4ff] focus:outline-none"
+                  className="flex-1 border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:outline-none"
                 />
                 <select
                   value={rarityWeight}
                   onChange={(e) => setRarityWeight(parseInt(e.target.value))}
-                  className="w-40 border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white focus:border-[#00d4ff] focus:outline-none"
+                  className="w-40 border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:outline-none"
                 >
                   <option value="40" className="bg-[#0f172a]">Common (40)</option>
                   <option value="25" className="bg-[#0f172a]">Rare (25)</option>
@@ -187,7 +187,7 @@ export default function EditTraitPage() {
                   <option value="2" className="bg-[#0f172a]">Legendary (2)</option>
                 </select>
               </div>
-              <p className="text-xs text-white/60 mt-1">
+              <p className="text-xs text-[#a8a8b8]/80 mt-1">
                 <strong>Higher weight = More common</strong> (appears more often). Lower weight = Rarer (appears less often). 
                 The system uses weighted random selection, so Common traits (40) appear much more frequently than Legendary (2).
               </p>
@@ -197,7 +197,7 @@ export default function EditTraitPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                className="bg-[#9945FF] text-white px-4 py-2 rounded hover:bg-[#7C3AED] disabled:opacity-50"
               >
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>

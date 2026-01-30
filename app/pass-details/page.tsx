@@ -19,25 +19,25 @@ export default function PassDetailsPage() {
         {/* 3 Main Benefits - Large Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {/* 50% Discount */}
-          <div className="cosmic-card rounded-2xl p-8 shadow-2xl text-center border border-[#00d4ff]/30">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl p-8 shadow-2xl text-center border border-[#9945FF]/30">
             <div className="text-6xl mb-4">💰</div>
-            <h2 className="text-3xl font-black text-[#00d4ff] mb-2">50% OFF</h2>
+            <h2 className="text-3xl font-black text-[#9945FF] mb-2">50% OFF</h2>
             <p className="text-lg font-bold text-white mb-1">All Credits</p>
             <p className="text-sm text-white/70">Automatic discount on every purchase</p>
           </div>
 
           {/* Revenue Share */}
-          <div className="cosmic-card rounded-2xl p-8 shadow-2xl text-center border border-[#00d4ff]/30">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl p-8 shadow-2xl text-center border border-[#9945FF]/30">
             <div className="text-6xl mb-4">📊</div>
-            <h2 className="text-3xl font-black text-[#ff6b35] mb-2">30% RevShare</h2>
+            <h2 className="text-3xl font-black text-[#DC1FFF] mb-2">30% RevShare</h2>
             <p className="text-lg font-bold text-white mb-1">Platform Revenue</p>
             <p className="text-sm text-white/70">Split among 168 holders</p>
           </div>
 
           {/* Whitelist Access */}
-          <div className="cosmic-card rounded-2xl p-8 shadow-2xl text-center border border-[#00d4ff]/30">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl p-8 shadow-2xl text-center border border-[#9945FF]/30">
             <div className="text-6xl mb-4">🎫</div>
-            <h2 className="text-3xl font-black text-[#00d4ff] mb-2">Whitelist</h2>
+            <h2 className="text-3xl font-black text-[#9945FF] mb-2">Whitelist</h2>
             <p className="text-lg font-bold text-white mb-1">Priority Access</p>
             <p className="text-sm text-white/70">Early minting on new collections</p>
           </div>
@@ -48,25 +48,25 @@ export default function PassDetailsPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h3 className="text-white font-bold text-lg mb-2">💰 Credit Discount</h3>
-              <p className="text-white/80 text-sm">
+              <p className="text-[#a8a8b8] text-sm">
                 Every credit purchase is automatically 50% off. No codes needed.
               </p>
             </div>
             <div>
               <h3 className="text-white font-bold text-lg mb-2">📊 Revenue Share</h3>
-              <p className="text-white/80 text-sm">
+              <p className="text-[#a8a8b8] text-sm">
                 30% of platform revenue (mints, credits, marketplace, inscribing) split by holdings.
               </p>
             </div>
             <div>
               <h3 className="text-white font-bold text-lg mb-2">🎫 Whitelist Access</h3>
-              <p className="text-white/80 text-sm">
+              <p className="text-[#a8a8b8] text-sm">
                 Priority access to whitelist-only mint phases for new collections.
               </p>
             </div>
             <div>
               <h3 className="text-white font-bold text-lg mb-2">✨ Additional Perks</h3>
-              <p className="text-white/80 text-sm">
+              <p className="text-[#a8a8b8] text-sm">
                 Priority support, early feature access, community recognition.
               </p>
             </div>
@@ -74,21 +74,21 @@ export default function PassDetailsPage() {
         </div>
 
         {/* How It Works - Minimal */}
-        <div className="cosmic-card rounded-2xl p-6 mb-8 border border-[#00d4ff]/30">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl p-6 mb-8 border border-[#9945FF]/30">
           <h2 className="text-2xl font-black text-white mb-4 text-center">How It Works</h2>
           <div className="flex justify-center gap-8">
             <div className="text-center">
-              <div className="w-12 h-12 bg-[#00d4ff] text-white rounded-full flex items-center justify-center font-black text-xl mx-auto mb-2 shadow-lg shadow-[#00d4ff]/20">1</div>
+              <div className="w-12 h-12 bg-[#9945FF] text-white rounded-full flex items-center justify-center font-black text-xl mx-auto mb-2 shadow-lg shadow-[#9945FF]/20">1</div>
               <p className="text-sm font-semibold text-white">Hold Pass</p>
             </div>
             <div className="text-white/50 text-2xl">→</div>
             <div className="text-center">
-              <div className="w-12 h-12 bg-[#00d4ff] text-white rounded-full flex items-center justify-center font-black text-xl mx-auto mb-2 shadow-lg shadow-[#00d4ff]/20">2</div>
+              <div className="w-12 h-12 bg-[#9945FF] text-white rounded-full flex items-center justify-center font-black text-xl mx-auto mb-2 shadow-lg shadow-[#9945FF]/20">2</div>
               <p className="text-sm font-semibold text-white">Connect Wallet</p>
             </div>
             <div className="text-white/50 text-2xl">→</div>
             <div className="text-center">
-              <div className="w-12 h-12 bg-[#00d4ff] text-white rounded-full flex items-center justify-center font-black text-xl mx-auto mb-2 shadow-lg shadow-[#00d4ff]/20">3</div>
+              <div className="w-12 h-12 bg-[#9945FF] text-white rounded-full flex items-center justify-center font-black text-xl mx-auto mb-2 shadow-lg shadow-[#9945FF]/20">3</div>
               <p className="text-sm font-semibold text-white">Auto Benefits</p>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function PassDetailsPage() {
         <div className="text-center">
           <Link
             href="/buy-credits"
-            className="inline-block px-10 py-5 bg-[#00d4ff] text-white font-black text-xl rounded-xl hover:bg-[#00b8e6] hover:shadow-2xl transition-all duration-200 shadow-lg shadow-[#00d4ff]/20"
+            className="inline-block px-10 py-5 bg-[#9945FF] text-white font-black text-xl rounded-xl hover:bg-[#14F195] hover:shadow-2xl transition-all duration-200 shadow-lg shadow-[#9945FF]/20"
           >
             Get 50% Off Credits →
           </Link>

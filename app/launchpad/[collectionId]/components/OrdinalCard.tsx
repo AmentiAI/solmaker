@@ -2,7 +2,7 @@
 
 import { memo } from 'react'
 
-interface Ordinal {
+interface Nft {
   id: string
   ordinal_number: number | null
   image_url: string
@@ -14,20 +14,20 @@ interface Ordinal {
   locked_by: string | null
 }
 
-interface OrdinalCardProps {
-  ordinal: Ordinal
+interface NftCardProps {
+  nft: Nft
   isSelected: boolean
   isLockedByMe: boolean
   isLockedByOther: boolean
   canClick: boolean
   lockExpirySeconds: number | null
   isLocking: boolean
-  onClick: (ordinal: Ordinal) => void | Promise<void>
+  onClick: (nft: Nft) => void | Promise<void>
   currentAddress?: string
 }
 
-export const OrdinalCard = memo(function OrdinalCard({
-  ordinal,
+export const NftCard = memo(function NftCard({
+  nft,
   isSelected,
   isLockedByMe,
   isLockedByOther,
@@ -39,7 +39,7 @@ export const OrdinalCard = memo(function OrdinalCard({
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (canClick && !isLocking) {
-      onClick(ordinal)
+      onClick(nft)
     }
   }
 
@@ -50,26 +50,26 @@ export const OrdinalCard = memo(function OrdinalCard({
         relative aspect-square rounded-lg overflow-hidden border-2 transition-all
         ${canClick ? 'cursor-pointer' : 'cursor-not-allowed'}
         ${isSelected || isLockedByMe
-          ? 'border-[#00d4ff] ring-2 ring-[#00d4ff]/50'
+          ? 'border-[#9945FF] ring-2 ring-[#9945FF]/50'
           : canClick
-          ? 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50 hover:ring-1 hover:ring-[#00d4ff]/30'
-          : 'border-gray-600 opacity-50'
+          ? 'border-[#9945FF]/30 hover:border-[#9945FF]/50 hover:ring-1 hover:ring-[#9945FF]/30'
+          : 'border-[#9945FF]/20 opacity-50'
         }
-        ${ordinal.is_minted || isLockedByOther ? 'opacity-60' : ''}
+        ${nft.is_minted || isLockedByOther ? 'opacity-60' : ''}
         ${isLocking ? 'pointer-events-none opacity-70' : ''}
       `}
     >
       <img
-        src={ordinal.thumbnail_url || ordinal.image_url}
-        alt={`Ordinal #${ordinal.ordinal_number || 'N/A'}`}
+        src={nft.thumbnail_url || nft.image_url}
+        alt={`NFT #${nft.ordinal_number || 'N/A'}`}
         className="w-full h-full object-cover"
         loading="lazy"
       />
       
       {/* Overlay status - only show if minted or locked */}
-      {(ordinal.is_minted || isLockedByOther || isLockedByMe || isSelected) && (
+      {(nft.is_minted || isLockedByOther || isLockedByMe || isSelected) && (
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-          {ordinal.is_minted ? (
+          {nft.is_minted ? (
             <div className="text-center">
               <div className="text-2xl mb-1">✓</div>
               <div className="text-sm font-semibold text-white">Minted</div>
@@ -82,23 +82,23 @@ export const OrdinalCard = memo(function OrdinalCard({
           ) : (
             <div className="text-center">
               <div className="text-2xl mb-1">🔒</div>
-              <div className="text-sm font-semibold text-[#00d4ff]">Locked</div>
+              <div className="text-sm font-semibold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">Locked</div>
               {lockExpirySeconds !== null && lockExpirySeconds > 0 ? (
-                <div className="text-xs text-white/70 mt-1">
+                <div className="text-xs text-[#a8a8b8] mt-1">
                   {lockExpirySeconds}s
                 </div>
               ) : lockExpirySeconds === null ? (
-                <div className="text-xs text-white/50 mt-1">Loading...</div>
+                <div className="text-xs text-[#a8a8b8] mt-1">Loading...</div>
               ) : null}
             </div>
           )}
         </div>
       )}
 
-      {/* Ordinal number badge */}
-      {ordinal.ordinal_number && (
-        <div className="absolute top-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-          #{ordinal.ordinal_number}
+      {/* NFT number badge */}
+      {nft.ordinal_number && (
+        <div className="absolute top-2 left-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 text-white text-xs px-2 py-1 rounded">
+          #{nft.ordinal_number}
         </div>
       )}
     </div>
@@ -106,10 +106,10 @@ export const OrdinalCard = memo(function OrdinalCard({
 }, (prevProps, nextProps) => {
   // Custom comparison to prevent unnecessary re-renders
   return (
-    prevProps.ordinal.id === nextProps.ordinal.id &&
-    prevProps.ordinal.is_minted === nextProps.ordinal.is_minted &&
-    prevProps.ordinal.is_locked === nextProps.ordinal.is_locked &&
-    prevProps.ordinal.locked_by === nextProps.ordinal.locked_by &&
+    prevProps.nft.id === nextProps.nft.id &&
+    prevProps.nft.is_minted === nextProps.nft.is_minted &&
+    prevProps.nft.is_locked === nextProps.nft.is_locked &&
+    prevProps.nft.locked_by === nextProps.nft.locked_by &&
     prevProps.isSelected === nextProps.isSelected &&
     prevProps.isLockedByMe === nextProps.isLockedByMe &&
     prevProps.isLockedByOther === nextProps.isLockedByOther &&
@@ -118,4 +118,7 @@ export const OrdinalCard = memo(function OrdinalCard({
     prevProps.isLocking === nextProps.isLocking
   )
 })
+
+/** @deprecated Use NftCard instead */
+export const OrdinalCard = NftCard
 

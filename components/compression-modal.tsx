@@ -29,12 +29,12 @@ export function CompressionModal({ isOpen, ordinal, sliderValue, onClose, onSlid
       onClick={onClose}
     >
       <div 
-        className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-auto"
+        className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-4 border-b border-[#00d4ff]/30 flex justify-between items-center">
           <h2 className="text-xl font-bold text-white">
-            {hasCompressed ? `Compression Comparison - Ordinal #${displayNumber}` : `Image View - Ordinal #${displayNumber}`}
+            {hasCompressed ? `Compression Comparison - NFT #${displayNumber}` : `Image View - NFT #${displayNumber}`}
           </h2>
           <button
             onClick={onClose}
@@ -84,11 +84,11 @@ export function CompressionModal({ isOpen, ordinal, sliderValue, onClose, onSlid
                       fill
                       className="object-contain"
                     />
-                    <div className="absolute top-4 right-4 bg-blue-600/90 text-white text-sm px-3 py-1.5 rounded font-semibold">
+                    <div className="absolute top-4 right-4 bg-[#9945FF]/90 text-white text-sm px-3 py-1.5 rounded font-semibold">
                       Original
                     </div>
                     {ordinal.original_size_kb != null && (
-                      <div className="absolute bottom-4 right-4 bg-blue-600/90 text-white text-sm px-3 py-1.5 rounded font-semibold">
+                      <div className="absolute bottom-4 right-4 bg-[#9945FF]/90 text-white text-sm px-3 py-1.5 rounded font-semibold">
                         Original: {(() => {
                           const size = Number(ordinal.original_size_kb)
                           return isNaN(size) ? '0.0' : size.toFixed(1)
@@ -99,7 +99,7 @@ export function CompressionModal({ isOpen, ordinal, sliderValue, onClose, onSlid
                   
                   {/* Slider Handle */}
                   <div
-                    className="absolute top-0 bottom-0 w-2 cosmic-card border-l-4 border-r-4 border-[#00d4ff] cursor-ew-resize z-10 shadow-lg"
+                    className="absolute top-0 bottom-0 w-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-l-4 border-r-4 border-[#00d4ff] cursor-ew-resize z-10 shadow-lg"
                     style={{
                       left: `${sliderValue}%`,
                       transform: 'translateX(-50%)'
@@ -136,7 +136,7 @@ export function CompressionModal({ isOpen, ordinal, sliderValue, onClose, onSlid
                   </div>
                   
                   {/* Labels */}
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 cosmic-card border-2 border-[#00d4ff]/30 text-white text-base px-4 py-2 rounded flex gap-4 z-20 shadow-lg">
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 text-white text-base px-4 py-2 rounded flex gap-4 z-20 shadow-lg">
                     <span className={sliderValue < 50 ? 'font-bold text-[#00d4ff]' : 'text-white/70'}>
                       ← Compressed
                     </span>
@@ -152,15 +152,15 @@ export function CompressionModal({ isOpen, ordinal, sliderValue, onClose, onSlid
                   <div className="absolute inset-0">
                     <Image
                       src={ordinal.image_url}
-                      alt={`Ordinal #${displayNumber}`}
+                      alt={`NFT #${displayNumber}`}
                       fill
                       className="object-contain"
                     />
-                    <div className="absolute top-4 left-4 bg-blue-600/90 text-white text-sm px-3 py-1.5 rounded font-semibold">
+                    <div className="absolute top-4 left-4 bg-[#9945FF]/90 text-white text-sm px-3 py-1.5 rounded font-semibold">
                       Original Image
                     </div>
                     {ordinal.original_size_kb != null && (
-                      <div className="absolute bottom-4 left-4 bg-blue-600/90 text-white text-sm px-3 py-1.5 rounded font-semibold">
+                      <div className="absolute bottom-4 left-4 bg-[#9945FF]/90 text-white text-sm px-3 py-1.5 rounded font-semibold">
                         Size: {(() => {
                           const size = Number(ordinal.original_size_kb)
                           return isNaN(size) ? '0.0' : size.toFixed(1)

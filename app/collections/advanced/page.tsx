@@ -144,7 +144,7 @@ export default function AdvancedCollections() {
       <main className="container mx-auto px-4 py-8">
         {/* Tab Navigation */}
         <div className="mb-8">
-          <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+          <div className="flex space-x-1 bg-gray-100 dark:bg-[#1a1a24] p-1 rounded-lg">
             {[
               { id: 'traits', label: 'Trait Manager', icon: '🎭' },
               { id: 'characters', label: 'Character Manager', icon: '👤' },
@@ -155,8 +155,8 @@ export default function AdvancedCollections() {
                 onClick={() => setActiveTab(tab.id as 'traits' | 'characters' | 'rules')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-[#FDFCFA] dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                    ? 'bg-[#FDFCFA] dark:bg-[#1a1a24]/80 text-gray-900 dark:text-gray-100 shadow-sm'
+                    : 'text-gray-600 dark:text-[#a8a8b8] hover:text-gray-900 dark:hover:text-gray-100'
                 }`}
               >
                 <span>{tab.icon}</span>
@@ -186,23 +186,23 @@ export default function AdvancedCollections() {
               
               {/* Display existing custom rules */}
               {customRules.length > 0 && (
-                <div className="bg-[#FDFCFA] dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <div className="bg-[#FDFCFA] dark:bg-[#1a1a24] border border-gray-200 dark:border-[#9945FF]/20 rounded-lg p-4">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                     Existing Custom Rules
                   </h3>
                   <div className="space-y-3">
                     {customRules.map(rule => (
-                      <div key={rule.id} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                      <div key={rule.id} className="bg-gray-50 dark:bg-[#1a1a24]/80 rounded-lg p-3">
                         <div className="flex items-center justify-between">
                           <div>
                             <span className="text-sm font-medium text-gray-900 dark:text-gray-100 capitalize">
                               {rule.type} Rule
                             </span>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                            <p className="text-sm text-gray-600 dark:text-[#a8a8b8] mt-1">
                               {rule.content}
                             </p>
                           </div>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                          <span className="text-xs text-[#a8a8b8]/80 dark:text-[#a8a8b8]">
                             {new Date(rule.createdAt).toLocaleDateString()}
                           </span>
                         </div>
@@ -216,16 +216,16 @@ export default function AdvancedCollections() {
         </div>
 
         {/* Collection Overview */}
-        <div className="mt-8 bg-[#FDFCFA] dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+        <div className="mt-8 bg-[#FDFCFA] dark:bg-[#1a1a24] border border-gray-200 dark:border-[#9945FF]/20 rounded-lg p-4">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
             Collection Overview
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              <div className="text-2xl font-bold text-[#9945FF] dark:text-blue-400">
                 {collections.length}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm text-gray-600 dark:text-[#a8a8b8]">
                 Total Collections
               </div>
             </div>
@@ -233,7 +233,7 @@ export default function AdvancedCollections() {
               <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                 {collections.filter(c => c.isActive).length}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm text-gray-600 dark:text-[#a8a8b8]">
                 Active Collections
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function AdvancedCollections() {
               <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
                 {customRules.length}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm text-gray-600 dark:text-[#a8a8b8]">
                 Custom Rules
               </div>
             </div>

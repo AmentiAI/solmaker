@@ -113,7 +113,7 @@ export default function FinalizeMarketplacePage() {
     return (
       <div className="min-h-screen bg-[#FDFCFA] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-500 mb-4">Collection not found</p>
+          <p className="text-[#a8a8b8]/80 mb-4">Collection not found</p>
           <button
             onClick={() => router.push('/collections')}
             className="px-4 py-2 bg-[#4561ad] hover:bg-[#3a5294] text-white rounded-lg font-semibold transition-colors"
@@ -159,7 +159,7 @@ export default function FinalizeMarketplacePage() {
               This collection is currently in <strong>{collection.collection_status || 'draft'}</strong> status. 
               To access the marketplace, you need to change the status to <strong>Marketplace</strong>.
             </p>
-            <p className="text-gray-500 text-sm mb-6">
+            <p className="text-[#a8a8b8]/80 text-sm mb-6">
               This will make your collection available for marketplace listing. You can still edit all settings after this change.
             </p>
             

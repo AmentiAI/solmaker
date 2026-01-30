@@ -109,12 +109,12 @@ export default function MagicEdenCheckerPage() {
 
   if (!isConnected) {
     return (
-      <div className="flex min-h-screen bg-slate-900">
+      <div className="flex min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]">
         <div className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-slate-800 border border-gray-700 rounded-xl p-8 text-center shadow">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-xl p-8 text-center shadow">
               <h1 className="text-3xl font-bold text-white mb-4">Magic Eden Wallet Checker</h1>
-              <p className="text-gray-400 mb-6">Please connect your wallet to access admin tools.</p>
+              <p className="text-[#a8a8b8] mb-6">Please connect your wallet to access admin tools.</p>
               <Link href="/" className="text-blue-400 hover:text-blue-300">
                 ← Back to Home
               </Link>
@@ -127,12 +127,12 @@ export default function MagicEdenCheckerPage() {
 
   if (!authorized) {
     return (
-      <div className="flex min-h-screen bg-slate-900">
+      <div className="flex min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]">
         <div className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-red-900/20 border border-red-700 rounded-xl p-8 text-center shadow">
-              <h1 className="text-3xl font-bold text-red-400 mb-4">Access Denied</h1>
-              <p className="text-gray-300 mb-4">This page is restricted to admin accounts only.</p>
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#EF4444]/20 rounded-xl p-8 text-center shadow">
+              <h1 className="text-3xl font-bold text-[#EF4444] mb-4">Access Denied</h1>
+              <p className="text-white mb-4">This page is restricted to admin accounts only.</p>
               <Link href="/" className="text-blue-400 hover:text-blue-300">
                 ← Back to Home
               </Link>
@@ -144,45 +144,45 @@ export default function MagicEdenCheckerPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-900">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]">
       <AdminSidebar />
       <div className="flex-1 ml-64 p-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-white mb-2">Magic Eden Wallet Checker</h1>
-          <p className="text-gray-400 mb-8">Check if a wallet holds ordinals from a specific collection</p>
+          <p className="text-[#a8a8b8] mb-8">Check if a wallet holds ordinals from a specific collection</p>
 
           {/* Input Form */}
-          <div className="bg-slate-800 border border-gray-700 rounded-xl p-6 mb-8 shadow">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-xl p-6 mb-8 shadow">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label htmlFor="wallet-address" className="block text-sm font-medium text-gray-400 mb-2">
+                <label htmlFor="wallet-address" className="block text-sm font-medium text-[#a8a8b8] mb-2">
                   Wallet Address
                 </label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     id="wallet-address"
-                    className="flex-1 px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-blue-500 focus:border-blue-500"
+                    className="flex-1 px-4 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white placeholder-[#b4b4c8] focus:ring-[#00E5FF] focus:border-[#00E5FF]"
                     placeholder="Enter Bitcoin wallet address (bc1p...)"
                     value={walletAddress}
                     onChange={(e) => setWalletAddress(e.target.value)}
                   />
                   <button
                     onClick={useMyWallet}
-                    className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg text-sm font-medium transition-colors"
+                    className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg text-sm font-medium transition-all shadow-lg shadow-[#00E5FF]/20"
                   >
                     Use Mine
                   </button>
                 </div>
               </div>
               <div>
-                <label htmlFor="collection-slug" className="block text-sm font-medium text-gray-400 mb-2">
+                <label htmlFor="collection-slug" className="block text-sm font-medium text-[#a8a8b8] mb-2">
                   Collection Slug (optional filter)
                 </label>
                 <input
                   type="text"
                   id="collection-slug"
-                  className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 bg-[#050510] border border-[#00E5FF]/30 rounded-lg text-white placeholder-[#b4b4c8] focus:ring-[#00E5FF] focus:border-[#00E5FF]"
                   placeholder="e.g., the-damned"
                   value={collectionSlug}
                   onChange={(e) => setCollectionSlug(e.target.value)}
@@ -197,29 +197,29 @@ export default function MagicEdenCheckerPage() {
               {loading ? 'Checking...' : 'Check Holdings'}
             </button>
             {error && (
-              <p className="mt-4 text-red-400 text-sm">{error}</p>
+              <p className="mt-4 text-[#EF4444] text-sm">{error}</p>
             )}
           </div>
 
           {/* Results */}
           {(totalCount > 0 || allTokens.length > 0 || rawResponse) && (
-            <div className="bg-slate-800 border border-gray-700 rounded-xl p-6 shadow">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-xl p-6 shadow">
               {/* Summary */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                 <div className="bg-slate-700 rounded-lg p-4">
-                  <div className="text-gray-400 text-sm">
+                  <div className="text-[#a8a8b8] text-sm">
                     {collectionSlug ? `"${collectionSlug}" Owned` : 'Total Ordinals'}
                   </div>
                   <div className="text-3xl font-bold text-white">{totalCount}</div>
                 </div>
                 <div className="bg-slate-700 rounded-lg p-4">
-                  <div className="text-gray-400 text-sm">Holder Status</div>
-                  <div className={`text-3xl font-bold ${totalCount > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className="text-[#a8a8b8] text-sm">Holder Status</div>
+                  <div className={`text-3xl font-bold ${totalCount > 0 ? 'text-green-400' : 'text-[#EF4444]'}`}>
                     {totalCount > 0 ? '✅ YES' : '❌ NO'}
                   </div>
                 </div>
                 <div className="bg-slate-700 rounded-lg p-4">
-                  <div className="text-gray-400 text-sm">In Response</div>
+                  <div className="text-[#a8a8b8] text-sm">In Response</div>
                   <div className="text-3xl font-bold text-blue-400">{allTokens.length}</div>
                 </div>
               </div>
@@ -232,7 +232,7 @@ export default function MagicEdenCheckerPage() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {allTokens.slice(0, 20).map((token) => (
-                      <div key={token.id} className="bg-slate-700 rounded-lg p-3 border border-slate-600 hover:border-purple-500/50 transition-colors">
+                      <div key={token.id} className="bg-gradient-to-br from-[#050510] to-[#0f0f1e] border border-[#00E5FF]/20 rounded-lg p-3 hover:border-[#00E5FF]/50 transition-colors">
                         {token.contentPreviewURI && (
                           <img 
                             src={token.contentPreviewURI} 
@@ -243,9 +243,9 @@ export default function MagicEdenCheckerPage() {
                         <div className="text-white font-medium truncate text-sm">
                           {token.meta?.name || `Inscription #${token.inscriptionNumber}`}
                         </div>
-                        <div className="text-gray-400 text-xs">#{token.inscriptionNumber}</div>
+                        <div className="text-[#a8a8b8] text-xs">#{token.inscriptionNumber}</div>
                         <div className="flex items-center justify-between mt-2">
-                          <span className={`text-xs px-2 py-0.5 rounded ${token.listed ? 'bg-yellow-500/20 text-yellow-400' : 'bg-green-500/20 text-green-400'}`}>
+                          <span className={`text-xs px-2 py-0.5 rounded ${token.listed ? 'bg-yellow-500/20 text-[#FBBF24]' : 'bg-green-500/20 text-green-400'}`}>
                             {token.listed ? 'Listed' : 'Unlisted'}
                           </span>
                           <a 
@@ -261,20 +261,20 @@ export default function MagicEdenCheckerPage() {
                     ))}
                   </div>
                   {allTokens.length > 20 && (
-                    <p className="text-gray-400 text-sm mt-4">Showing first 20 of {allTokens.length} ordinals</p>
+                    <p className="text-[#a8a8b8] text-sm mt-4">Showing first 20 of {allTokens.length} ordinals</p>
                   )}
                 </div>
               )}
 
               {/* Collection Info */}
               {collectionSlug && allTokens.length > 0 && (
-                <div className="mb-6 p-4 bg-slate-700/50 rounded-lg">
+                <div className="mb-6 p-4 bg-[#050510] border border-[#00E5FF]/20 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-400">Collection:</span>
+                    <span className="text-[#a8a8b8]">Collection:</span>
                     <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-medium">
                       {collectionSlug}
                     </span>
-                    <span className="text-gray-400">•</span>
+                    <span className="text-[#a8a8b8]">•</span>
                     <span className="text-white font-medium">{totalCount} owned</span>
                   </div>
                 </div>
@@ -289,7 +289,7 @@ export default function MagicEdenCheckerPage() {
                   {showRaw ? 'Hide Raw Response' : 'Show Raw Response'}
                 </button>
                 {showRaw && (
-                  <pre className="mt-4 p-4 bg-slate-700 rounded-lg text-gray-200 text-xs overflow-x-auto max-h-96">
+                  <pre className="mt-4 p-4 bg-[#050510] border border-[#00E5FF]/20 rounded-lg text-[#b4b4c8] text-xs overflow-x-auto max-h-96">
                     {JSON.stringify(rawResponse, null, 2)}
                   </pre>
                 )}
@@ -299,8 +299,8 @@ export default function MagicEdenCheckerPage() {
 
           {/* No Results */}
           {!loading && allTokens.length === 0 && rawResponse && (
-            <div className="bg-slate-800 border border-gray-700 rounded-xl p-6 text-center shadow">
-              <p className="text-gray-400">No ordinals found for this wallet address.</p>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6 text-center shadow">
+              <p className="text-[#a8a8b8]">No ordinals found for this wallet address.</p>
             </div>
           )}
         </div>

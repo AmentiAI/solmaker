@@ -1,7 +1,7 @@
 // Import trait descriptions only when needed (server-side)
 let getTraitDescriptions: ((traits: Record<string, string>) => Promise<Record<string, string>>) | null = null
 
-// Halloween-themed trait options for generating unique ordinals
+// Halloween-themed trait options for generating unique NFTs
 export const TRAIT_OPTIONS = {
   characterType: ["skull", "zombie", "ghoul", "werewolf", "skeleton", "vampire", "witch", "demon", "mummy", "reaper"],
   
@@ -175,7 +175,7 @@ export const TRAIT_OPTIONS = {
   ]
 }
 
-export type OrdinalTraits = {
+export type NftTraits = {
   characterType: string
   background: string
   accessories: string
@@ -189,7 +189,7 @@ export type OrdinalTraits = {
 // Character type rotation to ensure balanced distribution
 let characterTypeIndex = 0
 
-export function getRandomTraits(): OrdinalTraits {
+export function getRandomTraits(): NftTraits {
   // Rotate through character types to ensure balanced distribution
   const characterType = TRAIT_OPTIONS.characterType[characterTypeIndex % TRAIT_OPTIONS.characterType.length]
   characterTypeIndex++
@@ -212,13 +212,13 @@ export function resetCharacterTypeRotation(): void {
 }
 
 // New function that uses pre-selected traits instead of random selection
-export async function getPreSelectedTraits(characterType: string): Promise<OrdinalTraits> {
+export async function getPreSelectedTraits(characterType: string): Promise<NftTraits> {
   // Import the trait selector
   const { selectTraitsForCharacter } = await import('./trait-selector')
   return selectTraitsForCharacter(characterType)
 }
 
-export async function generatePrompt(traits: OrdinalTraits, seed?: string): Promise<string> {
+export async function generatePrompt(traits: NftTraits, seed?: string): Promise<string> {
   const uniqueSeed = seed || `${Date.now()}-${Math.random().toString(36).substring(7)}`
 
   // Dynamically import trait descriptions only when needed (server-side)

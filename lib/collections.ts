@@ -1,4 +1,4 @@
-import { OrdinalTraits } from './traits'
+import { NftTraits } from './traits'
 import { sql } from './database'
 import { generateTraitsFromDatabase } from './database-traits'
 
@@ -239,10 +239,10 @@ export async function getActiveCollection(): Promise<Collection | null> {
 }
 
 // Generate traits for a specific collection using database
-export async function generateTraitsForCollection(collectionId: string, ordinalNumber: number): Promise<OrdinalTraits | null> {
+export async function generateTraitsForCollection(collectionId: string, ordinalNumber: number): Promise<NftTraits | null> {
   try {
     const generatedTraits = await generateTraitsFromDatabase(collectionId, ordinalNumber)
-    return generatedTraits as OrdinalTraits
+    return generatedTraits as NftTraits
   } catch (error) {
     console.error('Error generating traits for collection:', error)
     return null

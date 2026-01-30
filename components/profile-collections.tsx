@@ -76,14 +76,14 @@ export function ProfileCollections() {
         <h3 className="text-xl font-bold text-white">My Collections</h3>
         <Link
           href="/collections/create"
-          className="px-4 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors text-sm shadow-lg shadow-[#00d4ff]/20"
+          className="px-4 py-2 bg-[#00d4ff] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors text-sm shadow-lg shadow-[#00d4ff]/20"
         >
           Create Collection
         </Link>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 cosmic-card border border-[#ff4757]/50 text-[#ff4757] rounded-lg">
+        <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 text-[#EF4444] rounded-lg">
           {error}
         </div>
       )}
@@ -93,7 +93,7 @@ export function ProfileCollections() {
           <p>No collections yet.</p>
           <Link
             href="/collections/create"
-            className="text-[#00d4ff] hover:text-[#00b8e6] mt-2 inline-block"
+            className="text-[#00d4ff] hover:text-[#14F195] mt-2 inline-block"
           >
             Create your first collection →
           </Link>
@@ -103,7 +103,7 @@ export function ProfileCollections() {
           {collections.map((collection) => (
             <div
               key={collection.id}
-              className={`cosmic-card border-2 rounded-lg p-4 ${
+              className={`bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 rounded-lg p-4 ${
                 collection.is_active 
                   ? 'border-[#00d4ff]/50' 
                   : 'border-[#00d4ff]/30'
@@ -119,7 +119,7 @@ export function ProfileCollections() {
                       </span>
                     )}
                     {collection.generation_mode && (
-                      <span className="px-2 py-1 bg-[#ff6b35]/20 text-[#ff6b35] text-xs rounded border border-[#ff6b35]/30">
+                      <span className="px-2 py-1 bg-[#DC1FFF]/20 text-[#DC1FFF] text-xs rounded border border-[#DC1FFF]/30">
                         {collection.generation_mode === 'prompt' ? 'Prompt' : 'Trait'}
                       </span>
                     )}
@@ -127,20 +127,20 @@ export function ProfileCollections() {
                   {collection.description && (
                     <p className="text-white/70 text-sm mb-2">{collection.description}</p>
                   )}
-                  <p className="text-xs text-white/60">
+                  <p className="text-xs text-[#a8a8b8]/80">
                     Created: {new Date(collection.created_at).toLocaleDateString()}
                   </p>
                 </div>
                 <div className="flex gap-2 ml-4">
                   <Link
                     href={`/collections/${collection.id}`}
-                    className="px-3 py-1 text-sm bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded font-semibold transition-colors"
+                    className="px-3 py-1 text-sm bg-[#00d4ff] hover:bg-[#14F195] text-white rounded font-semibold transition-colors"
                   >
                     View
                   </Link>
                   <Link
                     href={`/collections/${collection.id}/edit`}
-                    className="px-3 py-1 text-sm bg-[#ff6b35] hover:bg-[#ff5722] text-white rounded font-semibold transition-colors"
+                    className="px-3 py-1 text-sm bg-[#DC1FFF] hover:bg-[#9945FF] text-white rounded font-semibold transition-colors"
                   >
                     Edit
                   </Link>

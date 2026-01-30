@@ -1,4 +1,4 @@
-import { TRAIT_OPTIONS, type OrdinalTraits } from "./traits"
+import { TRAIT_OPTIONS, type NftTraits } from "./traits"
 
 /**
  * Advanced trait generator with rarity system
@@ -16,7 +16,7 @@ export interface TraitCategory {
   [key: string]: TraitWithRarity[]
 }
 
-export const TRAIT_RARITIES: Record<keyof OrdinalTraits, TraitWithRarity[]> = {
+export const TRAIT_RARITIES: Record<keyof NftTraits, TraitWithRarity[]> = {
   characterType: TRAIT_OPTIONS.characterType.map((type) => ({
     value: type,
     rarity: "common" as TraitRarity,
@@ -205,7 +205,7 @@ function selectWeightedRandom(traits: TraitWithRarity[]): string {
 /**
  * Generate traits with rarity-based weighting
  */
-export function generateWeightedTraits(): OrdinalTraits {
+export function generateWeightedTraits(): NftTraits {
   return {
     characterType: selectWeightedRandom(TRAIT_RARITIES.characterType),
     background: selectWeightedRandom(TRAIT_RARITIES.background),
@@ -221,7 +221,7 @@ export function generateWeightedTraits(): OrdinalTraits {
 /**
  * Get rarity for a specific trait value
  */
-export function getTraitRarity(category: keyof OrdinalTraits, value: string): TraitRarity {
+export function getTraitRarity(category: keyof NftTraits, value: string): TraitRarity {
   const traitCategory = TRAIT_RARITIES[category]
   if (!traitCategory) {
     console.warn(`Trait category '${category}' not found in TRAIT_RARITIES`)
@@ -232,9 +232,9 @@ export function getTraitRarity(category: keyof OrdinalTraits, value: string): Tr
 }
 
 /**
- * Calculate overall rarity score for an ordinal
+ * Calculate overall rarity score for an NFT
  */
-export function calculateRarityScore(traits: OrdinalTraits): number {
+export function calculateRarityScore(traits: NftTraits): number {
   const rarityScores: Record<TraitRarity, number> = {
     common: 1,
     rare: 2,
@@ -244,7 +244,7 @@ export function calculateRarityScore(traits: OrdinalTraits): number {
 
   let totalScore = 0
   for (const [category, value] of Object.entries(traits)) {
-    const rarity = getTraitRarity(category as keyof OrdinalTraits, value)
+    const rarity = getTraitRarity(category as keyof NftTraits, value)
     totalScore += rarityScores[rarity]
   }
 
@@ -271,7 +271,7 @@ export function getTotalCombinations(): number {
 /**
  * Validate if traits are valid
  */
-export function validateTraits(traits: OrdinalTraits): boolean {
+export function validateTraits(traits: NftTraits): boolean {
   return (
     TRAIT_OPTIONS.characterType.includes(traits.characterType) &&
     TRAIT_OPTIONS.background.includes(traits.background) &&

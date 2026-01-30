@@ -112,7 +112,7 @@ function OrdinalContentDisplay({ listing }: { listing: any }) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1f3a] to-[#0a0e27] p-2">
         <span className="text-3xl mb-1">📜</span>
-        <span className="text-[10px] text-white/60 uppercase tracking-wider">Text</span>
+        <span className="text-[10px] text-[#a8a8b8]/80 uppercase tracking-wider">Text</span>
       </div>
     )
   }
@@ -505,18 +505,18 @@ export default function CollectionOrdinalsPage() {
   return (
     <div className="min-h-screen">
       {/* Header with Collection Image */}
-      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
         <div className="container mx-auto px-6 py-8">
           <Link
             href="/marketplace"
-            className="text-[#00d4ff] hover:text-[#00b8e6] mb-4 flex items-center gap-2"
+            className="text-[#9945FF] hover:text-[#14F195] mb-4 flex items-center gap-2"
           >
             ← Back to Marketplace
           </Link>
           
           <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
             {/* Collection Image */}
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden border-2 border-[#00d4ff]/30 flex-shrink-0 bg-gradient-to-br from-[#1a1f3a] to-[#0a0e27]">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden border-2 border-[#9945FF]/30 flex-shrink-0 bg-gradient-to-br from-[#1a1f3a] to-[#0a0e27]">
               {collectionStats?.collection_image ? (
                 <img
                   src={collectionStats.collection_image}
@@ -545,7 +545,7 @@ export default function CollectionOrdinalsPage() {
               
               {/* Description */}
               {collectionStats?.metadata?.description && (
-                <p className="text-white/80 text-sm mb-3 max-w-2xl line-clamp-2">
+                <p className="text-[#a8a8b8] text-sm mb-3 max-w-2xl line-clamp-2">
                   {collectionStats.metadata.description}
                 </p>
               )}
@@ -558,7 +558,7 @@ export default function CollectionOrdinalsPage() {
                       href={collectionStats.metadata.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/60 hover:text-[#00d4ff] transition-colors text-sm"
+                      className="text-[#a8a8b8]/80 hover:text-[#9945FF] transition-colors text-sm"
                     >
                       🌐 Website
                     </a>
@@ -568,7 +568,7 @@ export default function CollectionOrdinalsPage() {
                       href={collectionStats.metadata.twitter.startsWith('http') ? collectionStats.metadata.twitter : `https://twitter.com/${collectionStats.metadata.twitter.replace('@', '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/60 hover:text-[#00d4ff] transition-colors text-sm"
+                      className="text-[#a8a8b8]/80 hover:text-[#9945FF] transition-colors text-sm"
                     >
                       🐦 Twitter
                     </a>
@@ -578,7 +578,7 @@ export default function CollectionOrdinalsPage() {
                       href={collectionStats.metadata.discord.startsWith('http') ? collectionStats.metadata.discord : `https://discord.gg/${collectionStats.metadata.discord}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/60 hover:text-[#00d4ff] transition-colors text-sm"
+                      className="text-[#a8a8b8]/80 hover:text-[#9945FF] transition-colors text-sm"
                     >
                       💬 Discord
                     </a>
@@ -588,7 +588,7 @@ export default function CollectionOrdinalsPage() {
                       href={collectionStats.metadata.telegram.startsWith('http') ? collectionStats.metadata.telegram : `https://t.me/${collectionStats.metadata.telegram.replace('@', '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/60 hover:text-[#00d4ff] transition-colors text-sm"
+                      className="text-[#a8a8b8]/80 hover:text-[#9945FF] transition-colors text-sm"
                     >
                       📱 Telegram
                     </a>
@@ -598,13 +598,13 @@ export default function CollectionOrdinalsPage() {
               
               <div className="flex flex-wrap items-center gap-6">
                 <div>
-                  <p className="text-white/60 text-sm">Floor Price</p>
-                  <p className="text-[#00d4ff] font-bold text-xl">
+                  <p className="text-[#a8a8b8]/80 text-sm">Floor Price</p>
+                  <p className="text-[#9945FF] font-bold text-xl">
                     {collectionStats ? parseFloat(collectionStats.floor_price_btc).toFixed(6) : (floorPrice / 100000000).toFixed(6)} BTC
                   </p>
                 </div>
                 <div>
-                  <p className="text-white/60 text-sm">Listed</p>
+                  <p className="text-[#a8a8b8]/80 text-sm">Listed</p>
                   <p className="text-white font-bold text-xl">{listings.length}</p>
                 </div>
               </div>
@@ -619,7 +619,7 @@ export default function CollectionOrdinalsPage() {
           <div className="max-w-[1800px] mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 animate-pulse">
+                <div key={i} className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4 animate-pulse">
                   <div className="h-4 bg-white/10 rounded mb-2"></div>
                   <div className="h-6 bg-white/10 rounded"></div>
                 </div>
@@ -632,39 +632,39 @@ export default function CollectionOrdinalsPage() {
           <div className="max-w-[1800px] mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
               {/* Total Sales */}
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
-                <p className="text-white/60 text-xs mb-1">Total Sales</p>
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
+                <p className="text-[#a8a8b8]/80 text-xs mb-1">Total Sales</p>
                 <p className="text-white font-bold text-xl">{collectionStats.total_sales}</p>
               </div>
 
               {/* Total Volume */}
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
-                <p className="text-white/60 text-xs mb-1">Total Volume</p>
-                <p className="text-[#00d4ff] font-bold text-lg">{parseFloat(collectionStats.total_volume_btc).toFixed(8)} BTC</p>
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
+                <p className="text-[#a8a8b8]/80 text-xs mb-1">Total Volume</p>
+                <p className="text-[#9945FF] font-bold text-lg">{parseFloat(collectionStats.total_volume_btc).toFixed(8)} BTC</p>
                 <p className="text-white/50 text-[10px] mt-0.5">{collectionStats.total_volume_sats.toLocaleString()} sats</p>
               </div>
 
               {/* Recent Sales (30d) */}
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
-                <p className="text-white/60 text-xs mb-1">Sales (30d)</p>
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
+                <p className="text-[#a8a8b8]/80 text-xs mb-1">Sales (30d)</p>
                 <p className="text-white font-bold text-xl">{collectionStats.recent_sales_30d}</p>
               </div>
 
               {/* Recent Volume (30d) */}
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
-                <p className="text-white/60 text-xs mb-1">Volume (30d)</p>
-                <p className="text-[#00d4ff] font-bold text-lg">{parseFloat(collectionStats.recent_volume_btc_30d).toFixed(8)} BTC</p>
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
+                <p className="text-[#a8a8b8]/80 text-xs mb-1">Volume (30d)</p>
+                <p className="text-[#9945FF] font-bold text-lg">{parseFloat(collectionStats.recent_volume_btc_30d).toFixed(8)} BTC</p>
               </div>
 
               {/* Average Sale Price */}
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
-                <p className="text-white/60 text-xs mb-1">Avg Sale Price</p>
-                <p className="text-[#00d4ff] font-bold text-lg">{parseFloat(collectionStats.avg_sale_price_btc).toFixed(8)} BTC</p>
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
+                <p className="text-[#a8a8b8]/80 text-xs mb-1">Avg Sale Price</p>
+                <p className="text-[#9945FF] font-bold text-lg">{parseFloat(collectionStats.avg_sale_price_btc).toFixed(8)} BTC</p>
               </div>
 
               {/* Active Listings */}
-              <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
-                <p className="text-white/60 text-xs mb-1">Active Listings</p>
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4">
+                <p className="text-[#a8a8b8]/80 text-xs mb-1">Active Listings</p>
                 <p className="text-white font-bold text-xl">{collectionStats.active_listings}</p>
               </div>
             </div>
@@ -680,11 +680,11 @@ export default function CollectionOrdinalsPage() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-white">{listings.length} {listings.length === 1 ? 'Listing' : 'Listings'}</h2>
               <div className="flex items-center gap-3">
-                <label className="text-sm text-white/60">Sort by:</label>
+                <label className="text-sm text-[#a8a8b8]/80">Sort by:</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="px-4 py-2 bg-[#0a0e27] border border-[#00d4ff]/30 rounded-lg text-white text-sm focus:outline-none focus:border-[#00d4ff]"
+                  className="px-4 py-2 bg-[#0a0e27] border border-[#9945FF]/30 rounded-lg text-white text-sm focus:outline-none focus:border-[#9945FF]"
                 >
                   <option value="price_asc">Price: Low to High</option>
                   <option value="price_desc">Price: High to Low</option>
@@ -704,15 +704,15 @@ export default function CollectionOrdinalsPage() {
 
           {/* Empty */}
           {!loading && listings.length === 0 && (
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-12 text-center">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-12 text-center">
               <div className="text-6xl mb-4">💎</div>
               <h2 className="text-2xl font-bold text-white mb-2">No Listings Found</h2>
-              <p className="text-white/80 mb-6">
+              <p className="text-[#a8a8b8] mb-6">
                 There are no ordinals from {collectionSymbol} currently listed for sale.
               </p>
               <Link
                 href="/marketplace"
-                className="px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors inline-block"
+                className="px-6 py-3 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors inline-block"
               >
                 Browse Other Collections
               </Link>
@@ -725,7 +725,7 @@ export default function CollectionOrdinalsPage() {
               {sortedListings.map((listing: any) => (
                 <div
                   key={listing.id}
-                  className="cosmic-card border border-[#00d4ff]/30 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-[#00d4ff]/20 transition-all group"
+                  className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-[#9945FF]/20 transition-all group"
                 >
                   {/* Clickable Image/Title Area - navigates to detail page */}
                   <Link
@@ -755,7 +755,7 @@ export default function CollectionOrdinalsPage() {
                       href={`/marketplace/ordinals/${listing.id}`}
                       className="block"
                     >
-                      <h3 className="font-bold text-white text-xs truncate hover:text-[#00d4ff] transition-colors">
+                      <h3 className="font-bold text-white text-xs truncate hover:text-[#9945FF] transition-colors">
                         #{listing.inscription_number?.toLocaleString() || listing.inscription_id.substring(0, 8)}
                       </h3>
                     </Link>
@@ -790,7 +790,7 @@ export default function CollectionOrdinalsPage() {
                         ) : (
                           <button
                             onClick={() => handleCancelClick(listing)}
-                            className="w-full px-2 py-1.5 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/50 rounded text-[10px] font-medium text-center transition-all"
+                            className="w-full px-2 py-1.5 bg-red-500/20 hover:bg-red-500 text-[#EF4444] hover:text-white border border-red-500/50 rounded text-[10px] font-medium text-center transition-all"
                           >
                             Cancel Listing
                           </button>

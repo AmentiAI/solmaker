@@ -252,7 +252,7 @@ export default function Tester11Page() {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
         <div className="text-center space-y-4 max-w-md mx-auto px-6">
-          <h1 className="text-3xl font-bold text-red-400">Access Restricted</h1>
+          <h1 className="text-3xl font-bold text-[#EF4444]">Access Restricted</h1>
           <p className="text-slate-300">
             This feature is only available to authorized users.
           </p>
@@ -283,12 +283,12 @@ export default function Tester11Page() {
         </header>
 
         <section className="grid gap-8 lg:grid-cols-2">
-          <div className="space-y-6 rounded-xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl">
+          <div className="space-y-6 rounded-xl border border-slate-800 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/40 p-6 shadow-xl">
             <div className="space-y-3">
               <div className="block text-sm font-semibold text-slate-200">
                 Reference Image{selectedFiles.length > 1 ? 's' : ''} {selectedFiles.length > 0 && `(${selectedFiles.length})`}
               </div>
-              <div className="relative flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-700 bg-slate-900/60 p-6 text-center">
+              <div className="relative flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-700 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/60 p-6 text-center">
                 <input
                   type="file"
                   accept="image/*"
@@ -299,7 +299,7 @@ export default function Tester11Page() {
                 />
                 <label
                   htmlFor="tester11-file-input"
-                  className="relative z-20 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-600 px-4 py-2 text-sm font-semibold text-slate-50 shadow-lg shadow-slate-900/40 transition hover:border-slate-400 hover:bg-slate-800 pointer-events-none"
+                  className="relative z-20 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-600 px-4 py-2 text-sm font-semibold text-slate-50 shadow-lg shadow-slate-900/40 transition hover:border-slate-400 hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 pointer-events-none"
                 >
                   {selectedFiles.length > 0 ? `Change Image${selectedFiles.length > 1 ? 's' : ''}` : "Select Image(s)"}
                 </label>
@@ -342,7 +342,7 @@ export default function Tester11Page() {
                   ))}
                 </div>
                 {selectedFiles.length > 1 && (
-                  <div className="bg-yellow-900/30 border border-yellow-700/50 rounded p-2 mt-2">
+                  <div className="bg-yellow-900/30 border border-[#FBBF24]/20/50 rounded p-2 mt-2">
                     <p className="text-yellow-300 text-xs font-semibold">
                       💡 Multi-character mode: All characters will be combined into one image. Use prompts like "remake all characters" or "combine all characters".
                     </p>
@@ -390,8 +390,8 @@ export default function Tester11Page() {
                   onClick={() => setBackgroundMode("original")}
                   className={`flex-1 rounded-lg border px-4 py-2 text-sm font-semibold transition ${
                     backgroundMode === "original"
-                      ? "border-emerald-400 bg-emerald-500/20 text-emerald-200"
-                      : "border-slate-700 bg-slate-900/60 text-slate-300 hover:border-slate-500"
+                      ? "border-emerald-400 bg-[#14F195]/20 text-emerald-200"
+                      : "border-slate-700 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/60 text-slate-300 hover:border-slate-500"
                   }`}
                 >
                   Keep Original Background
@@ -402,7 +402,7 @@ export default function Tester11Page() {
                   className={`flex-1 rounded-lg border px-4 py-2 text-sm font-semibold transition ${
                     backgroundMode === "transparent"
                       ? "border-sky-400 bg-sky-500/20 text-sky-200"
-                      : "border-slate-700 bg-slate-900/60 text-slate-300 hover:border-slate-500"
+                      : "border-slate-700 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/60 text-slate-300 hover:border-slate-500"
                   }`}
                 >
                   Transparent Background
@@ -441,7 +441,7 @@ export default function Tester11Page() {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl">
+            <div className="rounded-xl border border-slate-800 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/40 p-6 shadow-xl">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-slate-100">AI Analysis</h2>
                 {result?.analysis && (
@@ -462,7 +462,7 @@ export default function Tester11Page() {
               />
             </div>
 
-            <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl">
+            <div className="rounded-xl border border-slate-800 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/40 p-6 shadow-xl">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-slate-100">Generation Prompt</h2>
                 {result?.chromaticPrompt && (
@@ -483,7 +483,7 @@ export default function Tester11Page() {
             </div>
 
             {result?.chromaticImageUrl && (
-              <div className="space-y-3 rounded-xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl">
+              <div className="space-y-3 rounded-xl border border-slate-800 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/40 p-6 shadow-xl">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-slate-100">Recreated Image</h2>
                   <div className="flex items-center gap-3 text-xs text-slate-400">
@@ -509,13 +509,13 @@ export default function Tester11Page() {
                 </div>
                 
                 {/* Save to Collection Section */}
-                <div className="mt-4 space-y-3 rounded-lg border border-slate-700 bg-slate-800/40 p-4">
+                <div className="mt-4 space-y-3 rounded-lg border border-slate-700 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/40 p-4">
                   <h3 className="text-sm font-semibold text-slate-200">Save to Collection</h3>
                   <div className="space-y-2">
                     <select
                       value={selectedCollectionId}
                       onChange={(e) => setSelectedCollectionId(e.target.value)}
-                      className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-2 text-sm text-slate-200 focus:border-indigo-500 focus:outline-none"
+                      className="w-full rounded-lg border border-slate-700 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/60 p-2 text-sm text-slate-200 focus:border-indigo-500 focus:outline-none"
                     >
                       <option value="">Select a collection...</option>
                       {collections.map((collection) => (
@@ -539,7 +539,7 @@ export default function Tester11Page() {
                       )}
                     </button>
                     {saveMessage && (
-                      <div className="rounded-lg border border-emerald-500/50 bg-emerald-500/10 p-2 text-xs text-emerald-300">
+                      <div className="rounded-lg border border-[#14F195]/30 bg-emerald-500/10 p-2 text-xs text-[#14F195]">
                         {saveMessage}
                       </div>
                     )}

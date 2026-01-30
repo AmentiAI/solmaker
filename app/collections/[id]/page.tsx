@@ -13,7 +13,7 @@ import { CollectionHeader } from './components/CollectionHeader'
 import { CollectionStats } from './components/CollectionStats'
 import { LayersSection } from './components/LayersSection'
 import { GenerationSection } from './components/GenerationSection'
-import { OrdinalsGrid } from './components/OrdinalsGrid'
+import { NftsGrid } from './components/OrdinalsGrid'
 import { useCollectionPageLogic } from './hooks/useCollectionPageLogic'
 import { useState, useEffect } from 'react'
 import { GeneratedOrdinal } from './types'
@@ -145,13 +145,13 @@ export default function CollectionDetailsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto text-center py-12">
-          <div className="cosmic-card border-2 border-[#ff6b35]/50 rounded-xl p-8 max-w-2xl mx-auto">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#DC1FFF]/50 rounded-xl p-8 max-w-2xl mx-auto">
             <div className="text-6xl mb-4">🔐</div>
             <h2 className="text-2xl font-bold text-white mb-4">Wallet Connection Required</h2>
-            <p className="text-white/80 mb-6">
+            <p className="text-[#a8a8b8] mb-6">
               Please connect your wallet to access collection management.
             </p>
-            <Link href="/collections" className="px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-bold transition-colors inline-block shadow-lg shadow-[#00d4ff]/20 drop-shadow-lg">
+            <Link href="/collections" className="px-6 py-3 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-bold transition-colors inline-block shadow-lg shadow-[#9945FF]/20 drop-shadow-lg">
               Go to Collections
             </Link>
           </div>
@@ -175,7 +175,7 @@ export default function CollectionDetailsPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto text-center py-8">
             <div className="text-white">Collection not found or access denied</div>
-            <Link href="/collections" className="text-[#00d4ff] hover:text-[#00b8e6] mt-4 inline-block">
+            <Link href="/collections" className="text-[#9945FF] hover:text-[#14F195] mt-4 inline-block">
               ← Back to Collections
             </Link>
         </div>
@@ -188,13 +188,13 @@ export default function CollectionDetailsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto text-center py-12">
-          <div className="cosmic-card border-2 border-[#ff4757]/50 rounded-xl p-8 max-w-2xl mx-auto">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#EF4444]/50 rounded-xl p-8 max-w-2xl mx-auto">
             <div className="text-6xl mb-4">🚫</div>
             <h2 className="text-2xl font-bold text-white mb-4">Access Denied</h2>
-            <p className="text-white/80 mb-6">
+            <p className="text-[#a8a8b8] mb-6">
               You don't have permission to access this collection. Only the collection owner or authorized collaborators can view and edit collections.
             </p>
-            <Link href="/collections" className="px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-bold transition-colors inline-block shadow-lg shadow-[#00d4ff]/20 drop-shadow-lg">
+            <Link href="/collections" className="px-6 py-3 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-bold transition-colors inline-block shadow-lg shadow-[#9945FF]/20 drop-shadow-lg">
               Go to Collections
             </Link>
           </div>
@@ -210,18 +210,18 @@ export default function CollectionDetailsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto text-center py-12">
-            <div className="cosmic-card border-2 border-[#ff6b35]/50 rounded-xl p-8 max-w-2xl mx-auto">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#DC1FFF]/50 rounded-xl p-8 max-w-2xl mx-auto">
               <div className="text-6xl mb-4">🔒</div>
             <h2 className="text-2xl font-bold text-white mb-4">Collection Access Restricted</h2>
-              <p className="text-white/80 mb-6">
+              <p className="text-[#a8a8b8] mb-6">
                 This collection is currently on <strong>{statusText}</strong> and cannot be accessed for editing or generation.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/collections" className="px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-bold transition-colors shadow-lg shadow-[#00d4ff]/20 drop-shadow-lg">
+              <Link href="/collections" className="px-6 py-3 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-bold transition-colors shadow-lg shadow-[#9945FF]/20 drop-shadow-lg">
                   Go to Collections
                 </Link>
                 {collection.collection_status === 'launchpad' && (
-                <Link href={`/launchpad/${collection.id}`} className="px-6 py-3 bg-[#ff6b35] hover:bg-[#ff5722] text-white rounded-lg font-semibold transition-colors shadow-lg shadow-[#ff6b35]/20">
+                <Link href={`/launchpad/${collection.id}`} className="px-6 py-3 bg-[#DC1FFF] hover:bg-[#9945FF] text-white rounded-lg font-semibold transition-colors shadow-lg shadow-[#DC1FFF]/20">
                     View on Launchpad
                   </Link>
                 )}
@@ -246,8 +246,8 @@ export default function CollectionDetailsPage() {
           <CollectionStats layers={layers} totalOrdinals={totalOrdinals} isActive={collection.is_active} />
         {showCollaboratorsModal && collection && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="cosmic-card rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto border-2 border-[#00d4ff]/50">
-              <div className="flex items-center justify-between p-4 border-b border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto border-2 border-[#9945FF]/50">
+              <div className="flex items-center justify-between p-4 border-b border-[#9945FF]/30">
                 <h2 className="text-lg font-semibold text-white">Manage Collaborators</h2>
                   <button onClick={() => { setShowCollaboratorsModal(false); loadAllData() }} className="text-white/70 hover:text-white transition-colors">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -270,18 +270,18 @@ export default function CollectionDetailsPage() {
                 onClick={() => setActiveTab('generated')}
                 className={`px-6 py-3 rounded-t-lg font-semibold text-base transition-all duration-200 ${
                   activeTab === 'generated'
-                    ? 'bg-gradient-to-r from-[#00d4ff] to-purple-500 text-white shadow-lg shadow-[#00d4ff]/30 border-2 border-b-0 border-[#00d4ff]/50'
-                    : 'bg-slate-800/50 text-white/70 hover:text-white hover:bg-slate-700/50 border-2 border-b-0 border-transparent'
+                    ? 'bg-gradient-to-r from-[#9945FF] to-purple-500 text-white shadow-lg shadow-[#9945FF]/30 border-2 border-b-0 border-[#9945FF]/50'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 text-white/70 hover:text-white hover:bg-slate-700/50 border-2 border-b-0 border-transparent'
                 }`}
               >
-                🎨 Generated Ordinals
+                🎨 Generated NFTs
               </button>
               <button
                 onClick={() => setActiveTab('compression')}
                 className={`px-6 py-3 rounded-t-lg font-semibold text-base transition-all duration-200 ${
                   activeTab === 'compression'
-                    ? 'bg-gradient-to-r from-[#00d4ff] to-purple-500 text-white shadow-lg shadow-[#00d4ff]/30 border-2 border-b-0 border-[#00d4ff]/50'
-                    : 'bg-slate-800/50 text-white/70 hover:text-white hover:bg-slate-700/50 border-2 border-b-0 border-transparent'
+                    ? 'bg-gradient-to-r from-[#9945FF] to-purple-500 text-white shadow-lg shadow-[#9945FF]/30 border-2 border-b-0 border-[#9945FF]/50'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 text-white/70 hover:text-white hover:bg-slate-700/50 border-2 border-b-0 border-transparent'
                 }`}
               >
                 📦 Compression
@@ -291,7 +291,7 @@ export default function CollectionDetailsPage() {
 
           {/* Tab Content */}
           {activeTab === 'generated' && (
-            <div className="border border-t-0 border-[#00d4ff]/30 rounded-b-lg rounded-tl-lg cosmic-card p-6">
+            <div className="border border-t-0 border-[#9945FF]/30 rounded-b-lg rounded-tl-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6">
               <GenerationSection
                 collection={collection}
                 layers={layers}
@@ -314,16 +314,16 @@ export default function CollectionDetailsPage() {
                   onClick={() => setShowOrphanedTraits(!showOrphanedTraits)}
                   className={`px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${
                     showOrphanedTraits
-                      ? 'bg-[#00d4ff] hover:bg-[#00b8e6] text-white shadow-lg shadow-[#00d4ff]/20'
-                      : 'cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white/80 hover:text-white'
+                      ? 'bg-[#9945FF] hover:bg-[#14F195] text-white shadow-lg shadow-[#9945FF]/20'
+                      : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-[#a8a8b8] hover:text-white'
                   }`}
                 >
                   {showOrphanedTraits ? '✓ Showing Orphaned Traits' : '👁️ Show Orphaned Traits'}
                 </button>
               </div>
-              <OrdinalsGrid
-                ordinals={ordinals}
-                totalOrdinals={totalOrdinals}
+              <NftsGrid
+                nfts={ordinals}
+                totalNfts={totalOrdinals}
                 currentPage={currentPage}
                 imageSliders={imageSliders}
                 setImageSliders={setImageSliders}
@@ -331,23 +331,23 @@ export default function CollectionDetailsPage() {
                 setExpandedTraits={setExpandedTraits}
                 showPromptId={showPromptId}
                 setShowPromptId={setShowPromptId}
-                flippingOrdinal={flippingOrdinal}
+                flippingNft={flippingOrdinal}
                 onDownload={handleDownloadOrdinal}
                 onDelete={handleDeleteOrdinal}
                 onFlip={handleFlipOrdinal}
-                onShowCompression={(ordinal) => { setCompressionModalOrdinal(ordinal); setCompressionModalSlider(50); setShowCompressionModal(true) }}
+                onShowCompression={(nft) => { setCompressionModalOrdinal(nft); setCompressionModalSlider(50); setShowCompressionModal(true) }}
                 collectionArtStyle={(collection as Collection)?.art_style}
               />
               {ordinals.length === 0 && (
-                <div className="text-center py-8 text-white/80">No ordinals generated yet. Click the button above to generate your first one!</div>
+                <div className="text-center py-8 text-[#a8a8b8]">No NFTs generated yet. Click the button above to generate your first one!</div>
               )}
               {totalPages > 1 && (
                 <div className="flex justify-center items-center gap-2 mt-6">
-                  <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-3 py-1 bg-gradient-to-r from-[#00d4ff] to-[#8b5cf6] hover:from-[#00b8e6] hover:to-[#7c3aed] disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed text-white rounded shadow-lg shadow-[#00d4ff]/20 transition-all duration-200 font-bold drop-shadow-lg">
+                  <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-3 py-1 bg-gradient-to-r from-[#9945FF] to-[#8b5cf6] hover:from-[#14F195] hover:to-[#00B8D4] disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed text-white rounded shadow-lg shadow-[#9945FF]/20 transition-all duration-200 font-bold drop-shadow-lg">
                     Previous
                   </button>
                   <span className="text-white">Page {currentPage} of {totalPages}</span>
-                  <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="px-3 py-1 bg-gradient-to-r from-[#00d4ff] to-[#8b5cf6] hover:from-[#00b8e6] hover:to-[#7c3aed] disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed text-white rounded shadow-lg shadow-[#00d4ff]/20 transition-all duration-200 font-bold drop-shadow-lg">
+                  <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="px-3 py-1 bg-gradient-to-r from-[#9945FF] to-[#8b5cf6] hover:from-[#14F195] hover:to-[#00B8D4] disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed text-white rounded shadow-lg shadow-[#9945FF]/20 transition-all duration-200 font-bold drop-shadow-lg">
                     Next
                   </button>
                 </div>
@@ -356,20 +356,20 @@ export default function CollectionDetailsPage() {
           )}
 
           {activeTab === 'compression' && (
-            <div className="border border-t-0 border-[#00d4ff]/30 rounded-b-lg rounded-tr-lg cosmic-card p-6">
+            <div className="border border-t-0 border-[#9945FF]/30 rounded-b-lg rounded-tr-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6">
               {/* Compression Settings Section */}
-              <div className="mb-6 border-b border-[#00d4ff]/30 pb-6">
+              <div className="mb-6 border-b border-[#9945FF]/30 pb-6">
                 <h3 className="text-lg font-semibold text-white mb-4">Image Compression Settings</h3>
                 
                 {/* Compression Settings Changed Warning */}
                 {compressionSettingsChanged && (
-                  <div className="mb-4 cosmic-card border border-[#ff6b35]/50 rounded-lg p-4">
+                  <div className="mb-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#DC1FFF]/50 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                      <svg className="w-5 h-5 text-[#ff6b35] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-5 h-5 text-[#DC1FFF] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-[#ff6b35]">
+                        <p className="text-sm font-medium text-[#DC1FFF]">
                           Compression settings have changed
                         </p>
                         <p className="text-xs text-white/70 mt-1">
@@ -379,7 +379,7 @@ export default function CollectionDetailsPage() {
                           type="button"
                           onClick={handleWipeCompressions}
                           disabled={wipingCompressions}
-                          className="mt-3 px-3 py-1.5 bg-[#ff6b35] hover:bg-[#ff5722] disabled:bg-[#ff6b35]/50 text-white text-xs font-medium rounded transition-colors flex items-center gap-2 shadow-lg shadow-[#ff6b35]/20"
+                          className="mt-3 px-3 py-1.5 bg-[#DC1FFF] hover:bg-[#9945FF] disabled:bg-[#DC1FFF]/50 text-white text-xs font-medium rounded transition-colors flex items-center gap-2 shadow-lg shadow-[#DC1FFF]/20"
                         >
                           {wipingCompressions ? (
                             <>
@@ -411,7 +411,7 @@ export default function CollectionDetailsPage() {
                     <select
                       value={compressionFormat}
                       onChange={(e) => setCompressionFormat(e.target.value as 'jpg' | 'png' | 'webp')}
-                      className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20"
+                      className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20"
                     >
                       <option value="webp" className="bg-[#0a0e27]">WebP (Recommended - Best compression)</option>
                       <option value="jpg" className="bg-[#0a0e27]">JPEG (Good compression, widely supported)</option>
@@ -455,7 +455,7 @@ export default function CollectionDetailsPage() {
                             }
                           }
                         }}
-                        className="w-24 border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20"
+                        className="w-24 border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20"
                         placeholder="Width"
                       />
                       <span className="text-white">×</span>
@@ -476,7 +476,7 @@ export default function CollectionDetailsPage() {
                             }
                           }
                         }}
-                        className="w-24 border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20"
+                        className="w-24 border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20"
                         placeholder="Height"
                       />
                       <span className="text-white/70 text-sm">px (square, max 1024×1024)</span>
@@ -519,8 +519,8 @@ export default function CollectionDetailsPage() {
                     const formatName = compressionFormat === 'jpg' ? 'JPEG' : compressionFormat.toUpperCase()
                     
                     return (
-                      <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-3">
-                        <p className="text-sm font-medium text-[#00d4ff]">
+                      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-3">
+                        <p className="text-sm font-medium text-[#9945FF]">
                           Estimated File Size: <span className="font-bold text-white">{lowerKB}-{upperKB} KB</span> ({formatName})
                         </p>
                         <p className="text-xs text-white/70 mt-1">
@@ -541,7 +541,7 @@ export default function CollectionDetailsPage() {
                     type="button"
                     onClick={handleSaveCompressionSettings}
                     disabled={savingCompression || dimensionsBlank}
-                    className="bg-[#00d4ff] text-white px-4 py-2 rounded hover:bg-[#00b8e6] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#00d4ff]/20 transition-all font-bold drop-shadow-lg"
+                    className="bg-[#9945FF] text-white px-4 py-2 rounded hover:bg-[#14F195] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#9945FF]/20 transition-all font-bold drop-shadow-lg"
                   >
                     {savingCompression ? 'Saving...' : 'Save Changes'}
                   </button>
@@ -551,7 +551,7 @@ export default function CollectionDetailsPage() {
               <div className="mb-6">
                 <button
                   onClick={handleWipeCompressions}
-                  className="px-4 py-2 bg-[#ff4757] hover:bg-[#ff3838] text-white rounded-lg font-semibold text-sm transition-colors shadow-lg shadow-[#ff4757]/20"
+                  className="px-4 py-2 bg-[#EF4444] hover:bg-[#ff3838] text-white rounded-lg font-semibold text-sm transition-colors shadow-lg shadow-[#EF4444]/20"
                 >
                   🗑️ Wipe Compressions
                 </button>
@@ -564,15 +564,15 @@ export default function CollectionDetailsPage() {
       <CompressionModal isOpen={showCompressionModal} ordinal={compressionModalOrdinal} sliderValue={compressionModalSlider} onClose={() => setShowCompressionModal(false)} onSliderChange={setCompressionModalSlider} />
       <DownloadProgressModal isOpen={downloadProgress.isOpen} current={downloadProgress.current} total={downloadProgress.total} status={downloadProgress.status} message={downloadProgress.message} failedCount={downloadProgress.failedCount} />
       <ConfirmDialog isOpen={showDeleteConfirm} onClose={handleDeleteCancel} onConfirm={handleDeleteConfirm} title="Delete Collection" message={`Are you sure you want to delete "${collection?.name || 'this collection'}"?`} confirmText="Delete" cancelText="Cancel" confirmButtonClass="bg-red-600 hover:bg-red-700" loading={deleting} />
-      {showDeleteOrdinalConfirm && <ConfirmDialog isOpen={!!showDeleteOrdinalConfirm} onClose={() => setShowDeleteOrdinalConfirm(null)} onConfirm={() => executeDeleteOrdinal(showDeleteOrdinalConfirm)} title="Delete Ordinal" message="Are you sure you want to delete this ordinal?" confirmText="Delete" cancelText="Cancel" confirmButtonClass="bg-red-600 hover:bg-red-700" />}
+      {showDeleteOrdinalConfirm && <ConfirmDialog isOpen={!!showDeleteOrdinalConfirm} onClose={() => setShowDeleteOrdinalConfirm(null)} onConfirm={() => executeDeleteOrdinal(showDeleteOrdinalConfirm)} title="Delete NFT" message="Are you sure you want to delete this NFT?" confirmText="Delete" cancelText="Cancel" confirmButtonClass="bg-red-600 hover:bg-red-700" />}
       <ConfirmDialog isOpen={showWipeCompressionsConfirm} onClose={() => setShowWipeCompressionsConfirm(false)} onConfirm={executeWipeCompressions} title="Delete All Compressed Images" message="Are you sure you want to delete all compressed images?" confirmText="Delete All" cancelText="Cancel" confirmButtonClass="bg-red-600 hover:bg-red-700" />
-      {pendingGeneration && <ConfirmDialog isOpen={showFilterConfirm} onClose={() => { setShowFilterConfirm(false); setPendingGeneration(false) }} onConfirm={() => { setShowFilterConfirm(false); setShowCreditsConfirm(true) }} title="⚠️ FILTERED GENERATION" message={`You are about to generate ordinals with trait filters applied. These traits will be used in ALL ${generateQuantity} generated ordinal${generateQuantity > 1 ? 's' : ''}.`} confirmText="Proceed" cancelText="Cancel" confirmButtonClass="bg-yellow-600 hover:bg-yellow-700" />}
+      {pendingGeneration && <ConfirmDialog isOpen={showFilterConfirm} onClose={() => { setShowFilterConfirm(false); setPendingGeneration(false) }} onConfirm={() => { setShowFilterConfirm(false); setShowCreditsConfirm(true) }} title="⚠️ FILTERED GENERATION" message={`You are about to generate NFTs with trait filters applied. These traits will be used in ALL ${generateQuantity} generated NFT${generateQuantity > 1 ? 's' : ''}.`} confirmText="Proceed" cancelText="Cancel" confirmButtonClass="bg-[#FBBF24] hover:bg-[#F59E0B]" />}
       
       {/* Credits Confirmation Modal */}
       {showCreditsConfirm && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={handleCreditsConfirmCancel}>
-          <div className="cosmic-card rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border-2 border-[#00d4ff]/50" onClick={(e) => e.stopPropagation()}>
-            <div className="bg-gradient-to-r from-[#00d4ff] to-[#8b5cf6] p-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border-2 border-[#9945FF]/50" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-gradient-to-r from-[#9945FF] to-[#8b5cf6] p-6">
               <h2 className="text-2xl font-bold text-white">Confirm Generation</h2>
               <p className="text-white/90 mt-1">Review your credits before generating</p>
             </div>
@@ -580,31 +580,31 @@ export default function CollectionDetailsPage() {
             <div className="p-6">
               {loadingCredits ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00d4ff] mx-auto"></div>
-                  <p className="mt-4 text-white/80">Loading credits...</p>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#9945FF] mx-auto"></div>
+                  <p className="mt-4 text-[#a8a8b8]">Loading credits...</p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-3">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4 space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-white/80 font-medium">Current Credits:</span>
+                      <span className="text-[#a8a8b8] font-medium">Current Credits:</span>
                       <span className="text-2xl font-bold text-white">{credits ?? 0}</span>
                     </div>
                     
-                    <div className="border-t border-[#00d4ff]/30 pt-3">
+                    <div className="border-t border-[#9945FF]/30 pt-3">
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-white/80">Generating {generateQuantity} ordinal{generateQuantity > 1 ? 's' : ''}:</span>
-                        <span className="text-lg font-semibold text-[#ff6b35]">-{generateQuantity}</span>
+                        <span className="text-[#a8a8b8]">Generating {generateQuantity} NFT{generateQuantity > 1 ? 's' : ''}:</span>
+                        <span className="text-lg font-semibold text-[#DC1FFF]">-{generateQuantity}</span>
                       </div>
-                      <div className="text-xs text-white/60">
+                      <div className="text-xs text-[#a8a8b8]/80">
                         (1 credit per generation)
                       </div>
                     </div>
                     
-                    <div className="border-t border-[#00d4ff]/30 pt-3 mt-3">
+                    <div className="border-t border-[#9945FF]/30 pt-3 mt-3">
                       <div className="flex justify-between items-center">
                         <span className="text-white font-semibold">Total After:</span>
-                        <span className={`text-2xl font-bold ${(credits ?? 0) - generateQuantity >= 0 ? 'text-[#00d4ff]' : 'text-[#ff4757]'}`}>
+                        <span className={`text-2xl font-bold ${(credits ?? 0) - generateQuantity >= 0 ? 'text-[#9945FF]' : 'text-[#EF4444]'}`}>
                           {(credits ?? 0) - generateQuantity}
                         </span>
                       </div>
@@ -612,9 +612,9 @@ export default function CollectionDetailsPage() {
                   </div>
                   
                   {(credits ?? 0) - generateQuantity < 0 && (
-                    <div className="cosmic-card border border-[#ff4757]/50 rounded-lg p-3">
-                      <p className="text-sm text-[#ff4757]">
-                        ⚠️ Insufficient credits! You need {generateQuantity - (credits ?? 0)} more credit{generateQuantity - (credits ?? 0) > 1 ? 's' : ''} to generate {generateQuantity} ordinal{generateQuantity > 1 ? 's' : ''}.
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 rounded-lg p-3">
+                      <p className="text-sm text-[#EF4444]">
+                        ⚠️ Insufficient credits! You need {generateQuantity - (credits ?? 0)} more credit{generateQuantity - (credits ?? 0) > 1 ? 's' : ''} to generate {generateQuantity} NFT{generateQuantity > 1 ? 's' : ''}.
                       </p>
                     </div>
                   )}
@@ -622,17 +622,17 @@ export default function CollectionDetailsPage() {
               )}
             </div>
             
-            <div className="cosmic-card border-t border-[#00d4ff]/30 px-6 py-4 flex gap-3 justify-end">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-t border-[#9945FF]/30 px-6 py-4 flex gap-3 justify-end">
               <button
                 onClick={handleCreditsConfirmCancel}
-                className="px-6 py-2 cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white/80 hover:text-white rounded-lg font-semibold transition-colors"
+                className="px-6 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-[#a8a8b8] hover:text-white rounded-lg font-semibold transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCreditsConfirmAccept}
                 disabled={loadingCredits || (credits ?? 0) - generateQuantity < 0}
-                className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#00d4ff]/20 drop-shadow-lg"
+                className="px-6 py-2 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#9945FF]/20 drop-shadow-lg"
               >
                 Accept & Generate
               </button>
@@ -688,16 +688,16 @@ function CompressionTable({ ordinals, totalOrdinals, currentPage }: { ordinals: 
 
   if (compressedOrdinals.length === 0) {
     return (
-      <div className="text-center py-8 text-white/80">
+      <div className="text-center py-8 text-[#a8a8b8]">
         No compressed ordinals found. Compress some ordinals first to see them here.
       </div>
     )
   }
 
   return (
-    <div className="border border-[#00d4ff]/30 rounded-lg overflow-hidden cosmic-card">
+    <div className="border border-[#9945FF]/30 rounded-lg overflow-hidden bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
       <table className="w-full">
-        <thead className="cosmic-card border-b border-[#00d4ff]/30">
+        <thead className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-b border-[#9945FF]/30">
           <tr>
             <th className="px-4 py-3 text-left text-xs font-semibold text-white">Ordinal #</th>
             <th className="px-4 py-3 text-left text-xs font-semibold text-white">Width</th>
@@ -705,7 +705,7 @@ function CompressionTable({ ordinals, totalOrdinals, currentPage }: { ordinals: 
             <th className="px-4 py-3 text-left text-xs font-semibold text-white">Size (KB)</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#00d4ff]/20">
+        <tbody className="divide-y divide-[#9945FF]/20">
           {compressedOrdinals.map((ordinal, index) => {
             const dimensions = imageDimensions[ordinal.id]
             // Use same display number calculation as OrdinalsGrid
@@ -719,17 +719,17 @@ function CompressionTable({ ordinals, totalOrdinals, currentPage }: { ordinals: 
               : '—'
             
             return (
-              <tr key={ordinal.id} className="hover:bg-[#00d4ff]/10 transition-colors">
+              <tr key={ordinal.id} className="hover:bg-[#9945FF]/10 transition-colors">
                 <td className="px-4 py-3 text-sm font-medium text-white">
                   #{displayNumber}
                 </td>
-                <td className="px-4 py-3 text-sm text-white/80">
+                <td className="px-4 py-3 text-sm text-[#a8a8b8]">
                   {dimensions ? `${dimensions.width}px` : 'Loading...'}
                 </td>
-                <td className="px-4 py-3 text-sm text-white/80">
+                <td className="px-4 py-3 text-sm text-[#a8a8b8]">
                   {dimensions ? `${dimensions.height}px` : 'Loading...'}
                 </td>
-                <td className="px-4 py-3 text-sm text-white/80">
+                <td className="px-4 py-3 text-sm text-[#a8a8b8]">
                   {compressedSizeKb}
                 </td>
               </tr>

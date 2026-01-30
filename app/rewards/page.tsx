@@ -260,8 +260,8 @@ export default function RewardsPage() {
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Hero Header */}
-        <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30 rounded-2xl mb-8 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#00d4ff]/10 via-transparent to-[#8b5cf6]/10" />
+        <div className="relative bg-gradient-to-r from-[#050510] via-[#0f0f1e] to-[#15152a] text-white border-b border-[#00E5FF]/30 rounded-2xl mb-8 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#9945FF]/10 via-transparent to-[#8b5cf6]/10" />
           <div className="relative p-8">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -275,7 +275,7 @@ export default function RewardsPage() {
               <button
                 onClick={handleRefresh}
                 disabled={refreshing || loading}
-                className="px-6 py-3 bg-gradient-to-r from-[#00d4ff] to-[#8b5cf6] hover:from-[#00b8e6] hover:to-[#7c3aed] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg shadow-[#00d4ff]/30"
+                className="px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg shadow-[#00E5FF]/30"
               >
                 {refreshing || loading ? (
                   <>
@@ -295,11 +295,11 @@ export default function RewardsPage() {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-500/20 border-2 border-red-500/50 rounded-xl text-red-400 flex items-center justify-between cosmic-card">
+          <div className="mb-6 p-4 bg-red-500/20 border-2 border-red-500/50 rounded-xl text-[#EF4444] flex items-center justify-between bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
             <p className="font-semibold">⚠️ {error}</p>
             <button
               onClick={() => setError(null)}
-              className="text-red-400 hover:text-red-300 ml-4 text-xl"
+              className="text-[#EF4444] hover:text-red-300 ml-4 text-xl"
             >
               ×
             </button>
@@ -310,7 +310,7 @@ export default function RewardsPage() {
 
         {/* Gambling Feature - Only for holders with at least 1 ordmaker */}
         {isConnected && currentAddress && ordmakerCount !== null && ordmakerCount >= 1 && (
-          <div className="cosmic-card border-2 border-[#ff6b35]/30 rounded-xl shadow-lg p-6 mb-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#DC1FFF]/30 rounded-xl shadow-lg p-6 mb-6">
             {/* Header */}
             <div className="text-center mb-4">
               <h2 className="text-3xl font-black text-white mb-1">
@@ -324,26 +324,26 @@ export default function RewardsPage() {
             {/* Stats Grid - 4 Columns */}
             {ordmakerCount >= 1 && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-lg p-3 text-center bg-gradient-to-br from-[#00d4ff]/10 to-transparent">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00E5FF]/30 rounded-lg p-3 text-center bg-gradient-to-br from-[#00E5FF]/10 to-transparent">
                   <div className="text-xl mb-1">🎯</div>
-                  <div className="text-xs text-white/60 mb-0.5 uppercase tracking-wider">Ordmakers</div>
-                  <div className="text-xl font-black text-[#00d4ff]">{ordmakerCount}</div>
+                  <div className="text-xs text-[#a8a8b8]/80 mb-0.5 uppercase tracking-wider">Ordmakers</div>
+                  <div className="text-xl font-black text-[#00E5FF]">{ordmakerCount}</div>
                 </div>
-                <div className="cosmic-card border-2 border-[#8b5cf6]/30 rounded-lg p-3 text-center bg-gradient-to-br from-[#8b5cf6]/10 to-transparent">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#FFD60A]/30 rounded-lg p-3 text-center bg-gradient-to-br from-[#FFD60A]/10 to-transparent">
                   <div className="text-xl mb-1">✨</div>
-                  <div className="text-xs text-white/60 mb-0.5 uppercase tracking-wider">Luck</div>
-                  <div className="text-xl font-black text-[#8b5cf6]">{ordmakerCount * 50}</div>
+                  <div className="text-xs text-[#a8a8b8]/80 mb-0.5 uppercase tracking-wider">Luck</div>
+                  <div className="text-xl font-black text-[#FFD60A]">{ordmakerCount * 50}</div>
                 </div>
-                <div className="cosmic-card border-2 border-[#ff6b35]/30 rounded-lg p-3 text-center bg-gradient-to-br from-[#ff6b35]/10 to-transparent">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00E5FF]/30 rounded-lg p-3 text-center bg-gradient-to-br from-[#00E5FF]/10 to-transparent">
                   <div className="text-xl mb-1">🎲</div>
-                  <div className="text-xs text-white/60 mb-0.5 uppercase tracking-wider">Win Chance</div>
-                  <div className="text-xl font-black text-[#ff6b35]">
+                  <div className="text-xs text-[#a8a8b8]/80 mb-0.5 uppercase tracking-wider">Win Chance</div>
+                  <div className="text-xl font-black text-[#00E5FF]">
                     {(0.1 + (ordmakerCount * 0.05)).toFixed(4)}%
                   </div>
                 </div>
-                <div className="cosmic-card border-2 border-[#ec4899]/30 rounded-lg p-3 text-center bg-gradient-to-br from-[#ec4899]/10 to-transparent">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#FFD60A]/30 rounded-lg p-3 text-center bg-gradient-to-br from-[#FFD60A]/10 to-transparent">
                   <div className="text-xl mb-1">⏱️</div>
-                  <div className="text-xs text-white/60 mb-0.5 uppercase tracking-wider">Cooldown</div>
+                  <div className="text-xs text-[#a8a8b8]/80 mb-0.5 uppercase tracking-wider">Cooldown</div>
                   {loadingAttemptStatus ? (
                     <div className="flex items-center justify-center">
                       <div className="w-3 h-3 border-2 border-[#ec4899] border-t-transparent rounded-full animate-spin" />
@@ -365,8 +365,8 @@ export default function RewardsPage() {
                 <div className="flex items-center justify-center gap-2">
                   <span className="text-lg">⏰</span>
                   <div className="text-center">
-                    <p className="text-yellow-400 font-bold text-sm">Cooldown Active</p>
-                    <p className="text-white/80 text-xs">
+                    <p className="text-[#FBBF24] font-bold text-sm">Cooldown Active</p>
+                    <p className="text-[#a8a8b8] text-xs">
                       Next attempt in: {Math.ceil(attemptStatus.cooldown.minutes_remaining)} minutes
                     </p>
                   </div>
@@ -382,18 +382,18 @@ export default function RewardsPage() {
                   : 'bg-gradient-to-br from-red-500/20 to-rose-500/20 border-red-500/50'
               }`}>
                 <div className="text-center">
-                  <div className={`text-4xl mb-2 ${lastAttemptResult.won ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`text-4xl mb-2 ${lastAttemptResult.won ? 'text-green-400' : 'text-[#EF4444]'}`}>
                     {lastAttemptResult.won ? '🎉' : '😔'}
                   </div>
-                  <div className={`text-2xl font-black mb-3 ${lastAttemptResult.won ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`text-2xl font-black mb-3 ${lastAttemptResult.won ? 'text-green-400' : 'text-[#EF4444]'}`}>
                     {lastAttemptResult.won ? 'YOU WON!' : 'Better luck next time!'}
                   </div>
                   {lastAttemptResult.won && lastAttemptResult.won_ordinal && (
-                    <div className="mt-3 p-3 cosmic-card border border-[#00d4ff]/30 rounded-lg bg-gradient-to-br from-[#00d4ff]/10 to-transparent">
-                      <p className="text-white/80 text-xs mb-1 uppercase tracking-wider">You Won:</p>
-                      <p className="text-lg font-bold text-[#00d4ff] mb-1">{lastAttemptResult.won_ordinal.name}</p>
+                    <div className="mt-3 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00E5FF]/30 rounded-lg bg-gradient-to-br from-[#00E5FF]/10 to-transparent">
+                      <p className="text-[#a8a8b8] text-xs mb-1 uppercase tracking-wider">You Won:</p>
+                      <p className="text-lg font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-1">{lastAttemptResult.won_ordinal.name}</p>
                       {lastAttemptResult.won_ordinal.inscription_number && (
-                        <p className="text-white/60 text-xs mb-3">
+                        <p className="text-[#a8a8b8]/80 text-xs mb-3">
                           Inscription #{lastAttemptResult.won_ordinal.inscription_number}
                         </p>
                       )}
@@ -405,7 +405,7 @@ export default function RewardsPage() {
                               href={`https://mempool.space/tx/${lastAttemptResult.claim_txid}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#00d4ff] hover:text-[#00b8e6] text-xs underline"
+                              className="text-[#00E5FF] hover:text-[#00B8D4] text-xs underline"
                             >
                               View Transaction ↗
                             </a>
@@ -415,7 +415,7 @@ export default function RewardsPage() {
                         <button
                           onClick={handleClaim}
                           disabled={claiming}
-                          className="mt-2 w-full px-4 py-2 bg-gradient-to-r from-[#00d4ff] to-[#8b5cf6] hover:from-[#00b8e6] hover:to-[#7c3aed] text-white rounded-lg font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-[#00d4ff]/30 text-sm"
+                          className="mt-2 w-full px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-[#00E5FF]/30 text-sm"
                         >
                           {claiming ? (
                             <>
@@ -433,7 +433,7 @@ export default function RewardsPage() {
                     </div>
                   )}
                   <div className="mt-3 pt-3 border-t border-white/10">
-                    <p className="text-white/60 text-xs">
+                    <p className="text-[#a8a8b8]/80 text-xs">
                       Win chance was: <span className="font-semibold text-white">{lastAttemptResult.win_chance_percent}%</span>
                     </p>
                   </div>
@@ -446,14 +446,14 @@ export default function RewardsPage() {
               <button
                 onClick={handleAttempt}
                 disabled={attempting || (attemptStatus && !attemptStatus.can_attempt)}
-                className={`relative px-12 py-6 rounded-xl font-black text-xl transition-all duration-300 ${
+                    className={`relative px-12 py-6 rounded-xl font-black text-xl transition-all duration-300 ${
                   attempting || (attemptStatus && !attemptStatus.can_attempt)
                     ? 'opacity-50 cursor-not-allowed'
                     : 'hover:scale-105 hover:shadow-2xl'
                 } ${
                   spinAnimation
-                    ? 'bg-gradient-to-r from-[#ff6b35] via-[#00d4ff] via-[#8b5cf6] to-[#ec4899] animate-pulse shadow-2xl'
-                    : 'bg-gradient-to-r from-[#ff6b35] to-[#ff5722] shadow-lg shadow-[#ff6b35]/30'
+                    ? 'bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] via-[#00B8D4] to-[#12D87A] animate-pulse shadow-2xl'
+                    : 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] shadow-lg shadow-[#00E5FF]/30'
                 }`}
               >
                 {spinAnimation ? (
@@ -466,11 +466,11 @@ export default function RewardsPage() {
                 )}
               </button>
               {!attempting && attemptStatus && attemptStatus.can_attempt && (
-                <div className="mt-3 p-2 cosmic-card border border-[#00d4ff]/30 rounded-lg bg-[#00d4ff]/5">
+                <div className="mt-3 p-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00E5FF]/30 rounded-lg bg-[#00E5FF]/5">
                   <p className="text-white/70 text-xs">
-                    Base: <span className="text-[#00d4ff] font-semibold">0.1%</span> + 
-                    Luck Bonus: <span className="text-[#ff6b35] font-semibold">{(ordmakerCount * 0.05).toFixed(4)}%</span> = 
-                    Total: <span className="text-[#8b5cf6] font-bold">{(0.1 + (ordmakerCount * 0.05)).toFixed(4)}%</span>
+                    Base: <span className="text-[#00E5FF] font-semibold">0.1%</span> + 
+                    Luck Bonus: <span className="text-[#FFD60A] font-semibold">{(ordmakerCount * 0.05).toFixed(4)}%</span> = 
+                    Total: <span className="text-[#00E5FF] font-bold">{(0.1 + (ordmakerCount * 0.05)).toFixed(4)}%</span>
                   </p>
                 </div>
               )}
@@ -480,10 +480,10 @@ export default function RewardsPage() {
 
         {/* Loading State */}
         {loading ? (
-          <div className="cosmic-card rounded-xl shadow-lg p-12 text-center border-2 border-[#00d4ff]/30">
-            <div className="w-16 h-16 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-white/70 text-lg">Loading ordinals...</p>
-            <p className="text-white/50 text-sm mt-2">This may take a moment</p>
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl shadow-lg p-12 text-center border-2 border-[#00E5FF]/30">
+            <div className="w-16 h-16 border-4 border-[#00E5FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-[#b4b4c8] text-lg">Loading ordinals...</p>
+            <p className="text-[#b4b4c8] text-sm mt-2">This may take a moment</p>
           </div>
         ) : ordinalsData && ordinalsData.ordinals.length > 0 ? (
           <>
@@ -502,7 +502,7 @@ export default function RewardsPage() {
                 return (
                   <div
                     key={ordinal.id || index}
-                    className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl overflow-hidden hover:border-[#00d4ff]/60 transition-all duration-300 hover:shadow-lg hover:shadow-[#00d4ff]/20 group"
+                    className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00E5FF]/30 rounded-xl overflow-hidden hover:border-[#00E5FF]/60 transition-all duration-300 hover:shadow-lg hover:shadow-[#00E5FF]/20 group"
                   >
                     {/* Image */}
                     <div className="relative aspect-square bg-gradient-to-br from-[#0a0e27] to-[#1a1f3a] overflow-hidden">
@@ -521,7 +521,7 @@ export default function RewardsPage() {
                         </div>
                       )}
                       {listedPrice && listedPrice > 0 && (
-                        <div className="absolute top-2 right-2 bg-[#ff6b35]/90 text-white px-2 py-1 rounded-lg text-xs font-bold shadow-lg z-10">
+                        <div className="absolute top-2 right-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white px-2 py-1 rounded-lg text-xs font-bold shadow-lg z-10">
                           {formatSats(listedPrice)} {ordinal.listedPriceUnit || 'BTC'}
                         </div>
                       )}
@@ -532,12 +532,12 @@ export default function RewardsPage() {
                       <div className="text-sm font-semibold text-white mb-1 truncate" title={name}>
                         {name}
                       </div>
-                      <div className="text-xs text-white/60 mb-2">
+                      <div className="text-xs text-[#a8a8b8]/80 mb-2">
                         {collectionSymbol}
                       </div>
                       
                       {inscriptionNumber && (
-                        <div className="text-xs text-[#00d4ff] font-mono mb-2">
+                        <div className="text-xs text-[#00E5FF] font-mono mb-2">
                           #{inscriptionNumber}
                         </div>
                       )}
@@ -548,7 +548,7 @@ export default function RewardsPage() {
                             href={`https://magiceden.io/ordinals/item-details/${inscriptionId}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-[#00d4ff] hover:text-[#00b8e6] transition-colors flex items-center gap-1"
+                            className="text-xs text-[#00E5FF] hover:text-[#00B8D4] transition-colors flex items-center gap-1"
                           >
                             <span>View on Magic Eden</span>
                             <span>↗</span>
@@ -568,10 +568,10 @@ export default function RewardsPage() {
             </div>
           </>
         ) : ordinalsData && ordinalsData.ordinals.length === 0 ? (
-          <div className="cosmic-card rounded-xl shadow-lg p-12 text-center border-2 border-[#00d4ff]/30">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl shadow-lg p-12 text-center border-2 border-[#00E5FF]/30">
             <div className="text-6xl mb-4">📦</div>
-            <h2 className="text-2xl font-bold text-white mb-2">No Ordinals Found</h2>
-            <p className="text-white/70">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-2">No Ordinals Found</h2>
+            <p className="text-[#b4b4c8]">
               The community payout wallet currently holds no ordinals.
             </p>
           </div>

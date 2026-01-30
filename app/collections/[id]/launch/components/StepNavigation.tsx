@@ -29,7 +29,7 @@ export function StepNavigation({ currentStep, collectionName, collectionId, onSt
             <h1 className="text-3xl font-bold bg-gradient-to-r from-[#4561ad] to-[#e27d0f] bg-clip-text text-transparent">
               Launch Collection
             </h1>
-            <p className="text-gray-500 mt-1">{collectionName}</p>
+            <p className="text-[#a8a8b8]/80 mt-1">{collectionName}</p>
           </div>
           <a
             href={`/collections/${collectionId}`}
@@ -51,7 +51,7 @@ export function StepNavigation({ currentStep, collectionName, collectionId, onSt
                   onClick={() => onStepClick?.(step.number as Step)}
                   disabled={!onStepClick}
                   className={`flex flex-col items-center transition-all ${
-                    currentStep >= step.number ? 'text-[#4561ad]' : 'text-gray-400'
+                    currentStep >= step.number ? 'text-[#4561ad]' : 'text-[#a8a8b8]'
                   } ${onStepClick ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}
                 >
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg border-2 transition-all ${
@@ -65,7 +65,7 @@ export function StepNavigation({ currentStep, collectionName, collectionId, onSt
                   </div>
                   <div className="mt-2 text-center">
                     <div className="text-sm font-semibold">{step.title}</div>
-                    <div className="text-xs text-gray-500">{step.description}</div>
+                    <div className="text-xs text-[#a8a8b8]/80">{step.description}</div>
                   </div>
                 </button>
               </div>

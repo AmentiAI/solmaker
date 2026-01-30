@@ -92,7 +92,7 @@ export function CollectionSettingsStep({
           onChange={(e) => setCollectionDescription(e.target.value)}
           rows={4}
           placeholder="Write a short description that appears on the launchpad..."
-          className="w-full px-4 py-3 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+          className="w-full px-4 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
         />
       </div>
 
@@ -119,7 +119,7 @@ export function CollectionSettingsStep({
               className={`inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${
                 uploadingBanner
                   ? 'bg-white/10 text-white/50 cursor-not-allowed'
-                  : 'bg-[#00d4ff] text-white hover:bg-[#00b8e6] cursor-pointer'
+                  : 'bg-[#00d4ff] text-white hover:bg-[#14F195] cursor-pointer'
               }`}
             >
               {uploadingBanner ? 'Uploading...' : 'Upload Banner'}
@@ -148,7 +148,7 @@ export function CollectionSettingsStep({
                 type="text"
                 value={bannerUrl}
                 readOnly
-                className="w-full px-4 py-2 border border-[#00d4ff]/30 rounded-lg cosmic-card text-white"
+                className="w-full px-4 py-2 border border-[#00d4ff]/30 rounded-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white"
               />
               <div className="mt-2">
                 <img
@@ -214,7 +214,7 @@ export function CollectionSettingsStep({
                 type="text"
                 value={mobileUrl}
                 readOnly
-                className="w-full px-4 py-2 border border-[#00d4ff]/30 rounded-lg cosmic-card text-white"
+                className="w-full px-4 py-2 border border-[#00d4ff]/30 rounded-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white"
               />
               <div className="mt-2">
                 <img
@@ -272,7 +272,7 @@ export function CollectionSettingsStep({
                 type="text"
                 value={audioUrl}
                 readOnly
-                className="w-full px-4 py-2 border border-[#00d4ff]/30 rounded-lg cosmic-card text-white"
+                className="w-full px-4 py-2 border border-[#00d4ff]/30 rounded-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white"
               />
               <div className="mt-2">
                 <audio src={audioUrl} controls className="h-10" />
@@ -289,7 +289,7 @@ export function CollectionSettingsStep({
           value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)}
           placeholder="https://youtube.com/watch?v=..."
-          className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+          className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
         />
       </div>
 
@@ -304,7 +304,7 @@ export function CollectionSettingsStep({
               value={twitterUrl}
               onChange={(e) => setTwitterUrl(e.target.value)}
               placeholder="https://twitter.com/yourhandle"
-              className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+              className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
             />
           </div>
           <div>
@@ -314,7 +314,7 @@ export function CollectionSettingsStep({
               value={discordUrl}
               onChange={(e) => setDiscordUrl(e.target.value)}
               placeholder="https://discord.gg/yourinvite"
-              className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+              className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
             />
           </div>
           <div>
@@ -324,7 +324,7 @@ export function CollectionSettingsStep({
               value={telegramUrl}
               onChange={(e) => setTelegramUrl(e.target.value)}
               placeholder="https://t.me/yourchannel"
-              className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+              className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
             />
           </div>
           <div>
@@ -334,7 +334,7 @@ export function CollectionSettingsStep({
               value={websiteUrl}
               onChange={(e) => setWebsiteUrl(e.target.value)}
               placeholder="https://yourwebsite.com"
-              className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+              className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
             />
           </div>
         </div>
@@ -349,7 +349,7 @@ export function CollectionSettingsStep({
           value={creatorRoyaltyWallet}
           onChange={(e) => setCreatorRoyaltyWallet(e.target.value)}
           placeholder="Your Solana wallet address (e.g., D3SNZ...GiLJ)"
-          className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] font-mono text-sm text-white placeholder:text-white/50"
+          className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] font-mono text-sm text-white placeholder:text-white/50"
         />
       </div>
 
@@ -382,9 +382,9 @@ export function CollectionSettingsStep({
           min={0}
           max={totalSupply}
           placeholder={totalSupply.toString()}
-          className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+          className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
         />
-        <p className="text-xs text-white/60 mt-1">
+        <p className="text-xs text-[#a8a8b8]/80 mt-1">
           Maximum number of mints allowed. Defaults to total supply ({totalSupply}). 
           {capSupply !== null && capSupply < totalSupply && ` Minting will stop at ${capSupply} instead of ${totalSupply}.`}
         </p>
@@ -395,7 +395,7 @@ export function CollectionSettingsStep({
           Mint Type
         </label>
         <div className="space-y-2">
-          <label className="flex items-center gap-3 p-4 cosmic-card border border-[#00d4ff]/30 rounded-lg cursor-pointer hover:border-[#00d4ff]/50 transition-colors">
+          <label className="flex items-center gap-3 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg cursor-pointer hover:border-[#00d4ff]/50 transition-colors">
             <input
               type="radio"
               name="mintType"
@@ -406,10 +406,10 @@ export function CollectionSettingsStep({
             />
             <div className="flex-1">
               <div className="font-semibold text-white">🎲 Mystery Mint</div>
-              <div className="text-sm text-white/60">Default system - random NFT assignment when minting</div>
+              <div className="text-sm text-[#a8a8b8]/80">Default system - random NFT assignment when minting</div>
             </div>
           </label>
-          <label className="flex items-center gap-3 p-4 cosmic-card border border-[#00d4ff]/30 rounded-lg cursor-pointer hover:border-[#00d4ff]/50 transition-colors">
+          <label className="flex items-center gap-3 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg cursor-pointer hover:border-[#00d4ff]/50 transition-colors">
             <input
               type="radio"
               name="mintType"
@@ -420,7 +420,7 @@ export function CollectionSettingsStep({
             />
             <div className="flex-1">
               <div className="font-semibold text-white">🎯 Choose Your NFT</div>
-              <div className="text-sm text-white/60">Paginated browsing - users select specific NFTs to mint</div>
+              <div className="text-sm text-[#a8a8b8]/80">Paginated browsing - users select specific NFTs to mint</div>
             </div>
           </label>
         </div>
@@ -430,7 +430,7 @@ export function CollectionSettingsStep({
         <button
           onClick={onSave}
           disabled={saving}
-          className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors disabled:opacity-50"
+          className="px-6 py-2 bg-[#00d4ff] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors disabled:opacity-50"
         >
           {saving ? 'Saving...' : 'Save & Continue'}
         </button>

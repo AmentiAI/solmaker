@@ -79,7 +79,7 @@ export function ProfileCollabs() {
       </div>
 
       {error && (
-        <div className="mb-4 p-3 cosmic-card border border-[#ff4757]/50 text-[#ff4757] rounded-lg">
+        <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 text-[#EF4444] rounded-lg">
           {error}
         </div>
       )}
@@ -87,7 +87,7 @@ export function ProfileCollabs() {
       {collections.length === 0 ? (
         <div className="text-center py-8 text-white/70">
           <p>No collaborations yet.</p>
-          <p className="text-sm text-white/60 mt-2">
+          <p className="text-sm text-[#a8a8b8]/80 mt-2">
             You'll see collections you're collaborating on here once you accept collaboration invitations.
           </p>
         </div>
@@ -96,9 +96,9 @@ export function ProfileCollabs() {
           {collections.map((collection) => (
             <div
               key={collection.id}
-              className={`cosmic-card border-2 rounded-lg p-4 ${
+              className={`bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 rounded-lg p-4 ${
                 collection.is_active 
-                  ? 'border-[#ff6b35]/50' 
+                  ? 'border-[#DC1FFF]/50' 
                   : 'border-[#00d4ff]/30'
               }`}
             >
@@ -112,7 +112,7 @@ export function ProfileCollabs() {
                       </span>
                     )}
                     {collection.collaborator_role && (
-                      <span className="px-2 py-1 bg-[#ff6b35]/20 text-[#ff6b35] text-xs rounded capitalize border border-[#ff6b35]/30">
+                      <span className="px-2 py-1 bg-[#DC1FFF]/20 text-[#DC1FFF] text-xs rounded capitalize border border-[#DC1FFF]/30">
                         {collection.collaborator_role}
                       </span>
                     )}
@@ -120,7 +120,7 @@ export function ProfileCollabs() {
                       Collaborator
                     </span>
                     {collection.generation_mode && (
-                      <span className="px-2 py-1 bg-[#ff6b35]/20 text-[#ff6b35] text-xs rounded border border-[#ff6b35]/30">
+                      <span className="px-2 py-1 bg-[#DC1FFF]/20 text-[#DC1FFF] text-xs rounded border border-[#DC1FFF]/30">
                         {collection.generation_mode === 'prompt' ? 'Prompt' : 'Trait'}
                       </span>
                     )}
@@ -128,14 +128,14 @@ export function ProfileCollabs() {
                   {collection.description && (
                     <p className="text-white/70 text-sm mb-2">{collection.description}</p>
                   )}
-                  <p className="text-xs text-white/60">
+                  <p className="text-xs text-[#a8a8b8]/80">
                     Joined: {new Date(collection.created_at).toLocaleDateString()}
                   </p>
                 </div>
                 <div className="flex gap-2 ml-4">
                   <Link
                     href={`/collections/${collection.id}`}
-                    className="px-3 py-1 text-sm bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded font-semibold transition-colors"
+                    className="px-3 py-1 text-sm bg-[#00d4ff] hover:bg-[#14F195] text-white rounded font-semibold transition-colors"
                   >
                     View
                   </Link>

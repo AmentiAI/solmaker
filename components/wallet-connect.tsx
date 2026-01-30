@@ -9,6 +9,7 @@ import { useProfile } from '@/lib/profile/useProfile'
 import { useCredits } from '@/lib/credits-context'
 
 export function WalletConnect() {
+  const [mounted, setMounted] = useState(false)
   const {
     isConnected,
     address,
@@ -26,6 +27,10 @@ export function WalletConnect() {
   const activeIsConnected = isConnected
 
   const { credits, loading: loadingCredits, loadCredits, clearCredits } = useCredits()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (activeIsConnected && activeAddress) {
@@ -205,11 +210,26 @@ export function WalletConnect() {
     return `${addr.substring(0, 4)}...${addr.substring(addr.length - 4)}`
   }
 
+  // Prevent hydration mismatch by only rendering after mount
+  if (!mounted) {
+    return (
+      <button
+        disabled
+        className="px-3 py-1.5 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:opacity-90 text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        Connect Wallet
+      </button>
+    )
+  }
+
   if (isConnecting) {
     return (
       <button
         disabled
-        className="px-3 py-1.5 bg-[#1a1a1a] text-white rounded-lg text-sm font-medium opacity-50 cursor-not-allowed border border-[#333]"
+        className="px-3 py-1.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 text-white rounded-lg text-sm font-medium opacity-50 cursor-not-allowed border border-[#9945FF]/30"
       >
         Connecting...
       </button>
@@ -235,12 +255,12 @@ export function WalletConnect() {
       <div className="relative flex flex-col items-end" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="px-3 py-1.5 bg-[#1a1a1a] hover:bg-[#252525] text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 border border-[#333]"
+          className="px-3 py-1.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 hover:bg-[#252525] text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 border border-[#9945FF]/30"
         >
           <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full"></span>
           {buttonText}
           <svg
-            className={`w-3.5 h-3.5 transition-transform text-[#666] ${isOpen ? 'rotate-180' : ''}`}
+            className={`w-3.5 h-3.5 transition-transform text-[#a8a8b8]/80 ${isOpen ? 'rotate-180' : ''}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -250,8 +270,8 @@ export function WalletConnect() {
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-64 bg-[#151515] border border-[#333] rounded-xl shadow-xl z-[100] overflow-hidden">
-            <div className="p-4 border-b border-[#333]">
+          <div className="absolute right-0 mt-2 w-64 bg-[#151515] border border-[#9945FF]/30 rounded-xl shadow-xl z-[100] overflow-hidden">
+            <div className="p-4 border-b border-[#9945FF]/30">
               <div className="flex items-center gap-3">
                 {profile?.avatarUrl ? (
                   <img
@@ -268,7 +288,7 @@ export function WalletConnect() {
                   <p className="text-white font-semibold truncate">
                     {profile?.displayName || profile?.username || 'Wallet'}
                   </p>
-                  <p className="text-white/60 text-xs font-mono truncate" title={activeAddress}>
+                  <p className="text-[#a8a8b8]/80 text-xs font-mono truncate" title={activeAddress}>
                     {formatAddress(activeAddress)}
                   </p>
                   <p className="text-[#14F195] text-xs mt-1">Solana</p>
@@ -296,8 +316,8 @@ export function WalletConnect() {
                   Verified
                 </div>
               )}
-              <div className="border-t border-[#333] pt-2 mt-2">
-                <Link href="/profile" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#999] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors relative">
+              <div className="border-t border-[#9945FF]/30 pt-2 mt-2">
+                <Link href="/profile" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors relative">
                   Profile
                   {pendingInvitations > 0 && (
                     <span className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-bold rounded-full border-2 border-[#151515] shadow-lg animate-pulse">
@@ -305,30 +325,30 @@ export function WalletConnect() {
                     </span>
                   )}
                 </Link>
-                <Link href="/collections" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#999] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors">
+                <Link href="/collections" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
                   Collections
                 </Link>
-                <Link href="/my-mints" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#999] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors">
+                <Link href="/my-mints" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
                   Transactions
                 </Link>
-                <Link href="/transactions" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#999] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors">
+                <Link href="/transactions" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
                   Credit Usage
                 </Link>
-                <Link href="/payouts" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#999] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors">
+                <Link href="/payouts" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
                   Payouts
                 </Link>
-                <Link href="/rewards" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#999] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors">
+                <Link href="/rewards" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
                   Rewards
                 </Link>
-                <Link href="/guide" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#999] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors">
+                <Link href="/guide" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
                   Guide
                 </Link>
-                <Link href="/support" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#999] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors">
+                <Link href="/support" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
                   Support
                 </Link>
               </div>
 
-              <div className="border-t border-[#333] pt-2 mt-2">
+              <div className="border-t border-[#9945FF]/30 pt-2 mt-2">
                 <button
                   onClick={handleDisconnect}
                   className="w-full px-4 py-2 bg-[#ff5252]/10 hover:bg-[#ff5252]/20 text-[#ff5252] rounded-lg text-sm font-medium transition-colors border border-[#ff5252]/20"

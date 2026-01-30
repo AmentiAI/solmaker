@@ -160,7 +160,7 @@ export default function GenerateTraitPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center py-8">
-            <div className="text-gray-400">Loading layer...</div>
+            <div className="text-[#a8a8b8]">Loading layer...</div>
           </div>
         </div>
       </div>
@@ -172,7 +172,7 @@ export default function GenerateTraitPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center py-8">
-            <div className="text-gray-400">Layer not found</div>
+            <div className="text-[#a8a8b8]">Layer not found</div>
             <Link href={`/collections/${params.id}`} className="text-blue-400 hover:text-blue-300 mt-4 inline-block">
               ← Back to Collection
             </Link>
@@ -193,23 +193,23 @@ export default function GenerateTraitPage() {
             ← Back to Layer
           </Link>
           <h1 className="text-3xl font-bold text-gray-100">Generate AI Traits</h1>
-          <p className="text-gray-300 mt-2">Generate multiple traits for "{layer.name}" layer</p>
+          <p className="text-white mt-2">Generate multiple traits for "{layer.name}" layer</p>
         </div>
 
         {generatedTraits.length === 0 ? (
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+          <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg p-6">
             <form onSubmit={handleGenerate} className="space-y-4">
               {/* Trait Source Tabs: Prompt vs Reference Image */}
               <div className="bg-gradient-to-r from-purple-900/30 to-indigo-900/30 border border-purple-500/30 rounded-xl overflow-hidden mb-4">
                 {/* Tab Headers */}
-                <div className="flex border-b border-purple-500/30 bg-gray-900/50">
+                <div className="flex border-b border-purple-500/30 bg-[#14141e]/50">
                   <button
                     type="button"
                     onClick={() => setTraitSourceTab('prompt')}
                     className={`flex-1 px-6 py-3 text-sm font-semibold transition-colors relative ${
                       traitSourceTab === 'prompt'
-                        ? 'text-purple-300 bg-gray-800'
-                        : 'text-gray-400 hover:text-gray-200 hover:bg-purple-900/20'
+                        ? 'text-purple-300 bg-[#1a1a24]'
+                        : 'text-[#a8a8b8] hover:text-gray-200 hover:bg-purple-900/20'
                     }`}
                   >
                     Prompt-Based
@@ -222,8 +222,8 @@ export default function GenerateTraitPage() {
                     onClick={() => setTraitSourceTab('reference')}
                     className={`flex-1 px-6 py-3 text-sm font-semibold transition-colors relative ${
                       traitSourceTab === 'reference'
-                        ? 'text-purple-300 bg-gray-800'
-                        : 'text-gray-400 hover:text-gray-200 hover:bg-purple-900/20'
+                        ? 'text-purple-300 bg-[#1a1a24]'
+                        : 'text-[#a8a8b8] hover:text-gray-200 hover:bg-purple-900/20'
                     }`}
                   >
                     Reference Image
@@ -237,7 +237,7 @@ export default function GenerateTraitPage() {
                 <div className="p-6">
                   {traitSourceTab === 'prompt' && (
                     <div>
-                      <p className="text-sm text-gray-300">
+                      <p className="text-sm text-white">
                         Enter a theme and AI will generate multiple trait variations based on it.
                       </p>
                     </div>
@@ -246,16 +246,16 @@ export default function GenerateTraitPage() {
                   {traitSourceTab === 'reference' && (
                     <div className="space-y-4">
                       <h3 className="text-lg font-semibold text-gray-100 mb-2">Auto-fill from Reference Image</h3>
-                      <p className="text-sm text-gray-300 mb-4">
+                      <p className="text-sm text-white mb-4">
                         Upload a reference image and AI will analyze it to generate a theme for creating similar trait variations.
                       </p>
 
                       <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4 items-start">
-                        <div className="rounded-xl border border-gray-600 bg-gray-900 overflow-hidden">
+                        <div className="rounded-xl border border-[#9945FF]/30 bg-[#14141e] overflow-hidden">
                           {referenceImagePreview ? (
                             <img src={referenceImagePreview} alt="Reference preview" className="w-full h-[160px] object-cover" />
                           ) : (
-                            <div className="w-full h-[160px] flex items-center justify-center text-gray-500">
+                            <div className="w-full h-[160px] flex items-center justify-center text-[#a8a8b8]/80">
                               Upload an image
                             </div>
                           )}
@@ -290,12 +290,12 @@ export default function GenerateTraitPage() {
                               type="button"
                               onClick={analyzeReferenceImage}
                               disabled={!referenceImage || analyzing}
-                              className="inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:text-gray-500 text-white transition-colors"
+                              className="inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:text-[#a8a8b8]/80 text-white transition-colors"
                             >
                               {analyzing ? 'Analyzing…' : 'Analyze & Auto-Fill'}
                             </button>
                           </div>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-[#a8a8b8]">
                             Tip: Upload a single image that represents the style. AI will generate a theme to create similar variations.
                           </p>
                         </div>
@@ -306,18 +306,18 @@ export default function GenerateTraitPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Theme *
                 </label>
                 <input
                   type="text"
                   value={theme}
                   onChange={(e) => setTheme(e.target.value)}
-                  className="w-full border border-gray-600 rounded px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+                  className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-[#14141e] text-gray-100 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
                   placeholder="Enter a theme (e.g., 'halloween', 'cyberpunk', 'medieval')"
                   required
                 />
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-[#a8a8b8] mt-1">
                   AI will generate {quantity} {layer.name} traits based on this theme
                 </p>
                 <p className="text-xs text-purple-400 mt-1 font-semibold">
@@ -326,7 +326,7 @@ export default function GenerateTraitPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Quantity
                 </label>
                 <input
@@ -335,9 +335,9 @@ export default function GenerateTraitPage() {
                   max="10"
                   value={quantity}
                   onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                  className="w-full border border-gray-600 rounded px-3 py-2 bg-gray-900 text-gray-100 focus:border-blue-500 focus:outline-none"
+                  className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-[#14141e] text-gray-100 focus:border-blue-500 focus:outline-none"
                 />
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-[#a8a8b8] mt-1">
                   How many traits to generate (1-10)
                 </p>
               </div>
@@ -361,21 +361,21 @@ export default function GenerateTraitPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+            <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg p-6">
               <h2 className="text-xl font-bold text-gray-100 mb-4">
                 ✅ Generated {generatedTraits.length} Traits Successfully!
               </h2>
               
               <div className="space-y-4">
                 {generatedTraits.map((trait, index) => (
-                  <div key={index} className="border-b border-gray-700 pb-4 last:border-0">
+                  <div key={index} className="border-b border-[#9945FF]/20 pb-4 last:border-0">
                     <div className="font-semibold text-gray-100">{trait.name}</div>
-                    <div className="text-gray-300 text-sm mt-1">{trait.description}</div>
+                    <div className="text-white text-sm mt-1">{trait.description}</div>
                   </div>
                 ))}
               </div>
 
-              <p className="text-gray-400 text-sm mt-4">
+              <p className="text-[#a8a8b8] text-sm mt-4">
                 Redirecting back to layer page...
               </p>
             </div>

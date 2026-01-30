@@ -204,7 +204,7 @@ export default function BTCCreatorPassesPage() {
                   <div className="flex items-center justify-center min-h-[600px]">
                     <div className="text-center">
                       <p className="text-gray-600 text-lg mb-2">No passes found</p>
-                      <p className="text-gray-500 text-sm">
+                      <p className="text-[#a8a8b8]/80 text-sm">
                         {collectionName ? `Collection "${collectionName}" has no ordinals yet.` : 'Passes collection not found or has no ordinals.'}
                       </p>
                     </div>

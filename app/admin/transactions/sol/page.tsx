@@ -95,26 +95,26 @@ export default function SolanaTransactionsPage() {
       case 'completed':
         return 'bg-green-900/30 border-green-700 text-green-300'
       case 'pending':
-        return 'bg-yellow-900/30 border-yellow-700 text-yellow-300'
+        return 'bg-yellow-900/30 border-[#FBBF24]/20 text-yellow-300'
       case 'expired':
-        return 'bg-red-900/30 border-red-700 text-red-300'
+        return 'bg-red-900/30 border-[#EF4444]/20 text-red-300'
       default:
-        return 'bg-gray-900/30 border-gray-700 text-gray-300'
+        return 'bg-[#14141e]/30 border-[#9945FF]/20 text-white'
     }
   }
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-7xl mx-auto">
-            <div className="bg-slate-900/50 border border-gray-800 rounded-2xl p-8 text-center shadow-xl backdrop-blur-sm">
-            <h1 className="text-3xl font-bold text-white mb-4">Solana Transactions</h1>
-            <p className="text-gray-400 mb-6">Please connect your wallet to access the admin dashboard.</p>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-2xl p-8 text-center shadow-xl backdrop-blur-sm">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-4">Solana Transactions</h1>
+            <p className="text-[#b4b4c8] mb-6">Please connect your wallet to access the admin dashboard.</p>
             <div className="flex justify-center mb-4">
               <WalletConnect />
             </div>
-            <Link href="/admin" className="text-blue-400 hover:text-blue-300">
+            <Link href="/admin" className="text-[#00E5FF] hover:text-[#FFD60A] transition-colors">
               ← Back to Admin
             </Link>
             </div>
@@ -126,13 +126,13 @@ export default function SolanaTransactionsPage() {
 
   if (!authorized) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-7xl mx-auto">
-            <div className="bg-red-900/20 border border-red-700/50 rounded-2xl p-8 text-center shadow-xl backdrop-blur-sm">
-            <h1 className="text-3xl font-bold text-red-400 mb-4">Access Denied</h1>
-            <p className="text-gray-300 mb-4">This page is restricted to admin accounts only.</p>
-            <Link href="/admin" className="text-blue-400 hover:text-blue-300">
+            <div className="bg-gradient-to-br from-red-900/20 to-red-800/10 border border-[#EF4444]/20/50 rounded-2xl p-8 text-center shadow-xl backdrop-blur-sm">
+            <h1 className="text-3xl font-bold text-[#EF4444] mb-4">Access Denied</h1>
+            <p className="text-white mb-4">This page is restricted to admin accounts only.</p>
+            <Link href="/admin" className="text-[#00E5FF] hover:text-[#FFD60A] transition-colors">
               ← Back to Admin
             </Link>
             </div>
@@ -143,7 +143,7 @@ export default function SolanaTransactionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       <div className="ml-64">
         <div className="container mx-auto px-6 py-8">
@@ -152,15 +152,15 @@ export default function SolanaTransactionsPage() {
         <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-500 bg-clip-text text-transparent mb-2">
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent mb-2">
                 Solana Transactions
               </h1>
-                <p className="text-gray-400 text-lg">Track all Solana payment transactions</p>
+                <p className="text-[#b4b4c8] text-lg">Track all Solana payment transactions</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <Link href="/admin/transactions/btc" className="px-4 py-2 bg-slate-800/50 hover:bg-slate-800 text-white rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-700">
+                  <Link href="/admin/transactions/btc" className="px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#0f0f1e] text-white rounded-xl font-semibold text-sm transition-all duration-200 border border-[#00E5FF]/20">
                   ₿ Bitcoin
                 </Link>
-                  <Link href="/admin/transactions/sol" className="px-4 py-2 bg-purple-600/80 hover:bg-purple-600 text-white rounded-xl font-semibold text-sm transition-all duration-200 border border-purple-500/50">
+                  <Link href="/admin/transactions/sol" className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-xl font-semibold text-sm transition-all duration-200 border border-[#00E5FF]/30 shadow-lg shadow-[#00E5FF]/20">
                   ◎ Solana
                 </Link>
                 </div>
@@ -168,7 +168,7 @@ export default function SolanaTransactionsPage() {
             <div className="flex gap-2">
               <Link
                 href="/admin"
-                  className="px-4 py-2 bg-slate-800/50 hover:bg-slate-800 text-white rounded-xl font-semibold transition-all duration-200 border border-gray-700 flex items-center gap-2"
+                  className="px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#0f0f1e] text-white rounded-xl font-semibold transition-all duration-200 border border-[#00E5FF]/20 flex items-center gap-2"
               >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -178,7 +178,7 @@ export default function SolanaTransactionsPage() {
               <button
                 onClick={handleRefresh}
                 disabled={refreshing}
-                  className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold shadow-lg shadow-blue-500/20 transition-all duration-200 disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-xl font-semibold shadow-lg shadow-[#00E5FF]/20 transition-all duration-200 disabled:opacity-50 flex items-center gap-2"
               >
                   {refreshing ? (
                     <>
@@ -200,10 +200,10 @@ export default function SolanaTransactionsPage() {
           {/* Summary Cards */}
           {summary && (
               <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
-                <div className="bg-gradient-to-br from-yellow-900/30 to-yellow-800/20 border border-yellow-700/50 rounded-2xl p-6 shadow-lg shadow-yellow-500/10">
+                <div className="bg-gradient-to-br from-yellow-900/30 to-yellow-800/20 border border-[#FBBF24]/20/50 rounded-2xl p-6 shadow-lg shadow-yellow-500/10">
                   <div className="flex items-center justify-between mb-2">
                     <div className="text-sm font-medium text-yellow-300 uppercase tracking-wide">Pending</div>
-                    <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-[#FBBF24]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
@@ -218,10 +218,10 @@ export default function SolanaTransactionsPage() {
                   </div>
                   <div className="text-3xl font-bold text-white">{summary.total_completed}</div>
                 </div>
-                <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-red-700/50 rounded-2xl p-6 shadow-lg shadow-red-500/10">
+                <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-[#EF4444]/20/50 rounded-2xl p-6 shadow-lg shadow-red-500/10">
                   <div className="flex items-center justify-between mb-2">
                     <div className="text-sm font-medium text-red-300 uppercase tracking-wide">Expired</div>
-                    <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-[#EF4444]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </div>
@@ -250,7 +250,7 @@ export default function SolanaTransactionsPage() {
         </div>
 
         {error && (
-            <div className="bg-red-900/20 border border-red-700/50 rounded-2xl p-4 mb-6 text-red-300">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#EF4444]/20/50 rounded-2xl p-4 mb-6 text-red-300">
             {error}
           </div>
         )}
@@ -258,36 +258,36 @@ export default function SolanaTransactionsPage() {
         {loading ? (
           <div className="text-center py-12">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-            <p className="text-gray-400 mt-4">Loading Solana transactions...</p>
+            <p className="text-[#a8a8b8] mt-4">Loading Solana transactions...</p>
           </div>
         ) : (
-            <div className="bg-slate-900/50 border border-gray-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">Solana Payment Transactions</h2>
-                <div className="text-sm text-gray-400">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent">Solana Payment Transactions</h2>
+                <div className="text-sm text-[#b4b4c8]">
                   {transactions.length} {transactions.length === 1 ? 'transaction' : 'transactions'}
                 </div>
               </div>
             <div className="overflow-x-auto">
                 <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-700">
-                      <th className="text-left py-4 px-4 text-gray-300 font-semibold">Date</th>
-                      <th className="text-left py-4 px-4 text-gray-300 font-semibold">Wallet</th>
-                      <th className="text-left py-4 px-4 text-gray-300 font-semibold">Credits</th>
-                      <th className="text-left py-4 px-4 text-gray-300 font-semibold">SOL Amount</th>
-                      <th className="text-left py-4 px-4 text-gray-300 font-semibold">Status</th>
-                      <th className="text-left py-4 px-4 text-gray-300 font-semibold">TXID</th>
-                      <th className="text-left py-4 px-4 text-gray-300 font-semibold">Confirmations</th>
-                      <th className="text-left py-4 px-4 text-gray-300 font-semibold">Credited</th>
+                  <tr className="border-b border-[#00E5FF]/20">
+                      <th className="text-left py-4 px-4 text-[#b4b4c8] font-semibold">Date</th>
+                      <th className="text-left py-4 px-4 text-[#b4b4c8] font-semibold">Wallet</th>
+                      <th className="text-left py-4 px-4 text-[#b4b4c8] font-semibold">Credits</th>
+                      <th className="text-left py-4 px-4 text-[#b4b4c8] font-semibold">SOL Amount</th>
+                      <th className="text-left py-4 px-4 text-[#b4b4c8] font-semibold">Status</th>
+                      <th className="text-left py-4 px-4 text-[#b4b4c8] font-semibold">TXID</th>
+                      <th className="text-left py-4 px-4 text-[#b4b4c8] font-semibold">Confirmations</th>
+                      <th className="text-left py-4 px-4 text-[#b4b4c8] font-semibold">Credited</th>
                   </tr>
                 </thead>
                 <tbody>
                   {transactions.length === 0 ? (
                     <tr>
-                        <td colSpan={8} className="text-center py-12 text-gray-400">
+                        <td colSpan={8} className="text-center py-12 text-[#b4b4c8]">
                           <div className="flex flex-col items-center gap-2">
-                            <svg className="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-12 h-12 text-[#00E5FF]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
                             <p className="text-lg">No Solana transactions found</p>
@@ -296,15 +296,15 @@ export default function SolanaTransactionsPage() {
                     </tr>
                   ) : (
                     transactions.map((tx) => (
-                        <tr key={tx.id} className="border-b border-gray-800/50 hover:bg-gray-800/20 transition-colors">
+                        <tr key={tx.id} className="border-b border-[#00E5FF]/20 hover:bg-[#0f0f1e]/50 transition-colors">
                           <td className="py-4 px-4">
-                            <div className="text-gray-300 text-sm">
+                            <div className="text-white text-sm">
                               {new Date(tx.created_at).toLocaleDateString('en-US', { 
                                 month: 'short', 
                                 day: 'numeric', 
                                 year: 'numeric' 
                               })}
-                              <div className="text-gray-500 text-xs mt-0.5">
+                              <div className="text-[#b4b4c8] text-xs mt-0.5">
                                 {new Date(tx.created_at).toLocaleTimeString('en-US', { 
                                   hour: 'numeric', 
                                   minute: '2-digit' 
@@ -313,7 +313,7 @@ export default function SolanaTransactionsPage() {
                             </div>
                           </td>
                           <td className="py-4 px-4">
-                            <span className="font-mono text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded">
+                            <span className="font-mono text-xs text-[#b4b4c8] bg-[#050510] px-2 py-1 rounded border border-[#00E5FF]/20">
                               {tx.wallet_address.substring(0, 6)}...{tx.wallet_address.substring(tx.wallet_address.length - 6)}
                           </span>
                         </td>
@@ -321,7 +321,7 @@ export default function SolanaTransactionsPage() {
                             <span className="text-white font-bold text-lg">{tx.credits_amount}</span>
                           </td>
                           <td className="py-4 px-4">
-                            <span className="text-gray-300 font-mono">◎ {formatSOL(tx.bitcoin_amount)}</span>
+                            <span className="text-white font-mono">◎ {formatSOL(tx.bitcoin_amount)}</span>
                           </td>
                           <td className="py-4 px-4">
                             <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${getStatusBadge(tx.status)}`}>
@@ -334,7 +334,7 @@ export default function SolanaTransactionsPage() {
                               href={`https://solscan.io/tx/${tx.payment_txid}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                                className="text-blue-400 hover:text-blue-300 font-mono text-xs hover:underline flex items-center gap-1"
+                                className="text-[#00E5FF] hover:text-[#FFD60A] font-mono text-xs hover:underline flex items-center gap-1 transition-colors"
                               title="View on Solscan"
                             >
                                 {tx.payment_txid.substring(0, 12)}...
@@ -343,38 +343,38 @@ export default function SolanaTransactionsPage() {
                                 </svg>
                             </a>
                           ) : (
-                              <span className="text-gray-500 text-xs" title="No blockchain transaction yet">-</span>
+                              <span className="text-[#b4b4c8] text-xs" title="No blockchain transaction yet">-</span>
                           )}
                         </td>
                           <td className="py-4 px-4">
                           {tx.payment_txid ? (
                               <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                                <span className="text-gray-300 text-sm" title="Blockchain confirmations">{tx.confirmations || 0}</span>
+                                <div className="w-2 h-2 rounded-full bg-[#FFD60A]"></div>
+                                <span className="text-white text-sm" title="Blockchain confirmations">{tx.confirmations || 0}</span>
                               </div>
                           ) : (
-                              <span className="text-gray-500 text-xs">-</span>
+                              <span className="text-[#b4b4c8] text-xs">-</span>
                           )}
                         </td>
                           <td className="py-4 px-4">
                           {tx.credited ? (
                               <div className="flex items-center gap-2">
-                                <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-5 h-5 text-[#FFD60A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                <span className="text-green-400 font-semibold" title="Credits awarded">Yes</span>
+                                <span className="text-[#FFD60A] font-semibold" title="Credits awarded">Yes</span>
                               </div>
                           ) : tx.status === 'completed' && tx.payment_txid ? (
                               <div className="flex items-center gap-2">
-                                <svg className="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-5 h-5 text-[#00E5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
-                                <span className="text-orange-400 font-semibold" title="Payment confirmed but credits not awarded yet">No</span>
+                                <span className="text-[#00E5FF] font-semibold" title="Payment confirmed but credits not awarded yet">No</span>
                               </div>
                           ) : tx.status === 'completed' ? (
-                              <span className="text-yellow-400 font-semibold text-xs" title="Marked complete but no TXID">No TXID</span>
+                              <span className="text-[#FFD60A] font-semibold text-xs" title="Marked complete but no TXID">No TXID</span>
                           ) : (
-                              <span className="text-gray-500 text-xs">-</span>
+                              <span className="text-[#b4b4c8] text-xs">-</span>
                           )}
                         </td>
                       </tr>

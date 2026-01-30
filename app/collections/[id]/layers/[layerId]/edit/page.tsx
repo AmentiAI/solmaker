@@ -119,7 +119,7 @@ export default function EditLayerPage() {
           <div className="max-w-2xl mx-auto">
             <div className="text-center py-8">
               <div className="text-white/70">Layer not found</div>
-              <Link href={`/collections/${params.id}`} className="text-[#00d4ff] hover:text-[#00b8e6] mt-4 inline-block">
+              <Link href={`/collections/${params.id}`} className="text-[#9945FF] hover:text-[#14F195] mt-4 inline-block">
                 ← Back to Collection
               </Link>
             </div>
@@ -136,7 +136,7 @@ export default function EditLayerPage() {
           <div className="mb-6">
             <Link 
               href={`/collections/${params.id}/layers/${params.layerId}`} 
-              className="text-[#00d4ff] hover:text-[#00b8e6] mb-4 inline-block"
+              className="text-[#9945FF] hover:text-[#14F195] mb-4 inline-block"
             >
               ← Back to Layer
             </Link>
@@ -144,24 +144,24 @@ export default function EditLayerPage() {
             <p className="text-white/70 mt-2">Update "{layer.name}" layer settings</p>
           </div>
 
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
                   Layer Name *
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card bg-white/5 text-white placeholder-white/40 focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20"
+                  className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-white/5 text-white placeholder-white/40 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20"
                   placeholder="Enter layer name"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
                   Display Order
                 </label>
                 <input
@@ -169,14 +169,14 @@ export default function EditLayerPage() {
                   min="1"
                   value={displayOrder}
                   onChange={(e) => setDisplayOrder(parseInt(e.target.value) || 1)}
-                  className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card bg-white/5 text-white focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20"
+                  className="w-full border border-[#9945FF]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-white/5 text-white focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20"
                 />
-                <p className="text-xs text-white/60 mt-1">
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">
                   Lower numbers appear first in the layer stack
                 </p>
               </div>
 
-              <div className="flex gap-3 pt-4 border-t border-[#00d4ff]/30">
+              <div className="flex gap-3 pt-4 border-t border-[#9945FF]/30">
                 <button
                   type="submit"
                   disabled={saving}
@@ -186,7 +186,7 @@ export default function EditLayerPage() {
                 </button>
                 <Link
                   href={`/collections/${params.id}/layers/${params.layerId}`}
-                  className="bg-white/10 hover:bg-white/20 text-white/80 px-4 py-2 rounded-lg border border-[#00d4ff]/30 transition-all duration-200"
+                  className="bg-white/10 hover:bg-white/20 text-[#a8a8b8] px-4 py-2 rounded-lg border border-[#9945FF]/30 transition-all duration-200"
                 >
                   Cancel
                 </Link>

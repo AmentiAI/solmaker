@@ -88,8 +88,8 @@ export default function SolanaAdminPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Solana Admin Dashboard</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">Solana Admin Dashboard</h1>
+          <p className="text-[#b4b4c8]">
             Monitor collections, mints, profiles, and marketplace
           </p>
         </div>
@@ -318,7 +318,7 @@ export default function SolanaAdminPage() {
                                 href={`https://solscan.io/account/${collection.candy_machine_address}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline text-xs flex items-center gap-1"
+                                className="text-[#9945FF] hover:underline text-xs flex items-center gap-1"
                               >
                                 View <ExternalLink className="h-3 w-3" />
                               </a>
@@ -395,7 +395,7 @@ export default function SolanaAdminPage() {
                               href={`https://solscan.io/tx/${mint.mint_tx_signature}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-blue-600 hover:underline text-xs flex items-center gap-1"
+                              className="text-[#9945FF] hover:underline text-xs flex items-center gap-1"
                             >
                               View Transaction <ExternalLink className="h-3 w-3" />
                             </a>

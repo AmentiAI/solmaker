@@ -103,9 +103,9 @@ export function MarketplaceReviewForm({
                 aria-label={`Rate ${star} star${star !== 1 ? 's' : ''}`}
               >
                 {star <= (hoveredRating || rating) ? (
-                  <span className="text-yellow-400">★</span>
+                  <span className="text-[#FBBF24]">★</span>
                 ) : (
-                  <span className="text-gray-300">☆</span>
+                  <span className="text-white">☆</span>
                 )}
               </button>
             ))}
@@ -131,7 +131,7 @@ export function MarketplaceReviewForm({
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none"
             placeholder="Share your experience with this purchase..."
           />
-          <div className="text-xs text-gray-500 mt-1 text-right">
+          <div className="text-xs text-[#a8a8b8]/80 mt-1 text-right">
             {reviewText.length}/1000 characters
           </div>
         </div>

@@ -716,7 +716,7 @@ export default function CollectionLaunchPage() {
     return (
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="cosmic-card border-2 border-[#e27d0f]/50 rounded-xl p-8 max-w-2xl mx-auto">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#e27d0f]/50 rounded-xl p-8 max-w-2xl mx-auto">
             <div className="text-6xl mb-4">🔐</div>
             <h2 className="text-2xl font-bold text-white mb-4">Wallet Connection Required</h2>
             <p className="text-white/70 mb-6">
@@ -842,13 +842,13 @@ export default function CollectionLaunchPage() {
     return (
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="cosmic-card border-2 border-[#e27d0f]/50 rounded-xl p-8 max-w-2xl mx-auto">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#e27d0f]/50 rounded-xl p-8 max-w-2xl mx-auto">
             <div className="text-6xl mb-4">🚀</div>
             <h2 className="text-2xl font-bold text-white mb-4">Change Collection Status to Launchpad?</h2>
             <p className="text-white/70 mb-6">
               This collection is currently in <strong>draft</strong> status. To access the launchpad editor, you need to change the status to <strong>launchpad</strong>.
             </p>
-            <p className="text-white/60 text-sm mb-6">
+            <p className="text-[#a8a8b8]/80 text-sm mb-6">
               This will make your collection available for launchpad configuration. You can still edit all settings after this change.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -857,7 +857,7 @@ export default function CollectionLaunchPage() {
                   setShowStatusChangeConfirm(false)
                   router.push(`/collections/${collectionId}`)
                 }}
-                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#00d4ff]/30"
+                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#9945FF]/30"
                 disabled={saving}
               >
                 Cancel
@@ -891,7 +891,7 @@ export default function CollectionLaunchPage() {
     return (
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="cosmic-card border-2 border-[#ff6b35]/50 rounded-xl p-8 max-w-2xl mx-auto">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#DC1FFF]/50 rounded-xl p-8 max-w-2xl mx-auto">
             <div className="text-6xl mb-4">🚫</div>
             <h2 className="text-2xl font-bold text-white mb-4">Access Denied</h2>
             <p className="text-white/70 mb-6">
@@ -901,7 +901,7 @@ export default function CollectionLaunchPage() {
               <Link href="/collections" className="px-6 py-3 bg-[#4561ad] hover:bg-[#3a5294] text-white rounded-lg font-semibold transition-colors">
                 Go to Collections
               </Link>
-              <Link href={`/launchpad/${collectionId}`} className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#00d4ff]/30">
+              <Link href={`/launchpad/${collectionId}`} className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#9945FF]/30">
                 View on Launchpad
               </Link>
             </div>
@@ -919,7 +919,7 @@ export default function CollectionLaunchPage() {
       <div className="max-w-7xl mx-auto">
         {/* Revert to Draft Button - Show if collection is launchpad but not launched */}
         {isLaunchpadButNotLive && (
-          <div className="mb-6 cosmic-card border border-amber-500/30 rounded-xl p-4 bg-amber-500/10">
+          <div className="mb-6 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-amber-500/30 rounded-xl p-4 bg-amber-500/10">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold text-white mb-1">Collection Status: Launchpad (Not Launched)</h3>
@@ -952,7 +952,7 @@ export default function CollectionLaunchPage() {
         />
 
         {/* Step Content */}
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-8">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-8">
           {/* Step 1: Collection Settings */}
           {currentStep === 1 && (
             <CollectionSettingsStep

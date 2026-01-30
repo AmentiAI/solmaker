@@ -156,34 +156,34 @@ export function ProfileManager() {
 
   if (!activeWalletConnected || !activeWalletAddress) {
     return (
-      <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
-        <p className="text-white/80">Please connect your wallet to create a profile</p>
+      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
+        <p className="text-[#a8a8b8]">Please connect your wallet to create a profile</p>
       </div>
     )
   }
 
   if (loading && !profile) {
     return (
-      <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
+      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
         <div className="flex items-center gap-3">
           <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#00d4ff] border-t-transparent"></div>
-          <p className="text-white/80">Loading profile...</p>
+          <p className="text-[#a8a8b8]">Loading profile...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="cosmic-card border-2 border-[#00d4ff]/30 rounded-xl p-8 shadow-xl relative overflow-hidden">
+    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl relative overflow-hidden col-span-1 sm:col-span-2">
       {/* Cosmic background effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-cyan-900/20 pointer-events-none"></div>
-      <div className="absolute top-0 right-0 w-64 h-64 bg-[#00d4ff]/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[#00d4ff]/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
       
       <div className="relative z-10">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#00d4ff] via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-[#00d4ff] via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1">
               Account Information
             </h2>
             <p className="text-white/70 text-sm">Manage your cosmic profile</p>
@@ -191,7 +191,7 @@ export function ProfileManager() {
           {!isEditing && (
             <button
               onClick={() => setIsEditing(true)}
-              className="px-5 py-2.5 bg-gradient-to-r from-[#ff6b35] to-[#ff5722] hover:from-[#ff5722] hover:to-[#ff6b35] text-white rounded-lg font-semibold shadow-lg shadow-[#ff6b35]/30 transition-all duration-200 transform hover:scale-105"
+              className="px-4 py-2 bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] hover:from-[#9945FF] hover:to-[#DC1FFF] text-white rounded-lg font-semibold shadow-lg shadow-[#DC1FFF]/30 transition-all duration-200 text-sm whitespace-nowrap"
             >
               {profile ? 'Edit Profile' : 'Create Profile'}
             </button>
@@ -199,27 +199,27 @@ export function ProfileManager() {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 cosmic-card border border-[#ff4757]/50 bg-red-900/20 text-[#ff4757] rounded-lg backdrop-blur-sm">
+          <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 text-[#EF4444] rounded-lg backdrop-blur-sm">
             {error}
           </div>
         )}
 
         {saveError && (
-          <div className="mb-4 p-3 cosmic-card border border-[#ff4757]/50 bg-red-900/20 text-[#ff4757] rounded-lg backdrop-blur-sm">
+          <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 text-[#EF4444] rounded-lg backdrop-blur-sm">
             {saveError}
           </div>
         )}
 
         {saveSuccess && (
-          <div className="mb-4 p-3 cosmic-card border border-[#00d4ff]/50 bg-[#00d4ff]/10 text-[#00d4ff] rounded-lg backdrop-blur-sm">
+          <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/50 bg-[#00d4ff]/10 text-[#00d4ff] rounded-lg backdrop-blur-sm">
             ✨ Profile saved successfully!
           </div>
         )}
 
-        {/* Two-column layout: Profile info left, Addresses right */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Profile Information */}
-          <div className="lg:col-span-2 space-y-6">
+        {/* Single column layout for better mobile/sidebar compatibility */}
+        <div className="space-y-6">
+          {/* Profile Information */}
+          <div className="space-y-6">
 
             {isEditing ? (
               <form 
@@ -237,7 +237,7 @@ export function ProfileManager() {
           }}
         >
               {/* Avatar First */}
-              <div className="cosmic-card border-2 border-purple-500/30 rounded-xl p-6 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-sm">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-purple-500/30 rounded-xl p-6 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-sm">
                 <label className="block text-sm font-medium text-white mb-4">
                   <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Avatar</span>
                 </label>
@@ -249,7 +249,7 @@ export function ProfileManager() {
                       className="cursor-pointer group"
                       title="Click to upload avatar"
                     >
-                      <div className="w-32 h-32 rounded-full border-2 border-purple-500/50 group-hover:border-purple-400 transition-all duration-300 overflow-hidden cosmic-card flex items-center justify-center relative shadow-lg shadow-purple-500/20 group-hover:shadow-purple-500/40">
+                      <div className="w-32 h-32 rounded-full border-2 border-purple-500/50 group-hover:border-purple-400 transition-all duration-300 overflow-hidden bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md flex items-center justify-center relative shadow-lg shadow-purple-500/20 group-hover:shadow-purple-500/40">
                         {avatarPreview || formData.avatarUrl ? (
                           <img
                             src={avatarPreview || formData.avatarUrl || ''}
@@ -293,10 +293,10 @@ export function ProfileManager() {
                   
                   {/* Info text */}
                   <div className="flex-1">
-                    <p className="text-sm text-white/80 mb-2 font-medium">
+                    <p className="text-sm text-[#a8a8b8] mb-2 font-medium">
                       Click to upload your cosmic avatar
                     </p>
-                    <p className="text-xs text-white/60 mb-2">
+                    <p className="text-xs text-[#a8a8b8]/80 mb-2">
                       Max size: 5MB • Formats: JPG, PNG, GIF, WebP
                     </p>
                     {formData.avatarUrl && (
@@ -310,7 +310,7 @@ export function ProfileManager() {
 
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
-                  <span className="bg-gradient-to-r from-[#00d4ff] to-purple-400 bg-clip-text text-transparent">Username</span> <span className="text-[#ff4757]">*</span>
+                  <span className="bg-gradient-to-r from-[#00d4ff] to-purple-400 bg-clip-text text-transparent">Username</span> <span className="text-[#EF4444]">*</span>
                 </label>
                 <input
                   type="text"
@@ -319,10 +319,10 @@ export function ProfileManager() {
                   placeholder="username"
                   required
                   pattern="^[a-zA-Z0-9_-]{3,50}$"
-                  className="w-full p-3.5 border-2 border-[#00d4ff]/30 rounded-lg cosmic-card bg-black/20 text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none transition-all duration-200 backdrop-blur-sm"
+                  className="w-full p-3.5 border-2 border-[#00d4ff]/30 rounded-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-black/20 text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none transition-all duration-200 backdrop-blur-sm"
                   disabled={saving}
                 />
-                <p className="text-xs text-white/60 mt-1">
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">
                   3-50 characters, letters, numbers, underscores, and hyphens only
                 </p>
               </div>
@@ -337,7 +337,7 @@ export function ProfileManager() {
                   onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
                   placeholder="Your display name"
                   maxLength={100}
-                  className="w-full p-3 border-2 border-[#00d4ff]/30 rounded-lg cosmic-card bg-black/20 text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none backdrop-blur-sm"
+                  className="w-full p-3 border-2 border-[#00d4ff]/30 rounded-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-black/20 text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none backdrop-blur-sm"
                   disabled={saving}
                 />
               </div>
@@ -352,7 +352,7 @@ export function ProfileManager() {
                   placeholder="Tell us about yourself..."
                   rows={4}
                   maxLength={500}
-                  className="w-full p-3 border-2 border-[#00d4ff]/30 rounded-lg cosmic-card bg-black/20 text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none resize-none backdrop-blur-sm"
+                  className="w-full p-3 border-2 border-[#00d4ff]/30 rounded-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-black/20 text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none resize-none backdrop-blur-sm"
                   disabled={saving}
                 />
               </div>
@@ -366,10 +366,10 @@ export function ProfileManager() {
                   value={formData.twitterUrl}
                   onChange={(e) => setFormData({ ...formData, twitterUrl: e.target.value })}
                   placeholder="https://x.com/username or https://twitter.com/username"
-                  className="w-full p-3 border-2 border-[#00d4ff]/30 rounded-lg cosmic-card bg-black/20 text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none backdrop-blur-sm"
+                  className="w-full p-3 border-2 border-[#00d4ff]/30 rounded-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md bg-black/20 text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none backdrop-blur-sm"
                   disabled={saving}
                 />
-                <p className="text-xs text-white/60 mt-1">
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">
                   Example: https://x.com/yourusername or https://twitter.com/yourusername
                 </p>
               </div>
@@ -402,7 +402,7 @@ export function ProfileManager() {
                       }
                     }}
                     disabled={saving}
-                    className="px-6 py-3 cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 disabled:border-[#00d4ff]/20 disabled:cursor-not-allowed text-white/70 hover:text-white rounded-lg font-semibold transition-all duration-200 backdrop-blur-sm"
+                    className="px-6 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 disabled:border-[#00d4ff]/20 disabled:cursor-not-allowed text-white/70 hover:text-white rounded-lg font-semibold transition-all duration-200 backdrop-blur-sm"
                   >
                     Cancel
                   </button>
@@ -413,7 +413,7 @@ export function ProfileManager() {
             <div className="space-y-6">
               {/* Avatar First */}
               {profile.avatarUrl && (
-                <div className="cosmic-card border-2 border-purple-500/30 rounded-xl p-6 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-sm">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-purple-500/30 rounded-xl p-6 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-sm">
                   <p className="text-sm text-white/70 mb-4 font-medium">Avatar</p>
                   <img
                     src={profile.avatarUrl}
@@ -445,7 +445,7 @@ export function ProfileManager() {
                     href={profile.twitterUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#00d4ff] hover:text-[#00b8e6] transition-colors flex items-center gap-2"
+                    className="text-[#00d4ff] hover:text-[#14F195] transition-colors flex items-center gap-2"
                   >
                     <span>{profile.twitterUrl}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -456,7 +456,7 @@ export function ProfileManager() {
               )}
               
               {/* Payout Opt-In Status */}
-              <div className="cosmic-card border-2 border-yellow-500/30 rounded-xl p-6 bg-gradient-to-br from-yellow-900/20 to-orange-900/20 backdrop-blur-sm">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-yellow-500/30 rounded-xl p-6 bg-gradient-to-br from-yellow-900/20 to-orange-900/20 backdrop-blur-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <p className="text-sm text-white/70 mb-2 font-medium">Payout Opt-In Status</p>
@@ -468,12 +468,12 @@ export function ProfileManager() {
                           </svg>
                           Opted In
                         </span>
-                        <p className="text-xs text-white/60 mt-1">You're eligible to receive community payouts</p>
+                        <p className="text-xs text-[#a8a8b8]/80 mt-1">You're eligible to receive community payouts</p>
                       </div>
                     ) : (
                       <div className="space-y-3">
                         <div className="flex items-center gap-2">
-                          <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-yellow-500/20 text-yellow-400 rounded-lg text-sm font-semibold border border-yellow-500/30">
+                          <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-yellow-500/20 text-[#FBBF24] rounded-lg text-sm font-semibold border border-yellow-500/30">
                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                             </svg>
@@ -498,20 +498,18 @@ export function ProfileManager() {
               </div>
             </div>
           ) : null}
-          </div>
-
-          {/* Right Column: Wallet Addresses */}
+          
+          {/* Wallet Addresses Section */}
           {activeWalletConnected && activeWalletAddress && (
-            <div className="lg:col-span-1">
-              <div className="cosmic-card border-2 border-cyan-500/30 rounded-xl p-6 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 backdrop-blur-sm">
-                <h3 className="text-lg font-semibold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-4">
-                  🌌 Wallet Addresses
-                </h3>
-                <div className="space-y-4">
+            <div className="bg-gradient-to-br from-cyan-900/10 to-blue-900/10 rounded-xl p-4 border border-cyan-500/20">
+              <h3 className="text-base font-semibold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-3">
+                🌌 Wallet Addresses
+              </h3>
+              <div className="space-y-3">
                   {/* Wallet Address */}
-                  <div className="p-4 cosmic-card border-2 border-cyan-500/20 rounded-lg bg-black/20 backdrop-blur-sm">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex-1">
+                  <div className="p-3 bg-black/20 rounded-lg border border-cyan-500/20">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
                         <p className="text-xs text-cyan-400/80 mb-1 font-medium">Wallet Address</p>
                         <p className="text-white font-mono text-xs break-all">{currentAddress || 'Not connected'}</p>
                       </div>
@@ -524,7 +522,7 @@ export function ProfileManager() {
                             Saved
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs font-semibold border border-yellow-500/30">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-[#FBBF24] rounded text-xs font-semibold border border-yellow-500/30">
                             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                             </svg>
@@ -536,9 +534,9 @@ export function ProfileManager() {
                   </div>
 
                   {/* Payment Address */}
-                  <div className="p-4 cosmic-card border-2 border-cyan-500/20 rounded-lg bg-black/20 backdrop-blur-sm">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex-1">
+                  <div className="p-3 bg-black/20 rounded-lg border border-cyan-500/20">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
                         <p className="text-xs text-cyan-400/80 mb-1 font-medium">Payment Address</p>
                         {paymentAddress ? (
                           <p className="text-white font-mono text-xs break-all">{paymentAddress}</p>
@@ -555,31 +553,31 @@ export function ProfileManager() {
                             Saved
                           </span>
                         ) : paymentAddress && profile && profile.paymentAddress !== paymentAddress ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs font-semibold border border-yellow-500/30">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-[#FBBF24] rounded text-xs font-semibold border border-yellow-500/30">
                             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                             </svg>
                             Different
                           </span>
                         ) : paymentAddress ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs font-semibold border border-yellow-500/30">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-[#FBBF24] rounded text-xs font-semibold border border-yellow-500/30">
                             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                             </svg>
                             Not Saved
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-500/20 text-gray-400 rounded text-xs font-semibold border border-gray-500/30">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-500/20 text-[#a8a8b8] rounded text-xs font-semibold border border-[#9945FF]/40/30">
                             N/A
                           </span>
                         )}
                       </div>
                     </div>
                   </div>
-                </div>
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

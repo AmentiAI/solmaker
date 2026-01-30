@@ -219,7 +219,7 @@ export default function AdminCollectionEditPage() {
     return (
       <div className="min-h-screen bg-[#0a0e27] p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-6 text-center">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow p-6 text-center">
             <p className="text-white/70">Please connect your wallet</p>
           </div>
         </div>
@@ -234,7 +234,7 @@ export default function AdminCollectionEditPage() {
         <div className="flex-1 ml-64 p-8">
           <div className="max-w-7xl mx-auto">
             <div className="text-center py-12">
-              <div className="w-16 h-16 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
               <p className="text-white/70">Loading collection...</p>
             </div>
           </div>
@@ -249,8 +249,8 @@ export default function AdminCollectionEditPage() {
         <AdminSidebar />
         <div className="flex-1 ml-64 p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="cosmic-card border border-red-500/50 rounded-lg shadow p-6">
-              <p className="text-red-400">Error: {error}</p>
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-red-500/50 rounded-lg shadow p-6">
+              <p className="text-[#EF4444]">Error: {error}</p>
               <button
                 onClick={() => router.push('/admin/collections')}
                 className="mt-4 px-4 py-2 btn-cosmic text-white rounded"
@@ -278,7 +278,7 @@ export default function AdminCollectionEditPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => router.push('/admin/collections')}
-                className="px-4 py-2 cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white rounded"
+                className="px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-white rounded"
               >
                 Back
               </button>
@@ -294,14 +294,14 @@ export default function AdminCollectionEditPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-4 cosmic-card border border-red-500/50 rounded-lg">
-              <p className="text-red-400">Error: {error}</p>
+            <div className="mb-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-red-500/50 rounded-lg">
+              <p className="text-[#EF4444]">Error: {error}</p>
             </div>
           )}
 
           {/* Collection Stats */}
           {collection && (
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow mb-6 p-6">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow mb-6 p-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
                   <p className="text-sm text-white/70">Total Ordinals</p>
@@ -324,7 +324,7 @@ export default function AdminCollectionEditPage() {
           )}
 
           {/* Form */}
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-6 space-y-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow p-6 space-y-6">
             {/* Basic Info */}
             <div>
               <h2 className="text-xl font-bold text-white mb-4">Basic Information</h2>
@@ -335,7 +335,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
@@ -344,7 +344,7 @@ export default function AdminCollectionEditPage() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
               </div>
@@ -359,7 +359,7 @@ export default function AdminCollectionEditPage() {
                   <select
                     value={collectionStatus}
                     onChange={(e) => setCollectionStatus(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white"
                   >
                     <option value="draft">Draft</option>
                     <option value="launchpad">Launchpad</option>
@@ -373,7 +373,7 @@ export default function AdminCollectionEditPage() {
                   <select
                     value={launchStatus || ''}
                     onChange={(e) => setLaunchStatus(e.target.value || null)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white"
                   >
                     <option value="">None</option>
                     <option value="draft">Draft</option>
@@ -443,7 +443,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={bannerImageUrl}
                     onChange={(e) => setBannerImageUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
@@ -452,7 +452,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={mobileImageUrl}
                     onChange={(e) => setMobileImageUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
@@ -461,7 +461,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={bannerVideoUrl}
                     onChange={(e) => setBannerVideoUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
@@ -470,7 +470,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={audioUrl}
                     onChange={(e) => setAudioUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
@@ -479,7 +479,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={videoUrl}
                     onChange={(e) => setVideoUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
               </div>
@@ -495,7 +495,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={creatorRoyaltyWallet}
                     onChange={(e) => setCreatorRoyaltyWallet(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                     placeholder="bc1..."
                   />
                 </div>
@@ -508,7 +508,7 @@ export default function AdminCollectionEditPage() {
                     min={0}
                     max={100}
                     step={0.01}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                     placeholder="0.00"
                   />
                 </div>
@@ -525,7 +525,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={twitterUrl}
                     onChange={(e) => setTwitterUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
@@ -534,7 +534,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={discordUrl}
                     onChange={(e) => setDiscordUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
@@ -543,7 +543,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={telegramUrl}
                     onChange={(e) => setTelegramUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
@@ -552,7 +552,7 @@ export default function AdminCollectionEditPage() {
                     type="text"
                     value={websiteUrl}
                     onChange={(e) => setWebsiteUrl(e.target.value)}
-                    className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                    className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF] text-white placeholder:text-white/50"
                   />
                 </div>
               </div>
@@ -560,7 +560,7 @@ export default function AdminCollectionEditPage() {
           </div>
 
           {/* Mint Phases Management */}
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-6 mt-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow p-6 mt-6">
             <h2 className="text-xl font-bold text-white mb-4">Mint Phases</h2>
             {phases.length === 0 ? (
               <p className="text-white/70">No phases configured for this collection.</p>
@@ -569,7 +569,7 @@ export default function AdminCollectionEditPage() {
                 {phases.map((phase) => (
                   <div
                     key={phase.id}
-                    className="border border-[#00d4ff]/20 rounded-lg p-4 bg-[#0a0e27]/50"
+                    className="border border-[#9945FF]/20 rounded-lg p-4 bg-[#0a0e27]/50"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
@@ -613,7 +613,7 @@ export default function AdminCollectionEditPage() {
                           </div>
                         </div>
                         {phase.start_time && phase.end_time && (
-                          <div className="mt-2 text-xs text-white/60">
+                          <div className="mt-2 text-xs text-[#a8a8b8]/80">
                             <span>{new Date(phase.start_time).toLocaleString()}</span>
                             <span className="mx-2">→</span>
                             <span>{new Date(phase.end_time).toLocaleString()}</span>
@@ -627,7 +627,7 @@ export default function AdminCollectionEditPage() {
                         disabled={savingPhase === phase.id}
                         className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${
                           phase.is_active
-                            ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/30'
+                            ? 'bg-yellow-500/20 text-[#FBBF24] border border-yellow-500/30 hover:bg-yellow-500/30'
                             : 'bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30'
                         }`}
                       >

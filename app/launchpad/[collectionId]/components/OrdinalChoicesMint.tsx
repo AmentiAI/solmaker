@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { Phase, Collection } from './types'
-import { OrdinalCard } from './OrdinalCard'
+import { NftCard } from './NftCard'
 import { PaginationControls } from './PaginationControls'
 
-interface Ordinal {
+interface Nft {
   id: string
   ordinal_number: number | null
   image_url: string
@@ -26,7 +26,7 @@ interface PaginationInfo {
   has_prev: boolean
 }
 
-interface OrdinalChoicesMintProps {
+interface NftChoicesMintProps {
   collection: Collection
   activePhase: Phase | null
   collectionId: string
@@ -43,11 +43,11 @@ interface OrdinalChoicesMintProps {
   onFeeRateBlur: (value: number) => void
   formatTimeUntil: (date: string) => string
   formatSats: (sats: number) => string
-  onMint: (ordinalIds: string[]) => void
+  onMint: (nftIds: string[]) => void
   minting: boolean
 }
 
-export function OrdinalChoicesMint({
+export function NftChoicesMint({
   collection,
   activePhase,
   collectionId,
@@ -66,8 +66,8 @@ export function OrdinalChoicesMint({
   formatSats,
   onMint,
   minting,
-}: OrdinalChoicesMintProps) {
-  const [ordinals, setOrdinals] = useState<Ordinal[]>([])
+}: NftChoicesMintProps) {
+  const [nfts, setNfts] = useState<Nft[]>([])
   const [pagination, setPagination] = useState<PaginationInfo | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageInput, setPageInput] = useState('1')
@@ -76,20 +76,20 @@ export function OrdinalChoicesMint({
   const isMountedRef = useRef(true)
   const [currentTime, setCurrentTime] = useState(Date.now()) // Force re-render for countdown timers
 
-  // DERIVED FROM DATABASE - find ALL ordinals I have locked
-  const myLockedOrdinals = useMemo(() => {
+  // DERIVED FROM DATABASE - find ALL NFTs I have locked
+  const myLockedNfts = useMemo(() => {
     if (!currentAddress) return []
-    return ordinals.filter(o => o.is_locked && o.locked_by === currentAddress)
-  }, [ordinals, currentAddress])
+    return nfts.filter(o => o.is_locked && o.locked_by === currentAddress)
+  }, [nfts, currentAddress])
   
-  // For backward compatibility - get the first locked ordinal
-  const myLockedOrdinal = myLockedOrdinals.length > 0 ? myLockedOrdinals[0] : null
+  // For backward compatibility - get the first locked NFT
+  const myLockedNft = myLockedNfts.length > 0 ? myLockedNfts[0] : null
   
   // Total locked count
-  const lockedCount = myLockedOrdinals.length
+  const lockedCount = myLockedNfts.length
 
-  // Load ordinals from database - this is the source of truth
-  const loadOrdinals = useCallback(async (page: number) => {
+  // Load NFTs from database - this is the source of truth
+  const loadNfts = useCallback(async (page: number) => {
     if (!collectionId || !isMountedRef.current) return
 
     setLoading(true)
@@ -98,16 +98,16 @@ export function OrdinalChoicesMint({
         `/api/launchpad/${collectionId}/ordinals?page=${page}&per_page=10`
       )
       if (!response.ok) {
-        throw new Error('Failed to fetch ordinals')
+        throw new Error('Failed to fetch NFTs')
       }
       const data = await response.json()
       if (isMountedRef.current) {
-        setOrdinals(data.ordinals || [])
+        setNfts(data.ordinals || [])
         setPagination(data.pagination || null)
         setPageInput(String(page))
       }
     } catch (error) {
-      console.error('Error loading ordinals:', error)
+      console.error('Error loading NFTs:', error)
     } finally {
       if (isMountedRef.current) {
         setLoading(false)
@@ -115,67 +115,67 @@ export function OrdinalChoicesMint({
     }
   }, [collectionId])
 
-  // Unlock an ordinal (cancel reservation) - then reload from DB
-  const handleUnlock = useCallback(async (ordinal: Ordinal) => {
+  // Unlock an NFT (cancel reservation) - then reload from DB
+  const handleUnlock = useCallback(async (nft: Nft) => {
     if (!isConnected || !currentAddress || minting || isLocking) return
-    if (!ordinal.is_locked || ordinal.locked_by !== currentAddress) return
+    if (!nft.is_locked || nft.locked_by !== currentAddress) return
 
     setIsLocking(true)
     try {
       const response = await fetch(
-        `/api/launchpad/${collectionId}/reserve?wallet_address=${encodeURIComponent(currentAddress)}&ordinal_id=${ordinal.id}`,
+        `/api/launchpad/${collectionId}/reserve?wallet_address=${encodeURIComponent(currentAddress)}&ordinal_id=${nft.id}`,
         { method: 'DELETE' }
       )
 
       if (!response.ok) {
         const err = await response.json()
-        throw new Error(err.error || 'Failed to unlock ordinal')
+        throw new Error(err.error || 'Failed to unlock NFT')
       }
 
       // Reload from DB - this is the source of truth
-      await loadOrdinals(currentPage)
+      await loadNfts(currentPage)
     } catch (error: any) {
-      console.error('Error unlocking ordinal:', error)
-      alert(error.message || 'Failed to unlock ordinal')
+      console.error('Error unlocking NFT:', error)
+      alert(error.message || 'Failed to unlock NFT')
     } finally {
       if (isMountedRef.current) {
         setIsLocking(false)
       }
     }
-  }, [isConnected, currentAddress, collectionId, minting, isLocking, currentPage, loadOrdinals])
+  }, [isConnected, currentAddress, collectionId, minting, isLocking, currentPage, loadNfts])
 
-  // Lock an ordinal when clicked - then reload from DB
-  const handleOrdinalClick = useCallback(async (ordinal: Ordinal) => {
+  // Lock an NFT when clicked - then reload from DB
+  const handleNftClick = useCallback(async (nft: Nft) => {
     if (!isConnected || !currentAddress || minting || isLocking) return
-    if (ordinal.is_minted) return
+    if (nft.is_minted) return
 
     setIsLocking(true)
 
     try {
       // If already locked by me, unlock it
-      if (ordinal.is_locked && ordinal.locked_by === currentAddress) {
+      if (nft.is_locked && nft.locked_by === currentAddress) {
         // Call unlock directly without setIsLocking (already set above)
         const response = await fetch(
-          `/api/launchpad/${collectionId}/reserve?wallet_address=${encodeURIComponent(currentAddress)}&ordinal_id=${ordinal.id}`,
+          `/api/launchpad/${collectionId}/reserve?wallet_address=${encodeURIComponent(currentAddress)}&ordinal_id=${nft.id}`,
           { method: 'DELETE' }
         )
         if (!response.ok) {
           const err = await response.json()
-          throw new Error(err.error || 'Failed to unlock ordinal')
+          throw new Error(err.error || 'Failed to unlock NFT')
         }
         // Reload from DB
-        await loadOrdinals(currentPage)
+        await loadNfts(currentPage)
         return
       }
 
       // If locked by someone else, can't click
-      if (ordinal.is_locked && ordinal.locked_by !== currentAddress) {
+      if (nft.is_locked && nft.locked_by !== currentAddress) {
         return
       }
 
       // Check max_per_wallet - can't lock more than allowed (check from DB state)
       if (activePhase?.max_per_wallet && lockedCount >= activePhase.max_per_wallet) {
-        alert(`You can only lock ${activePhase.max_per_wallet} ordinal(s) at a time for this phase`)
+        alert(`You can only lock ${activePhase.max_per_wallet} NFT(s) at a time for this phase`)
         return
       }
 
@@ -186,56 +186,56 @@ export function OrdinalChoicesMint({
           wallet_address: currentAddress,
           phase_id: activePhase?.id || null,
           quantity: 1,
-          ordinal_id: ordinal.id, // For choices mint, specify the ordinal
+          ordinal_id: nft.id, // For choices mint, specify the NFT
         }),
       })
 
       if (!response.ok) {
         const err = await response.json()
-        throw new Error(err.error || 'Failed to lock ordinal')
+        throw new Error(err.error || 'Failed to lock NFT')
       }
 
       // Reload from DB - this is the source of truth
-      await loadOrdinals(currentPage)
+      await loadNfts(currentPage)
     } catch (error: any) {
-      console.error('Error locking ordinal:', error)
-      alert(error.message || 'Failed to lock ordinal')
+      console.error('Error locking NFT:', error)
+      alert(error.message || 'Failed to lock NFT')
     } finally {
       if (isMountedRef.current) {
         setIsLocking(false)
       }
     }
-  }, [isConnected, currentAddress, collectionId, activePhase, minting, isLocking, currentPage, loadOrdinals, lockedCount])
+  }, [isConnected, currentAddress, collectionId, activePhase, minting, isLocking, currentPage, loadNfts, lockedCount])
 
   // Check if any of my locks expired and reload - driven by database
   useEffect(() => {
-    if (myLockedOrdinals.length === 0) return
+    if (myLockedNfts.length === 0) return
 
     const checkExpiry = () => {
       if (!isMountedRef.current) return
       // Check if any lock has expired
       const now = Date.now()
-      const hasExpired = myLockedOrdinals.some(o => {
+      const hasExpired = myLockedNfts.some(o => {
         if (!o.locked_until) return false
         return new Date(o.locked_until).getTime() <= now
       })
       if (hasExpired) {
         // At least one lock expired, reload from DB
-        loadOrdinals(currentPage)
+        loadNfts(currentPage)
       }
     }
 
     // Check every 2 seconds
     const interval = setInterval(checkExpiry, 2000)
     return () => clearInterval(interval)
-  }, [myLockedOrdinals, currentPage, loadOrdinals])
+  }, [myLockedNfts, currentPage, loadNfts])
 
-  // Load ordinals when page changes
+  // Load NFTs when page changes
   useEffect(() => {
     if (isMountedRef.current) {
-      loadOrdinals(currentPage)
+      loadNfts(currentPage)
     }
-  }, [currentPage, loadOrdinals])
+  }, [currentPage, loadNfts])
 
   // Update current time every second to refresh countdown timers
   useEffect(() => {
@@ -283,13 +283,13 @@ export function OrdinalChoicesMint({
     (!activePhase.end_time || new Date(activePhase.end_time) > new Date())
   )
 
-  if (loading && ordinals.length === 0) {
+  if (loading && nfts.length === 0) {
     return (
-      <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-6">
+      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6">
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-white/80">Loading ordinals...</p>
+            <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-[#a8a8b8]">Loading NFTs...</p>
           </div>
         </div>
       </div>
@@ -304,14 +304,14 @@ export function OrdinalChoicesMint({
       : 'Phase not scheduled'
 
     return (
-      <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-6">
+      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6">
         <div className="text-center space-y-4">
-          <h2 className="text-2xl font-bold text-white mb-2">Choose Your Ordinal</h2>
-          <div className="bg-[#0a0e27]/50 border border-[#00d4ff]/30 rounded-lg p-6">
-            <p className="text-white/70 mb-2">Minting starts in:</p>
-            <p className="text-3xl font-bold text-[#00d4ff]">{countdownText}</p>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent mb-2">Choose Your NFT</h2>
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 rounded-lg p-6">
+            <p className="text-[#a8a8b8] mb-2">Minting starts in:</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">{countdownText}</p>
             {activePhase.mint_price_sats && (
-              <p className="text-white/60 mt-4">
+              <p className="text-[#a8a8b8] mt-4">
                 Price: {formatSats(activePhase.mint_price_sats)}
               </p>
             )}
@@ -327,35 +327,35 @@ export function OrdinalChoicesMint({
   const available = Math.max(0, maxSupply - totalMinted)
 
   return (
-    <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-6 space-y-6">
+    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6 space-y-6">
       {/* Supply Stats - matching MintDetailsSection */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4">
-          <div className="text-xs text-gray-400 mb-1">Supply</div>
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4">
+          <div className="text-xs text-[#a8a8b8] mb-1">Supply</div>
           <div className="text-xl font-bold text-white">
             {maxSupply.toLocaleString()}
           </div>
         </div>
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4">
-          <div className="text-xs text-gray-400 mb-1">Total Minted</div>
-          <div className="text-xl font-bold text-green-400">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4">
+          <div className="text-xs text-[#a8a8b8] mb-1">Total Minted</div>
+          <div className="text-xl font-bold text-[#14F195]">
             {totalMinted.toLocaleString()}
           </div>
         </div>
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4">
-          <div className="text-xs text-gray-400 mb-1">Available</div>
-          <div className="text-xl font-bold text-cosmic-blue">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4">
+          <div className="text-xs text-[#a8a8b8] mb-1">Available</div>
+          <div className="text-xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">
             {available.toLocaleString()}
           </div>
         </div>
       </div>
 
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">Choose Your Ordinal</h2>
-        <p className="text-white/70">
-          Browse and select the ordinal you want to mint. Click on one to lock it for 2 minutes.
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent mb-2">Choose Your NFT</h2>
+        <p className="text-[#a8a8b8]">
+          Browse and select the NFT you want to mint. Click on one to lock it for 2 minutes.
           {activePhase?.max_per_wallet === 1 && (
-            <span className="block mt-1 text-sm text-amber-400">1 per wallet</span>
+            <span className="block mt-1 text-sm bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] bg-clip-text text-transparent">1 per wallet</span>
           )}
         </p>
       </div>
@@ -371,32 +371,32 @@ export function OrdinalChoicesMint({
       />
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {ordinals.map((ordinal) => {
-          // All state derived from database (ordinals array)
-          const isLockedByMe = ordinal.is_locked && ordinal.locked_by === currentAddress
-          const isLockedByOther = ordinal.is_locked && ordinal.locked_by !== currentAddress
-          const canClick = !ordinal.is_minted && isConnected && (isLockedByMe || !ordinal.is_locked) && !isLocking
+        {nfts.map((nft) => {
+          // All state derived from database (nfts array)
+          const isLockedByMe = nft.is_locked && nft.locked_by === currentAddress
+          const isLockedByOther = nft.is_locked && nft.locked_by !== currentAddress
+          const canClick = !nft.is_minted && isConnected && (isLockedByMe || !nft.is_locked) && !isLocking
           
           // Calculate lock expiry seconds from DB data
-          let ordinalLockExpirySeconds: number | null = null
-          if (isLockedByMe && ordinal.locked_until) {
-            const expiryTime = new Date(ordinal.locked_until).getTime()
+          let nftLockExpirySeconds: number | null = null
+          if (isLockedByMe && nft.locked_until) {
+            const expiryTime = new Date(nft.locked_until).getTime()
             if (expiryTime > currentTime) {
-              ordinalLockExpirySeconds = Math.max(0, Math.floor((expiryTime - currentTime) / 1000))
+              nftLockExpirySeconds = Math.max(0, Math.floor((expiryTime - currentTime) / 1000))
             }
           }
 
           return (
-            <OrdinalCard
-              key={ordinal.id}
-              ordinal={ordinal}
+            <NftCard
+              key={nft.id}
+              nft={nft}
               isSelected={isLockedByMe} // Selected = locked by me (from DB)
               isLockedByMe={isLockedByMe}
               isLockedByOther={isLockedByOther}
               canClick={canClick}
-              lockExpirySeconds={ordinalLockExpirySeconds}
+              lockExpirySeconds={nftLockExpirySeconds}
               isLocking={isLocking}
-              onClick={handleOrdinalClick}
+              onClick={handleNftClick}
               currentAddress={currentAddress}
             />
           )
@@ -414,39 +414,39 @@ export function OrdinalChoicesMint({
       />
 
       {/* Network Fee, Cost Breakdown, and Mint Button - matching MintDetailsSection layout */}
-      {/* Only show when user has locked ordinals (from DB) */}
+      {/* Only show when user has locked NFTs (from DB) */}
       {lockedCount > 0 && isConnected && (
         <div className="pt-4 space-y-4">
           {/* Network Fee Input - matching MintDetailsSection position */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-white mb-2">
               Network Fee (sat/vB)
             </label>
             {mempoolHealth && (
-              <div className="mb-3 p-3 bg-[#0a0e27]/60 border border-[#00d4ff]/30 rounded-lg">
-                <p className="text-xs text-gray-300">
+              <div className="mb-3 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 rounded-lg">
+                <p className="text-xs text-[#a8a8b8]">
                   {mempoolHealth.suggestedFeeRate === -1 ? (
-                    <span className="text-amber-400">
+                    <span className="bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] bg-clip-text text-transparent">
                       Unavailable - <a 
                         href="https://mempool.space" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="underline hover:text-amber-300"
+                        className="underline hover:text-[#DC1FFF] transition-colors"
                       >Check mempool.space</a> to find the last sub-1 sat block
                     </span>
                   ) : (
                     <>
-                      Suggested: <span className="font-bold text-cosmic-blue">{mempoolHealth.suggestedFeeRate.toFixed(2)} sat/vB</span>
+                      Suggested: <span className="font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">{mempoolHealth.suggestedFeeRate.toFixed(2)} sat/vB</span>
                       {mempoolHealth.lastSub1SatFee !== null && (
-                        <span className="ml-2">- Last Sub Block: <span className="font-bold text-cosmic-blue">{mempoolHealth.lastSub1SatFee.toFixed(2)} sat/vB</span></span>
+                        <span className="ml-2">- Last Sub Block: <span className="font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">{mempoolHealth.lastSub1SatFee.toFixed(2)} sat/vB</span></span>
                       )}
                       {mempoolHealth.suggestedFeeRate >= 1.0 && (
-                        <span className="ml-2 text-amber-400">
+                        <span className="ml-2 bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] bg-clip-text text-transparent">
                           - High Fees - <a 
                             href="https://mempool.space" 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="underline hover:text-amber-300"
+                            className="underline hover:text-[#DC1FFF] transition-colors"
                           >Check mempool.space</a> to set lower. 
                         </span>
                       )}
@@ -464,7 +464,7 @@ export function OrdinalChoicesMint({
               step="0.02"
               min="0.15"
               disabled={minting || (isPreview && !isLive)}
-              className="w-full px-4 py-3 bg-[#0a0e27]/80 border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff]/30 focus:border-[#00d4ff]/50 placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF]/30 focus:border-[#9945FF]/50 placeholder:text-[#a8a8b8] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             />
           </div>
 
@@ -472,22 +472,22 @@ export function OrdinalChoicesMint({
           {isConnected && (() => {
             if (!activePhase || lockedCount === 0) return null
 
-            // Calculate cost for ALL locked ordinals
+            // Calculate cost for ALL locked NFTs
             // Sum up sizes or use average for each
             let totalSizeKb = 0
-            for (const ord of myLockedOrdinals) {
-              totalSizeKb += ord.compressed_size_kb 
-                ? Number(ord.compressed_size_kb) 
+            for (const nft of myLockedNfts) {
+              totalSizeKb += nft.compressed_size_kb 
+                ? Number(nft.compressed_size_kb) 
                 : (collection.avg_ordinal_size_kb || 50)
             }
             const avgSizeKb = totalSizeKb / lockedCount
             
-            // Calculate reveal cost based on total ordinal size
+            // Calculate reveal cost based on total NFT size
             // Formula: revealVSize = ((nonWitness * 4) + witnessSize) / 4
             // witnessSize = 65 + 110 + contentSizeBytes + 33 + 3 + (numChunks * 2)
             let totalRevealFee = 0
-            for (const ord of myLockedOrdinals) {
-              const sizeKb = ord.compressed_size_kb ? Number(ord.compressed_size_kb) : (collection.avg_ordinal_size_kb || 50)
+            for (const nft of myLockedNfts) {
+              const sizeKb = nft.compressed_size_kb ? Number(nft.compressed_size_kb) : (collection.avg_ordinal_size_kb || 50)
               const sizeBytes = sizeKb * 1024
               const numChunks = Math.ceil(sizeBytes / 520)
               const witnessSize = 65 + 110 + sizeBytes + 33 + 3 + (numChunks * 2)
@@ -499,31 +499,31 @@ export function OrdinalChoicesMint({
               totalRevealFee += revealFee + outputValue + safetyBuffer
             }
             
-            // Commit fee: base (150) + outputs (N ordinals + creator + platform + change) * 43
-            const commitVSize = 150 + ((lockedCount + 3) * 43) // N ordinals + 3 other outputs
+            // Commit fee: base (150) + outputs (N NFTs + creator + platform + change) * 43
+            const commitVSize = 150 + ((lockedCount + 3) * 43) // N NFTs + 3 other outputs
             const commitFee = Math.ceil(commitVSize * feeRate)
             
-            // Calculate Inscribe + Fees (Platform Fee per ordinal + Reveal Costs + Commit Fee)
-            const platformFees = 2500 * lockedCount // Platform fee is 2500 per ordinal
+            // Calculate Inscribe + Fees (Platform Fee per NFT + Reveal Costs + Commit Fee)
+            const platformFees = 2500 * lockedCount // Platform fee is 2500 per NFT
             const inscribeAndFees = platformFees + totalRevealFee + commitFee
             
-            const mintPricePerOrdinal = activePhase.mint_price_sats || 0
-            const totalMintPrice = mintPricePerOrdinal * lockedCount
+            const mintPricePerNft = activePhase.mint_price_sats || 0
+            const totalMintPrice = mintPricePerNft * lockedCount
             const totalEstimate = totalMintPrice + inscribeAndFees
 
             return (
               <div className="mt-4 p-4 bg-[#0a0e27]/60 border border-[#00d4ff]/20 rounded-xl">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-gray-400 font-semibold">Estimated Cost Breakdown</span>
+                  <span className="text-xs text-[#a8a8b8] font-semibold">Estimated Cost Breakdown</span>
                   <span className="text-xs bg-[#00d4ff]/20 text-[#00d4ff] px-2 py-0.5 rounded-full font-medium">
-                    {lockedCount} ordinal{lockedCount > 1 ? 's' : ''} selected
+                    {lockedCount} NFT{lockedCount > 1 ? 's' : ''} selected
                   </span>
                 </div>
                 <div className="space-y-1.5 text-sm">
                   {/* Mint Price - goes to creator */}
                   <div className="flex justify-between">
-                    <span className="text-gray-400">
-                      Mint Price {lockedCount > 1 ? `(${formatSats(mintPricePerOrdinal)} × ${lockedCount})` : ''}
+                    <span className="text-[#a8a8b8]">
+                      Mint Price {lockedCount > 1 ? `(${formatSats(mintPricePerNft)} × ${lockedCount})` : ''}
                     </span>
                     <span className="text-white font-medium">
                       {totalMintPrice === 0 
@@ -533,16 +533,16 @@ export function OrdinalChoicesMint({
                   </div>
                   {/* Inscribe + Fees - combines Platform Fee, Reveal Cost, and Commit Fee */}
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Inscribe + Fees</span>
+                    <span className="text-[#a8a8b8]">Inscribe + Fees</span>
                     <span className="text-white font-medium">~{formatSats(inscribeAndFees)}</span>
                   </div>
                   <div className="border-t border-[#00d4ff]/20 pt-2 mt-2 flex justify-between">
-                    <span className="text-gray-300 font-semibold">Estimated Total</span>
+                    <span className="text-white font-semibold">Estimated Total</span>
                     <span className="text-[#00d4ff] font-bold">~{formatSats(totalEstimate)}</span>
                   </div>
                 </div>
-                <p className="text-[10px] text-gray-500 mt-2">
-                  * Based on ~{avgSizeKb.toFixed(0)}KB avg size × {lockedCount} ordinal{lockedCount > 1 ? 's' : ''} @ {feeRate.toFixed(2)} sat/vB
+                <p className="text-[10px] text-[#a8a8b8]/80 mt-2">
+                  * Based on ~{avgSizeKb.toFixed(0)}KB avg size × {lockedCount} NFT{lockedCount > 1 ? 's' : ''} @ {feeRate.toFixed(2)} sat/vB
                 </p>
               </div>
             )
@@ -551,23 +551,23 @@ export function OrdinalChoicesMint({
           {/* Mint Button - matching MintDetailsSection style */}
           <button
             onMouseDown={(e) => e.preventDefault()}
-            onClick={() => onMint(myLockedOrdinals.map(o => o.id))}
+            onClick={() => onMint(myLockedNfts.map(o => o.id))}
             disabled={
               minting ||
               lockedCount === 0 ||
-              myLockedOrdinals.some(o => o.locked_until && new Date(o.locked_until).getTime() <= Date.now()) ||
+              myLockedNfts.some(o => o.locked_until && new Date(o.locked_until).getTime() <= Date.now()) ||
               (collection.total_minted >= collection.total_supply)
             }
-            className="w-full py-4 btn-cosmic font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] hover:from-[#DC1FFF] hover:to-[#9945FF] text-white font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#9945FF]/20 hover:shadow-[#9945FF]/40"
           >
             {collection.total_minted >= collection.total_supply ? 'Sold Out' : 
              minting ? 'Minting...' : 
-             lockedCount > 1 ? `Mint ${lockedCount} Ordinals` : 'Mint Now'}
+             lockedCount > 1 ? `Mint ${lockedCount} NFTs` : 'Mint Now'}
           </button>
           {/* Show earliest lock expiry */}
-          {myLockedOrdinals.length > 0 && (() => {
-            // Find the earliest expiry time among all locked ordinals
-            const earliestExpiry = myLockedOrdinals
+          {myLockedNfts.length > 0 && (() => {
+            // Find the earliest expiry time among all locked NFTs
+            const earliestExpiry = myLockedNfts
               .filter(o => o.locked_until)
               .map(o => new Date(o.locked_until!).getTime())
               .sort((a, b) => a - b)[0]
@@ -577,7 +577,7 @@ export function OrdinalChoicesMint({
             const secondsLeft = Math.max(0, Math.floor((earliestExpiry - currentTime) / 1000))
             if (secondsLeft > 0) {
               return (
-                <p className="text-sm text-white/70 mt-2 text-center">
+                <p className="text-sm text-[#a8a8b8] mt-2 text-center">
                   Lock{lockedCount > 1 ? 's expire' : ' expires'} in {secondsLeft} seconds
                 </p>
               )
@@ -589,4 +589,7 @@ export function OrdinalChoicesMint({
     </div>
   )
 }
+
+/** @deprecated Use NftChoicesMint instead */
+export const OrdinalChoicesMint = NftChoicesMint
 

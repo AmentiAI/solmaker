@@ -60,7 +60,7 @@ export function WhitelistsStep({
       )}
 
       {showNewWhitelistForm && (
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-6">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-xl p-6">
           <h3 className="text-lg font-bold text-white mb-4">{editingWhitelistId ? 'Edit Whitelist' : 'New Whitelist'}</h3>
           <div className="grid gap-4">
             <div>
@@ -70,7 +70,7 @@ export function WhitelistsStep({
                 value={newWhitelistName}
                 onChange={(e) => setNewWhitelistName(e.target.value)}
                 placeholder="e.g. OG Holders, Early Supporters"
-                className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
               />
             </div>
             <div>
@@ -79,7 +79,7 @@ export function WhitelistsStep({
                 value={newWhitelistDescription}
                 onChange={(e) => setNewWhitelistDescription(e.target.value)}
                 rows={2}
-                className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
+                className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] text-white placeholder:text-white/50"
               />
             </div>
             {editingWhitelistId && existingWhitelistAddresses.length > 0 && (
@@ -87,7 +87,7 @@ export function WhitelistsStep({
                 <label className="block text-sm font-medium text-white/70 mb-2">
                   Existing Addresses ({existingWhitelistAddresses.length})
                 </label>
-                <div className="max-h-48 overflow-y-auto border border-[#00d4ff]/30 rounded-lg p-3 cosmic-card">
+                <div className="max-h-48 overflow-y-auto border border-[#00d4ff]/30 rounded-lg p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
                   <div className="space-y-2">
                     {existingWhitelistAddresses.map((address, idx) => (
                       <div key={idx} className="flex items-center justify-between p-2 bg-white/5 rounded border border-[#00d4ff]/30">
@@ -95,7 +95,7 @@ export function WhitelistsStep({
                         <button
                           type="button"
                           onClick={() => onRemoveWhitelistAddress(address)}
-                          className="ml-3 px-2 py-1 text-xs bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30"
+                          className="ml-3 px-2 py-1 text-xs bg-[#DC1FFF]/20 hover:bg-[#DC1FFF]/30 text-[#DC1FFF] rounded transition-colors border border-[#DC1FFF]/30"
                         >
                           Remove
                         </button>
@@ -114,14 +114,14 @@ export function WhitelistsStep({
                 onChange={(e) => setNewWhitelistAddresses(e.target.value)}
                 rows={6}
                 placeholder={editingWhitelistId ? "Add new addresses (one per line)" : "bc1q...&#10;3..."}
-                className="w-full px-4 py-2 cosmic-card border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] font-mono text-sm text-white placeholder:text-white/50"
+                className="w-full px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff] font-mono text-sm text-white placeholder:text-white/50"
               />
             </div>
             <div className="flex gap-3 pt-4 border-t border-[#00d4ff]/30">
               <button
                 onClick={onCreateWhitelist}
                 disabled={saving}
-                className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors disabled:opacity-50"
+                className="px-6 py-2 bg-[#00d4ff] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors disabled:opacity-50"
               >
                 {saving ? (editingWhitelistId ? 'Updating...' : 'Creating...') : (editingWhitelistId ? 'Update Whitelist' : 'Create Whitelist')}
               </button>
@@ -142,7 +142,7 @@ export function WhitelistsStep({
       {whitelists.length > 0 && (
         <div className="space-y-4">
           {whitelists.map((whitelist) => (
-            <div key={whitelist.id} className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-4">
+            <div key={whitelist.id} className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-xl p-4">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <h3 className="font-bold text-white">{whitelist.name}</h3>
@@ -154,7 +154,7 @@ export function WhitelistsStep({
                 <div className="flex gap-2 ml-4">
                   <button
                     onClick={() => onEditWhitelist(whitelist.id)}
-                    className="px-3 py-1.5 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                    className="px-3 py-1.5 text-sm bg-blue-500 hover:bg-[#9945FF] text-white rounded-lg transition-colors"
                   >
                     Edit
                   </button>
@@ -180,7 +180,7 @@ export function WhitelistsStep({
         </button>
         <button
           onClick={onContinue}
-          className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors"
+          className="px-6 py-2 bg-[#00d4ff] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors"
         >
           Continue →
         </button>

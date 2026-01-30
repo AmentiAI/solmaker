@@ -1,4 +1,4 @@
-import { OrdinalTraits } from './traits'
+import { NftTraits } from './traits'
 
 // All traits from your original list - complete trait pools
 export const TRAIT_POOLS = {
@@ -268,7 +268,7 @@ export const CHARACTER_TRAIT_COMBINATIONS = {
 }
 
 // System to randomly select traits from curated pools
-export function selectTraitsForCharacter(characterType: string): OrdinalTraits {
+export function selectTraitsForCharacter(characterType: string): NftTraits {
   // Always randomize from the curated trait pools
   return {
     characterType,
@@ -292,7 +292,7 @@ export function createCustomTraitCombination(
   headwear?: string,
   outfits?: string,
   props?: string
-): OrdinalTraits {
+): NftTraits {
   return {
     characterType,
     background: background || TRAIT_POOLS.background[Math.floor(Math.random() * TRAIT_POOLS.background.length)],
@@ -311,9 +311,9 @@ export function getTraitsForCharacterType(characterType: string) {
 }
 
 // System to validate trait combinations
-export function validateTraitCombination(traits: OrdinalTraits): boolean {
+export function validateTraitCombination(traits: NftTraits): boolean {
   const requiredFields = ['characterType', 'background', 'accessories', 'eyes', 'mouth', 'headwear', 'outfits', 'props']
-  return requiredFields.every(field => traits[field as keyof OrdinalTraits])
+  return requiredFields.every(field => traits[field as keyof NftTraits])
 }
 
 // System to get available traits for each category (for display/selection)

@@ -36,11 +36,11 @@ export default function LaunchHeader({
           <h1 className="text-3xl font-bold bg-gradient-to-r from-[#4561ad] to-[#e27d0f] bg-clip-text text-transparent">
             🚀 Launch Settings
           </h1>
-          <p className="text-gray-500 mt-1">{collection.name}</p>
+          <p className="text-[#a8a8b8]/80 mt-1">{collection.name}</p>
           {serverTime && (
             <div className="mt-3 flex flex-wrap gap-3 text-sm">
               <div className="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
-                <span className="text-blue-600 font-semibold">Server Time (UTC):</span>
+                <span className="text-[#9945FF] font-semibold">Server Time (UTC):</span>
                 <span className="ml-2 font-mono text-blue-900">
                   {serverTime.toISOString().slice(0, 19).replace('T', ' ')}
                 </span>
@@ -86,7 +86,7 @@ export default function LaunchHeader({
       {launchMode === 'owner-mint' ? (
         <div className="mt-4 p-4 rounded-lg bg-blue-50 border border-blue-200">
           <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-blue-700">
+            <span className="text-lg font-bold text-[#14F195]">
               ⚡ Owner Mint Mode
             </span>
           </div>
@@ -95,7 +95,7 @@ export default function LaunchHeader({
           </p>
           {totalSupply && (
             <p className="text-sm text-gray-600 mt-2">
-              Minted: <span className="font-semibold text-blue-600">{actualMintedCount || 0}</span> / {totalSupply}
+              Minted: <span className="font-semibold text-[#9945FF]">{actualMintedCount || 0}</span> / {totalSupply}
             </p>
           )}
         </div>

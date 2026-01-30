@@ -1,28 +1,28 @@
 "use client"
 
-import type { Ordinal } from "@/types/ordinal"
+import type { Nft } from "@/types/nft"
 import type { TraitFilters } from "@/components/trait-filter"
 
 export interface TraitMatchesProps {
-  ordinals: Ordinal[]
+  nfts: Nft[]
   traitFilters: TraitFilters
 }
 
-export function TraitMatches({ ordinals, traitFilters }: TraitMatchesProps) {
+export function TraitMatches({ nfts, traitFilters }: TraitMatchesProps) {
   // Find characters with matching traits
   const findMatchingCharacters = () => {
-    const matches: Record<string, Ordinal[]> = {}
+    const matches: Record<string, Nft[]> = {}
     
     Object.entries(traitFilters).forEach(([category, selectedTraits]) => {
       selectedTraits.forEach(trait => {
-        const matchingOrdinals = ordinals.filter(ordinal => {
-          const traitValue = ordinal.traits[category as keyof typeof ordinal.traits]
+        const matchingNfts = nfts.filter(nft => {
+          const traitValue = nft.traits[category as keyof typeof nft.traits]
           return traitValue === trait
         })
         
-        if (matchingOrdinals.length > 0) {
+        if (matchingNfts.length > 0) {
           const key = `${category}:${trait}`
-          matches[key] = matchingOrdinals
+          matches[key] = matchingNfts
         }
       })
     })
@@ -51,33 +51,33 @@ export function TraitMatches({ ordinals, traitFilters }: TraitMatchesProps) {
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {Object.entries(matches).map(([key, matchingOrdinals]) => {
+        {Object.entries(matches).map(([key, matchingNfts]) => {
           const [category, trait] = key.split(':')
           return (
-            <div key={key} className="bg-[#FDFCFA] dark:bg-gray-800 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
+            <div key={key} className="bg-[#FDFCFA] dark:bg-[#1a1a24] border border-blue-200 dark:border-blue-700 rounded-lg p-3">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-sm font-medium text-blue-800 dark:text-blue-200 capitalize">
                   {category}
                 </span>
                 <span className="text-xs bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
-                  {matchingOrdinals.length} match{matchingOrdinals.length !== 1 ? 'es' : ''}
+                  {matchingNfts.length} match{matchingNfts.length !== 1 ? 'es' : ''}
                 </span>
               </div>
-              <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+              <div className="text-sm text-gray-700 dark:text-white mb-2">
                 <strong>{trait}</strong>
               </div>
               <div className="flex flex-wrap gap-1">
-                {matchingOrdinals.slice(0, 5).map(ordinal => (
+                {matchingNfts.slice(0, 5).map(nft => (
                   <span
-                    key={ordinal.id}
-                    className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded"
+                    key={nft.id}
+                    className="text-xs bg-gray-100 dark:bg-[#1a1a24]/80 text-gray-700 dark:text-white px-2 py-1 rounded"
                   >
-                    #{ordinal.number}
+                    #{nft.number}
                   </span>
                 ))}
-                {matchingOrdinals.length > 5 && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    +{matchingOrdinals.length - 5} more
+                {matchingNfts.length > 5 && (
+                  <span className="text-xs text-[#a8a8b8]/80 dark:text-[#a8a8b8]">
+                    +{matchingNfts.length - 5} more
                   </span>
                 )}
               </div>

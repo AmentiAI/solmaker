@@ -572,12 +572,12 @@ export function CreditPurchaseModal({ isOpen, onClose, tierIndex }: CreditPurcha
       onClick={handleBackdropClick}
       style={{ pointerEvents: 'auto' }}
     >
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
+      <div className="bg-[#14141e] border border-gray-800 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">Purchase {tier.credits} Credits</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-[#a8a8b8] hover:text-white transition-colors"
             disabled={creating}
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -589,30 +589,30 @@ export function CreditPurchaseModal({ isOpen, onClose, tierIndex }: CreditPurcha
         <div className="space-y-4 mb-6">
           {/* Auto-detected payment method indicator */}
           <div className="p-3 bg-gradient-to-r from-[#4561ad]/20 to-[#e27d0f]/20 border border-[#4561ad]/30 rounded-lg">
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-white">
               <span className="font-semibold">Payment Method:</span>{' '}
               <span className="text-[#e27d0f]">₿ Bitcoin</span>
-              <span className="text-gray-500 ml-2">(Auto-detected from your wallet)</span>
+              <span className="text-[#a8a8b8]/80 ml-2">(Auto-detected from your wallet)</span>
             </p>
           </div>
 
-          <div className="bg-gray-800/50 rounded-lg p-4">
+          <div className="bg-[#1a1a24]/50 rounded-lg p-4">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-gray-400">Credits:</span>
+              <span className="text-[#a8a8b8]">Credits:</span>
               <span className="text-white font-bold">{tier.credits}</span>
             </div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-gray-400">Price:</span>
+              <span className="text-[#a8a8b8]">Price:</span>
               <span className="text-white font-bold">${tier.totalPrice}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-400">Per Credit:</span>
-              <span className="text-gray-300">${tier.pricePerCredit.toFixed(2)}</span>
+              <span className="text-[#a8a8b8]">Per Credit:</span>
+              <span className="text-white">${tier.pricePerCredit.toFixed(2)}</span>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-white mb-2">
               Fee Rate (sat/vB)
             </label>
             <input
@@ -622,17 +622,17 @@ export function CreditPurchaseModal({ isOpen, onClose, tierIndex }: CreditPurcha
               placeholder={String(recommendedFeeRate)}
               min="1"
               step="1"
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               disabled={creating}
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-[#a8a8b8]/80 mt-1">
               Recommended: {recommendedFeeRate} sat/vB (economy)
             </p>
           </div>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-900/50 border border-red-700 text-red-200 rounded-lg text-sm">
+          <div className="mb-4 p-3 bg-red-900/50 border border-[#EF4444]/20 text-red-200 rounded-lg text-sm">
             {error}
           </div>
         )}

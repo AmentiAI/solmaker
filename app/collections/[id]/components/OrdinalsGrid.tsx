@@ -1,11 +1,11 @@
 'use client'
 
 import { GeneratedOrdinal } from '../types'
-import { OrdinalCard } from './OrdinalCard'
+import { NftCard } from './OrdinalCard'
 
-interface OrdinalsGridProps {
-  ordinals: GeneratedOrdinal[]
-  totalOrdinals: number
+interface NftsGridProps {
+  nfts: GeneratedOrdinal[]
+  totalNfts: number
   currentPage: number
   imageSliders: Record<string, number>
   setImageSliders: React.Dispatch<React.SetStateAction<Record<string, number>>>
@@ -13,17 +13,17 @@ interface OrdinalsGridProps {
   setExpandedTraits: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
   showPromptId: string | null
   setShowPromptId: (id: string | null) => void
-  flippingOrdinal: string | null
-  onDownload: (ordinal: GeneratedOrdinal) => void
+  flippingNft: string | null
+  onDownload: (nft: GeneratedOrdinal) => void
   onDelete: (id: string) => void
   onFlip: (id: string) => void
-  onShowCompression: (ordinal: GeneratedOrdinal) => void
+  onShowCompression: (nft: GeneratedOrdinal) => void
   collectionArtStyle?: string | null
 }
 
-export function OrdinalsGrid({
-  ordinals,
-  totalOrdinals,
+export function NftsGrid({
+  nfts,
+  totalNfts,
   currentPage,
   imageSliders,
   setImageSliders,
@@ -31,24 +31,24 @@ export function OrdinalsGrid({
   setExpandedTraits,
   showPromptId,
   setShowPromptId,
-  flippingOrdinal,
+  flippingNft,
   onDownload,
   onDelete,
   onFlip,
   onShowCompression,
   collectionArtStyle,
-}: OrdinalsGridProps) {
+}: NftsGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-      {ordinals.map((ordinal, index) => {
-        const displayNumber = ordinal.ordinal_number !== null && ordinal.ordinal_number !== undefined
-          ? ordinal.ordinal_number
-          : totalOrdinals - (currentPage - 1) * 15 - index
+      {nfts.map((nft, index) => {
+        const displayNumber = nft.ordinal_number !== null && nft.ordinal_number !== undefined
+          ? nft.ordinal_number
+          : totalNfts - (currentPage - 1) * 15 - index
 
         return (
-          <OrdinalCard
-            key={ordinal.id}
-            ordinal={ordinal}
+          <NftCard
+            key={nft.id}
+            nft={nft}
             displayNumber={displayNumber}
             imageSliders={imageSliders}
             setImageSliders={setImageSliders}
@@ -56,7 +56,7 @@ export function OrdinalsGrid({
             setExpandedTraits={setExpandedTraits}
             showPromptId={showPromptId}
             setShowPromptId={setShowPromptId}
-            flippingOrdinal={flippingOrdinal}
+            flippingNft={flippingNft}
             onDownload={onDownload}
             onDelete={onDelete}
             onFlip={onFlip}
@@ -68,4 +68,7 @@ export function OrdinalsGrid({
     </div>
   )
 }
+
+/** @deprecated Use NftsGrid instead */
+export const OrdinalsGrid = NftsGrid
 

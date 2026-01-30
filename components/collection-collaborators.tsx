@@ -195,7 +195,7 @@ export function CollectionCollaborators({
         {canInvite && (
           <button
             onClick={() => setShowInviteForm(!showInviteForm)}
-            className="px-3 py-1.5 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+            className="px-3 py-1.5 bg-blue-500 text-white rounded hover:bg-[#9945FF] text-sm"
           >
             {showInviteForm ? 'Cancel' : '+ Invite'}
           </button>
@@ -213,21 +213,21 @@ export function CollectionCollaborators({
                 <button
                   type="button"
                   onClick={() => setInputType('auto')}
-                  className={`px-2 py-1 text-xs rounded ${inputType === 'auto' ? 'bg-blue-500 text-white' : 'bg-gray-800 text-white'}`}
+                  className={`px-2 py-1 text-xs rounded ${inputType === 'auto' ? 'bg-blue-500 text-white' : 'bg-[#1a1a24] text-white'}`}
                 >
                   Auto
                 </button>
                 <button
                   type="button"
                   onClick={() => setInputType('username')}
-                  className={`px-2 py-1 text-xs rounded ${inputType === 'username' ? 'bg-blue-500 text-white' : 'bg-gray-800 text-white'}`}
+                  className={`px-2 py-1 text-xs rounded ${inputType === 'username' ? 'bg-blue-500 text-white' : 'bg-[#1a1a24] text-white'}`}
                 >
                   Username
                 </button>
                 <button
                   type="button"
                   onClick={() => setInputType('wallet')}
-                  className={`px-2 py-1 text-xs rounded ${inputType === 'wallet' ? 'bg-blue-500 text-white' : 'bg-gray-800 text-white'}`}
+                  className={`px-2 py-1 text-xs rounded ${inputType === 'wallet' ? 'bg-blue-500 text-white' : 'bg-[#1a1a24] text-white'}`}
                 >
                   Wallet
                 </button>
@@ -287,10 +287,10 @@ export function CollectionCollaborators({
         {collaborators.map((collaborator) => (
           <div
             key={collaborator.id}
-            className="flex items-center justify-between p-2 bg-gray-900 rounded border border-gray-700"
+            className="flex items-center justify-between p-2 bg-[#14141e] rounded border border-[#9945FF]/20"
           >
             <div className="flex items-center gap-2">
-              <span className="text-blue-700">
+              <span className="text-[#14F195]">
                 {collaborator.role === 'editor' ? '✏️' : '👁️'}
               </span>
               <div>

@@ -263,7 +263,7 @@ export default function WireframeEditor({ config, onChange, bodyStyle }: Wirefra
 
       {/* Position Preset Selector */}
       <div className="space-y-2 sm:space-y-3">
-        <label className="block text-xs sm:text-sm font-semibold text-white/80">
+        <label className="block text-xs sm:text-sm font-semibold text-[#a8a8b8]">
           Position Style
         </label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
@@ -276,8 +276,8 @@ export default function WireframeEditor({ config, onChange, bodyStyle }: Wirefra
                 key={preset.id}
                 className={`relative border-2 rounded-lg p-2 sm:p-3 md:p-4 cursor-pointer transition-all ${
                   selectedPreset === preset.id
-                    ? 'border-[#00d4ff] bg-[#00d4ff]/10 shadow-lg shadow-[#00d4ff]/20 cosmic-card'
-                    : 'border-[#00d4ff]/30 cosmic-card hover:border-[#00d4ff]/50'
+                    ? 'border-[#00d4ff] bg-[#00d4ff]/10 shadow-lg shadow-[#00d4ff]/20 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md'
+                    : 'border-[#00d4ff]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:border-[#00d4ff]/50'
                 }`}
                 onClick={() => setSelectedPreset(preset.id)}
               >
@@ -323,7 +323,7 @@ export default function WireframeEditor({ config, onChange, bodyStyle }: Wirefra
                       <span className="font-semibold text-xs sm:text-sm text-white break-words">{preset.name}</span>
                     </div>
                     <p className="text-[10px] sm:text-xs text-white/70 break-words">{preset.description}</p>
-                    <div className="mt-1 sm:mt-2 text-[10px] sm:text-xs text-white/60 space-y-0.5">
+                    <div className="mt-1 sm:mt-2 text-[10px] sm:text-xs text-[#a8a8b8]/80 space-y-0.5">
                       <div className="break-words">Head: {preset.headTopY}% • Eyes: {preset.eyeLineY}% • Shoulders: {preset.shoulderY}%</div>
                     </div>
                   </div>
@@ -336,7 +336,7 @@ export default function WireframeEditor({ config, onChange, bodyStyle }: Wirefra
 
       {/* Head Size Preset Selector */}
       <div className="space-y-2 sm:space-y-3">
-        <label className="block text-xs sm:text-sm font-semibold text-white/80">
+        <label className="block text-xs sm:text-sm font-semibold text-[#a8a8b8]">
           Head Size
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
@@ -345,8 +345,8 @@ export default function WireframeEditor({ config, onChange, bodyStyle }: Wirefra
               key={size.id}
               className={`border-2 rounded-lg p-2 sm:p-3 cursor-pointer transition-all text-center ${
                 headSizePreset === size.id
-                  ? 'border-[#00d4ff] bg-[#00d4ff]/10 shadow-md cosmic-card'
-                  : 'border-[#00d4ff]/30 cosmic-card hover:border-[#00d4ff]/50'
+                  ? 'border-[#00d4ff] bg-[#00d4ff]/10 shadow-md bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md'
+                  : 'border-[#00d4ff]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md hover:border-[#00d4ff]/50'
               }`}
               onClick={() => setHeadSizePreset(size.id)}
             >
@@ -367,9 +367,9 @@ export default function WireframeEditor({ config, onChange, bodyStyle }: Wirefra
       </div>
 
       {/* Current Selection Summary */}
-      <div className="p-3 sm:p-4 cosmic-card border-2 border-[#00d4ff]/30 rounded-lg">
+      <div className="p-3 sm:p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 rounded-lg">
         <div className="text-xs sm:text-sm font-semibold text-white mb-2">Selected Configuration:</div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs text-white/80">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs text-[#a8a8b8]">
           <div>
             <span className="font-medium">Position:</span> {currentPreset.name}
           </div>

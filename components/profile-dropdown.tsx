@@ -123,7 +123,7 @@ export function ProfileDropdown() {
     >
       <Link
         href="/profile"
-        className="px-3 xl:px-4 py-2 text-xs xl:text-sm font-medium text-[#00d4ff] hover:text-[#00b8e6] hover:bg-[#00d4ff]/10 rounded-lg transition-all duration-200 whitespace-nowrap flex items-center gap-1 relative cosmic-card border border-[#00d4ff]/30"
+        className="px-3 xl:px-4 py-2 text-xs xl:text-sm font-medium text-[#00d4ff] hover:text-[#14F195] hover:bg-[#00d4ff]/10 rounded-lg transition-all duration-200 whitespace-nowrap flex items-center gap-1 relative bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30"
       >
         Profile
         {pendingInvitations > 0 && (
@@ -143,7 +143,7 @@ export function ProfileDropdown() {
 
       {isOpen && (
         <div 
-          className="absolute right-0 mt-1 w-48 cosmic-card border border-[#00d4ff]/30 rounded-lg shadow-2xl z-[9999] overflow-hidden"
+          className="absolute right-0 mt-1 w-48 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg shadow-2xl z-[9999] overflow-hidden"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

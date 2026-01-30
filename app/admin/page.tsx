@@ -424,25 +424,26 @@ export default function AdminPage() {
       case 'completed':
         return 'bg-green-900/30 border-green-700 text-green-300'
       case 'pending':
-        return 'bg-yellow-900/30 border-yellow-700 text-yellow-300'
+        return 'bg-yellow-900/30 border-[#FBBF24]/20 text-yellow-300'
       case 'expired':
-        return 'bg-red-900/30 border-red-700 text-red-300'
+        return 'bg-red-900/30 border-[#EF4444]/20 text-red-300'
       default:
-        return 'bg-gray-900/30 border-gray-700 text-gray-300'
+        return 'bg-[#14141e]/30 border-[#9945FF]/20 text-white'
     }
   }
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] flex items-center justify-center p-8">
         <div className="max-w-md w-full">
-          <div className="bg-slate-800 border border-gray-700 rounded-xl p-8 text-center shadow">
-            <h1 className="text-3xl font-bold text-white mb-4">Admin Dashboard</h1>
-            <p className="text-gray-400 mb-6">Please connect your wallet to access the admin dashboard.</p>
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-2xl p-8 text-center shadow-xl shadow-[#9945FF]/10 backdrop-blur-md">
+            <div className="text-6xl mb-6 animate-[solanaFloat_4s_ease-in-out_infinite]">🔐</div>
+            <h1 className="text-3xl font-black bg-gradient-to-r from-[#9945FF] via-[#00D4FF] to-[#14F195] bg-clip-text text-transparent mb-4">Admin Dashboard</h1>
+            <p className="text-[#a8a8b8] mb-6">Please connect your wallet to access the admin dashboard.</p>
             <div className="flex justify-center mb-4">
               <WalletConnect />
             </div>
-            <Link href="/" className="text-blue-600 hover:text-blue-700">
+            <Link href="/" className="text-[#9945FF] hover:text-[#14F195] transition-colors">
               ← Back to Home
             </Link>
           </div>
@@ -454,10 +455,16 @@ export default function AdminPage() {
   // Show loading while checking admin status
   if (adminLoading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400">Verifying admin access...</p>
+          <div className="relative w-20 h-20 mx-auto mb-6">
+            <div className="absolute inset-0 border-4 border-[#9945FF]/20 rounded-full" />
+            <div className="absolute inset-0 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
+            <div className="absolute inset-2 border-4 border-[#14F195]/20 rounded-full" />
+            <div className="absolute inset-2 border-4 border-[#14F195] border-b-transparent rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
+          </div>
+          <p className="text-white text-lg font-bold mb-2">Verifying admin access...</p>
+          <p className="text-[#a8a8b8] text-sm">Please wait...</p>
         </div>
       </div>
     )
@@ -465,18 +472,19 @@ export default function AdminPage() {
 
   if (!authorized) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] flex items-center justify-center p-8">
         <div className="max-w-md w-full">
-          <div className="bg-red-900/20 border border-red-700 rounded-xl p-8 text-center shadow">
-            <h1 className="text-3xl font-bold text-red-400 mb-4">Access Denied</h1>
-            <p className="text-gray-300 mb-4">This page is restricted to admin accounts only.</p>
-            <p className="text-gray-500 text-sm mb-4">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#EF4444]/20 rounded-2xl p-8 text-center shadow-xl shadow-[#EF4444]/10 backdrop-blur-md">
+            <div className="text-6xl mb-6">🚫</div>
+            <h1 className="text-3xl font-black text-[#EF4444] mb-4">Access Denied</h1>
+            <p className="text-white mb-4">This page is restricted to admin accounts only.</p>
+            <p className="text-[#a8a8b8] text-sm mb-4">
               Connected: {currentAddress?.slice(0, 8)}...{currentAddress?.slice(-6)}
             </p>
-            <p className="text-gray-400 text-xs mb-4">
+            <p className="text-[#a8a8b8]/80 text-xs mb-4">
               Admin status is checked from the database profile.
             </p>
-            <Link href="/" className="text-blue-600 hover:text-blue-700">
+            <Link href="/" className="text-[#9945FF] hover:text-[#14F195] transition-colors">
               ← Back to Home
             </Link>
           </div>
@@ -487,27 +495,28 @@ export default function AdminPage() {
 
   if (requiresVerification) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] flex items-center justify-center p-8">
         <div className="max-w-md w-full">
-          <div className="bg-yellow-900/20 border border-yellow-700 rounded-xl p-8 text-center shadow">
-            <h1 className="text-3xl font-bold text-yellow-400 mb-4">Verification Required</h1>
-            <p className="text-gray-300 mb-4">You must verify your wallet by signing a message to access the admin dashboard.</p>
-            <p className="text-gray-500 text-sm mb-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#FBBF24]/20 rounded-2xl p-8 text-center shadow-xl shadow-[#FBBF24]/10 backdrop-blur-md">
+            <div className="text-6xl mb-6">✋</div>
+            <h1 className="text-3xl font-black text-[#FBBF24] mb-4">Verification Required</h1>
+            <p className="text-white mb-4">You must verify your wallet by signing a message to access the admin dashboard.</p>
+            <p className="text-[#a8a8b8] text-sm mb-6">
               This ensures you actually own the wallet address.
             </p>
             {isVerifying ? (
-              <div className="px-6 py-3 bg-yellow-600 text-white rounded-lg font-semibold mb-4">
+              <div className="px-6 py-3 bg-gradient-to-r from-[#FBBF24] to-[#F59E0B] text-white rounded-xl font-bold mb-4">
                 Verifying...
               </div>
             ) : (
               <button
                 onClick={verifyWallet}
-                className="w-full px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold mb-4 transition-colors"
+                className="w-full px-8 py-3 bg-gradient-to-r from-[#FBBF24] to-[#F59E0B] hover:from-[#F59E0B] hover:to-[#FBBF24] text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-[#FBBF24]/40 hover:shadow-xl hover:shadow-[#FBBF24]/50 hover:scale-105 active:scale-95 mb-4"
               >
                 Verify Wallet
               </button>
             )}
-            <Link href="/" className="text-blue-600 hover:text-blue-700">
+            <Link href="/" className="text-[#9945FF] hover:text-[#14F195] transition-colors">
               ← Back to Home
             </Link>
           </div>
@@ -517,46 +526,46 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-900">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]">
       <AdminSidebar />
       
       <div className="flex-1 ml-64 p-8">
         <div className="max-w-7xl mx-auto">
           {/* OpenAI Balance - Prominent Display */}
           <div className="mb-8">
-            <div className="bg-gradient-to-br from-emerald-900/40 to-emerald-800/20 border border-emerald-500/50 rounded-2xl p-6 shadow-lg shadow-emerald-500/10">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#14F195]/30 rounded-2xl p-6 shadow-xl shadow-[#14F195]/10 backdrop-blur-md">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+                  <div className="w-14 h-14 bg-[#14F195]/20 rounded-xl flex items-center justify-center">
                     <span className="text-3xl">🤖</span>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-emerald-300 uppercase tracking-wide mb-1">OpenAI API Balance</div>
+                    <div className="text-sm font-bold text-[#14F195] uppercase tracking-wide mb-1">OpenAI API Balance</div>
                     {openaiLoading ? (
-                      <div className="text-2xl font-bold text-gray-400">Loading...</div>
+                      <div className="text-2xl font-bold text-[#a8a8b8]">Loading...</div>
                     ) : openaiBalance?.balance !== null && openaiBalance?.balance !== undefined ? (
-                      <div className="text-4xl font-black text-emerald-400">${openaiBalance.balance.toFixed(2)}</div>
+                      <div className="text-4xl font-black text-[#14F195]">${openaiBalance.balance.toFixed(2)}</div>
                     ) : openaiBalance?.subscription?.hard_limit ? (
-                      <div className="text-4xl font-black text-emerald-400">
+                      <div className="text-4xl font-black text-[#14F195]">
                         ${((openaiBalance.subscription.hard_limit || 0) - (openaiBalance.current_month_usage || 0)).toFixed(2)}
-                        <span className="text-lg text-gray-400 font-normal ml-2">remaining</span>
+                        <span className="text-lg text-[#a8a8b8] font-normal ml-2">remaining</span>
                       </div>
                     ) : (
                       <div>
-                        <div className="text-lg font-medium text-gray-400">Check balance manually</div>
-                        <div className="text-xs text-gray-500 mt-1">(API billing endpoints require dashboard access)</div>
+                        <div className="text-lg font-medium text-[#a8a8b8]">Check balance manually</div>
+                        <div className="text-xs text-[#a8a8b8]/80 mt-1">(API billing endpoints require dashboard access)</div>
                       </div>
                     )}
                   </div>
                 </div>
                 <div className="text-right">
                   {openaiBalance?.current_month_usage !== null && openaiBalance?.current_month_usage !== undefined && (
-                    <div className="text-sm text-gray-400">
+                    <div className="text-sm text-[#a8a8b8]">
                       This month: <span className="text-white font-semibold">${openaiBalance.current_month_usage.toFixed(2)}</span> used
                     </div>
                   )}
                   {openaiBalance?.subscription?.plan && (
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-[#a8a8b8]/80 mt-1">
                       Plan: {openaiBalance.subscription.plan}
                     </div>
                   )}
@@ -564,7 +573,7 @@ export default function AdminPage() {
                     href="https://platform.openai.com/settings/organization/billing/overview" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-block mt-2 text-sm text-emerald-400 hover:text-emerald-300 underline"
+                    className="inline-block mt-2 text-sm text-[#14F195] hover:text-[#14F195] underline"
                   >
                     View on OpenAI →
                   </a>
@@ -580,7 +589,7 @@ export default function AdminPage() {
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-2">
                   Admin Dashboard
                 </h1>
-                <p className="text-gray-400 text-lg">Transaction tracking and credit management</p>
+                <p className="text-[#a8a8b8] text-lg">Transaction tracking and credit management</p>
               </div>
               <button
                 onClick={handleRefresh}
@@ -610,7 +619,7 @@ export default function AdminPage() {
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   activeTab === 'users'
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/30'
-                    : 'bg-slate-800/50 border border-gray-700 text-gray-300 hover:bg-slate-800'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90'
                 }`}
               >
                 Users
@@ -620,7 +629,7 @@ export default function AdminPage() {
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   activeTab === 'transactions'
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/30'
-                    : 'bg-slate-800/50 border border-gray-700 text-gray-300 hover:bg-slate-800'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90'
                 }`}
               >
                 Transactions
@@ -630,7 +639,7 @@ export default function AdminPage() {
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   activeTab === 'credit-costs'
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/30'
-                    : 'bg-slate-800/50 border border-gray-700 text-gray-300 hover:bg-slate-800'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90'
                 }`}
               >
                 Credit Costs
@@ -640,7 +649,7 @@ export default function AdminPage() {
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   activeTab === 'generation-jobs'
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/30'
-                    : 'bg-slate-800/50 border border-gray-700 text-gray-300 hover:bg-slate-800'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90'
                 }`}
               >
                 Generation Jobs
@@ -650,7 +659,7 @@ export default function AdminPage() {
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   activeTab === 'generated-images'
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/30'
-                    : 'bg-slate-800/50 border border-gray-700 text-gray-300 hover:bg-slate-800'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90'
                 }`}
               >
                 Generated Images
@@ -660,7 +669,7 @@ export default function AdminPage() {
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   activeTab === 'homepage-visibility'
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/30'
-                    : 'bg-slate-800/50 border border-gray-700 text-gray-300 hover:bg-slate-800'
+                    : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90'
                 }`}
               >
                 Homepage Visibility
@@ -755,10 +764,10 @@ export default function AdminPage() {
 
           {activeTab === 'transactions' && summary && (
             <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
-              <div className="bg-gradient-to-br from-yellow-900/30 to-yellow-800/20 border border-yellow-700/50 rounded-2xl p-6 shadow-lg shadow-yellow-500/10">
+              <div className="bg-gradient-to-br from-yellow-900/30 to-yellow-800/20 border border-[#FBBF24]/20/50 rounded-2xl p-6 shadow-lg shadow-yellow-500/10">
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-sm font-medium text-yellow-300 uppercase tracking-wide">Pending</div>
-                  <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-[#FBBF24]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
@@ -773,10 +782,10 @@ export default function AdminPage() {
                 </div>
                 <div className="text-3xl font-bold text-white">{summary.total_completed}</div>
               </div>
-              <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-red-700/50 rounded-2xl p-6 shadow-lg shadow-red-500/10">
+              <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-[#EF4444]/20/50 rounded-2xl p-6 shadow-lg shadow-red-500/10">
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-sm font-medium text-red-300 uppercase tracking-wide">Expired</div>
-                  <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-[#EF4444]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </div>
@@ -805,7 +814,7 @@ export default function AdminPage() {
         </div>
 
         {error && (
-          <div className="bg-red-900/20 border border-red-700/50 rounded-xl p-4 mb-6 text-red-300">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#EF4444]/20/50 rounded-xl p-4 mb-6 text-red-300">
             {error}
           </div>
         )}
@@ -813,16 +822,16 @@ export default function AdminPage() {
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-            <p className="text-gray-300 mt-4">Loading {activeTab}...</p>
+            <p className="text-white mt-4">Loading {activeTab}...</p>
           </div>
         ) : (
           <div className="space-y-6">
             {/* Users Tab */}
             {activeTab === 'users' && (
-              <div className="bg-slate-900/50 border border-gray-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
+              <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-white">All Users</h2>
-                  <div className="text-sm text-gray-400">
+                  <div className="text-sm text-[#a8a8b8]">
                     {(() => {
                       const filteredUsers = optInFilter === 'all' 
                         ? users 
@@ -848,7 +857,7 @@ export default function AdminPage() {
                 
                 {/* Opt-In Filter */}
                 <div className="mb-4 flex items-center gap-2">
-                  <span className="text-sm text-gray-400">Filter by Opt-In:</span>
+                  <span className="text-sm text-[#a8a8b8]">Filter by Opt-In:</span>
                   <button
                     onClick={() => {
                       setOptInFilter('all')
@@ -856,8 +865,8 @@ export default function AdminPage() {
                     }}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       optInFilter === 'all'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        ? 'bg-[#9945FF] text-white'
+                        : 'bg-[#1a1a24]/80 text-white hover:bg-gray-600'
                     }`}
                   >
                     All
@@ -870,7 +879,7 @@ export default function AdminPage() {
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       optInFilter === 'opted-in'
                         ? 'bg-green-600 text-white'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-[#1a1a24]/80 text-white hover:bg-gray-600'
                     }`}
                   >
                     ✅ Opted In
@@ -882,8 +891,8 @@ export default function AdminPage() {
                     }}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       optInFilter === 'not-opted-in'
-                        ? 'bg-yellow-600 text-white'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        ? 'bg-[#FBBF24] text-white'
+                        : 'bg-[#1a1a24]/80 text-white hover:bg-gray-600'
                     }`}
                   >
                     ❌ Not Opted In
@@ -893,22 +902,22 @@ export default function AdminPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-gray-700">
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">User</th>
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">Wallet</th>
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">Credits</th>
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">Spent</th>
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">Used</th>
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">Collections</th>
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">Payments</th>
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">Opt-In</th>
-                        <th className="text-left py-4 px-4 text-gray-300 font-semibold">Created</th>
+                      <tr className="border-b border-[#9945FF]/20">
+                        <th className="text-left py-4 px-4 text-white font-semibold">User</th>
+                        <th className="text-left py-4 px-4 text-white font-semibold">Wallet</th>
+                        <th className="text-left py-4 px-4 text-white font-semibold">Credits</th>
+                        <th className="text-left py-4 px-4 text-white font-semibold">Spent</th>
+                        <th className="text-left py-4 px-4 text-white font-semibold">Used</th>
+                        <th className="text-left py-4 px-4 text-white font-semibold">Collections</th>
+                        <th className="text-left py-4 px-4 text-white font-semibold">Payments</th>
+                        <th className="text-left py-4 px-4 text-white font-semibold">Opt-In</th>
+                        <th className="text-left py-4 px-4 text-white font-semibold">Created</th>
                       </tr>
                     </thead>
                     <tbody>
                       {users.length === 0 ? (
                         <tr>
-                          <td colSpan={9} className="text-center py-12 text-gray-400">
+                          <td colSpan={9} className="text-center py-12 text-[#a8a8b8]">
                             <div className="flex flex-col items-center gap-2">
                               <svg className="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -934,7 +943,7 @@ export default function AdminPage() {
                         return (
                           <>
                             {paginatedUsers.map((user) => (
-                          <tr key={user.wallet_address} className="border-b border-gray-800/50 hover:bg-gray-800/20 transition-colors">
+                          <tr key={user.wallet_address} className="border-b border-gray-800/50 hover:bg-[#1a1a24]/20 transition-colors">
                             <td className="py-4 px-4">
                               {editingProfile === user.wallet_address ? (
                                 <div className="flex flex-col gap-2 min-w-[250px]">
@@ -942,7 +951,7 @@ export default function AdminPage() {
                                     type="text"
                                     value={editUsername}
                                     onChange={(e) => setEditUsername(e.target.value)}
-                                    className="px-3 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="px-3 py-2 bg-[#14141e] border border-[#9945FF]/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     placeholder="Username"
                                     disabled={savingProfile === user.wallet_address}
                                     autoFocus
@@ -953,7 +962,7 @@ export default function AdminPage() {
                                       checked={editOptIn}
                                       onChange={(e) => setEditOptIn(e.target.checked)}
                                       disabled={savingProfile === user.wallet_address}
-                                      className="w-4 h-4 rounded border-gray-600 bg-gray-900 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                                      className="w-4 h-4 rounded border-[#9945FF]/30 bg-[#14141e] text-[#9945FF] focus:ring-2 focus:ring-blue-500"
                                     />
                                     <span className="text-white text-sm">Opt In</span>
                                   </label>
@@ -968,7 +977,7 @@ export default function AdminPage() {
                                     <button
                                       onClick={handleCancelEditProfile}
                                       disabled={savingProfile === user.wallet_address}
-                                      className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white text-xs rounded-lg disabled:opacity-50 transition-colors"
+                                      className="px-3 py-1.5 bg-gray-600 hover:bg-[#1a1a24]/80 text-white text-xs rounded-lg disabled:opacity-50 transition-colors"
                                     >
                                       Cancel
                                     </button>
@@ -981,10 +990,10 @@ export default function AdminPage() {
                                       <img
                                         src={user.profile.avatar_url}
                                         alt={user.profile.username}
-                                        className="w-10 h-10 rounded-full border-2 border-gray-700"
+                                        className="w-10 h-10 rounded-full border-2 border-[#9945FF]/20"
                                       />
                                     ) : (
-                                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-white font-bold border-2 border-gray-700">
+                                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-white font-bold border-2 border-[#9945FF]/20">
                                         {(user.profile.display_name || user.profile.username).charAt(0).toUpperCase()}
                                       </div>
                                     )}
@@ -993,7 +1002,7 @@ export default function AdminPage() {
                                         {user.profile.display_name || `@${user.profile.username}`}
                                       </div>
                                       <div className="flex items-center gap-2">
-                                        <div className="text-gray-400 text-xs">@{user.profile.username}</div>
+                                        <div className="text-[#a8a8b8] text-xs">@{user.profile.username}</div>
                                         <button
                                           onClick={() => handleStartEditProfile(user.wallet_address, user.profile?.username || '', user.profile?.opt_in || false)}
                                           className="text-blue-400 hover:text-blue-300 p-1 hover:bg-blue-500/10 rounded transition-colors"
@@ -1008,12 +1017,12 @@ export default function AdminPage() {
                                   </div>
                                 ) : (
                                   <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
-                                      <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className="w-8 h-8 rounded-full bg-[#1a1a24]/80 flex items-center justify-center">
+                                      <svg className="w-4 h-4 text-[#a8a8b8]/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                       </svg>
                                     </div>
-                                    <span className="text-gray-500 text-sm">No Profile</span>
+                                    <span className="text-[#a8a8b8]/80 text-sm">No Profile</span>
                                   </div>
                                 )
                               )}
@@ -1021,12 +1030,12 @@ export default function AdminPage() {
                             <td className="py-4 px-4">
                               <div className="flex flex-col gap-2">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-mono text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded" title={user.wallet_address}>
+                                  <span className="font-mono text-xs text-[#a8a8b8] bg-[#1a1a24]/50 px-2 py-1 rounded" title={user.wallet_address}>
                                     {user.wallet_address.substring(0, 6)}...{user.wallet_address.substring(user.wallet_address.length - 6)}
                                   </span>
                                   <button
                                     onClick={() => copyToClipboard(user.wallet_address, 'wallet')}
-                                    className="p-1 hover:bg-gray-700 rounded transition-colors group"
+                                    className="p-1 hover:bg-[#1a1a24]/80 rounded transition-colors group"
                                     title="Copy full wallet address"
                                   >
                                     {copiedAddress === `wallet-${user.wallet_address}` ? (
@@ -1034,7 +1043,7 @@ export default function AdminPage() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                       </svg>
                                     ) : (
-                                      <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <svg className="w-4 h-4 text-[#a8a8b8] group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                       </svg>
                                     )}
@@ -1051,7 +1060,7 @@ export default function AdminPage() {
                                     </span>
                                     <button
                                       onClick={() => copyToClipboard(user.profile?.payment_address!, 'payment')}
-                                      className="p-1 hover:bg-gray-700 rounded transition-colors group"
+                                      className="p-1 hover:bg-[#1a1a24]/80 rounded transition-colors group"
                                       title="Copy full payment address"
                                     >
                                       {copiedAddress === `payment-${user.profile.payment_address}` ? (
@@ -1068,7 +1077,7 @@ export default function AdminPage() {
                                 )}
                                 {(!user.profile?.payment_address || 
                                   user.profile?.payment_address?.trim() === '') && (
-                                  <div className="text-xs text-gray-500 italic">No payment address</div>
+                                  <div className="text-xs text-[#a8a8b8]/80 italic">No payment address</div>
                                 )}
                               </div>
                             </td>
@@ -1081,7 +1090,7 @@ export default function AdminPage() {
                                     min="0"
                                     value={editCreditValue}
                                     onChange={(e) => setEditCreditValue(e.target.value)}
-                                    className="px-3 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="px-3 py-2 bg-[#14141e] border border-[#9945FF]/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     placeholder="0.00"
                                     disabled={savingCredits === user.wallet_address}
                                     autoFocus
@@ -1090,7 +1099,7 @@ export default function AdminPage() {
                                     type="text"
                                     value={editCreditReason}
                                     onChange={(e) => setEditCreditReason(e.target.value)}
-                                    className="px-3 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="px-3 py-2 bg-[#14141e] border border-[#9945FF]/30 rounded-lg text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     placeholder="Reason (optional)"
                                     disabled={savingCredits === user.wallet_address}
                                   />
@@ -1105,7 +1114,7 @@ export default function AdminPage() {
                                     <button
                                       onClick={handleCancelEditCredits}
                                       disabled={savingCredits === user.wallet_address}
-                                      className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white text-xs rounded-lg disabled:opacity-50 transition-colors"
+                                      className="px-3 py-1.5 bg-gray-600 hover:bg-[#1a1a24]/80 text-white text-xs rounded-lg disabled:opacity-50 transition-colors"
                                     >
                                       Cancel
                                     </button>
@@ -1138,16 +1147,16 @@ export default function AdminPage() {
                                   maximumFractionDigits: 2
                                 })}
                               </div>
-                              <div className="text-gray-500 text-xs mt-1">{user.credits.purchase_count} purchase{user.credits.purchase_count !== 1 ? 's' : ''}</div>
+                              <div className="text-[#a8a8b8]/80 text-xs mt-1">{user.credits.purchase_count} purchase{user.credits.purchase_count !== 1 ? 's' : ''}</div>
                             </td>
                             <td className="py-4 px-4">
-                              <div className="text-red-400 font-semibold">
+                              <div className="text-[#EF4444] font-semibold">
                                 {parseFloat(String(user.credits.total_used || 0)).toLocaleString('en-US', {
                                   minimumFractionDigits: 0,
                                   maximumFractionDigits: 2
                                 })}
                               </div>
-                              <div className="text-gray-500 text-xs mt-1">{user.credits.usage_count} usage{user.credits.usage_count !== 1 ? 's' : ''}</div>
+                              <div className="text-[#a8a8b8]/80 text-xs mt-1">{user.credits.usage_count} usage{user.credits.usage_count !== 1 ? 's' : ''}</div>
                             </td>
                             <td className="py-4 px-4">
                               <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600/20 text-purple-400 font-bold text-sm border border-purple-500/30">
@@ -1159,7 +1168,7 @@ export default function AdminPage() {
                                 {user.payments.pending.count > 0 && (
                                   <div className="flex items-center gap-1.5">
                                     <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-                                    <span className="text-yellow-400 text-xs font-medium">Pending: {user.payments.pending.count}</span>
+                                    <span className="text-[#FBBF24] text-xs font-medium">Pending: {user.payments.pending.count}</span>
                                   </div>
                                 )}
                                 {user.payments.completed.count > 0 && (
@@ -1169,10 +1178,10 @@ export default function AdminPage() {
                                   </div>
                                 )}
                                 {user.payments.completed.btc_total && parseFloat(user.payments.completed.btc_total.toString()) > 0 && (
-                                  <div className="text-gray-400 text-xs mt-1">₿ {parseFloat(user.payments.completed.btc_total.toString()).toFixed(8)}</div>
+                                  <div className="text-[#a8a8b8] text-xs mt-1">₿ {parseFloat(user.payments.completed.btc_total.toString()).toFixed(8)}</div>
                                 )}
                                 {user.payments.pending.count === 0 && user.payments.completed.count === 0 && (
-                                  <span className="text-gray-500 text-xs">No payments</span>
+                                  <span className="text-[#a8a8b8]/80 text-xs">No payments</span>
                                 )}
                               </div>
                             </td>
@@ -1184,7 +1193,7 @@ export default function AdminPage() {
                                       ✅ Opted In
                                     </span>
                                   ) : (
-                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-600/20 text-yellow-400 border border-yellow-500/30">
+                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#FBBF24]/20 text-[#FBBF24] border border-yellow-500/30">
                                       ❌ Not Opted In
                                     </span>
                                   )}
@@ -1201,18 +1210,18 @@ export default function AdminPage() {
                                   )}
                                 </div>
                               ) : (
-                                <span className="text-gray-500 text-xs italic">No Profile</span>
+                                <span className="text-[#a8a8b8]/80 text-xs italic">No Profile</span>
                               )}
                             </td>
                             <td className="py-4 px-4">
                               {user.account_created ? (
-                                <div className="text-gray-300 text-xs">
+                                <div className="text-white text-xs">
                                   {new Date(user.account_created).toLocaleDateString('en-US', { 
                                     month: 'short', 
                                     day: 'numeric', 
                                     year: 'numeric' 
                                   })}
-                                  <div className="text-gray-500 text-[10px] mt-0.5">
+                                  <div className="text-[#a8a8b8]/80 text-[10px] mt-0.5">
                                     {new Date(user.account_created).toLocaleTimeString('en-US', { 
                                       hour: 'numeric', 
                                       minute: '2-digit' 
@@ -1220,7 +1229,7 @@ export default function AdminPage() {
                                   </div>
                                 </div>
                               ) : (
-                                <span className="text-gray-500 text-xs">-</span>
+                                <span className="text-[#a8a8b8]/80 text-xs">-</span>
                               )}
                             </td>
                           </tr>
@@ -1231,14 +1240,14 @@ export default function AdminPage() {
                               <tr>
                                 <td colSpan={9} className="py-4 px-4">
                                   <div className="flex items-center justify-between">
-                                    <div className="text-sm text-gray-400">
+                                    <div className="text-sm text-[#a8a8b8]">
                                       Showing {startIndex + 1} to {Math.min(endIndex, filteredUsers.length)} of {filteredUsers.length} users
                                     </div>
                                     <div className="flex items-center gap-2">
                                       <button
                                         onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                         disabled={currentPage === 1}
-                                        className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        className="px-4 py-2 bg-[#1a1a24] hover:bg-[#1a1a24]/80 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                       >
                                         Previous
                                       </button>
@@ -1261,8 +1270,8 @@ export default function AdminPage() {
                                               onClick={() => setCurrentPage(pageNum)}
                                               className={`px-3 py-2 rounded-lg transition-colors ${
                                                 currentPage === pageNum
-                                                  ? 'bg-blue-600 text-white'
-                                                  : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
+                                                  ? 'bg-[#9945FF] text-white'
+                                                  : 'bg-[#1a1a24] hover:bg-[#1a1a24]/80 text-white'
                                               }`}
                                             >
                                               {pageNum}
@@ -1273,7 +1282,7 @@ export default function AdminPage() {
                                       <button
                                         onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                                         disabled={currentPage === totalPages}
-                                        className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        className="px-4 py-2 bg-[#1a1a24] hover:bg-[#1a1a24]/80 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                       >
                                         Next
                                       </button>
@@ -1295,16 +1304,16 @@ export default function AdminPage() {
             {activeTab === 'transactions' && (
               <>
                 {/* Pending Payments Table */}
-                <div className="bg-slate-900/50 border border-gray-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm mb-6">
+                <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm mb-6">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                     <div>
                       <h2 className="text-2xl font-bold text-white mb-2">Payment Transactions</h2>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-sm text-[#a8a8b8]">
                         Showing only real transactions: completed payments with TXID, or active pending payments. Expired unpaid attempts are excluded.
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-2 text-xs text-gray-400 bg-gray-800/50 px-3 py-1.5 rounded-lg">
+                      <div className="flex items-center gap-2 text-xs text-[#a8a8b8] bg-[#1a1a24]/50 px-3 py-1.5 rounded-lg">
                         <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -1326,21 +1335,21 @@ export default function AdminPage() {
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead>
-                        <tr className="border-b border-gray-700">
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Date</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Wallet</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Credits</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">BTC Amount</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Status</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">TXID</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Confirmations</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Credited</th>
+                        <tr className="border-b border-[#9945FF]/20">
+                          <th className="text-left py-4 px-4 text-white font-semibold">Date</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Wallet</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Credits</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">BTC Amount</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Status</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">TXID</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Confirmations</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Credited</th>
                         </tr>
                       </thead>
                       <tbody>
                         {transactions.length === 0 ? (
                           <tr>
-                            <td colSpan={8} className="text-center py-12 text-gray-400">
+                            <td colSpan={8} className="text-center py-12 text-[#a8a8b8]">
                               <div className="flex flex-col items-center gap-2">
                                 <svg className="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -1351,15 +1360,15 @@ export default function AdminPage() {
                           </tr>
                         ) : (
                           transactions.map((tx) => (
-                            <tr key={tx.id} className="border-b border-gray-800/50 hover:bg-gray-800/20 transition-colors">
+                            <tr key={tx.id} className="border-b border-gray-800/50 hover:bg-[#1a1a24]/20 transition-colors">
                               <td className="py-4 px-4">
-                                <div className="text-gray-300 text-sm">
+                                <div className="text-white text-sm">
                                   {new Date(tx.created_at).toLocaleDateString('en-US', { 
                                     month: 'short', 
                                     day: 'numeric', 
                                     year: 'numeric' 
                                   })}
-                                  <div className="text-gray-500 text-xs mt-0.5">
+                                  <div className="text-[#a8a8b8]/80 text-xs mt-0.5">
                                     {new Date(tx.created_at).toLocaleTimeString('en-US', { 
                                       hour: 'numeric', 
                                       minute: '2-digit' 
@@ -1368,7 +1377,7 @@ export default function AdminPage() {
                                 </div>
                               </td>
                               <td className="py-4 px-4">
-                                <span className="font-mono text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded">
+                                <span className="font-mono text-xs text-[#a8a8b8] bg-[#1a1a24]/50 px-2 py-1 rounded">
                                   {tx.wallet_address.substring(0, 6)}...{tx.wallet_address.substring(tx.wallet_address.length - 6)}
                                 </span>
                               </td>
@@ -1376,7 +1385,7 @@ export default function AdminPage() {
                                 <span className="text-white font-bold text-lg">{tx.credits_amount}</span>
                               </td>
                               <td className="py-4 px-4">
-                                <span className="text-gray-300 font-mono">₿ {formatBTC(tx.bitcoin_amount)}</span>
+                                <span className="text-white font-mono">₿ {formatBTC(tx.bitcoin_amount)}</span>
                               </td>
                               <td className="py-4 px-4">
                                 <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${getStatusBadge(tx.status)}`}>
@@ -1398,17 +1407,17 @@ export default function AdminPage() {
                                     </svg>
                                   </a>
                                 ) : (
-                                  <span className="text-gray-500 text-xs" title="No blockchain transaction yet">-</span>
+                                  <span className="text-[#a8a8b8]/80 text-xs" title="No blockchain transaction yet">-</span>
                                 )}
                               </td>
                               <td className="py-4 px-4">
                                 {tx.payment_txid ? (
                                   <div className="flex items-center gap-2">
                                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                                    <span className="text-gray-300 text-sm" title="Blockchain confirmations">{tx.confirmations || 0}</span>
+                                    <span className="text-white text-sm" title="Blockchain confirmations">{tx.confirmations || 0}</span>
                                   </div>
                                 ) : (
-                                  <span className="text-gray-500 text-xs">-</span>
+                                  <span className="text-[#a8a8b8]/80 text-xs">-</span>
                                 )}
                               </td>
                               <td className="py-4 px-4">
@@ -1427,9 +1436,9 @@ export default function AdminPage() {
                                     <span className="text-orange-400 font-semibold" title="Payment confirmed but credits not awarded yet">No</span>
                                   </div>
                                 ) : tx.status === 'completed' ? (
-                                  <span className="text-yellow-400 font-semibold text-xs" title="Marked complete but no TXID">No TXID</span>
+                                  <span className="text-[#FBBF24] font-semibold text-xs" title="Marked complete but no TXID">No TXID</span>
                                 ) : (
-                                  <span className="text-gray-500 text-xs">-</span>
+                                  <span className="text-[#a8a8b8]/80 text-xs">-</span>
                                 )}
                               </td>
                             </tr>
@@ -1441,29 +1450,29 @@ export default function AdminPage() {
                 </div>
 
                 {/* Credit Transactions Table */}
-                <div className="bg-slate-900/50 border border-gray-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
+                <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
                   <div className="mb-6">
                     <h2 className="text-2xl font-bold text-white mb-2">All Credit Transactions</h2>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-[#a8a8b8]">
                       Complete history of all credit transactions across all users (purchases, usage, and refunds)
                     </p>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead>
-                        <tr className="border-b border-gray-700">
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Date</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Wallet</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Amount</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Type</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Description</th>
-                          <th className="text-left py-4 px-4 text-gray-300 font-semibold">Payment TXID</th>
+                        <tr className="border-b border-[#9945FF]/20">
+                          <th className="text-left py-4 px-4 text-white font-semibold">Date</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Wallet</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Amount</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Type</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Description</th>
+                          <th className="text-left py-4 px-4 text-white font-semibold">Payment TXID</th>
                         </tr>
                       </thead>
                       <tbody>
                         {creditTransactions.length === 0 ? (
                           <tr>
-                            <td colSpan={6} className="text-center py-12 text-gray-400">
+                            <td colSpan={6} className="text-center py-12 text-[#a8a8b8]">
                               <div className="flex flex-col items-center gap-2">
                                 <svg className="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -1474,15 +1483,15 @@ export default function AdminPage() {
                           </tr>
                         ) : (
                           creditTransactions.map((ct) => (
-                            <tr key={ct.id} className="border-b border-gray-800/50 hover:bg-gray-800/20 transition-colors">
+                            <tr key={ct.id} className="border-b border-gray-800/50 hover:bg-[#1a1a24]/20 transition-colors">
                               <td className="py-4 px-4">
-                                <div className="text-gray-300 text-sm">
+                                <div className="text-white text-sm">
                                   {new Date(ct.created_at).toLocaleDateString('en-US', { 
                                     month: 'short', 
                                     day: 'numeric', 
                                     year: 'numeric' 
                                   })}
-                                  <div className="text-gray-500 text-xs mt-0.5">
+                                  <div className="text-[#a8a8b8]/80 text-xs mt-0.5">
                                     {new Date(ct.created_at).toLocaleTimeString('en-US', { 
                                       hour: 'numeric', 
                                       minute: '2-digit' 
@@ -1491,12 +1500,12 @@ export default function AdminPage() {
                                 </div>
                               </td>
                               <td className="py-4 px-4">
-                                <span className="font-mono text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded">
+                                <span className="font-mono text-xs text-[#a8a8b8] bg-[#1a1a24]/50 px-2 py-1 rounded">
                                   {ct.wallet_address.substring(0, 6)}...{ct.wallet_address.substring(ct.wallet_address.length - 6)}
                                 </span>
                               </td>
                               <td className="py-4 px-4">
-                                <div className={`font-bold text-lg flex items-center gap-1 ${parseFloat(String(ct.amount || 0)) > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                <div className={`font-bold text-lg flex items-center gap-1 ${parseFloat(String(ct.amount || 0)) > 0 ? 'text-green-400' : 'text-[#EF4444]'}`}>
                                   {parseFloat(String(ct.amount || 0)) > 0 ? (
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1519,13 +1528,13 @@ export default function AdminPage() {
                                     ? 'bg-green-900/30 border-green-700 text-green-300'
                                     : ct.transaction_type === 'refund'
                                     ? 'bg-blue-900/30 border-blue-700 text-blue-300'
-                                    : 'bg-red-900/30 border-red-700 text-red-300'
+                                    : 'bg-red-900/30 border-[#EF4444]/20 text-red-300'
                                 }`}>
                                   {ct.transaction_type}
                                 </span>
                               </td>
                               <td className="py-4 px-4">
-                                <span className="text-gray-300 text-sm">{ct.description || '-'}</span>
+                                <span className="text-white text-sm">{ct.description || '-'}</span>
                               </td>
                               <td className="py-4 px-4">
                                 {ct.payment_txid ? (
@@ -1541,7 +1550,7 @@ export default function AdminPage() {
                                     </svg>
                                   </a>
                                 ) : (
-                                  <span className="text-gray-500 text-xs">-</span>
+                                  <span className="text-[#a8a8b8]/80 text-xs">-</span>
                                 )}
                               </td>
                             </tr>
@@ -1653,15 +1662,15 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending':
-        return 'bg-yellow-900/30 text-yellow-300 border-yellow-700'
+        return 'bg-yellow-900/30 text-yellow-300 border-[#FBBF24]/20'
       case 'processing':
         return 'bg-blue-900/30 text-blue-300 border-blue-700'
       case 'completed':
         return 'bg-green-900/30 text-green-300 border-green-700'
       case 'failed':
-        return 'bg-red-900/30 text-red-300 border-red-700'
+        return 'bg-red-900/30 text-red-300 border-[#EF4444]/20'
       default:
-        return 'bg-gray-800 text-gray-400 border-gray-700'
+        return 'bg-[#1a1a24] text-[#a8a8b8] border-[#9945FF]/20'
     }
   }
 
@@ -1728,13 +1737,13 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-white mb-2">Generation Jobs</h2>
-          <p className="text-gray-400">Monitor all pending, processing, and completed generation jobs</p>
+          <p className="text-[#a8a8b8]">Monitor all pending, processing, and completed generation jobs</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={loadJobs}
             disabled={loading}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
+            className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
           >
             {loading ? 'Loading...' : 'Refresh'}
           </button>
@@ -1750,7 +1759,7 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-900/30 border border-red-700 rounded-lg text-red-200">
+        <div className="p-4 bg-red-900/30 border border-[#EF4444]/20 rounded-lg text-red-200">
           {error}
         </div>
       )}
@@ -1758,25 +1767,25 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
       {/* Summary Cards */}
       {summary && (
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
-            <div className="text-2xl font-bold text-yellow-400">{summary.pending}</div>
-            <div className="text-sm text-gray-400">Pending</div>
+          <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
+            <div className="text-2xl font-bold text-[#FBBF24]">{summary.pending}</div>
+            <div className="text-sm text-[#a8a8b8]">Pending</div>
           </div>
-          <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+          <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
             <div className="text-2xl font-bold text-blue-400">{summary.processing}</div>
-            <div className="text-sm text-gray-400">Processing</div>
+            <div className="text-sm text-[#a8a8b8]">Processing</div>
           </div>
-          <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+          <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
             <div className="text-2xl font-bold text-green-400">{summary.completed}</div>
-            <div className="text-sm text-gray-400">Completed</div>
+            <div className="text-sm text-[#a8a8b8]">Completed</div>
           </div>
-          <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
-            <div className="text-2xl font-bold text-red-400">{summary.failed}</div>
-            <div className="text-sm text-gray-400">Failed</div>
+          <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
+            <div className="text-2xl font-bold text-[#EF4444]">{summary.failed}</div>
+            <div className="text-sm text-[#a8a8b8]">Failed</div>
           </div>
-          <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+          <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
             <div className="text-2xl font-bold text-purple-400">{summary.total}</div>
-            <div className="text-sm text-gray-400">Total</div>
+            <div className="text-sm text-[#a8a8b8]">Total</div>
           </div>
         </div>
       )}
@@ -1788,7 +1797,7 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
           className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${
             statusFilter === 'all'
               ? 'bg-purple-600 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              : 'bg-[#1a1a24]/80 text-white hover:bg-gray-600'
           }`}
         >
           All
@@ -1797,8 +1806,8 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
           onClick={() => setStatusFilter('pending')}
           className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${
             statusFilter === 'pending'
-              ? 'bg-yellow-600 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              ? 'bg-[#FBBF24] text-white'
+              : 'bg-[#1a1a24]/80 text-white hover:bg-gray-600'
           }`}
         >
           Pending
@@ -1807,8 +1816,8 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
           onClick={() => setStatusFilter('processing')}
           className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${
             statusFilter === 'processing'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              ? 'bg-[#9945FF] text-white'
+              : 'bg-[#1a1a24]/80 text-white hover:bg-gray-600'
           }`}
         >
           Processing
@@ -1818,7 +1827,7 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
           className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${
             statusFilter === 'completed'
               ? 'bg-green-600 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              : 'bg-[#1a1a24]/80 text-white hover:bg-gray-600'
           }`}
         >
           Completed
@@ -1828,7 +1837,7 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
           className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${
             statusFilter === 'failed'
               ? 'bg-red-600 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              : 'bg-[#1a1a24]/80 text-white hover:bg-gray-600'
           }`}
         >
           Failed
@@ -1836,36 +1845,36 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
       </div>
 
       {/* Jobs Table */}
-      <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6 shadow-xl">
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6 shadow-xl">
         {loading ? (
           <div className="text-center py-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-            <p className="text-gray-400 mt-2">Loading jobs...</p>
+            <p className="text-[#a8a8b8] mt-2">Loading jobs...</p>
           </div>
         ) : jobs.length === 0 ? (
-          <div className="text-center py-8 text-gray-400">
+          <div className="text-center py-8 text-[#a8a8b8]">
             <p>No generation jobs found</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-700">
-                  <th className="text-left py-3 px-4 text-gray-300">Status</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Collection</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Owner</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Ordinal #</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Trait Filters</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Created</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Started</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Completed</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Duration</th>
-                  <th className="text-left py-3 px-4 text-gray-300">Error</th>
+                <tr className="border-b border-[#9945FF]/20">
+                  <th className="text-left py-3 px-4 text-white">Status</th>
+                  <th className="text-left py-3 px-4 text-white">Collection</th>
+                  <th className="text-left py-3 px-4 text-white">Owner</th>
+                  <th className="text-left py-3 px-4 text-white">Ordinal #</th>
+                  <th className="text-left py-3 px-4 text-white">Trait Filters</th>
+                  <th className="text-left py-3 px-4 text-white">Created</th>
+                  <th className="text-left py-3 px-4 text-white">Started</th>
+                  <th className="text-left py-3 px-4 text-white">Completed</th>
+                  <th className="text-left py-3 px-4 text-white">Duration</th>
+                  <th className="text-left py-3 px-4 text-white">Error</th>
                 </tr>
               </thead>
               <tbody>
                 {jobs.map((job) => (
-                  <tr key={job.id} className="border-b border-gray-800 hover:bg-gray-800/30">
+                  <tr key={job.id} className="border-b border-gray-800 hover:bg-[#1a1a24]/30">
                     <td className="py-3 px-4">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(job.status)}`}>
                         {job.status}
@@ -1873,15 +1882,15 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
                     </td>
                     <td className="py-3 px-4">
                       <div className="text-white font-semibold">{job.collection_name || 'Unknown'}</div>
-                      <div className="text-gray-400 text-xs font-mono">{job.collection_id.substring(0, 8)}...</div>
+                      <div className="text-[#a8a8b8] text-xs font-mono">{job.collection_id.substring(0, 8)}...</div>
                     </td>
                     <td className="py-3 px-4">
                       {job.collection_owner ? (
-                        <span className="font-mono text-xs text-gray-400">
+                        <span className="font-mono text-xs text-[#a8a8b8]">
                           {job.collection_owner.substring(0, 8)}...{job.collection_owner.substring(job.collection_owner.length - 8)}
                         </span>
                       ) : (
-                        <span className="text-gray-500">-</span>
+                        <span className="text-[#a8a8b8]/80">-</span>
                       )}
                     </td>
                     <td className="py-3 px-4 text-white">
@@ -1893,40 +1902,40 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
                           <div className="text-orange-400 font-semibold mb-1">
                             {Object.keys(job.trait_overrides).length} filter{Object.keys(job.trait_overrides).length > 1 ? 's' : ''}
                           </div>
-                          <div className="text-gray-400 space-y-0.5">
+                          <div className="text-[#a8a8b8] space-y-0.5">
                             {Object.entries(job.trait_overrides).slice(0, 2).map(([layer, trait]) => (
                               <div key={layer} className="truncate max-w-[120px]" title={`${layer}: ${trait}`}>
                                 {layer}: {trait}
                               </div>
                             ))}
                             {Object.keys(job.trait_overrides).length > 2 && (
-                              <div className="text-gray-500">+{Object.keys(job.trait_overrides).length - 2} more</div>
+                              <div className="text-[#a8a8b8]/80">+{Object.keys(job.trait_overrides).length - 2} more</div>
                             )}
                           </div>
                         </div>
                       ) : (
-                        <span className="text-gray-500 text-xs">None</span>
+                        <span className="text-[#a8a8b8]/80 text-xs">None</span>
                       )}
                     </td>
-                    <td className="py-3 px-4 text-gray-300 text-xs">
+                    <td className="py-3 px-4 text-white text-xs">
                       {formatDate(job.created_at)}
                     </td>
-                    <td className="py-3 px-4 text-gray-300 text-xs">
+                    <td className="py-3 px-4 text-white text-xs">
                       {formatDate(job.started_at)}
                     </td>
-                    <td className="py-3 px-4 text-gray-300 text-xs">
+                    <td className="py-3 px-4 text-white text-xs">
                       {formatDate(job.completed_at)}
                     </td>
-                    <td className="py-3 px-4 text-gray-300 text-xs">
+                    <td className="py-3 px-4 text-white text-xs">
                       {getDuration(job.started_at, job.completed_at)}
                     </td>
                     <td className="py-3 px-4">
                       {job.error_message ? (
-                        <span className="text-red-400 text-xs" title={job.error_message}>
+                        <span className="text-[#EF4444] text-xs" title={job.error_message}>
                           {job.error_message.substring(0, 50)}...
                         </span>
                       ) : (
-                        <span className="text-gray-500">-</span>
+                        <span className="text-[#a8a8b8]/80">-</span>
                       )}
                     </td>
                   </tr>
@@ -2041,15 +2050,15 @@ function CreditCostsManager({ walletAddress }: { walletAddress: string }) {
 
   if (loading) {
     return (
-      <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-8 text-center">
-        <p className="text-gray-400">Loading credit costs...</p>
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-8 text-center">
+        <p className="text-[#a8a8b8]">Loading credit costs...</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-purple-400">Credit Costs Configuration</h2>
           <button
@@ -2062,7 +2071,7 @@ function CreditCostsManager({ walletAddress }: { walletAddress: string }) {
         </div>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-900/20 border border-red-700/50 rounded-lg text-red-400">
+          <div className="mb-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#EF4444]/20/50 rounded-lg text-[#EF4444]">
             {error}
           </div>
         )}
@@ -2075,21 +2084,21 @@ function CreditCostsManager({ walletAddress }: { walletAddress: string }) {
 
         <div className="space-y-4">
           {costs.map((cost) => (
-            <div key={cost.id} className="bg-slate-800/50 border border-gray-700 rounded-lg p-4">
+            <div key={cost.id} className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 border border-[#9945FF]/20 rounded-lg p-4">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-1">
+                  <label className="block text-sm font-semibold text-white mb-1">
                     Action Type
                   </label>
                   <input
                     type="text"
                     value={cost.action_type}
                     disabled
-                    className="w-full px-3 py-2 bg-slate-900/50 border border-gray-700 rounded-lg text-gray-400 cursor-not-allowed"
+                    className="w-full px-3 py-2 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-[#9945FF]/20 rounded-lg text-[#a8a8b8] cursor-not-allowed"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-1">
+                  <label className="block text-sm font-semibold text-white mb-1">
                     Cost Per Unit
                   </label>
                   <input
@@ -2098,34 +2107,34 @@ function CreditCostsManager({ walletAddress }: { walletAddress: string }) {
                     min="0"
                     value={cost.cost_per_unit}
                     onChange={(e) => updateCost(cost.action_type, 'cost_per_unit', parseFloat(e.target.value) || 0)}
-                    className="w-full px-3 py-2 bg-slate-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border border-[#9945FF]/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-1">
+                  <label className="block text-sm font-semibold text-white mb-1">
                     Unit Name
                   </label>
                   <input
                     type="text"
                     value={cost.unit_name}
                     onChange={(e) => updateCost(cost.action_type, 'unit_name', e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border border-[#9945FF]/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-1">
+                  <label className="block text-sm font-semibold text-white mb-1">
                     Description
                   </label>
                   <input
                     type="text"
                     value={cost.description || ''}
                     onChange={(e) => updateCost(cost.action_type, 'description', e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border border-[#9945FF]/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 </div>
               </div>
               {cost.updated_at && (
-                <div className="mt-2 text-xs text-gray-500">
+                <div className="mt-2 text-xs text-[#a8a8b8]/80">
                   Last updated: {new Date(cost.updated_at).toLocaleString()}
                   {cost.updated_by && ` by ${cost.updated_by.substring(0, 8)}...`}
                 </div>
@@ -2135,7 +2144,7 @@ function CreditCostsManager({ walletAddress }: { walletAddress: string }) {
         </div>
 
         {costs.length === 0 && (
-          <div className="text-center py-8 text-gray-400">
+          <div className="text-center py-8 text-[#a8a8b8]">
             No credit costs configured. Default values will be used.
           </div>
         )}
@@ -2373,13 +2382,13 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-white mb-2">Generated Images</h2>
-          <p className="text-gray-400">Manage all generated ordinals across all collections</p>
+          <p className="text-[#a8a8b8]">Manage all generated ordinals across all collections</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={loadImages}
             disabled={loading}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
+            className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
           >
             {loading ? 'Loading...' : 'Refresh'}
           </button>
@@ -2396,33 +2405,33 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-900/30 border border-red-700 rounded-lg text-red-200">
+        <div className="p-4 bg-red-900/30 border border-[#EF4444]/20 rounded-lg text-red-200">
           {error}
         </div>
       )}
 
       {/* Filters */}
-      <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
         <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-300 mb-2">Search</label>
+            <label className="block text-sm font-medium text-white mb-2">Search</label>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by collection name, ID, or ordinal number..."
-              className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+              className="w-full px-4 py-2 bg-[#14141e] border border-[#9945FF]/20 rounded-lg text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
             />
           </div>
           <div className="sm:w-64">
-            <label className="block text-sm font-medium text-gray-300 mb-2">Collection</label>
+            <label className="block text-sm font-medium text-white mb-2">Collection</label>
             <select
               value={collectionFilter}
               onChange={(e) => {
                 setCollectionFilter(e.target.value)
                 setPage(1)
               }}
-              className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-purple-500 focus:outline-none"
+              className="w-full px-4 py-2 bg-[#14141e] border border-[#9945FF]/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
             >
               <option value="">All Collections</option>
               {collections.map(collection => (
@@ -2443,21 +2452,21 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
 
       {/* Summary */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
           <div className="text-2xl font-bold text-blue-400">{total}</div>
-          <div className="text-sm text-gray-400">Total Images</div>
+          <div className="text-sm text-[#a8a8b8]">Total Images</div>
         </div>
-        <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
           <div className="text-2xl font-bold text-purple-400">{images.length}</div>
-          <div className="text-sm text-gray-400">On This Page</div>
+          <div className="text-sm text-[#a8a8b8]">On This Page</div>
         </div>
-        <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
           <div className="text-2xl font-bold text-orange-400">{selectedIds.size}</div>
-          <div className="text-sm text-gray-400">Selected</div>
+          <div className="text-sm text-[#a8a8b8]">Selected</div>
         </div>
-        <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
           <div className="text-2xl font-bold text-green-400">{totalPages}</div>
-          <div className="text-sm text-gray-400">Total Pages</div>
+          <div className="text-sm text-[#a8a8b8]">Total Pages</div>
         </div>
       </div>
 
@@ -2465,24 +2474,24 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
       {loading ? (
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-          <p className="text-gray-400 mt-4">Loading images...</p>
+          <p className="text-[#a8a8b8] mt-4">Loading images...</p>
         </div>
       ) : images.length === 0 ? (
-        <div className="text-center py-12 text-gray-400">
+        <div className="text-center py-12 text-[#a8a8b8]">
           <p className="text-lg">No images found</p>
           <p className="text-sm mt-2">Try adjusting your search or filters</p>
         </div>
       ) : (
         <>
-          <div className="bg-slate-900/50 border border-gray-800 rounded-xl overflow-hidden">
+          <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl overflow-hidden">
             <div className="p-4 border-b border-gray-800 flex items-center gap-4">
               <input
                 type="checkbox"
                 checked={selectedIds.size === images.length && images.length > 0}
                 onChange={handleSelectAll}
-                className="w-5 h-5 text-purple-600 bg-gray-900 border-gray-700 rounded focus:ring-purple-500"
+                className="w-5 h-5 text-purple-600 bg-[#14141e] border-[#9945FF]/20 rounded focus:ring-purple-500"
               />
-              <span className="text-sm text-gray-400">
+              <span className="text-sm text-[#a8a8b8]">
                 {selectedIds.size > 0 ? `${selectedIds.size} selected` : 'Select all'}
               </span>
             </div>
@@ -2495,19 +2504,19 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                     className={`border-2 rounded-lg overflow-hidden transition-all ${
                       selectedIds.has(image.id)
                         ? 'border-purple-500 bg-purple-500/10'
-                        : 'border-gray-700 hover:border-gray-600'
+                        : 'border-[#9945FF]/20 hover:border-[#9945FF]/30'
                     }`}
                   >
                     {/* Header */}
-                    <div className="bg-slate-800/50 p-4 flex items-center gap-4">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 p-4 flex items-center gap-4">
                       <input
                         type="checkbox"
                         checked={selectedIds.has(image.id)}
                         onChange={() => handleSelect(image.id)}
-                        className="w-5 h-5 text-purple-600 bg-gray-900 border-gray-700 rounded focus:ring-purple-500"
+                        className="w-5 h-5 text-purple-600 bg-[#14141e] border-[#9945FF]/20 rounded focus:ring-purple-500"
                       />
                       <div className="flex-1 flex items-center gap-4">
-                        <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-900 flex-shrink-0">
+                        <div className="w-20 h-20 rounded-lg overflow-hidden bg-[#14141e] flex-shrink-0">
                           <img
                             src={image.image_url}
                             alt={`${image.collection_name} #${image.ordinal_number || image.id}`}
@@ -2518,24 +2527,24 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                           <div className="flex items-center gap-2">
                             <h3 className="text-white font-semibold truncate">{image.collection_name}</h3>
                             {image.ordinal_number && (
-                              <span className="text-gray-400 text-sm">#{image.ordinal_number}</span>
+                              <span className="text-[#a8a8b8] text-sm">#{image.ordinal_number}</span>
                             )}
                             {/* Error indicator badge */}
                             {image.generation_error && (
-                              <span className="px-2 py-0.5 bg-red-900/50 border border-red-700 text-red-300 text-xs rounded-full">
+                              <span className="px-2 py-0.5 bg-red-900/50 border border-[#EF4444]/20 text-red-300 text-xs rounded-full">
                                 ⚠️ {image.generation_error.error_type}
                               </span>
                             )}
                           </div>
-                          <p className="text-gray-400 text-sm mt-1">
+                          <p className="text-[#a8a8b8] text-sm mt-1">
                             ID: <span className="font-mono text-xs">{image.id}</span>
                           </p>
-                          <p className="text-gray-500 text-xs mt-1">
+                          <p className="text-[#a8a8b8]/80 text-xs mt-1">
                             Created: {new Date(image.created_at).toLocaleString()}
                           </p>
                           {/* Brief error message */}
                           {image.generation_error && (
-                            <p className="text-red-400 text-xs mt-1 truncate">
+                            <p className="text-[#EF4444] text-xs mt-1 truncate">
                               Error: {image.generation_error.error_message}
                             </p>
                           )}
@@ -2543,7 +2552,7 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => toggleExpanded(image.id)}
-                            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm font-semibold transition-all"
+                            className="px-4 py-2 bg-[#1a1a24]/80 hover:bg-gray-600 text-white rounded-lg text-sm font-semibold transition-all"
                           >
                             {isExpanded ? 'Hide Details' : 'Show Details'}
                           </button>
@@ -2552,7 +2561,7 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                               e.stopPropagation()
                               handleDownloadImage(image.image_url, `${image.collection_name}_${image.ordinal_number || image.id}.png`)
                             }}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-all flex items-center gap-2"
+                            className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg text-sm font-semibold transition-all flex items-center gap-2"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -2565,37 +2574,37 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
 
                     {/* Expanded Details */}
                     {isExpanded && (
-                      <div className="bg-slate-900/50 border-t border-gray-800 p-6 space-y-6">
+                      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border-t border-gray-800 p-6 space-y-6">
                         {/* Generation Error (if any) */}
                         {image.generation_error && (
-                          <div className="bg-red-900/30 border border-red-700 rounded-lg p-4">
+                          <div className="bg-red-900/30 border border-[#EF4444]/20 rounded-lg p-4">
                             <h4 className="text-red-300 font-semibold mb-3 flex items-center gap-2">
                               <span>⚠️</span> Generation Error
                             </h4>
                             <div className="space-y-3 text-sm">
                               <div>
-                                <span className="text-red-400 font-medium">Error Type:</span>
+                                <span className="text-[#EF4444] font-medium">Error Type:</span>
                                 <span className="text-red-200 ml-2">{image.generation_error.error_type}</span>
                               </div>
                               <div>
-                                <span className="text-red-400 font-medium">Error Message:</span>
+                                <span className="text-[#EF4444] font-medium">Error Message:</span>
                                 <p className="text-red-200 mt-1 whitespace-pre-wrap break-words">{image.generation_error.error_message}</p>
                               </div>
                               {image.generation_error.error_created_at && (
                                 <div>
-                                  <span className="text-red-400 font-medium">Error Time:</span>
+                                  <span className="text-[#EF4444] font-medium">Error Time:</span>
                                   <span className="text-red-200 ml-2">{new Date(image.generation_error.error_created_at).toLocaleString()}</span>
                                 </div>
                               )}
                               {image.generation_error.error_prompt && (
                                 <div>
-                                  <span className="text-red-400 font-medium">Prompt Used:</span>
+                                  <span className="text-[#EF4444] font-medium">Prompt Used:</span>
                                   <p className="text-red-200/80 mt-1 text-xs whitespace-pre-wrap break-words bg-red-950/50 p-2 rounded">{image.generation_error.error_prompt}</p>
                                 </div>
                               )}
                               {image.generation_error.error_details && (
                                 <div>
-                                  <span className="text-red-400 font-medium">Error Details:</span>
+                                  <span className="text-[#EF4444] font-medium">Error Details:</span>
                                   <pre className="text-red-200/80 mt-1 text-xs whitespace-pre-wrap break-words bg-red-950/50 p-2 rounded overflow-x-auto">
                                     {JSON.stringify(image.generation_error.error_details, null, 2)}
                                   </pre>
@@ -2603,7 +2612,7 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                               )}
                               {image.generation_error.api_response && (
                                 <div>
-                                  <span className="text-red-400 font-medium">API Response:</span>
+                                  <span className="text-[#EF4444] font-medium">API Response:</span>
                                   <pre className="text-red-200/80 mt-1 text-xs whitespace-pre-wrap break-words bg-red-950/50 p-2 rounded overflow-x-auto max-h-48 overflow-y-auto">
                                     {JSON.stringify(image.generation_error.api_response, null, 2)}
                                   </pre>
@@ -2628,18 +2637,18 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
 
                         {/* Image URLs & Sizes */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="bg-slate-800/50 rounded-lg p-4">
+                          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 rounded-lg p-4">
                             <h4 className="text-white font-semibold mb-3">Image Files</h4>
                             <div className="space-y-2 text-sm">
                               <div>
-                                <span className="text-gray-400">Display URL:</span>
+                                <span className="text-[#a8a8b8]">Display URL:</span>
                                 <a href={image.image_url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline ml-2 font-mono text-xs break-all">
                                   {image.image_url}
                                 </a>
                               </div>
                               {image.original_image_url && (
                                 <div>
-                                  <span className="text-gray-400">Original URL:</span>
+                                  <span className="text-[#a8a8b8]">Original URL:</span>
                                   <a href={image.original_image_url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline ml-2 font-mono text-xs break-all">
                                     {image.original_image_url}
                                   </a>
@@ -2647,7 +2656,7 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                               )}
                               {image.compressed_image_url && (
                                 <div>
-                                  <span className="text-gray-400">Compressed URL:</span>
+                                  <span className="text-[#a8a8b8]">Compressed URL:</span>
                                   <a href={image.compressed_image_url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline ml-2 font-mono text-xs break-all">
                                     {image.compressed_image_url}
                                   </a>
@@ -2655,7 +2664,7 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                               )}
                               {image.thumbnail_url && (
                                 <div>
-                                  <span className="text-gray-400">Thumbnail URL:</span>
+                                  <span className="text-[#a8a8b8]">Thumbnail URL:</span>
                                   <a href={image.thumbnail_url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline ml-2 font-mono text-xs break-all">
                                     {image.thumbnail_url}
                                   </a>
@@ -2663,7 +2672,7 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                               )}
                               {image.metadata_url && (
                                 <div>
-                                  <span className="text-gray-400">Metadata URL:</span>
+                                  <span className="text-[#a8a8b8]">Metadata URL:</span>
                                   <a href={image.metadata_url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline ml-2 font-mono text-xs break-all">
                                     {image.metadata_url}
                                   </a>
@@ -2671,24 +2680,24 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                               )}
                             </div>
                           </div>
-                          <div className="bg-slate-800/50 rounded-lg p-4">
+                          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 rounded-lg p-4">
                             <h4 className="text-white font-semibold mb-3">File Sizes</h4>
                             <div className="space-y-2 text-sm">
                               {image.original_size_kb !== null && image.original_size_kb !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">Original:</span>
+                                  <span className="text-[#a8a8b8]">Original:</span>
                                   <span className="text-white ml-2">{Number(image.original_size_kb).toFixed(2)} KB</span>
                                 </div>
                               )}
                               {image.compressed_size_kb !== null && image.compressed_size_kb !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">Compressed:</span>
+                                  <span className="text-[#a8a8b8]">Compressed:</span>
                                   <span className="text-white ml-2">{Number(image.compressed_size_kb).toFixed(2)} KB</span>
                                 </div>
                               )}
                               {image.thumbnail_size_kb !== null && image.thumbnail_size_kb !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">Thumbnail:</span>
+                                  <span className="text-[#a8a8b8]">Thumbnail:</span>
                                   <span className="text-white ml-2">{Number(image.thumbnail_size_kb).toFixed(2)} KB</span>
                                 </div>
                               )}
@@ -2699,23 +2708,23 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
                         {/* Prompt & Art Style */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {image.prompt && (
-                            <div className="bg-slate-800/50 rounded-lg p-4">
+                            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 rounded-lg p-4">
                               <h4 className="text-white font-semibold mb-3">Generation Prompt</h4>
-                              <p className="text-gray-300 text-sm whitespace-pre-wrap break-words">{image.prompt}</p>
+                              <p className="text-white text-sm whitespace-pre-wrap break-words">{image.prompt}</p>
                             </div>
                           )}
-                          <div className="bg-slate-800/50 rounded-lg p-4">
+                          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 rounded-lg p-4">
                             <h4 className="text-white font-semibold mb-3">Art Style</h4>
                             <div className="space-y-2 text-sm">
                               {image.ordinal_art_style && (
                                 <div>
-                                  <span className="text-gray-400">Ordinal Art Style:</span>
+                                  <span className="text-[#a8a8b8]">Ordinal Art Style:</span>
                                   <span className="text-white ml-2">{image.ordinal_art_style}</span>
                                 </div>
                               )}
                               {image.collection_settings?.art_style && (
                                 <div>
-                                  <span className="text-gray-400">Collection Art Style:</span>
+                                  <span className="text-[#a8a8b8]">Collection Art Style:</span>
                                   <span className="text-white ml-2">{image.collection_settings.art_style}</span>
                                 </div>
                               )}
@@ -2725,91 +2734,91 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
 
                         {/* Collection Settings */}
                         {image.collection_settings && (
-                          <div className="bg-slate-800/50 rounded-lg p-4">
+                          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 rounded-lg p-4">
                             <h4 className="text-white font-semibold mb-3">Collection Settings</h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                               {image.collection_settings.generation_mode && (
                                 <div>
-                                  <span className="text-gray-400">Generation Mode:</span>
+                                  <span className="text-[#a8a8b8]">Generation Mode:</span>
                                   <span className="text-white ml-2">{image.collection_settings.generation_mode}</span>
                                 </div>
                               )}
                               {image.collection_settings.compression_quality !== null && image.collection_settings.compression_quality !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">Compression Quality:</span>
+                                  <span className="text-[#a8a8b8]">Compression Quality:</span>
                                   <span className="text-white ml-2">{image.collection_settings.compression_quality}</span>
                                 </div>
                               )}
                               {image.collection_settings.compression_dimensions !== null && image.collection_settings.compression_dimensions !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">Compression Dimensions:</span>
+                                  <span className="text-[#a8a8b8]">Compression Dimensions:</span>
                                   <span className="text-white ml-2">{image.collection_settings.compression_dimensions}px</span>
                                 </div>
                               )}
                               {image.collection_settings.compression_format && (
                                 <div>
-                                  <span className="text-gray-400">Compression Format:</span>
+                                  <span className="text-[#a8a8b8]">Compression Format:</span>
                                   <span className="text-white ml-2">{image.collection_settings.compression_format}</span>
                                 </div>
                               )}
                               {image.collection_settings.compression_target_kb !== null && image.collection_settings.compression_target_kb !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">Target Size:</span>
+                                  <span className="text-[#a8a8b8]">Target Size:</span>
                                   <span className="text-white ml-2">{image.collection_settings.compression_target_kb} KB</span>
                                 </div>
                               )}
                               {image.collection_settings.is_pfp_collection !== null && image.collection_settings.is_pfp_collection !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">PFP Collection:</span>
+                                  <span className="text-[#a8a8b8]">PFP Collection:</span>
                                   <span className="text-white ml-2">{image.collection_settings.is_pfp_collection ? 'Yes' : 'No'}</span>
                                 </div>
                               )}
                               {image.collection_settings.facing_direction && (
                                 <div>
-                                  <span className="text-gray-400">Facing Direction:</span>
+                                  <span className="text-[#a8a8b8]">Facing Direction:</span>
                                   <span className="text-white ml-2">{image.collection_settings.facing_direction}</span>
                                 </div>
                               )}
                               {image.collection_settings.body_style && (
                                 <div>
-                                  <span className="text-gray-400">Body Style:</span>
+                                  <span className="text-[#a8a8b8]">Body Style:</span>
                                   <span className="text-white ml-2">{image.collection_settings.body_style}</span>
                                 </div>
                               )}
                               {image.collection_settings.use_hyper_detailed !== null && image.collection_settings.use_hyper_detailed !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">Hyper Detailed:</span>
+                                  <span className="text-[#a8a8b8]">Hyper Detailed:</span>
                                   <span className="text-white ml-2">{image.collection_settings.use_hyper_detailed ? 'Yes' : 'No'}</span>
                                 </div>
                               )}
                               {image.collection_settings.pixel_perfect !== null && image.collection_settings.pixel_perfect !== undefined && (
                                 <div>
-                                  <span className="text-gray-400">Pixel Perfect:</span>
+                                  <span className="text-[#a8a8b8]">Pixel Perfect:</span>
                                   <span className="text-white ml-2">{image.collection_settings.pixel_perfect ? 'Yes' : 'No'}</span>
                                 </div>
                               )}
                             </div>
                             {image.collection_settings.border_requirements && (
                               <div className="mt-4">
-                                <span className="text-gray-400 text-sm">Border Requirements:</span>
+                                <span className="text-[#a8a8b8] text-sm">Border Requirements:</span>
                                 <p className="text-white text-sm mt-1">{image.collection_settings.border_requirements}</p>
                               </div>
                             )}
                             {image.collection_settings.custom_rules && (
                               <div className="mt-4">
-                                <span className="text-gray-400 text-sm">Custom Rules:</span>
+                                <span className="text-[#a8a8b8] text-sm">Custom Rules:</span>
                                 <p className="text-white text-sm mt-1">{image.collection_settings.custom_rules}</p>
                               </div>
                             )}
                             {image.collection_settings.colors_description && (
                               <div className="mt-4">
-                                <span className="text-gray-400 text-sm">Colors Description:</span>
+                                <span className="text-[#a8a8b8] text-sm">Colors Description:</span>
                                 <p className="text-white text-sm mt-1">{image.collection_settings.colors_description}</p>
                               </div>
                             )}
                             {image.collection_settings.lighting_description && (
                               <div className="mt-4">
-                                <span className="text-gray-400 text-sm">Lighting Description:</span>
+                                <span className="text-[#a8a8b8] text-sm">Lighting Description:</span>
                                 <p className="text-white text-sm mt-1">{image.collection_settings.lighting_description}</p>
                               </div>
                             )}
@@ -2818,9 +2827,9 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
 
                         {/* Traits */}
                         {image.traits && (
-                          <div className="bg-slate-800/50 rounded-lg p-4">
+                          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90/50 rounded-lg p-4">
                             <h4 className="text-white font-semibold mb-3">Traits</h4>
-                            <pre className="text-gray-300 text-xs overflow-auto bg-slate-900/50 p-3 rounded">
+                            <pre className="text-white text-xs overflow-auto bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 p-3 rounded">
                               {JSON.stringify(image.traits, null, 2)}
                             </pre>
                           </div>
@@ -2836,21 +2845,21 @@ function GeneratedImagesManager({ walletAddress }: { walletAddress: string }) {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-400">
+              <div className="text-sm text-[#a8a8b8]">
                 Page {page} of {totalPages} ({total} total)
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-[#1a1a24] hover:bg-[#1a1a24]/80 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-[#1a1a24] hover:bg-[#1a1a24]/80 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </button>
@@ -3092,13 +3101,13 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-white mb-2">Homepage Visibility</h2>
-          <p className="text-gray-400">Manage which images appear on the homepage ticker</p>
+          <p className="text-[#a8a8b8]">Manage which images appear on the homepage ticker</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={loadOrdinals}
             disabled={loading}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
+            className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
           >
             {loading ? 'Loading...' : 'Refresh'}
           </button>
@@ -3124,17 +3133,17 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
       </div>
 
       {error && (
-        <div className="p-4 bg-red-900/30 border border-red-700 rounded-lg text-red-200">
+        <div className="p-4 bg-red-900/30 border border-[#EF4444]/20 rounded-lg text-red-200">
           {error}
         </div>
       )}
 
       {/* Collection Management Section */}
-      <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <div>
             <h3 className="text-xl font-bold text-white mb-1">Hide Collections from Homepage</h3>
-            <p className="text-sm text-gray-400">Hide entire collections to exclude all their images from the homepage ticker</p>
+            <p className="text-sm text-[#a8a8b8]">Hide entire collections to exclude all their images from the homepage ticker</p>
           </div>
           {selectedCollectionIds.size > 0 && (
             <div className="flex gap-2">
@@ -3165,7 +3174,7 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                   ? 'border-purple-500 bg-purple-500/10'
                   : collection.hidden_from_homepage
                   ? 'border-red-500/50 bg-red-500/5'
-                  : 'border-gray-700 hover:border-gray-600'
+                  : 'border-[#9945FF]/20 hover:border-[#9945FF]/30'
               }`}
               onClick={() => {
                 const newSelected = new Set(selectedCollectionIds)
@@ -3183,7 +3192,7 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                   checked={selectedCollectionIds.has(collection.id)}
                   onChange={() => {}}
                   onClick={(e) => e.stopPropagation()}
-                  className="w-4 h-4 text-purple-600 bg-gray-900 border-gray-700 rounded focus:ring-purple-500"
+                  className="w-4 h-4 text-purple-600 bg-[#14141e] border-[#9945FF]/20 rounded focus:ring-purple-500"
                 />
                 {collection.hidden_from_homepage && (
                   <span className="text-xs bg-red-600 text-white px-2 py-0.5 rounded font-bold">HIDDEN</span>
@@ -3198,11 +3207,11 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
       </div>
 
       {/* Homepage Ticker Collections Section */}
-      <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-6">
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <div>
             <h3 className="text-xl font-bold text-white mb-1">Homepage Ordinal Ticker Collections</h3>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-[#a8a8b8]">
               Choose which collections are eligible for the homepage ordinal ticker. Every collection is listed here.
             </p>
           </div>
@@ -3218,7 +3227,7 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
               <button
                 onClick={() => handleToggleTickerCollections(false)}
                 disabled={updating}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold text-sm transition-all duration-200 disabled:opacity-50"
+                className="px-4 py-2 bg-[#1a1a24]/80 hover:bg-gray-600 text-white rounded-lg font-semibold text-sm transition-all duration-200 disabled:opacity-50"
               >
                 {updating ? 'Updating...' : `Hide ${selectedTickerCollectionIds.size} from Ticker`}
               </button>
@@ -3238,7 +3247,7 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                     ? 'border-blue-500 bg-blue-500/10'
                     : enabled
                       ? 'border-green-500/60 bg-green-500/5'
-                      : 'border-gray-700 hover:border-gray-600'
+                      : 'border-[#9945FF]/20 hover:border-[#9945FF]/30'
                 }`}
                 onClick={() => {
                   const next = new Set(selectedTickerCollectionIds)
@@ -3253,12 +3262,12 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                     checked={selected}
                     onChange={() => {}}
                     onClick={(e) => e.stopPropagation()}
-                    className="w-4 h-4 text-blue-600 bg-gray-900 border-gray-700 rounded focus:ring-blue-500"
+                    className="w-4 h-4 text-[#9945FF] bg-[#14141e] border-[#9945FF]/20 rounded focus:ring-blue-500"
                   />
                   {enabled ? (
                     <span className="text-xs bg-green-600 text-white px-2 py-0.5 rounded font-bold">ON</span>
                   ) : (
-                    <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded font-bold">OFF</span>
+                    <span className="text-xs bg-[#1a1a24]/80 text-white px-2 py-0.5 rounded font-bold">OFF</span>
                   )}
                 </div>
                 <p className="text-sm text-white font-semibold truncate" title={collection.name}>
@@ -3271,17 +3280,17 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
       </div>
 
       {/* Filters */}
-      <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+      <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="sm:w-64">
-            <label className="block text-sm font-medium text-gray-300 mb-2">Collection</label>
+            <label className="block text-sm font-medium text-white mb-2">Collection</label>
             <select
               value={collectionFilter}
               onChange={(e) => {
                 setCollectionFilter(e.target.value)
                 setPage(1)
               }}
-              className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-purple-500 focus:outline-none"
+              className="w-full px-4 py-2 bg-[#14141e] border border-[#9945FF]/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
             >
               <option value="">All Collections</option>
               {collections.map(collection => (
@@ -3298,9 +3307,9 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                   setShowHiddenOnly(e.target.checked)
                   setPage(1)
                 }}
-                className="w-5 h-5 text-purple-600 bg-gray-900 border-gray-700 rounded focus:ring-purple-500"
+                className="w-5 h-5 text-purple-600 bg-[#14141e] border-[#9945FF]/20 rounded focus:ring-purple-500"
               />
-              <span className="text-sm text-gray-300">Show hidden only</span>
+              <span className="text-sm text-white">Show hidden only</span>
             </label>
           </div>
         </div>
@@ -3308,21 +3317,21 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
 
       {/* Summary */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
           <div className="text-2xl font-bold text-blue-400">{total}</div>
-          <div className="text-sm text-gray-400">Total {showHiddenOnly ? 'Hidden' : 'Images'}</div>
+          <div className="text-sm text-[#a8a8b8]">Total {showHiddenOnly ? 'Hidden' : 'Images'}</div>
         </div>
-        <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
           <div className="text-2xl font-bold text-purple-400">{ordinals.length}</div>
-          <div className="text-sm text-gray-400">On This Page</div>
+          <div className="text-sm text-[#a8a8b8]">On This Page</div>
         </div>
-        <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
           <div className="text-2xl font-bold text-orange-400">{selectedIds.size}</div>
-          <div className="text-sm text-gray-400">Selected</div>
+          <div className="text-sm text-[#a8a8b8]">Selected</div>
         </div>
-        <div className="bg-slate-900/50 border border-gray-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl p-4">
           <div className="text-2xl font-bold text-green-400">{totalPages}</div>
-          <div className="text-sm text-gray-400">Total Pages</div>
+          <div className="text-sm text-[#a8a8b8]">Total Pages</div>
         </div>
       </div>
 
@@ -3330,24 +3339,24 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
       {loading ? (
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-          <p className="text-gray-400 mt-4">Loading images...</p>
+          <p className="text-[#a8a8b8] mt-4">Loading images...</p>
         </div>
       ) : ordinals.length === 0 ? (
-        <div className="text-center py-12 text-gray-400">
+        <div className="text-center py-12 text-[#a8a8b8]">
           <p className="text-lg">No images found</p>
           <p className="text-sm mt-2">Try adjusting your filters</p>
         </div>
       ) : (
         <>
-          <div className="bg-slate-900/50 border border-gray-800 rounded-xl overflow-hidden">
+          <div className="bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]/50 border border-gray-800 rounded-xl overflow-hidden">
             <div className="p-4 border-b border-gray-800 flex items-center gap-4">
               <input
                 type="checkbox"
                 checked={selectedIds.size === ordinals.length && ordinals.length > 0}
                 onChange={handleSelectAll}
-                className="w-5 h-5 text-purple-600 bg-gray-900 border-gray-700 rounded focus:ring-purple-500"
+                className="w-5 h-5 text-purple-600 bg-[#14141e] border-[#9945FF]/20 rounded focus:ring-purple-500"
               />
-              <span className="text-sm text-gray-400">
+              <span className="text-sm text-[#a8a8b8]">
                 {selectedIds.size > 0 ? `${selectedIds.size} selected` : 'Select all'}
               </span>
             </div>
@@ -3360,7 +3369,7 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                       ? 'border-purple-500 bg-purple-500/10'
                       : ordinal.hidden_from_homepage || ordinal.collection_hidden
                       ? 'border-red-500/50 bg-red-500/5'
-                      : 'border-gray-700 hover:border-gray-600'
+                      : 'border-[#9945FF]/20 hover:border-[#9945FF]/30'
                   }`}
                 >
                   <div className="absolute top-2 left-2 z-10">
@@ -3368,7 +3377,7 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                       type="checkbox"
                       checked={selectedIds.has(ordinal.id)}
                       onChange={() => handleSelect(ordinal.id)}
-                      className="w-5 h-5 text-purple-600 bg-gray-900 border-gray-700 rounded focus:ring-purple-500"
+                      className="w-5 h-5 text-purple-600 bg-[#14141e] border-[#9945FF]/20 rounded focus:ring-purple-500"
                     />
                   </div>
                   {(ordinal.hidden_from_homepage || ordinal.collection_hidden) && (
@@ -3376,7 +3385,7 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                       {ordinal.collection_hidden ? 'COLLECTION HIDDEN' : 'HIDDEN'}
                     </div>
                   )}
-                  <div className="aspect-square relative bg-gray-900">
+                  <div className="aspect-square relative bg-[#14141e]">
                     <img
                       src={ordinal.thumbnail_url || ordinal.image_url}
                       alt={`${ordinal.collection_name} #${ordinal.ordinal_number || ordinal.id}`}
@@ -3386,7 +3395,7 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
                       <div className="absolute bottom-0 left-0 right-0 p-2">
                         <p className="text-xs text-white font-semibold truncate">{ordinal.collection_name}</p>
                         {ordinal.ordinal_number && (
-                          <p className="text-xs text-gray-300">#{ordinal.ordinal_number}</p>
+                          <p className="text-xs text-white">#{ordinal.ordinal_number}</p>
                         )}
                       </div>
                     </div>
@@ -3399,21 +3408,21 @@ function HomepageVisibilityManager({ walletAddress }: { walletAddress: string })
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-400">
+              <div className="text-sm text-[#a8a8b8]">
                 Page {page} of {totalPages} ({total} total)
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-[#1a1a24] hover:bg-[#1a1a24]/80 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-[#1a1a24] hover:bg-[#1a1a24]/80 text-white rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </button>

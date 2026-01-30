@@ -38,7 +38,7 @@ export default function PromptEstimatorPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-white mb-2">💰 Prompt Cost Estimator</h1>
-            <p className="text-gray-400">
+            <p className="text-[#a8a8b8]">
               Estimate the cost of generating images with OpenAI's gpt-image-1 model
             </p>
           </div>
@@ -47,25 +47,25 @@ export default function PromptEstimatorPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left: Input Form */}
             <div className="space-y-4">
-              <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+              <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg p-6">
                 <h2 className="text-xl font-bold text-white mb-4">Prompt Settings</h2>
 
                 {/* Image Description */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Image Description *
                   </label>
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Describe what you want to generate... (e.g., 'A mystical crystal glowing with blue energy', 'A medieval sword with ornate handle', etc.)"
-                    className="w-full h-32 p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
+                    className="w-full h-32 p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
                   />
                 </div>
 
                 {/* Art Style */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Art Style
                   </label>
                   <input
@@ -73,19 +73,19 @@ export default function PromptEstimatorPage() {
                     value={artStyle}
                     onChange={(e) => setArtStyle(e.target.value)}
                     placeholder="Professional digital illustration style..."
-                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                    className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
                   />
                 </div>
 
                 {/* Border Style */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Border Style
                   </label>
                   <select
                     value={borderStyle}
                     onChange={(e) => setBorderStyle(e.target.value)}
-                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white focus:border-purple-500 focus:outline-none"
+                    className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white focus:border-purple-500 focus:outline-none"
                   >
                     {borderOptions.map((option) => (
                       <option key={option} value={option}>
@@ -97,7 +97,7 @@ export default function PromptEstimatorPage() {
 
                 {/* Batch Count */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Generate Count (1-100)
                   </label>
                   <input
@@ -109,19 +109,19 @@ export default function PromptEstimatorPage() {
                       const val = Math.max(1, Math.min(100, parseInt(e.target.value) || 1))
                       setBatchCount(val)
                     }}
-                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                    className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
                   />
                 </div>
 
                 {/* Image Size */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Image Size
                   </label>
                   <select
                     value={imageSize}
                     onChange={(e) => setImageSize(e.target.value as '1024x1024' | '1024x1792' | '1792x1024')}
-                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white focus:border-purple-500 focus:outline-none"
+                    className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white focus:border-purple-500 focus:outline-none"
                   >
                     <option value="1024x1024">1024x1024 (Square)</option>
                     <option value="1024x1792">1024x1792 (Portrait)</option>
@@ -131,13 +131,13 @@ export default function PromptEstimatorPage() {
 
                 {/* Quality */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Quality
                   </label>
                   <select
                     value={quality}
                     onChange={(e) => setQuality(e.target.value as 'standard' | 'hd')}
-                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white focus:border-purple-500 focus:outline-none"
+                    className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white focus:border-purple-500 focus:outline-none"
                   >
                     <option value="standard">Standard</option>
                     <option value="hd">HD</option>
@@ -155,7 +155,7 @@ export default function PromptEstimatorPage() {
                 </h2>
 
                 {!description.trim() ? (
-                  <div className="text-center py-8 text-gray-400">
+                  <div className="text-center py-8 text-[#a8a8b8]">
                     <p>Enter a description above to see cost estimation</p>
                   </div>
                 ) : costEstimation ? (
@@ -163,12 +163,12 @@ export default function PromptEstimatorPage() {
                     {/* Per Image Cost */}
                     <div className="bg-black/30 rounded-lg p-4 border border-blue-600/30">
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-gray-300">Per Image:</span>
+                        <span className="text-white">Per Image:</span>
                         <span className="text-white font-mono font-bold text-xl">
                           {formatCost(costEstimation.perImage)}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-[#a8a8b8]/80">
                         {costEstimation.size} • {costEstimation.quality.toUpperCase()} Quality
                       </p>
                     </div>
@@ -176,54 +176,54 @@ export default function PromptEstimatorPage() {
                     {/* Total Cost */}
                     <div className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-lg p-4 border-2 border-green-600">
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-gray-300 font-semibold">Total Cost:</span>
+                        <span className="text-white font-semibold">Total Cost:</span>
                         <span className="text-green-400 font-mono font-bold text-3xl">
                           {formatCost(costEstimation.total)}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-[#a8a8b8]">
                         For {batchCount} image{batchCount > 1 ? 's' : ''}
                       </p>
                     </div>
 
                     {/* Prompt Details */}
-                    <div className="bg-black/30 rounded-lg p-4 border border-gray-700">
-                      <h3 className="text-sm font-semibold text-gray-300 mb-3">Prompt Details</h3>
+                    <div className="bg-black/30 rounded-lg p-4 border border-[#9945FF]/20">
+                      <h3 className="text-sm font-semibold text-white mb-3">Prompt Details</h3>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Estimated Tokens:</span>
+                          <span className="text-[#a8a8b8]">Estimated Tokens:</span>
                           <span className="text-white font-mono">{costEstimation.estimatedTokens.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Model:</span>
+                          <span className="text-[#a8a8b8]">Model:</span>
                           <span className="text-white">gpt-image-1</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Size:</span>
+                          <span className="text-[#a8a8b8]">Size:</span>
                           <span className="text-white">{costEstimation.size}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Quality:</span>
+                          <span className="text-[#a8a8b8]">Quality:</span>
                           <span className="text-white">{costEstimation.quality.toUpperCase()}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Full Prompt Preview */}
-                    <div className="bg-black/30 rounded-lg p-4 border border-gray-700">
-                      <h3 className="text-sm font-semibold text-gray-300 mb-2">Full Prompt Preview</h3>
-                      <div className="bg-gray-900 rounded p-3 max-h-48 overflow-y-auto">
-                        <pre className="text-xs text-gray-400 whitespace-pre-wrap font-mono">
+                    <div className="bg-black/30 rounded-lg p-4 border border-[#9945FF]/20">
+                      <h3 className="text-sm font-semibold text-white mb-2">Full Prompt Preview</h3>
+                      <div className="bg-[#14141e] rounded p-3 max-h-48 overflow-y-auto">
+                        <pre className="text-xs text-[#a8a8b8] whitespace-pre-wrap font-mono">
                           {buildFullPrompt(description, borderStyle, artStyle, 0, batchCount)}
                         </pre>
                       </div>
-                      <p className="text-xs text-gray-500 mt-2">
+                      <p className="text-xs text-[#a8a8b8]/80 mt-2">
                         Character count: {buildFullPrompt(description, borderStyle, artStyle, 0, batchCount).length.toLocaleString()}
                       </p>
                     </div>
 
                     {/* Pricing Info */}
-                    <div className="bg-yellow-900/20 border border-yellow-700/50 rounded-lg p-3">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#FBBF24]/20/50 rounded-lg p-3">
                       <p className="text-xs text-yellow-300">
                         💡 <strong>Note:</strong> Pricing is based on OpenAI's current rates. Actual costs may vary.
                       </p>
@@ -235,9 +235,9 @@ export default function PromptEstimatorPage() {
           </div>
 
           {/* Footer Info */}
-          <div className="mt-8 bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+          <div className="mt-8 bg-[#1a1a24]/50 border border-[#9945FF]/20 rounded-lg p-6">
             <h3 className="text-lg font-bold text-white mb-4">About Cost Estimation</h3>
-            <div className="space-y-2 text-sm text-gray-300">
+            <div className="space-y-2 text-sm text-white">
               <p>
                 • <strong>Per Image Pricing:</strong> Costs are calculated per image generated, not per token.
               </p>

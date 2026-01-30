@@ -46,7 +46,7 @@ export function DownloadProgressModal({
           </div>
 
           {isError ? (
-            <div className="bg-red-900/30 border border-red-700 rounded-lg p-4 mb-4">
+            <div className="bg-red-900/30 border border-[#EF4444]/20 rounded-lg p-4 mb-4">
               <p className="text-red-300 font-semibold">Error</p>
               <p className="text-red-200 text-sm mt-1">{message || 'An error occurred during download'}</p>
             </div>
@@ -55,7 +55,7 @@ export function DownloadProgressModal({
               {/* Progress Bar */}
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-300">
+                  <span className="text-sm font-medium text-white">
                     {message && (isDownloading || isGenerating) ? message : (
                       <>
                         {isDownloading && `Downloaded ${current}/${total} images...`}
@@ -64,9 +64,9 @@ export function DownloadProgressModal({
                       </>
                     )}
                   </span>
-                  <span className="text-sm text-gray-400">{Math.round(progress)}%</span>
+                  <span className="text-sm text-[#a8a8b8]">{Math.round(progress)}%</span>
                 </div>
-                <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
+                <div className="h-3 bg-[#1a1a24] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 ease-out"
                     style={{ width: `${progress}%` }}
@@ -83,7 +83,7 @@ export function DownloadProgressModal({
 
               {/* Failed Count Warning */}
               {failedCount > 0 && (
-                <div className="bg-yellow-900/20 border border-yellow-700/30 rounded-lg p-3 mb-4">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#FBBF24]/20/30 rounded-lg p-3 mb-4">
                   <p className="text-yellow-200 text-sm">
                     ⚠️ {failedCount} image{failedCount !== 1 ? 's' : ''} failed to download. Check console for details.
                   </p>
@@ -93,7 +93,7 @@ export function DownloadProgressModal({
               {/* Loading Animation */}
               {!isCompleted && (
                 <div className="mt-6 pt-6 border-t border-gray-800">
-                  <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+                  <div className="flex items-center justify-center gap-2 text-sm text-[#a8a8b8]">
                     <div className="flex gap-1">
                       <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                       <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>

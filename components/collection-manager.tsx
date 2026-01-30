@@ -308,13 +308,13 @@ export function CollectionManager({ onCollectionChange }: CollectionManagerProps
         <div className="flex gap-2">
           <Link
             href="/collections/advanced"
-            className="bg-[#00d4ff] text-white px-4 py-2 rounded hover:bg-[#00b8e6] text-sm shadow-lg shadow-[#00d4ff]/20 transition-colors"
+            className="bg-[#00d4ff] text-white px-4 py-2 rounded hover:bg-[#14F195] text-sm shadow-lg shadow-[#00d4ff]/20 transition-colors"
           >
             Advanced Management
           </Link>
           <button
             onClick={() => setShowCreateForm(true)}
-            className="bg-[#00d4ff] text-white px-4 py-2 rounded hover:bg-[#00b8e6] shadow-lg shadow-[#00d4ff]/20 transition-colors"
+            className="bg-[#00d4ff] text-white px-4 py-2 rounded hover:bg-[#14F195] shadow-lg shadow-[#00d4ff]/20 transition-colors"
           >
             Create Collection
           </button>
@@ -353,8 +353,8 @@ export function CollectionManager({ onCollectionChange }: CollectionManagerProps
             key={collection.id}
             className={`border rounded-lg p-4 ${
               collection.isActive 
-                ? 'border-[#00d4ff] cosmic-card' 
-                : 'border-[#00d4ff]/30 cosmic-card'
+                ? 'border-[#00d4ff] bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md' 
+                : 'border-[#00d4ff]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md'
             }`}
           >
             <div className="flex justify-between items-start">
@@ -363,7 +363,7 @@ export function CollectionManager({ onCollectionChange }: CollectionManagerProps
                 {collection.description && (
                   <p className="text-white/70 text-sm mt-1">{collection.description}</p>
                 )}
-                <p className="text-xs text-white/60 mt-2">
+                <p className="text-xs text-[#a8a8b8]/80 mt-2">
                   Created: {new Date(collection.createdAt).toLocaleDateString()}
                 </p>
               </div>
@@ -373,20 +373,20 @@ export function CollectionManager({ onCollectionChange }: CollectionManagerProps
                   className={`px-3 py-1 text-sm rounded transition-colors ${
                     collection.isActive
                       ? 'bg-[#00d4ff] text-white shadow-lg shadow-[#00d4ff]/20'
-                      : 'cosmic-card border border-[#00d4ff]/30 text-white/70 hover:border-[#00d4ff]/50 hover:text-white'
+                      : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 text-white/70 hover:border-[#00d4ff]/50 hover:text-white'
                   }`}
                 >
                   {collection.isActive ? 'Active' : 'Set Active'}
                 </button>
                 <button
                   onClick={() => setEditingCollection(collection)}
-                  className="px-3 py-1 text-sm bg-[#ff6b35] text-white rounded hover:bg-[#ff5722] shadow-lg shadow-[#ff6b35]/20 transition-colors"
+                  className="px-3 py-1 text-sm bg-[#DC1FFF] text-white rounded hover:bg-[#9945FF] shadow-lg shadow-[#DC1FFF]/20 transition-colors"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDeleteCollection(collection.id, collection.name)}
-                  className="px-3 py-1 text-sm bg-[#ff4757] text-white rounded hover:bg-[#ff3838] shadow-lg shadow-[#ff4757]/20 transition-colors"
+                  className="px-3 py-1 text-sm bg-[#EF4444] text-white rounded hover:bg-[#ff3838] shadow-lg shadow-[#EF4444]/20 transition-colors"
                 >
                   Delete
                 </button>
@@ -508,7 +508,7 @@ function CollectionForm({ availableTraits, traitDescriptions, collection, onSave
   }
 
   return (
-            <div className="border rounded-lg p-6 cosmic-card border-[#00d4ff]/30">
+            <div className="border rounded-lg p-6 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-[#00d4ff]/30">
               <h3 className="text-lg font-semibold mb-4 text-white">
                 {collection ? 'Edit Collection' : 'Create New Collection'}
               </h3>
@@ -522,7 +522,7 @@ function CollectionForm({ availableTraits, traitDescriptions, collection, onSave
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none"
+            className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none"
             placeholder="Enter collection name"
           />
         </div>
@@ -534,7 +534,7 @@ function CollectionForm({ availableTraits, traitDescriptions, collection, onSave
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 cosmic-card text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none"
+            className="w-full border border-[#00d4ff]/30 rounded px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#00d4ff] focus:ring-2 focus:ring-[#00d4ff]/20 focus:outline-none"
             placeholder="Enter collection description"
             rows={3}
           />
@@ -567,13 +567,13 @@ function CollectionForm({ availableTraits, traitDescriptions, collection, onSave
         <div className="flex gap-2 pt-4">
           <button
             onClick={handleSave}
-            className="bg-[#00d4ff] text-white px-4 py-2 rounded hover:bg-[#00b8e6] shadow-lg shadow-[#00d4ff]/20 transition-colors"
+            className="bg-[#00d4ff] text-white px-4 py-2 rounded hover:bg-[#14F195] shadow-lg shadow-[#00d4ff]/20 transition-colors"
           >
             {collection ? 'Update Collection' : 'Create Collection'}
           </button>
           <button
             onClick={onCancel}
-            className="bg-gradient-to-r from-[#00d4ff] to-[#ff6b35] hover:from-[#00b8e6] hover:to-[#ff5722] text-white px-4 py-2 rounded shadow-lg shadow-[#00d4ff]/20 transition-all duration-200"
+            className="bg-gradient-to-r from-[#00d4ff] to-[#DC1FFF] hover:from-[#14F195] hover:to-[#9945FF] text-white px-4 py-2 rounded shadow-lg shadow-[#00d4ff]/20 transition-all duration-200"
           >
             Cancel
           </button>
@@ -609,14 +609,14 @@ function TraitCategorySelector({
   const categoryTraits = safeAvailableTraits[category] || []
   
   return (
-    <div className="border rounded-lg p-4 cosmic-card border-[#00d4ff]/30">
+    <div className="border rounded-lg p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-[#00d4ff]/30">
       <div className="flex items-center justify-between mb-3">
         <label className="flex items-center space-x-2">
           <input
             type="checkbox"
             checked={selection.enabled}
             onChange={onToggleCategory}
-            className="rounded cosmic-card border-[#00d4ff]/30 text-[#00d4ff] focus:ring-[#00d4ff]"
+            className="rounded bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-[#00d4ff]/30 text-[#00d4ff] focus:ring-[#00d4ff]"
           />
           <span className="font-medium capitalize text-white">
             {category.replace(/([A-Z])/g, ' $1').trim()}
@@ -627,13 +627,13 @@ function TraitCategorySelector({
           <div className="flex gap-2">
             <button
               onClick={onSelectAll}
-              className="text-xs bg-[#00d4ff] text-white px-2 py-1 rounded hover:bg-[#00b8e6] shadow-lg shadow-[#00d4ff]/20 transition-colors"
+              className="text-xs bg-[#00d4ff] text-white px-2 py-1 rounded hover:bg-[#14F195] shadow-lg shadow-[#00d4ff]/20 transition-colors"
             >
               Select All
             </button>
             <button
               onClick={onClearAll}
-              className="text-xs bg-[#ff4757] text-white px-2 py-1 rounded hover:bg-[#ff3838] shadow-lg shadow-[#ff4757]/20 transition-colors"
+              className="text-xs bg-[#EF4444] text-white px-2 py-1 rounded hover:bg-[#ff3838] shadow-lg shadow-[#EF4444]/20 transition-colors"
             >
               Clear All
             </button>
@@ -646,12 +646,12 @@ function TraitCategorySelector({
           {categoryTraits.map((trait) => {
             const description = traitDescriptions?.[category]?.[trait] || `${trait} trait`
             return (
-              <label key={trait} className="flex items-start space-x-3 p-2 rounded border border-[#00d4ff]/30 hover:bg-[#00d4ff]/10 cursor-pointer cosmic-card">
+              <label key={trait} className="flex items-start space-x-3 p-2 rounded border border-[#00d4ff]/30 hover:bg-[#00d4ff]/10 cursor-pointer bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
                 <input
                   type="checkbox"
                   checked={selection.selected.includes(trait)}
                   onChange={() => onToggleTrait(trait)}
-                  className="rounded mt-1 cosmic-card border-[#00d4ff]/30 text-[#00d4ff] focus:ring-[#00d4ff]"
+                  className="rounded mt-1 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-[#00d4ff]/30 text-[#00d4ff] focus:ring-[#00d4ff]"
                 />
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-white">{trait}</div>
@@ -664,7 +664,7 @@ function TraitCategorySelector({
       )}
 
       {selection.enabled && (
-        <div className="mt-2 text-xs text-white/60">
+        <div className="mt-2 text-xs text-[#a8a8b8]/80">
           {selection.selected.length} of {categoryTraits.length} traits selected
         </div>
       )}

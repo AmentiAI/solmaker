@@ -88,7 +88,7 @@ export default function DebugCenterPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-white mb-2">🔬 Debug Center</h1>
-            <p className="text-gray-400 text-lg">
+            <p className="text-[#a8a8b8] text-lg">
               Test and understand OpenAI image generation costs and prompt optimization
             </p>
           </div>
@@ -96,9 +96,9 @@ export default function DebugCenterPage() {
           {/* Key Insight Banner */}
           <div className="bg-blue-900/30 border-2 border-blue-600 rounded-lg p-6 mb-8">
             <h2 className="text-xl font-bold text-blue-300 mb-3">💡 Key Insight: How OpenAI Image Generation Pricing Works</h2>
-            <div className="space-y-2 text-gray-300">
+            <div className="space-y-2 text-white">
               <p>
-                <strong className="text-yellow-400">Important:</strong> OpenAI's image generation API (gpt-image-1, DALL-E) charges 
+                <strong className="text-[#FBBF24]">Important:</strong> OpenAI's image generation API (gpt-image-1, DALL-E) charges 
                 <strong className="text-green-400"> per image generated</strong>, NOT per token or prompt length.
               </p>
               <p>
@@ -118,7 +118,7 @@ export default function DebugCenterPage() {
           {/* Comparison Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Short Prompt */}
-            <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+            <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-white">Short Prompt (~400 words)</h2>
                 <span className="px-3 py-1 bg-green-500/30 text-green-300 rounded text-sm font-semibold">
@@ -127,33 +127,33 @@ export default function DebugCenterPage() {
               </div>
               
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Base Description
                 </label>
                 <textarea
                   value={shortPrompt}
                   onChange={(e) => setShortPrompt(e.target.value)}
                   placeholder="Enter a short description..."
-                  className="w-full h-24 p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
+                  className="w-full h-24 p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
                 />
               </div>
 
-              <div className="bg-gray-900 rounded-lg p-4 mb-4">
+              <div className="bg-[#14141e] rounded-lg p-4 mb-4">
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Full Prompt Length:</span>
+                    <span className="text-[#a8a8b8]">Full Prompt Length:</span>
                     <span className="text-white font-mono">{shortFullPrompt.length.toLocaleString()} chars</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Word Count:</span>
+                    <span className="text-[#a8a8b8]">Word Count:</span>
                     <span className="text-white font-mono">{getWordCount(shortFullPrompt).toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Estimated Tokens:</span>
+                    <span className="text-[#a8a8b8]">Estimated Tokens:</span>
                     <span className="text-white font-mono">{Math.ceil(shortFullPrompt.length / 4).toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between border-t border-gray-700 pt-2 mt-2">
-                    <span className="text-gray-300 font-semibold">Cost per Image:</span>
+                  <div className="flex justify-between border-t border-[#9945FF]/20 pt-2 mt-2">
+                    <span className="text-white font-semibold">Cost per Image:</span>
                     <span className="text-green-400 font-mono font-bold text-lg">
                       {formatCost(shortCost.perImage)}
                     </span>
@@ -164,14 +164,14 @@ export default function DebugCenterPage() {
               <button
                 onClick={() => handleTestGeneration(shortPrompt, 'short')}
                 disabled={isGenerating || !shortPrompt.trim()}
-                className="w-full px-4 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors"
+                className="w-full px-4 py-3 bg-green-600 hover:bg-green-700 disabled:bg-[#1a1a24]/80 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors"
               >
                 {isGenerating ? 'Testing...' : 'Test Short Prompt Generation'}
               </button>
             </div>
 
             {/* Long Prompt */}
-            <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+            <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-white">Long Prompt (~1000 words)</h2>
                 <span className="px-3 py-1 bg-orange-500/30 text-orange-300 rounded text-sm font-semibold">
@@ -180,33 +180,33 @@ export default function DebugCenterPage() {
               </div>
               
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Base Description
                 </label>
                 <textarea
                   value={longPrompt}
                   onChange={(e) => setLongPrompt(e.target.value)}
                   placeholder="Enter a detailed, long description..."
-                  className="w-full h-24 p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
+                  className="w-full h-24 p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
                 />
               </div>
 
-              <div className="bg-gray-900 rounded-lg p-4 mb-4">
+              <div className="bg-[#14141e] rounded-lg p-4 mb-4">
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Full Prompt Length:</span>
+                    <span className="text-[#a8a8b8]">Full Prompt Length:</span>
                     <span className="text-white font-mono">{longFullPrompt.length.toLocaleString()} chars</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Word Count:</span>
+                    <span className="text-[#a8a8b8]">Word Count:</span>
                     <span className="text-white font-mono">{getWordCount(longFullPrompt).toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Estimated Tokens:</span>
+                    <span className="text-[#a8a8b8]">Estimated Tokens:</span>
                     <span className="text-white font-mono">{Math.ceil(longFullPrompt.length / 4).toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between border-t border-gray-700 pt-2 mt-2">
-                    <span className="text-gray-300 font-semibold">Cost per Image:</span>
+                  <div className="flex justify-between border-t border-[#9945FF]/20 pt-2 mt-2">
+                    <span className="text-white font-semibold">Cost per Image:</span>
                     <span className="text-green-400 font-mono font-bold text-lg">
                       {formatCost(longCost.perImage)}
                     </span>
@@ -217,7 +217,7 @@ export default function DebugCenterPage() {
               <button
                 onClick={() => handleTestGeneration(longPrompt, 'long')}
                 disabled={isGenerating || !longPrompt.trim()}
-                className="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors"
+                className="w-full px-4 py-3 bg-orange-600 hover:bg-orange-700 disabled:bg-[#1a1a24]/80 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors"
               >
                 {isGenerating ? 'Testing...' : 'Test Long Prompt Generation'}
               </button>
@@ -228,27 +228,27 @@ export default function DebugCenterPage() {
           <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 border-2 border-purple-600 rounded-lg p-6 mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">💰 Cost Comparison</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-black/40 rounded-lg p-4 border border-gray-700">
-                <p className="text-gray-400 text-sm mb-2">Short Prompt Cost</p>
+              <div className="bg-black/40 rounded-lg p-4 border border-[#9945FF]/20">
+                <p className="text-[#a8a8b8] text-sm mb-2">Short Prompt Cost</p>
                 <p className="text-3xl font-bold text-green-400">{formatCost(shortCost.perImage)}</p>
-                <p className="text-xs text-gray-500 mt-1">{getWordCount(shortFullPrompt)} words</p>
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">{getWordCount(shortFullPrompt)} words</p>
               </div>
-              <div className="bg-black/40 rounded-lg p-4 border border-gray-700">
-                <p className="text-gray-400 text-sm mb-2">Long Prompt Cost</p>
+              <div className="bg-black/40 rounded-lg p-4 border border-[#9945FF]/20">
+                <p className="text-[#a8a8b8] text-sm mb-2">Long Prompt Cost</p>
                 <p className="text-3xl font-bold text-green-400">{formatCost(longCost.perImage)}</p>
-                <p className="text-xs text-gray-500 mt-1">{getWordCount(longFullPrompt)} words</p>
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">{getWordCount(longFullPrompt)} words</p>
               </div>
               <div className="bg-black/40 rounded-lg p-4 border-2 border-yellow-600">
-                <p className="text-gray-400 text-sm mb-2">Cost Difference</p>
-                <p className="text-3xl font-bold text-yellow-400">
+                <p className="text-[#a8a8b8] text-sm mb-2">Cost Difference</p>
+                <p className="text-3xl font-bold text-[#FBBF24]">
                   {formatCost(Math.abs(shortCost.perImage - longCost.perImage))}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-[#a8a8b8]/80 mt-1">
                   {shortCost.perImage === longCost.perImage ? 'Same cost!' : 'Different'}
                 </p>
               </div>
             </div>
-            <div className="mt-4 p-4 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
+            <div className="mt-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#FBBF24]/20/50 rounded-lg">
               <p className="text-yellow-300 text-sm">
                 ✅ <strong>Result:</strong> Both prompts cost the same because OpenAI charges per image, not per token or prompt length.
                 The cost is determined by image size ({imageSize}) and quality ({quality.toUpperCase()}) only.
@@ -257,17 +257,17 @@ export default function DebugCenterPage() {
           </div>
 
           {/* Settings */}
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-8">
+          <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg p-6 mb-8">
             <h2 className="text-xl font-bold text-white mb-4">⚙️ Test Settings</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Image Size
                 </label>
                 <select
                   value={imageSize}
                   onChange={(e) => setImageSize(e.target.value as '1024x1024' | '1024x1792' | '1792x1024')}
-                  className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white focus:border-purple-500 focus:outline-none"
+                  className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white focus:border-purple-500 focus:outline-none"
                 >
                   <option value="1024x1024">1024x1024 (Square) - $0.040/$0.080</option>
                   <option value="1024x1792">1024x1792 (Portrait) - $0.080/$0.120</option>
@@ -275,13 +275,13 @@ export default function DebugCenterPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Quality
                 </label>
                 <select
                   value={quality}
                   onChange={(e) => setQuality(e.target.value as 'standard' | 'hd')}
-                  className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white focus:border-purple-500 focus:outline-none"
+                  className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white focus:border-purple-500 focus:outline-none"
                 >
                   <option value="standard">Standard - Lower cost</option>
                   <option value="hd">HD - Higher quality, higher cost</option>
@@ -293,7 +293,7 @@ export default function DebugCenterPage() {
           {/* Optimization Insights */}
           <div className="bg-gradient-to-r from-green-900/30 to-emerald-900/30 border-2 border-green-600 rounded-lg p-6 mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">🎯 Optimization Insights</h2>
-            <div className="space-y-4 text-gray-300">
+            <div className="space-y-4 text-white">
               <div>
                 <h3 className="text-lg font-semibold text-green-400 mb-2">What DOES Affect Cost:</h3>
                 <ul className="list-disc list-inside ml-4 space-y-1">
@@ -303,7 +303,7 @@ export default function DebugCenterPage() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-red-400 mb-2">What DOES NOT Affect Cost:</h3>
+                <h3 className="text-lg font-semibold text-[#EF4444] mb-2">What DOES NOT Affect Cost:</h3>
                 <ul className="list-disc list-inside ml-4 space-y-1">
                   <li><strong>Prompt Length:</strong> 10 words or 1000 words - same cost</li>
                   <li><strong>Token Count:</strong> Not used for pricing in image generation</li>
@@ -325,14 +325,14 @@ export default function DebugCenterPage() {
 
           {/* Test Results History */}
           {testResults.length > 0 && (
-            <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+            <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg p-6">
               <h2 className="text-xl font-bold text-white mb-4">📊 Test Results History</h2>
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {testResults.map((result, index) => (
-                  <div key={index} className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                  <div key={index} className="bg-[#14141e] rounded-lg p-4 border border-[#9945FF]/20">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-[#a8a8b8]">
                           Test #{testResults.length - index} • {result.timestamp.toLocaleTimeString()}
                         </p>
                       </div>
@@ -342,15 +342,15 @@ export default function DebugCenterPage() {
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-sm mb-2">
                       <div>
-                        <span className="text-gray-400">Words:</span>
+                        <span className="text-[#a8a8b8]">Words:</span>
                         <span className="text-white ml-2 font-mono">{result.wordCount.toLocaleString()}</span>
                       </div>
                       <div>
-                        <span className="text-gray-400">Chars:</span>
+                        <span className="text-[#a8a8b8]">Chars:</span>
                         <span className="text-white ml-2 font-mono">{result.promptLength.toLocaleString()}</span>
                       </div>
                       <div>
-                        <span className="text-gray-400">Tokens:</span>
+                        <span className="text-[#a8a8b8]">Tokens:</span>
                         <span className="text-white ml-2 font-mono">{result.tokenEstimate.toLocaleString()}</span>
                       </div>
                     </div>
@@ -358,7 +358,7 @@ export default function DebugCenterPage() {
                       <summary className="text-sm text-blue-400 cursor-pointer hover:text-blue-300">
                         View Full Prompt
                       </summary>
-                      <pre className="mt-2 text-xs text-gray-400 bg-black/50 rounded p-3 overflow-x-auto whitespace-pre-wrap">
+                      <pre className="mt-2 text-xs text-[#a8a8b8] bg-black/50 rounded p-3 overflow-x-auto whitespace-pre-wrap">
                         {result.prompt}
                       </pre>
                     </details>
@@ -369,9 +369,9 @@ export default function DebugCenterPage() {
           )}
 
           {/* Full Explanation */}
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mt-8">
+          <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg p-6 mt-8">
             <h2 className="text-2xl font-bold text-white mb-4">📚 Complete Explanation</h2>
-            <div className="prose prose-invert max-w-none space-y-4 text-gray-300">
+            <div className="prose prose-invert max-w-none space-y-4 text-white">
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">How OpenAI Image Generation Pricing Works</h3>
                 <p>
@@ -388,28 +388,28 @@ export default function DebugCenterPage() {
               
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">Current Pricing (as of 2024)</h3>
-                <div className="bg-gray-900 rounded-lg p-4 mt-2">
+                <div className="bg-[#14141e] rounded-lg p-4 mt-2">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-gray-700">
-                        <th className="text-left py-2 text-gray-300">Size</th>
-                        <th className="text-right py-2 text-gray-300">Standard</th>
-                        <th className="text-right py-2 text-gray-300">HD</th>
+                      <tr className="border-b border-[#9945FF]/20">
+                        <th className="text-left py-2 text-white">Size</th>
+                        <th className="text-right py-2 text-white">Standard</th>
+                        <th className="text-right py-2 text-white">HD</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr className="border-b border-gray-800">
-                        <td className="py-2 text-gray-400">1024×1024</td>
+                        <td className="py-2 text-[#a8a8b8]">1024×1024</td>
                         <td className="text-right py-2 text-white font-mono">$0.040</td>
                         <td className="text-right py-2 text-white font-mono">$0.080</td>
                       </tr>
                       <tr className="border-b border-gray-800">
-                        <td className="py-2 text-gray-400">1024×1792</td>
+                        <td className="py-2 text-[#a8a8b8]">1024×1792</td>
                         <td className="text-right py-2 text-white font-mono">$0.080</td>
                         <td className="text-right py-2 text-white font-mono">$0.120</td>
                       </tr>
                       <tr>
-                        <td className="py-2 text-gray-400">1792×1024</td>
+                        <td className="py-2 text-[#a8a8b8]">1792×1024</td>
                         <td className="text-right py-2 text-white font-mono">$0.080</td>
                         <td className="text-right py-2 text-white font-mono">$0.120</td>
                       </tr>

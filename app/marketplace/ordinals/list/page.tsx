@@ -112,7 +112,7 @@ function OrdinalContent({ ordinal }: { ordinal: Ordinal }) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1f3a] to-[#0a0e27] p-2">
         <span className="text-3xl mb-1">📜</span>
-        <span className="text-[10px] text-white/60 uppercase tracking-wider">Text</span>
+        <span className="text-[10px] text-[#a8a8b8]/80 uppercase tracking-wider">Text</span>
       </div>
     )
   }
@@ -137,7 +137,7 @@ function OrdinalContent({ ordinal }: { ordinal: Ordinal }) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1f3a] to-[#0a0e27]">
         <span className="text-3xl mb-1">🎮</span>
-        <span className="text-[10px] text-white/60 uppercase tracking-wider">3D Model</span>
+        <span className="text-[10px] text-[#a8a8b8]/80 uppercase tracking-wider">3D Model</span>
       </div>
     )
   }
@@ -419,10 +419,10 @@ export default function ListOrdinalPage() {
   if (!isConnected) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-12 text-center max-w-md">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-12 text-center max-w-md">
           <div className="text-6xl mb-4">🔒</div>
           <h2 className="text-2xl font-bold text-white mb-2">Wallet Not Connected</h2>
-          <p className="text-white/80 mb-6">
+          <p className="text-[#a8a8b8] mb-6">
             Please connect your Bitcoin wallet to list ordinals
           </p>
         </div>
@@ -433,11 +433,11 @@ export default function ListOrdinalPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
         <div className="container mx-auto px-6 py-8">
           <button
             onClick={() => router.back()}
-            className="text-[#00d4ff] hover:text-[#00b8e6] mb-4 flex items-center gap-2"
+            className="text-[#9945FF] hover:text-[#14F195] mb-4 flex items-center gap-2"
           >
             ← Back to Marketplace
           </button>
@@ -459,10 +459,10 @@ export default function ListOrdinalPage() {
                   <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : ordinals.length === 0 && !fetchingOrdinals ? (
-                <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-12 text-center">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-12 text-center">
                   <div className="text-6xl mb-4">💎</div>
                   <h2 className="text-2xl font-bold text-white mb-2">No Ordinals Found</h2>
-                  <p className="text-white/80 mb-6">
+                  <p className="text-[#a8a8b8] mb-6">
                     We couldn't find any ordinals in your wallet. Make sure you have ordinals and try again.
                   </p>
                   <button
@@ -471,7 +471,7 @@ export default function ListOrdinalPage() {
                       setHasMore(true)
                       fetchUserOrdinals(0, true)
                     }}
-                    className="px-6 py-3 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-semibold transition-colors"
+                    className="px-6 py-3 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-semibold transition-colors"
                   >
                     Refresh
                   </button>
@@ -481,7 +481,7 @@ export default function ListOrdinalPage() {
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-bold text-white">Select an Ordinal to List</h2>
                     <div className="flex items-center gap-4">
-                      <span className="text-white/60 text-sm">{ordinals.length} ordinals loaded</span>
+                      <span className="text-[#a8a8b8]/80 text-sm">{ordinals.length} ordinals loaded</span>
                       <button
                         onClick={() => {
                           setOrdinals([])
@@ -490,7 +490,7 @@ export default function ListOrdinalPage() {
                           fetchUserOrdinals(0, true)
                         }}
                         disabled={fetchingOrdinals}
-                        className="px-3 py-1.5 bg-[#00d4ff]/20 hover:bg-[#00d4ff]/30 text-[#00d4ff] rounded-lg text-sm font-medium transition-colors border border-[#00d4ff]/30 disabled:opacity-50"
+                        className="px-3 py-1.5 bg-[#9945FF]/20 hover:bg-[#9945FF]/30 text-[#9945FF] rounded-lg text-sm font-medium transition-colors border border-[#9945FF]/30 disabled:opacity-50"
                       >
                         {fetchingOrdinals ? 'Refreshing...' : '🔄 Refresh'}
                       </button>
@@ -501,7 +501,7 @@ export default function ListOrdinalPage() {
                       <div
                         key={ordinal.inscription_id}
                         onClick={() => handleSelectOrdinal(ordinal)}
-                        className="cosmic-card border border-[#00d4ff]/30 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-[#00d4ff]/20 hover:border-[#00d4ff]/60 hover:scale-[1.03] transition-all cursor-pointer group"
+                        className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-[#9945FF]/20 hover:border-[#9945FF]/60 hover:scale-[1.03] transition-all cursor-pointer group"
                       >
                         <div className="relative aspect-square bg-[#0a0e27] overflow-hidden">
                           <OrdinalContent ordinal={ordinal} />
@@ -516,7 +516,7 @@ export default function ListOrdinalPage() {
                           )}
                           {ordinal.inscription_number && (
                             <div className="absolute top-1 right-1 z-20 pointer-events-none">
-                              <span className="px-1.5 py-0.5 bg-[#00d4ff]/90 text-white rounded text-[10px] font-bold">
+                              <span className="px-1.5 py-0.5 bg-[#9945FF]/90 text-white rounded text-[10px] font-bold">
                                 #{ordinal.inscription_number.toLocaleString()}
                               </span>
                             </div>
@@ -539,13 +539,13 @@ export default function ListOrdinalPage() {
                     >
                       {loadingMore ? (
                         <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 border-3 border-[#00d4ff] border-t-transparent rounded-full animate-spin" />
+                          <div className="w-6 h-6 border-3 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
                           <span className="text-white/70">Loading more ordinals...</span>
                         </div>
                       ) : (
                         <button
                           onClick={() => fetchUserOrdinals(offset, false)}
-                          className="px-6 py-3 bg-[#00d4ff]/20 hover:bg-[#00d4ff]/30 text-[#00d4ff] rounded-lg font-semibold transition-colors border border-[#00d4ff]/30"
+                          className="px-6 py-3 bg-[#9945FF]/20 hover:bg-[#9945FF]/30 text-[#9945FF] rounded-lg font-semibold transition-colors border border-[#9945FF]/30"
                         >
                           Load More
                         </button>
@@ -565,10 +565,10 @@ export default function ListOrdinalPage() {
 
           {/* Step 2: Enter Details */}
           {step === 'details' && selectedOrdinal && (
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-xl p-8">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-8">
               <button
                 onClick={() => setStep('select')}
-                className="text-[#00d4ff] hover:text-[#00b8e6] mb-6 flex items-center gap-2"
+                className="text-[#9945FF] hover:text-[#14F195] mb-6 flex items-center gap-2"
               >
                 ← Choose Different Ordinal
               </button>
@@ -577,20 +577,20 @@ export default function ListOrdinalPage() {
                 {/* Preview */}
                 <div>
                   <h3 className="text-lg font-bold text-white mb-4">Preview</h3>
-                  <div className="border border-[#00d4ff]/30 rounded-xl overflow-hidden">
+                  <div className="border border-[#9945FF]/30 rounded-xl overflow-hidden">
                     <div className="aspect-square bg-[#0a0e27] relative">
                       <OrdinalContent ordinal={selectedOrdinal} />
                     </div>
-                    <div className="p-4 cosmic-card space-y-3">
+                    <div className="p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md space-y-3">
                       <div>
-                        <p className="text-sm text-white/60 mb-1">Inscription ID:</p>
+                        <p className="text-sm text-[#a8a8b8]/80 mb-1">Inscription ID:</p>
                         <p className="text-xs text-white font-mono break-all">
                           {selectedOrdinal.inscription_id}
                         </p>
                       </div>
                       {selectedOrdinal.inscription_number && (
                         <div>
-                          <p className="text-sm text-white/60 mb-1">Inscription #:</p>
+                          <p className="text-sm text-[#a8a8b8]/80 mb-1">Inscription #:</p>
                           <p className="text-white font-bold">
                             #{selectedOrdinal.inscription_number.toLocaleString()}
                           </p>
@@ -598,7 +598,7 @@ export default function ListOrdinalPage() {
                       )}
                       {selectedOrdinal.collection_symbol && (
                         <div>
-                          <p className="text-sm text-white/60 mb-1">Collection:</p>
+                          <p className="text-sm text-[#a8a8b8]/80 mb-1">Collection:</p>
                           <p className="text-white font-medium">
                             {selectedOrdinal.collection_symbol}
                           </p>
@@ -606,8 +606,8 @@ export default function ListOrdinalPage() {
                       )}
                       {selectedOrdinal.content_type && (
                         <div>
-                          <p className="text-sm text-white/60 mb-1">Content Type:</p>
-                          <p className="text-white/80 text-sm font-mono">
+                          <p className="text-sm text-[#a8a8b8]/80 mb-1">Content Type:</p>
+                          <p className="text-[#a8a8b8] text-sm font-mono">
                             {selectedOrdinal.content_type}
                           </p>
                         </div>
@@ -629,7 +629,7 @@ export default function ListOrdinalPage() {
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full px-4 py-2 bg-[#0a0e27] border border-[#00d4ff]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-[#00d4ff]"
+                        className="w-full px-4 py-2 bg-[#0a0e27] border border-[#9945FF]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-[#9945FF]"
                         placeholder="My Awesome Ordinal"
                       />
                     </div>
@@ -642,13 +642,13 @@ export default function ListOrdinalPage() {
                         type="number"
                         value={priceSats}
                         onChange={(e) => setPriceSats(e.target.value)}
-                        className="w-full px-4 py-2 bg-[#0a0e27] border border-[#00d4ff]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-[#00d4ff]"
+                        className="w-full px-4 py-2 bg-[#0a0e27] border border-[#9945FF]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-[#9945FF]"
                         placeholder="1000000"
                         min="1"
                         required
                       />
                       {priceSats && (
-                        <p className="text-sm text-white/60 mt-1">
+                        <p className="text-sm text-[#a8a8b8]/80 mt-1">
                           ≈ {(parseInt(priceSats) / 100000000).toFixed(8)} BTC
                         </p>
                       )}
@@ -661,7 +661,7 @@ export default function ListOrdinalPage() {
                       <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        className="w-full px-4 py-2 bg-[#0a0e27] border border-[#00d4ff]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-[#00d4ff] resize-none"
+                        className="w-full px-4 py-2 bg-[#0a0e27] border border-[#9945FF]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-[#9945FF] resize-none"
                         placeholder="Describe your ordinal..."
                         rows={4}
                       />
@@ -669,16 +669,16 @@ export default function ListOrdinalPage() {
 
                     {/* Fee info */}
                     {priceSats && parseInt(priceSats) > 0 && (
-                      <div className="bg-[#0a0e27] border border-[#00d4ff]/20 rounded-lg p-3">
+                      <div className="bg-[#0a0e27] border border-[#9945FF]/20 rounded-lg p-3">
                         <div className="flex justify-between text-sm">
-                          <span className="text-white/60">Platform Fee (2%)</span>
+                          <span className="text-[#a8a8b8]/80">Platform Fee (2%)</span>
                           <span className="text-white">
                             {Math.max(330, Math.floor(parseInt(priceSats) * 0.02)).toLocaleString()} sats
                           </span>
                         </div>
                         <div className="flex justify-between text-sm mt-1">
-                          <span className="text-white/60">You Receive</span>
-                          <span className="text-[#00d4ff] font-bold">
+                          <span className="text-[#a8a8b8]/80">You Receive</span>
+                          <span className="text-[#9945FF] font-bold">
                             {parseInt(priceSats).toLocaleString()} sats
                           </span>
                         </div>
@@ -689,7 +689,7 @@ export default function ListOrdinalPage() {
                       <button
                         onClick={handleCreateAndSign}
                         disabled={loading || !priceSats || !client}
-                        className="w-full px-6 py-3 bg-gradient-to-r from-[#00d4ff] to-[#00b8e6] hover:from-[#00b8e6] hover:to-[#0099cc] text-white rounded-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#00d4ff]/20"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-[#14F195] hover:to-[#0099cc] text-white rounded-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#9945FF]/20"
                       >
                         {loading ? (
                           <span className="flex items-center justify-center gap-2">

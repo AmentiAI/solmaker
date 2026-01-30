@@ -123,13 +123,13 @@ export function AdminSidebar() {
   }
 
   return (
-    <div className="w-64 bg-slate-900 border-r border-gray-800 min-h-screen p-4 pt-[130px] fixed left-0 top-0 overflow-y-auto z-50">
+    <div className="w-64 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-r border-gray-800 min-h-screen p-4 pt-[130px] fixed left-0 top-0 overflow-y-auto z-50">
       <div className="mb-6">
         <Link href="/admin" className="block">
           <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Admin Panel
           </h1>
-          <p className="text-xs text-gray-500 mt-1">Management Console</p>
+          <p className="text-xs text-[#a8a8b8]/80 mt-1">Management Console</p>
         </Link>
       </div>
 
@@ -145,12 +145,12 @@ export function AdminSidebar() {
             <div key={category.category}>
               <button
                 onClick={() => toggleCategory(category.category)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white hover:bg-gray-800 transition-all duration-200 ${
-                  hasActiveItem ? 'text-white bg-gray-800' : ''
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold text-[#a8a8b8] hover:text-white hover:bg-[#1a1a24] transition-all duration-200 ${
+                  hasActiveItem ? 'text-white bg-[#1a1a24]' : ''
                 }`}
               >
                 <span className="uppercase tracking-wider text-xs">{category.category}</span>
-                <span className={`text-gray-500 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}>
+                <span className={`text-[#a8a8b8]/80 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}>
                   ▶
                 </span>
               </button>
@@ -168,7 +168,7 @@ export function AdminSidebar() {
                         className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                           active
                             ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30'
-                            : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                            : 'text-[#a8a8b8] hover:text-white hover:bg-[#1a1a24]'
                         }`}
                       >
                         <span className="text-lg">{item.icon}</span>
@@ -186,7 +186,7 @@ export function AdminSidebar() {
       <div className="mt-8 pt-6 border-t border-gray-800">
         <Link
           href="/"
-          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+          className="flex items-center gap-2 px-3 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-[#1a1a24] rounded-lg transition-colors"
         >
           <span>←</span>
           <span>Back to Site</span>

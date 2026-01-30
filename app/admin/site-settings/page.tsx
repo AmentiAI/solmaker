@@ -81,11 +81,11 @@ export default function SiteSettingsPage() {
 
   if (!authorized) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-white mb-4">Access Denied</h1>
-            <p className="text-gray-400">You must be an admin to access this page.</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-4">Access Denied</h1>
+            <p className="text-[#b4b4c8]">You must be an admin to access this page.</p>
           </div>
         </div>
       </div>
@@ -95,35 +95,35 @@ export default function SiteSettingsPage() {
   const showCreditPurchase = settings.find((s: any) => s.key === 'show_credit_purchase')?.value ?? true
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       <div className="ml-64 p-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-2">Site Settings</h1>
-          <p className="text-gray-400 mb-8">Manage site-wide configuration settings</p>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent mb-2">Site Settings</h1>
+          <p className="text-[#b4b4c8] mb-8">Manage site-wide configuration settings</p>
 
           {error && (
-            <div className="mb-4 p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-200">
+            <div className="mb-4 p-4 bg-gradient-to-br from-red-900/50 to-red-800/30 border border-red-500/50 rounded-lg text-red-200">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="mb-4 p-4 bg-green-900/50 border border-green-500 rounded-lg text-green-200">
+            <div className="mb-4 p-4 bg-gradient-to-br from-green-900/50 to-green-800/30 border border-green-500/50 rounded-lg text-green-200">
               {success}
             </div>
           )}
 
           {loading ? (
-            <div className="text-gray-400">Loading settings...</div>
+            <div className="text-[#b4b4c8]">Loading settings...</div>
           ) : (
             <div className="space-y-6">
               {/* Credit Purchase Visibility */}
-              <div className="bg-slate-800/50 border border-gray-700 rounded-xl p-6">
+              <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h2 className="text-xl font-semibold text-white mb-1">Credit Purchase Visibility</h2>
-                    <p className="text-sm text-gray-400">
+                    <h2 className="text-xl font-semibold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-1">Credit Purchase Visibility</h2>
+                    <p className="text-sm text-[#b4b4c8]">
                       Control whether credit purchase functionality is visible across the site
                     </p>
                   </div>
@@ -135,23 +135,23 @@ export default function SiteSettingsPage() {
                       disabled={saving}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                    <span className="ml-3 text-sm font-medium text-gray-300">
+                    <div className="w-11 h-6 bg-[#0f0f1e] peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#00E5FF]/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#00E5FF]/30 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#00E5FF] peer-checked:to-[#FFD60A]"></div>
+                    <span className="ml-3 text-sm font-medium text-white">
                       {showCreditPurchase ? 'Visible' : 'Hidden'}
                     </span>
                   </label>
                 </div>
                 
-                <div className="mt-4 p-4 bg-slate-900/50 rounded-lg">
-                  <p className="text-sm text-gray-400 mb-2">When hidden, the following will be hidden:</p>
-                  <ul className="text-sm text-gray-500 list-disc list-inside space-y-1">
+                <div className="mt-4 p-4 bg-[#050510] rounded-lg border border-[#00E5FF]/20">
+                  <p className="text-sm text-[#b4b4c8] mb-2">When hidden, the following will be hidden:</p>
+                  <ul className="text-sm text-[#b4b4c8] list-disc list-inside space-y-1">
                     <li>Credit purchase component on homepage</li>
                     <li>"Buy Credits" links in navigation</li>
                     <li>Credit purchase mentions in error messages</li>
                     <li>Credit purchase buttons and modals</li>
                   </ul>
-                  <p className="text-sm text-gray-400 mt-3">
-                    Note: Users can still access the standalone <code className="text-purple-400">/buy-credits</code> page directly if they know the URL.
+                  <p className="text-sm text-[#b4b4c8] mt-3">
+                    Note: Users can still access the standalone <code className="text-[#00E5FF]">/buy-credits</code> page directly if they know the URL.
                   </p>
                 </div>
               </div>

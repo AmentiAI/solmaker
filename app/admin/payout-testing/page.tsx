@@ -100,7 +100,7 @@ export default function PayoutTestingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       <div className="ml-64 p-8">
         <div className="max-w-4xl mx-auto">
@@ -108,78 +108,78 @@ export default function PayoutTestingPage() {
           <div className="flex items-center gap-4 mb-8">
             <Link
               href="/admin"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-[#b4b4c8] hover:text-white transition-colors"
             >
               ← Back to Admin
             </Link>
-            <h1 className="text-3xl font-bold text-white">Payout Testing</h1>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">Payout Testing</h1>
           </div>
 
           {/* Description */}
-          <div className="bg-blue-900/30 border border-blue-700 rounded-xl p-4 mb-6">
-            <p className="text-blue-200 text-sm">
-              <strong>⚠️ Test Payout System:</strong> This tool allows you to test sending Bitcoin payments from the wallet stored in the <code className="bg-blue-800/50 px-1 rounded">PHRASE</code> environment variable. 
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-4 mb-6">
+            <p className="text-[#b4b4c8] text-sm">
+              <strong>⚠️ Test Payout System:</strong> This tool allows you to test sending Bitcoin payments from the wallet stored in the <code className="bg-[#050510] px-1 rounded border border-[#00E5FF]/20">PHRASE</code> environment variable. 
               Enter a recipient address and amount to create, sign, and broadcast a PSBT transaction.
             </p>
           </div>
 
           {/* Wallet Breakdown */}
           {walletLoading ? (
-            <div className="bg-slate-800 border border-gray-700 rounded-xl p-6 mb-6">
-              <p className="text-gray-400 text-sm">Loading wallet information...</p>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6 mb-6">
+              <p className="text-[#b4b4c8] text-sm">Loading wallet information...</p>
             </div>
           ) : walletInfo ? (
-            <div className="bg-slate-800 border border-gray-700 rounded-xl p-6 mb-6">
-              <h2 className="text-lg font-bold text-white mb-4">Wallet Breakdown from PHRASE</h2>
+            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6 mb-6">
+              <h2 className="text-lg font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-4">Wallet Breakdown from PHRASE</h2>
               
               {/* FEE_WALLET Verification */}
-              <div className={`mb-6 p-4 rounded-lg border ${walletInfo.feeWalletMatches ? 'bg-green-900/30 border-green-700' : 'bg-yellow-900/30 border-yellow-700'}`}>
+              <div className={`mb-6 p-4 rounded-lg border ${walletInfo.feeWalletMatches ? 'bg-gradient-to-br from-green-900/30 to-green-800/20 border-green-700/50' : 'bg-gradient-to-br from-yellow-900/30 to-yellow-800/20 border-[#FBBF24]/20/50'}`}>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className={walletInfo.feeWalletMatches ? 'text-green-400' : 'text-yellow-400'}>
+                  <span className={walletInfo.feeWalletMatches ? 'text-[#FFD60A]' : 'text-[#00E5FF]'}>
                     {walletInfo.feeWalletMatches ? '✅' : '⚠️'}
                   </span>
-                  <span className={`font-semibold ${walletInfo.feeWalletMatches ? 'text-green-200' : 'text-yellow-200'}`}>
+                  <span className={`font-semibold ${walletInfo.feeWalletMatches ? 'text-[#FFD60A]' : 'text-[#00E5FF]'}`}>
                     FEE_WALLET Environment Variable
                   </span>
                 </div>
-                <p className="text-xs text-gray-300 font-mono break-all mb-2">{walletInfo.feeWallet}</p>
+                <p className="text-xs text-white font-mono break-all mb-2">{walletInfo.feeWallet}</p>
                 {walletInfo.feeWalletMatches ? (
-                  <p className="text-xs text-green-300">
+                  <p className="text-xs text-[#FFD60A]">
                     ✅ Matches {walletInfo.matchedType?.toUpperCase()} address derived from PHRASE
                   </p>
                 ) : (
-                  <p className="text-xs text-yellow-300">
+                  <p className="text-xs text-[#00E5FF]">
                     ⚠️ Does not match any derived address from PHRASE
                   </p>
                 )}
               </div>
 
               {/* P2TR (Taproot) */}
-              <div className="mb-4 p-4 bg-slate-900/50 rounded-lg border border-purple-700/50">
-                <h3 className="text-sm font-bold text-purple-300 mb-3 flex items-center gap-2">
+              <div className="mb-4 p-4 bg-[#050510] rounded-lg border border-[#00E5FF]/30">
+                <h3 className="text-sm font-bold text-[#00E5FF] mb-3 flex items-center gap-2">
                   <span>🔷</span> P2TR (Taproot) - bc1p...
                 </h3>
                 <div className="space-y-2 text-xs">
                   <div>
-                    <span className="text-gray-400">Derivation Path:</span>
-                    <span className="text-gray-200 font-mono ml-2">{walletInfo.wallets.p2tr.path}</span>
+                    <span className="text-[#b4b4c8]">Derivation Path:</span>
+                    <span className="text-white font-mono ml-2">{walletInfo.wallets.p2tr.path}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Address:</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all">{walletInfo.wallets.p2tr.address}</span>
+                    <span className="text-[#b4b4c8]">Address:</span>
+                    <span className="text-white font-mono ml-2 break-all">{walletInfo.wallets.p2tr.address}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Public Key (hex):</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2tr.pubKeyHex}</span>
-                    <span className="text-gray-500 ml-2">({walletInfo.wallets.p2tr.pubKeyLength} bytes)</span>
+                    <span className="text-[#b4b4c8]">Public Key (hex):</span>
+                    <span className="text-white font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2tr.pubKeyHex}</span>
+                    <span className="text-[#b4b4c8] ml-2">({walletInfo.wallets.p2tr.pubKeyLength} bytes)</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Tap Internal Key (hex):</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2tr.tapInternalKey}</span>
-                    <span className="text-gray-500 ml-2">({walletInfo.wallets.p2tr.tapInternalKeyLength} bytes - used for signing)</span>
+                    <span className="text-[#b4b4c8]">Tap Internal Key (hex):</span>
+                    <span className="text-white font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2tr.tapInternalKey}</span>
+                    <span className="text-[#b4b4c8] ml-2">({walletInfo.wallets.p2tr.tapInternalKeyLength} bytes - used for signing)</span>
                   </div>
-                  <div className="mt-2 pt-2 border-t border-gray-700">
-                    <p className="text-gray-400 text-[10px]">
+                  <div className="mt-2 pt-2 border-t border-[#00E5FF]/20">
+                    <p className="text-[#b4b4c8] text-[10px]">
                       Taproot uses a 32-byte internal key (tapInternalKey) derived from the public key by removing the prefix byte. 
                       This is used for taproot signature verification.
                     </p>
@@ -188,89 +188,89 @@ export default function PayoutTestingPage() {
               </div>
 
               {/* P2WPKH (Native SegWit) */}
-              <div className="mb-4 p-4 bg-slate-900/50 rounded-lg border border-blue-700/50">
-                <h3 className="text-sm font-bold text-blue-300 mb-3 flex items-center gap-2">
+              <div className="mb-4 p-4 bg-[#050510] rounded-lg border border-[#00E5FF]/30">
+                <h3 className="text-sm font-bold text-[#00E5FF] mb-3 flex items-center gap-2">
                   <span>🔵</span> P2WPKH (Native SegWit) - bc1q...
                 </h3>
                 <div className="space-y-2 text-xs">
                   <div>
-                    <span className="text-gray-400">Derivation Path:</span>
-                    <span className="text-gray-200 font-mono ml-2">{walletInfo.wallets.p2wpkh.path}</span>
+                    <span className="text-[#b4b4c8]">Derivation Path:</span>
+                    <span className="text-white font-mono ml-2">{walletInfo.wallets.p2wpkh.path}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Address:</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all">{walletInfo.wallets.p2wpkh.address}</span>
+                    <span className="text-[#b4b4c8]">Address:</span>
+                    <span className="text-white font-mono ml-2 break-all">{walletInfo.wallets.p2wpkh.address}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Public Key (hex):</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2wpkh.pubKeyHex}</span>
-                    <span className="text-gray-500 ml-2">({walletInfo.wallets.p2wpkh.pubKeyLength} bytes)</span>
+                    <span className="text-[#b4b4c8]">Public Key (hex):</span>
+                    <span className="text-white font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2wpkh.pubKeyHex}</span>
+                    <span className="text-[#b4b4c8] ml-2">({walletInfo.wallets.p2wpkh.pubKeyLength} bytes)</span>
                   </div>
                 </div>
               </div>
 
               {/* P2SH (Nested SegWit) */}
-              <div className="mb-4 p-4 bg-slate-900/50 rounded-lg border border-orange-700/50">
-                <h3 className="text-sm font-bold text-orange-300 mb-3 flex items-center gap-2">
+              <div className="mb-4 p-4 bg-[#050510] rounded-lg border border-[#00E5FF]/30">
+                <h3 className="text-sm font-bold text-[#00E5FF] mb-3 flex items-center gap-2">
                   <span>🟠</span> P2SH (Nested SegWit) - 3...
                 </h3>
                 <div className="space-y-2 text-xs">
                   <div>
-                    <span className="text-gray-400">Derivation Path:</span>
-                    <span className="text-gray-200 font-mono ml-2">{walletInfo.wallets.p2sh.path}</span>
+                    <span className="text-[#b4b4c8]">Derivation Path:</span>
+                    <span className="text-white font-mono ml-2">{walletInfo.wallets.p2sh.path}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Address:</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all">{walletInfo.wallets.p2sh.address}</span>
+                    <span className="text-[#b4b4c8]">Address:</span>
+                    <span className="text-white font-mono ml-2 break-all">{walletInfo.wallets.p2sh.address}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Public Key (hex):</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2sh.pubKeyHex}</span>
-                    <span className="text-gray-500 ml-2">({walletInfo.wallets.p2sh.pubKeyLength} bytes)</span>
+                    <span className="text-[#b4b4c8]">Public Key (hex):</span>
+                    <span className="text-white font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2sh.pubKeyHex}</span>
+                    <span className="text-[#b4b4c8] ml-2">({walletInfo.wallets.p2sh.pubKeyLength} bytes)</span>
                   </div>
                 </div>
               </div>
 
               {/* P2PKH (Legacy) */}
-              <div className="mb-4 p-4 bg-slate-900/50 rounded-lg border border-gray-600/50">
-                <h3 className="text-sm font-bold text-gray-300 mb-3 flex items-center gap-2">
+              <div className="mb-4 p-4 bg-[#050510] rounded-lg border border-[#00E5FF]/30">
+                <h3 className="text-sm font-bold text-[#b4b4c8] mb-3 flex items-center gap-2">
                   <span>⚪</span> P2PKH (Legacy) - 1...
                 </h3>
                 <div className="space-y-2 text-xs">
                   <div>
-                    <span className="text-gray-400">Derivation Path:</span>
-                    <span className="text-gray-200 font-mono ml-2">{walletInfo.wallets.p2pkh.path}</span>
+                    <span className="text-[#b4b4c8]">Derivation Path:</span>
+                    <span className="text-white font-mono ml-2">{walletInfo.wallets.p2pkh.path}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Address:</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all">{walletInfo.wallets.p2pkh.address}</span>
+                    <span className="text-[#b4b4c8]">Address:</span>
+                    <span className="text-white font-mono ml-2 break-all">{walletInfo.wallets.p2pkh.address}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Public Key (hex):</span>
-                    <span className="text-gray-200 font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2pkh.pubKeyHex}</span>
-                    <span className="text-gray-500 ml-2">({walletInfo.wallets.p2pkh.pubKeyLength} bytes)</span>
+                    <span className="text-[#b4b4c8]">Public Key (hex):</span>
+                    <span className="text-white font-mono ml-2 break-all text-[10px]">{walletInfo.wallets.p2pkh.pubKeyHex}</span>
+                    <span className="text-[#b4b4c8] ml-2">({walletInfo.wallets.p2pkh.pubKeyLength} bytes)</span>
                   </div>
                 </div>
               </div>
 
               {/* Derivation Paths Summary */}
-              <div className="mt-4 pt-4 border-t border-gray-700">
+              <div className="mt-4 pt-4 border-t border-[#00E5FF]/20">
                 <h3 className="text-sm font-bold text-white mb-2">BIP32 Derivation Paths Summary</h3>
-                <div className="text-xs text-gray-400 space-y-1">
-                  <p>• <strong className="text-purple-300">P2TR (Taproot):</strong> m/86'/0'/0'/0/0 - Most modern, efficient, uses tapInternalKey</p>
-                  <p>• <strong className="text-blue-300">P2WPKH (Native SegWit):</strong> m/84'/0'/0'/0/0 - Common in modern wallets</p>
-                  <p>• <strong className="text-orange-300">P2SH (Nested SegWit):</strong> m/49'/0'/0'/0/0 - Backward compatible</p>
-                  <p>• <strong className="text-gray-300">P2PKH (Legacy):</strong> m/44'/0'/0'/0/0 - Original Bitcoin addresses</p>
+                <div className="text-xs text-[#b4b4c8] space-y-1">
+                  <p>• <strong className="text-[#00E5FF]">P2TR (Taproot):</strong> m/86'/0'/0'/0/0 - Most modern, efficient, uses tapInternalKey</p>
+                  <p>• <strong className="text-[#00E5FF]">P2WPKH (Native SegWit):</strong> m/84'/0'/0'/0/0 - Common in modern wallets</p>
+                  <p>• <strong className="text-[#00E5FF]">P2SH (Nested SegWit):</strong> m/49'/0'/0'/0/0 - Backward compatible</p>
+                  <p>• <strong className="text-[#b4b4c8]">P2PKH (Legacy):</strong> m/44'/0'/0'/0/0 - Original Bitcoin addresses</p>
                 </div>
               </div>
             </div>
           ) : null}
 
           {/* Input Form */}
-          <div className="bg-slate-800 border border-gray-700 rounded-xl p-6 mb-6">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6 mb-6">
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-white mb-2">
                   Recipient Wallet Address
                 </label>
                 <input
@@ -278,12 +278,12 @@ export default function PayoutTestingPage() {
                   value={recipientAddress}
                   onChange={(e) => setRecipientAddress(e.target.value)}
                   placeholder="bc1p... or bc1q... or 1... or 3..."
-                  className="w-full px-4 py-3 bg-slate-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent font-mono text-sm text-white"
+                  className="w-full px-4 py-3 bg-[#050510] border border-[#00E5FF]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-transparent font-mono text-sm text-white"
                   disabled={loading}
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-white mb-2">
                   Amount (BTC)
                 </label>
                 <input
@@ -292,11 +292,11 @@ export default function PayoutTestingPage() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.001"
-                  className="w-full px-4 py-3 bg-slate-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white"
+                  className="w-full px-4 py-3 bg-[#050510] border border-[#00E5FF]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-transparent text-white"
                   disabled={loading}
                 />
                 {amount && !isNaN(parseFloat(amount)) && (
-                  <p className="mt-2 text-sm text-gray-400">
+                  <p className="mt-2 text-sm text-[#b4b4c8]">
                     ≈ {formatSats(Math.round(parseFloat(amount) * 100000000))}
                   </p>
                 )}
@@ -304,7 +304,7 @@ export default function PayoutTestingPage() {
               <button
                 onClick={handleTestPayout}
                 disabled={loading || !recipientAddress.trim() || !amount}
-                className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-purple-500/30"
+                className="w-full px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white font-bold rounded-lg hover:from-[#7a35cc] hover:to-[#11c97a] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#00E5FF]/30"
               >
                 {loading ? 'Sending...' : 'Send Test Payout'}
               </button>
@@ -313,7 +313,7 @@ export default function PayoutTestingPage() {
 
           {/* Error */}
           {error && (
-            <div className="bg-red-900/30 border border-red-700 rounded-xl p-4 mb-6">
+            <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-[#EF4444]/20/50 rounded-xl p-4 mb-6">
               <p className="text-red-200 font-semibold">❌ Error</p>
               <p className="text-red-300 text-sm mt-1">{error}</p>
             </div>
@@ -321,33 +321,33 @@ export default function PayoutTestingPage() {
 
           {/* Results */}
           {result && (
-            <div className={`${result.success ? 'bg-green-900/30 border-green-700' : 'bg-yellow-900/30 border-yellow-700'} border rounded-xl p-6`}>
-              <h2 className={`text-lg font-bold ${result.success ? 'text-green-200' : 'text-yellow-200'} mb-4`}>
+            <div className={`${result.success ? 'bg-gradient-to-br from-green-900/30 to-green-800/20 border-green-700/50' : 'bg-gradient-to-br from-yellow-900/30 to-yellow-800/20 border-[#FBBF24]/20/50'} border rounded-xl p-6`}>
+              <h2 className={`text-lg font-bold ${result.success ? 'text-[#FFD60A]' : 'text-[#00E5FF]'} mb-4`}>
                 {result.success ? '✅ Success' : '⚠️ Result'}
               </h2>
               <div className="space-y-2 text-sm">
-                <p className={result.success ? 'text-green-300' : 'text-yellow-300'}>
+                <p className={result.success ? 'text-[#FFD60A]' : 'text-[#00E5FF]'}>
                   {result.message}
                 </p>
                 {result.sourceAddress && (
-                  <div className="mt-4 pt-4 border-t border-gray-600">
-                    <p className="text-gray-400 text-xs mb-1">Source Address:</p>
-                    <p className="text-gray-300 font-mono text-xs break-all">{result.sourceAddress}</p>
+                  <div className="mt-4 pt-4 border-t border-[#00E5FF]/20">
+                    <p className="text-[#b4b4c8] text-xs mb-1">Source Address:</p>
+                    <p className="text-white font-mono text-xs break-all">{result.sourceAddress}</p>
                     {result.sourceAddressType && (
-                      <p className="text-gray-400 text-xs mt-1">
-                        Type: <span className="text-gray-300">{result.sourceAddressType}</span>
+                      <p className="text-[#b4b4c8] text-xs mt-1">
+                        Type: <span className="text-white">{result.sourceAddressType}</span>
                       </p>
                     )}
                   </div>
                 )}
                 {result.txid && (
-                  <div className="mt-4 pt-4 border-t border-gray-600">
-                    <p className="text-gray-400 text-xs mb-1">Transaction ID:</p>
+                  <div className="mt-4 pt-4 border-t border-[#00E5FF]/20">
+                    <p className="text-[#b4b4c8] text-xs mb-1">Transaction ID:</p>
                     <a
                       href={`https://mempool.space/tx/${result.txid}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-400 hover:text-purple-300 font-mono text-xs break-all underline"
+                      className="text-[#00E5FF] hover:text-[#FFD60A] font-mono text-xs break-all underline transition-colors"
                     >
                       {result.txid}
                     </a>
@@ -358,10 +358,10 @@ export default function PayoutTestingPage() {
           )}
 
           {/* Info */}
-          <div className="mt-8 bg-slate-800/50 border border-gray-700 rounded-xl p-6">
-            <h3 className="font-bold text-white mb-3">How It Works</h3>
-            <div className="space-y-2 text-sm text-gray-400">
-              <p>1. Derives a Bitcoin wallet from the <code className="bg-slate-900 px-1 rounded">PHRASE</code> environment variable</p>
+          <div className="mt-8 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-xl p-6">
+            <h3 className="font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-3">How It Works</h3>
+            <div className="space-y-2 text-sm text-[#b4b4c8]">
+              <p>1. Derives a Bitcoin wallet from the <code className="bg-[#050510] px-1 rounded border border-[#00E5FF]/20">PHRASE</code> environment variable</p>
               <p>2. Fetches UTXOs from the derived wallet address</p>
               <p>3. Creates a PSBT with inputs from the wallet and output to recipient</p>
               <p>4. Signs the PSBT using the wallet's private key</p>

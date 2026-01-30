@@ -38,7 +38,7 @@ export function CollectionCreationProgressModal({
           </div>
 
           {error ? (
-            <div className="bg-red-900/30 border border-red-700 rounded-lg p-4 mb-4">
+            <div className="bg-red-900/30 border border-[#EF4444]/20 rounded-lg p-4 mb-4">
               <p className="text-red-300 font-semibold">Error</p>
               <p className="text-red-200 text-sm mt-1">{error}</p>
             </div>
@@ -57,7 +57,7 @@ export function CollectionCreationProgressModal({
                         ? 'bg-purple-900/20 border-purple-500/50 shadow-lg shadow-purple-500/20'
                         : isCompleted
                         ? 'bg-green-900/10 border-green-700/30'
-                        : 'bg-gray-800/30 border-gray-700/30 opacity-60'
+                        : 'bg-[#1a1a24]/30 border-[#9945FF]/20/30 opacity-60'
                     }`}
                   >
                     {/* Status Icon */}
@@ -73,7 +73,7 @@ export function CollectionCreationProgressModal({
                           <div className="w-3 h-3 rounded-full bg-[#FDFCFA] animate-pulse"></div>
                         </div>
                       ) : (
-                        <div className="w-6 h-6 rounded-full bg-gray-600 border-2 border-gray-500"></div>
+                        <div className="w-6 h-6 rounded-full bg-gray-600 border-2 border-[#9945FF]/40"></div>
                       )}
                     </div>
 
@@ -82,7 +82,7 @@ export function CollectionCreationProgressModal({
                       <div className="flex items-center justify-between">
                         <p
                           className={`font-semibold transition-colors ${
-                            isActive ? 'text-white' : isCompleted ? 'text-green-300' : 'text-gray-400'
+                            isActive ? 'text-white' : isCompleted ? 'text-green-300' : 'text-[#a8a8b8]'
                           }`}
                         >
                           {step.label}
@@ -105,7 +105,7 @@ export function CollectionCreationProgressModal({
 
           {!error && currentStep < steps.length && (
             <div className="mt-6 pt-6 border-t border-gray-800">
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+              <div className="flex items-center justify-center gap-2 text-sm text-[#a8a8b8]">
                 <div className="flex gap-1">
                   <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                   <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>

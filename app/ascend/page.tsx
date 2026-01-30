@@ -63,7 +63,7 @@ export default function AscendPage() {
 
   const handleTransform = async (transformationType: 'monster' | 'angel') => {
     if (!selectedOrdinal) {
-      setError('Please select an ordinal first')
+      setError('Please select an NFT first')
       return
     }
 
@@ -84,7 +84,7 @@ export default function AscendPage() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: 'Failed to transform' }))
-        throw new Error(errorData.error || 'Failed to transform ordinal')
+        throw new Error(errorData.error || 'Failed to transform NFT')
       }
 
       const data = await response.json()
@@ -138,22 +138,22 @@ export default function AscendPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-950 via-black to-red-950 flex items-center justify-center">
-        <div className="text-purple-400 text-xl">Loading ordinals...</div>
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] flex items-center justify-center">
+        <div className="text-[#00E5FF] text-xl">Loading ordinals...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-950 via-black to-red-950">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       {/* Header */}
-      <header className="border-b border-purple-900/50 bg-black/40 backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b border-[#00E5FF]/30 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-purple-400">✨ Ascend Your Ordinal</h1>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent">✨ Ascend Your Ordinal</h1>
             <Link
               href="/"
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+              className="bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white px-4 py-2 rounded-lg font-semibold transition-colors"
             >
               Back to Home
             </Link>
@@ -169,16 +169,16 @@ export default function AscendPage() {
               {/* Left: Ordinal Selection */}
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-bold text-white mb-4">Select an Ordinal</h2>
-                  <p className="text-gray-400 text-sm mb-6">
-                    Choose an ordinal to transform into a monster or angel while keeping the same traits!
+                  <h2 className="text-xl font-bold text-white mb-4">Select an NFT</h2>
+                  <p className="text-[#a8a8b8] text-sm mb-6">
+                    Choose an NFT to transform into a monster or angel while keeping the same traits!
                   </p>
                 </div>
 
-                {/* Ordinal Selector */}
+                {/* NFT Selector */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Select Ordinal
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Select NFT
                   </label>
                   <select
                     value={selectedOrdinal?.id || ''}
@@ -186,20 +186,20 @@ export default function AscendPage() {
                       const ordinal = ordinals.find((o) => o.id === e.target.value)
                       setSelectedOrdinal(ordinal || null)
                     }}
-                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white focus:border-purple-500 focus:outline-none"
+                    className="w-full p-3 border border-[#00E5FF]/30 rounded-lg bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 text-white focus:border-[#00E5FF] focus:outline-none"
                     disabled={isTransforming}
                   >
                     {ordinals.map((ordinal) => (
                       <option key={ordinal.id} value={ordinal.id}>
-                        Ordinal #{ordinal.number}
+                        NFT #{ordinal.number}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                {/* Selected Ordinal Preview */}
+                {/* Selected NFT Preview */}
                 {selectedOrdinal && (
-                  <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden">
+                  <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/30 rounded-lg overflow-hidden">
                     <div className="relative aspect-square">
                       <Image
                         src={selectedOrdinal.imageUrl}
@@ -221,7 +221,7 @@ export default function AscendPage() {
                   <button
                     onClick={() => handleTransform('monster')}
                     disabled={!selectedOrdinal || isTransforming}
-                    className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold py-4 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border-2 border-red-500"
+                    className="bg-gradient-to-r from-[#00E5FF] to-[#00B8D4] hover:from-[#00B8D4] hover:to-[#5B21B6] text-white font-bold py-4 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border-2 border-[#00E5FF]/30"
                   >
                     {isTransforming ? (
                       <span className="flex items-center justify-center gap-2">
@@ -241,7 +241,7 @@ export default function AscendPage() {
                   <button
                     onClick={() => handleTransform('angel')}
                     disabled={!selectedOrdinal || isTransforming}
-                    className="bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-4 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border-2 border-yellow-300"
+                    className="bg-gradient-to-r from-[#FFD60A] to-[#12D87A] hover:from-[#12D87A] hover:to-[#10C66A] text-white font-bold py-4 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border-2 border-[#FFD60A]/30"
                   >
                     {isTransforming ? (
                       <span className="flex items-center justify-center gap-2">
@@ -260,32 +260,32 @@ export default function AscendPage() {
                 </div>
 
                 {error && (
-                  <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-lg">
+                  <div className="bg-red-900/50 border border-[#EF4444]/20 text-red-200 px-4 py-3 rounded-lg">
                     {error}
                   </div>
                 )}
               </div>
 
               {/* Right: Instructions */}
-              <div className="bg-gradient-to-br from-purple-900/50 to-red-900/50 border border-purple-700/50 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-white mb-4">✨ Ascension Guide</h3>
-                <div className="space-y-4 text-gray-300">
+              <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/30 rounded-lg p-6">
+                <h3 className="text-xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-4">✨ Ascension Guide</h3>
+                <div className="space-y-4 text-[#b4b4c8]">
                   <div>
-                    <h4 className="text-purple-400 font-semibold mb-2">👹 Monster Transformation</h4>
+                    <h4 className="text-[#00E5FF] font-semibold mb-2">👹 Monster Transformation</h4>
                     <p className="text-sm">
                       Transform your ordinal into a terrifying monster while preserving all original traits. 
                       Adds demonic features, dark energy, and menacing appearance.
                     </p>
                   </div>
                   <div>
-                    <h4 className="text-yellow-400 font-semibold mb-2">😇 Angel Transformation</h4>
+                    <h4 className="text-[#FFD60A] font-semibold mb-2">😇 Angel Transformation</h4>
                     <p className="text-sm">
                       Transform your ordinal into a divine angel while preserving all original traits. 
                       Adds angelic wings, divine halo, and heavenly glow.
                     </p>
                   </div>
-                  <div className="pt-4 border-t border-purple-700/50">
-                    <p className="text-sm text-purple-300">
+                  <div className="pt-4 border-t border-[#00E5FF]/30">
+                    <p className="text-sm text-[#00E5FF]">
                       <strong>Note:</strong> All traits (background, accessories, eyes, mouth, headwear, outfits, props) 
                       remain exactly the same - only the visual style changes!
                     </p>
@@ -304,7 +304,7 @@ export default function AscendPage() {
                 </h2>
                 <button
                   onClick={() => setAscendedImages([])}
-                  className="text-sm text-gray-400 hover:text-white"
+                  className="text-sm text-[#a8a8b8] hover:text-white"
                 >
                   Clear All
                 </button>
@@ -314,7 +314,7 @@ export default function AscendPage() {
                 {ascendedImages.map((image) => (
                   <div
                     key={image.id}
-                    className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-lg"
+                    className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/30 rounded-lg overflow-hidden shadow-lg"
                   >
                     <div className="grid grid-cols-2 gap-2 p-2">
                       <div className="relative aspect-square">
@@ -345,13 +345,13 @@ export default function AscendPage() {
                       </div>
                     </div>
                     <div className="p-4">
-                      <p className="text-xs text-gray-500 mb-3">
+                      <p className="text-xs text-[#a8a8b8]/80 mb-3">
                         {new Date(image.createdAt).toLocaleString()}
                       </p>
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={() => handleDownload(image.transformedImageUrl, image.transformationType, image.ordinalNumber)}
-                          className="text-sm bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2 px-3 rounded transition-colors flex items-center justify-center gap-1"
+                          className="text-sm bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white py-2 px-3 rounded transition-colors flex items-center justify-center gap-1"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -375,8 +375,8 @@ export default function AscendPage() {
           {ascendedImages.length === 0 && !isTransforming && (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">✨</div>
-              <p className="text-xl text-gray-400 mb-2">No ascended images yet</p>
-              <p className="text-gray-500">Select an ordinal and transform it into a monster or angel!</p>
+              <p className="text-xl text-[#b4b4c8] mb-2">No ascended images yet</p>
+              <p className="text-[#b4b4c8]">Select an ordinal and transform it into a monster or angel!</p>
             </div>
           )}
         </div>

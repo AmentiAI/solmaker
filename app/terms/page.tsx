@@ -1,15 +1,15 @@
 export default function TermsPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-bold text-white mb-8">Terms and Conditions</h1>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-8">Terms and Conditions</h1>
         
         <div className="prose prose-lg max-w-none">
           <p className="text-white/70 mb-6">Last updated: {new Date().toLocaleDateString()}</p>
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">1. Acceptance of Terms</h2>
-            <p className="text-white/80 mb-4 leading-relaxed">
+            <p className="text-[#a8a8b8] mb-4 leading-relaxed">
               By accessing and using ordmaker.fun (the "Platform", "Service", "Website", or "we"), you accept and agree to be bound by these Terms and Conditions ("Terms", "Agreement"). 
               These Terms constitute a legally binding agreement between you ("User", "you", "your") and ordmaker.fun. If you do not agree to these terms in their entirety, you must 
               immediately cease all use of the Platform and may not access or use any services, features, or content provided by ordmaker.fun. Your continued use of the Platform following 
@@ -20,7 +20,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">2. Definitions</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>2.1 "Platform"</strong> refers to ordmaker.fun, including all websites, applications, services, tools, and technologies owned, operated, or provided by ordmaker.fun, 
                 including but not limited to the ordinal generation service, marketplace, minting services, and any related platforms or subdomains.
@@ -45,7 +45,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">3. Intellectual Property and Rights</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>3.1 Final Authority:</strong> ordmaker.fun retains final authority, absolute discretion, and exclusive decision-making power over all materials, content, ordinals, 
                 digital assets, software, code, designs, graphics, text, images, audio, video, and any other intellectual property created, generated, hosted, displayed, or made available 
@@ -84,7 +84,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">4. No Responsibility for Deceptive Purchases</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>4.1 Third-Party Transactions:</strong> ordmaker.fun is not responsible for, and disclaims all liability, whether direct, indirect, incidental, special, consequential, 
                 or punitive, arising from or related to deceptive purchases, fraudulent transactions, misrepresentations, scams, phishing, identity theft, unauthorized access, or any other 
@@ -117,7 +117,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">5. Platform Services</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>5.1 Service Availability:</strong> ordmaker.fun provides the Platform "as is" and "as available" without warranties of any kind, either express or implied, 
                 including but not limited to warranties of merchantability, fitness for a particular purpose, non-infringement, or course of performance. We do not guarantee that the 
@@ -148,7 +148,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">6. User Accounts and Registration</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>6.1 Account Creation:</strong> To access certain features of the Platform, you may be required to create an account. You agree to provide accurate, current, and 
                 complete information during registration and to update such information to keep it accurate, current, and complete. You are responsible for maintaining the confidentiality 
@@ -177,9 +177,9 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">7. User Conduct</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>Users agree not to, and will not permit others to:</p>
-              <ul className="list-disc pl-6 space-y-2 text-white/80 leading-relaxed">
+              <ul className="list-disc pl-6 space-y-2 text-[#a8a8b8] leading-relaxed">
                 <li>Use the Platform for any illegal, unauthorized, or prohibited purpose, or in violation of any applicable laws, regulations, or rules</li>
                 <li>Violate any local, state, national, or international laws, regulations, or third-party rights, including intellectual property rights, privacy rights, or publicity rights</li>
                 <li>Interfere with, disrupt, or attempt to interfere with or disrupt the Platform, servers, networks, or systems connected to the Platform, or violate the regulations, policies, or procedures of such networks</li>
@@ -200,7 +200,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">8. Payments and Transactions</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>8.1 Payment Terms:</strong> All payments for services, ordinals, or other transactions on the Platform must be made in the form and currency specified by ordmaker.fun. 
                 Prices are subject to change at any time without notice. All fees, charges, and taxes are non-refundable unless otherwise required by applicable law or explicitly stated in writing 
@@ -233,7 +233,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">9. Digital Assets and Ordinals</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>9.1 No Ownership Transfer:</strong> The purchase, minting, or acquisition of ordinals or other digital assets through the Platform does not transfer ownership of 
                 the underlying intellectual property, content, or materials. You receive only a limited license to access and view the digital asset as provided by the Platform, subject to 
@@ -263,7 +263,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">10. Limitation of Liability</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>10.1 No Warranties:</strong> TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, ORDMAKER.FUN DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
                 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, RELIABILITY, COMPLETENESS, TIMELINESS, OR THAT THE PLATFORM WILL BE UNINTERRUPTED, 
@@ -294,7 +294,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">11. Indemnification</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 You agree to indemnify, defend, and hold harmless ordmaker.fun, its affiliates, subsidiaries, parent companies, officers, directors, employees, agents, licensors, and service 
                 providers from and against any and all claims, demands, losses, liabilities, damages, judgments, awards, costs, expenses, and fees (including reasonable attorneys' fees) 
@@ -308,7 +308,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">12. Privacy and Data Protection</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>12.1 Privacy Policy:</strong> Your use of the Platform is also governed by our Privacy Policy, which is incorporated into these Terms by reference. Please review 
                 our Privacy Policy to understand how we collect, use, and protect your information.
@@ -330,7 +330,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">13. Modifications to Terms</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 ordmaker.fun reserves the right, in its sole discretion, to modify, amend, update, or change these Terms and Conditions at any time, with or without notice. Changes will be 
                 effective immediately upon posting on the Platform, unless otherwise stated. Your continued use of the Platform after any changes to these Terms constitutes your acceptance 
@@ -342,7 +342,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">14. Termination</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>14.1 Termination by You:</strong> You may terminate your account and stop using the Platform at any time by contacting ordmaker.fun or by deleting your account through 
                 the Platform's account settings, if such functionality is available.
@@ -362,7 +362,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">15. Dispute Resolution</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 <strong>15.1 Informal Resolution:</strong> Before initiating any formal dispute resolution proceeding, you agree to first contact ordmaker.fun to attempt to resolve any dispute 
                 informally. If ordmaker.fun is unable to resolve the dispute within sixty (60) days, either party may proceed with formal dispute resolution.
@@ -385,7 +385,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">16. Governing Law</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 These Terms and Conditions shall be governed by and construed in accordance with the laws of the jurisdiction in which ordmaker.fun operates, without regard to its conflict 
                 of law principles. Any legal action or proceeding arising out of or relating to these Terms or the Platform shall be brought exclusively in the courts of competent jurisdiction 
@@ -396,7 +396,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">17. Severability</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 If any provision of these Terms is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, such provision shall be modified to the minimum extent 
                 necessary to make it valid, legal, and enforceable, or if such modification is not possible, such provision shall be severed from these Terms. The remainder of these Terms 
@@ -408,7 +408,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">18. Entire Agreement</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 These Terms, together with the Privacy Policy and any other legal notices or agreements published by ordmaker.fun on the Platform, constitute the entire agreement between you 
                 and ordmaker.fun regarding the use of the Platform and supersede all prior or contemporaneous communications, proposals, and agreements, whether oral or written, between you 
@@ -419,7 +419,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">19. Waiver</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 No waiver by ordmaker.fun of any term or condition set forth in these Terms shall be deemed a further or continuing waiver of such term or condition or a waiver of any other 
                 term or condition, and any failure of ordmaker.fun to assert a right or provision under these Terms shall not constitute a waiver of such right or provision.
@@ -429,7 +429,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">20. Assignment</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 You may not assign, transfer, or delegate these Terms or your rights or obligations hereunder without the prior written consent of ordmaker.fun. ordmaker.fun may assign, transfer, 
                 or delegate these Terms or its rights or obligations hereunder without your consent. These Terms shall be binding upon and inure to the benefit of the parties and their respective 
@@ -440,7 +440,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">21. Contact Information</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 For questions, concerns, or notices regarding these Terms and Conditions, please contact ordmaker.fun through the Platform's support system or through the contact methods 
                 provided on the Platform. ordmaker.fun will attempt to respond to your inquiry within a reasonable time frame.
@@ -450,7 +450,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">22. Acknowledgment</h2>
-            <div className="text-white/80 space-y-4 leading-relaxed">
+            <div className="text-[#a8a8b8] space-y-4 leading-relaxed">
               <p>
                 BY USING THE PLATFORM, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THESE TERMS AND CONDITIONS. YOU FURTHER ACKNOWLEDGE THAT ORDMAKER.FUN HAS FINAL 
                 AUTHORITY OVER ALL MATERIALS AND CONTENT ON THE PLATFORM, THAT YOU HAVE NO ENFORCEABLE RIGHTS TO ANY MATERIALS ON THE PLATFORM EXCEPT AS EXPLICITLY GRANTED IN WRITING BY ORDMAKER.FUN, 

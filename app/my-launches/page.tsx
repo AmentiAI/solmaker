@@ -46,14 +46,14 @@ export default function MyLaunchesPage() {
   }, [activeWalletAddress])
 
   return (
-    <div className="bg-[#FDFCFA]">
+    <div className="bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <div className="container mx-auto px-4 md:px-6 py-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-start justify-between gap-4 mb-6">
             <div>
       
-              <h1 className="mt-1 text-3xl md:text-4xl font-black text-gray-900 tracking-tight">My Launches</h1>
-              <p className="text-muted-foreground mt-1">
+              <h1 className="mt-1 text-3xl md:text-4xl font-black bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent tracking-tight">My Launches</h1>
+              <p className="text-[#b4b4c8] mt-1">
                 View the collections you own or collaborate on, and jump into mint settings.
               </p>
             </div>
@@ -101,10 +101,10 @@ export default function MyLaunchesPage() {
                           </div>
                         </CardHeader>
                         <CardContent className="flex flex-col gap-2">
-                          <Button asChild className="bg-[#e27d0f] hover:bg-[#c96a0a] text-white">
+                          <Button asChild className="bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white">
                             <Link href={`/collections/${c.id}/launch`}>Edit Mint Settings</Link>
                           </Button>
-                          <Button asChild variant="outline">
+                          <Button asChild variant="outline" className="border-[#00E5FF]/30 text-white hover:border-[#00E5FF]/50">
                             <Link href={`/launchpad/${c.id}`}>View Mint Page</Link>
                           </Button>
                         </CardContent>
@@ -119,10 +119,10 @@ export default function MyLaunchesPage() {
                     <CardDescription>Create a collection, or accept a collaboration invite to see it here.</CardDescription>
                   </CardHeader>
                   <CardContent className="flex gap-2">
-                    <Button asChild className="bg-[#4561ad] hover:bg-[#3a5294] text-white">
+                    <Button asChild className="bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white">
                       <Link href="/collections/create">Create Collection</Link>
                     </Button>
-                    <Button asChild variant="outline">
+                    <Button asChild variant="outline" className="border-[#00E5FF]/30 text-white hover:border-[#00E5FF]/50">
                       <Link href="/profile">View Profile</Link>
                     </Button>
                   </CardContent>

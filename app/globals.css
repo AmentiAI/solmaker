@@ -3,84 +3,146 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Cosmic Futuristic Theme - Inspired by vibrant space aesthetic */
-/* Primary: Neon Blue #00d4ff | Accent: Vibrant Orange #ff6b35 */
-/* Cosmic Dark: Deep space with purple/blue glows */
+/* Professional Solana Design System - Phase 1 */
+/* Primary: Solana Purple #9945FF | Accent: Solana Green #14F195 | Supporting: Gradients */
 :root {
-  --background: #0a0e27;
+  /* Base Colors */
+  --background: #0D0D11;
   --foreground: #ffffff;
-  --card: rgba(15, 23, 42, 0.8);
+  --card: #121218;
   --card-foreground: #ffffff;
-  --popover: rgba(15, 23, 42, 0.95);
+  --popover: #0D0D11;
   --popover-foreground: #ffffff;
-  --primary: #00d4ff;
-  --primary-foreground: #0a0e27;
-  --secondary: rgba(139, 92, 246, 0.2);
+  --primary: #9945FF;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(20, 241, 149, 0.15);
   --secondary-foreground: #ffffff;
-  --muted: rgba(59, 130, 246, 0.15);
-  --muted-foreground: #a5b4fc;
-  --accent: #ff6b35;
-  --accent-foreground: #ffffff;
-  --destructive: #ff4757;
+  --muted: rgba(153, 69, 255, 0.12);
+  --muted-foreground: #A1A1AA;
+  --accent: #14F195;
+  --accent-foreground: #0D0D11;
+  --destructive: #EF4444;
   --destructive-foreground: #ffffff;
-  --border: rgba(0, 212, 255, 0.3);
-  --input: rgba(15, 23, 42, 0.9);
-  --ring: #00d4ff;
-  --chart-1: #00d4ff;
-  --chart-2: #ff6b35;
-  --chart-3: #8b5cf6;
-  --chart-4: #f59e0b;
-  --chart-5: #ec4899;
+  --border: rgba(153, 69, 255, 0.2);
+  --input: #121218;
+  --ring: #9945FF;
+  
+  /* Chart Colors */
+  --chart-1: #9945FF;
+  --chart-2: #14F195;
+  --chart-3: #00D4FF;
+  --chart-4: #DC1FFF;
+  --chart-5: #19FB9B;
+  
+  /* Border Radius */
   --radius: 0.75rem;
-  --sidebar: rgba(10, 14, 39, 0.95);
+  
+  /* Sidebar */
+  --sidebar: #0D0D11;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #00d4ff;
-  --sidebar-primary-foreground: #0a0e27;
-  --sidebar-accent: #ff6b35;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(0, 212, 255, 0.2);
-  --sidebar-ring: #00d4ff;
-  /* Cosmic theme extras */
-  --cosmic-purple: #8b5cf6;
-  --cosmic-blue: #00d4ff;
-  --cosmic-orange: #ff6b35;
-  --cosmic-pink: #ec4899;
-  --cosmic-glow: rgba(0, 212, 255, 0.4);
+  --sidebar-primary: #9945FF;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #14F195;
+  --sidebar-accent-foreground: #0D0D11;
+  --sidebar-border: rgba(153, 69, 255, 0.2);
+  --sidebar-ring: #9945FF;
+  
+  /* Professional Solana Brand Colors */
+  --solana-purple: #9945FF;
+  --solana-purple-dark: #7C3AED;
+  --solana-purple-light: #A855F7;
+  --solana-green: #14F195;
+  --solana-green-dark: #10B981;
+  --solana-green-light: #34D399;
+  --solana-cyan: #00D4FF;
+  --solana-pink: #DC1FFF;
+  
+  /* Professional Neutral Colors */
+  --surface: #121218;
+  --surface-elevated: #1A1A22;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  
+  /* Semantic Colors */
+  --success: #14F195;
+  --warning: #FBBF24;
+  --error: #EF4444;
+  --info: #00D4FF;
+  
+  /* Professional Gradients */
+  --gradient-primary: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
+  --gradient-purple: linear-gradient(135deg, #7C3AED 0%, #9945FF 50%, #DC1FFF 100%);
+  --gradient-green: linear-gradient(135deg, #10B981 0%, #14F195 100%);
+  --gradient-surface: linear-gradient(135deg, #121218 0%, #1A1A22 100%);
+  
+  /* Professional Spacing System (4px base) */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  
+  /* Professional Typography Scale */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  --text-6xl: 3.75rem;   /* 60px */
+  
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
 }
 
 .dark {
-  --background: #0a0e27;
+  --background: #050510;
   --foreground: #ffffff;
-  --card: rgba(15, 23, 42, 0.8);
+  --card: rgba(15, 15, 30, 0.95);
   --card-foreground: #ffffff;
-  --popover: rgba(15, 23, 42, 0.95);
+  --popover: rgba(10, 10, 25, 0.98);
   --popover-foreground: #ffffff;
-  --primary: #00d4ff;
-  --primary-foreground: #0a0e27;
-  --secondary: rgba(139, 92, 246, 0.2);
+  --primary: #00E5FF;
+  --primary-foreground: #000000;
+  --secondary: rgba(255, 0, 110, 0.15);
   --secondary-foreground: #ffffff;
-  --muted: rgba(59, 130, 246, 0.15);
-  --muted-foreground: #a5b4fc;
-  --accent: #ff6b35;
+  --muted: rgba(0, 229, 255, 0.12);
+  --muted-foreground: #b4b4c8;
+  --accent: #FF006E;
   --accent-foreground: #ffffff;
-  --destructive: #ff4757;
+  --destructive: #FF3B5C;
   --destructive-foreground: #ffffff;
-  --border: rgba(0, 212, 255, 0.3);
-  --input: rgba(15, 23, 42, 0.9);
-  --ring: #00d4ff;
-  --chart-1: #00d4ff;
-  --chart-2: #ff6b35;
-  --chart-3: #8b5cf6;
-  --chart-4: #f59e0b;
-  --chart-5: #ec4899;
-  --sidebar: rgba(10, 14, 39, 0.95);
+  --border: rgba(0, 229, 255, 0.3);
+  --input: rgba(15, 15, 30, 0.95);
+  --ring: #00E5FF;
+  --chart-1: #00E5FF;
+  --chart-2: #FF006E;
+  --chart-3: #FFD60A;
+  --chart-4: #B537F2;
+  --chart-5: #00FFA3;
+  --sidebar: rgba(5, 5, 16, 0.98);
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #00d4ff;
-  --sidebar-primary-foreground: #0a0e27;
-  --sidebar-accent: #ff6b35;
+  --sidebar-primary: #00E5FF;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #FF006E;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(0, 212, 255, 0.2);
-  --sidebar-ring: #00d4ff;
+  --sidebar-border: rgba(0, 229, 255, 0.25);
+  --sidebar-ring: #00E5FF;
 }
 
 @theme inline {
@@ -122,11 +184,15 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-cosmic-purple: var(--cosmic-purple);
-  --color-cosmic-blue: var(--cosmic-blue);
-  --color-cosmic-orange: var(--cosmic-orange);
-  --color-cosmic-pink: var(--cosmic-pink);
-  --color-cosmic-glow: var(--cosmic-glow);
+  --color-nft-blue: var(--nft-blue);
+  --color-nft-blue-dark: var(--nft-blue-dark);
+  --color-nft-pink: var(--nft-pink);
+  --color-nft-pink-light: var(--nft-pink-light);
+  --color-nft-yellow: var(--nft-yellow);
+  --color-nft-purple: var(--nft-purple);
+  --color-nft-green: var(--nft-green);
+  --color-nft-glow: var(--nft-glow);
+  --color-nft-glow-pink: var(--nft-glow-pink);
 }
 
 @layer base {
@@ -141,15 +207,11 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
     overflow-x: hidden;
-    background-image: url('/pagebg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background: radial-gradient(ellipse at top, #0a0a1f 0%, #050510 50%, #000008 100%);
     position: relative;
   }
   
-  /* Overlay to ensure content readability and maintain cosmic theme */
+  /* Ultra-modern gradient overlay with animated glow */
   body::before {
     content: '';
     position: fixed;
@@ -157,13 +219,18 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 14, 39, 0.3);
+    background: 
+      radial-gradient(circle at 15% 25%, rgba(0, 229, 255, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(255, 0, 110, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 50% 85%, rgba(181, 55, 242, 0.15) 0%, transparent 45%),
+      radial-gradient(circle at 90% 75%, rgba(255, 214, 10, 0.08) 0%, transparent 35%);
+    animation: nftGlow 25s ease-in-out infinite alternate;
     pointer-events: none !important;
-    z-index: -1;
+    z-index: 0;
     isolation: isolate;
   }
   
-  /* Optional: Keep subtle glow effects on top */
+  /* Animated cyber grid overlay */
   body::after {
     content: '';
     position: fixed;
@@ -171,13 +238,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-      radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 40% 60%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
-    animation: cosmicGlow 15s ease-in-out infinite alternate;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 229, 255, 0.04) 3px, rgba(0, 229, 255, 0.04) 6px),
+      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255, 0, 110, 0.03) 3px, rgba(255, 0, 110, 0.03) 6px);
+    opacity: 0.5;
     pointer-events: none !important;
-    z-index: -1;
+    z-index: 0;
     isolation: isolate;
   }
   
@@ -269,110 +335,218 @@
     animation: fadeIn 0.4s ease-out;
   }
   
-  /* Cosmic animations */
-  @keyframes cosmicStars {
-    0%, 100% {
-      transform: translate(0, 0);
-      opacity: 0.8;
+  /* Professional Solana Animations */
+  @keyframes fadeIn {
+    from { 
+      opacity: 0; 
+      transform: translateY(10px); 
     }
-    25% {
-      transform: translate(-2%, -1%);
-      opacity: 1;
-    }
-    50% {
-      transform: translate(1%, 2%);
-      opacity: 0.9;
-    }
-    75% {
-      transform: translate(-1%, 1%);
-      opacity: 1;
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
     }
   }
   
-  @keyframes cosmicGlow {
+  @keyframes slideIn {
+    from { 
+      transform: translateX(-100%); 
+    }
+    to { 
+      transform: translateX(0); 
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1; 
+    }
+    50% { 
+      opacity: 0.5; 
+    }
+  }
+  
+  @keyframes shimmer {
+    0% { 
+      background-position: -200% center; 
+    }
+    100% { 
+      background-position: 200% center; 
+    }
+  }
+  
+  @keyframes solanaPulse {
+    0%, 100% {
+      box-shadow: 0 0 15px rgba(153, 69, 255, 0.4), 0 0 30px rgba(153, 69, 255, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 25px rgba(153, 69, 255, 0.6), 0 0 50px rgba(153, 69, 255, 0.3);
+    }
+  }
+  
+  @keyframes solanaGradientShift {
     0% {
-      opacity: 0.6;
-      transform: scale(1);
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
     }
     100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Ultra-modern NFT animations */
+  @keyframes nftGlow {
+    0% {
+      opacity: 0.8;
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
       opacity: 1;
-      transform: scale(1.1);
+      transform: scale(1.08) rotate(3deg);
+    }
+    100% {
+      opacity: 0.85;
+      transform: scale(1.03) rotate(-2deg);
     }
   }
   
-  @keyframes neonPulse {
+  @keyframes nftPulse {
     0%, 100% {
-      box-shadow: 0 0 5px var(--cosmic-blue), 0 0 10px var(--cosmic-blue), 0 0 15px var(--cosmic-blue);
+      box-shadow: 0 0 15px var(--nft-blue), 0 0 30px var(--nft-blue), 0 0 45px rgba(0, 229, 255, 0.4);
     }
     50% {
-      box-shadow: 0 0 10px var(--cosmic-blue), 0 0 20px var(--cosmic-blue), 0 0 30px var(--cosmic-blue), 0 0 40px var(--cosmic-blue);
+      box-shadow: 0 0 25px var(--nft-blue), 0 0 50px var(--nft-blue), 0 0 75px rgba(0, 229, 255, 0.6);
     }
   }
   
-  @keyframes neonBorder {
-    0%, 100% {
-      border-color: rgba(0, 212, 255, 0.5);
-      box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  @keyframes nftGradientShift {
+    0% {
+      background-position: 0% 50%;
     }
     50% {
-      border-color: rgba(139, 92, 246, 0.7);
-      box-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 30px rgba(0, 212, 255, 0.3);
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
     }
   }
   
-  /* Neon glow utilities */
-  .neon-glow {
-    box-shadow: 0 0 10px var(--cosmic-blue), 0 0 20px var(--cosmic-blue), 0 0 30px var(--cosmic-blue);
+  @keyframes nftBorderGlow {
+    0%, 100% {
+      border-color: rgba(0, 229, 255, 0.6);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.5), inset 0 0 20px rgba(0, 229, 255, 0.15);
+    }
+    33% {
+      border-color: rgba(255, 0, 110, 0.7);
+      box-shadow: 0 0 30px rgba(255, 0, 110, 0.6), 0 0 40px rgba(0, 229, 255, 0.4), inset 0 0 25px rgba(255, 0, 110, 0.2);
+    }
+    66% {
+      border-color: rgba(181, 55, 242, 0.7);
+      box-shadow: 0 0 30px rgba(181, 55, 242, 0.6), 0 0 40px rgba(255, 0, 110, 0.4), inset 0 0 25px rgba(181, 55, 242, 0.2);
+    }
   }
   
-  .neon-glow-purple {
-    box-shadow: 0 0 10px var(--cosmic-purple), 0 0 20px var(--cosmic-purple), 0 0 30px var(--cosmic-purple);
+  @keyframes nftFloat {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-12px) rotate(2deg);
+    }
   }
   
-  .neon-glow-orange {
-    box-shadow: 0 0 10px var(--cosmic-orange), 0 0 20px var(--cosmic-orange), 0 0 30px var(--cosmic-orange);
+  @keyframes nftShimmer {
+    0% {
+      background-position: -200% center;
+    }
+    100% {
+      background-position: 200% center;
+    }
   }
   
-  .neon-border {
-    border: 2px solid var(--cosmic-blue);
-    animation: neonBorder 3s ease-in-out infinite;
+  @keyframes nftGlitch {
+    0%, 100% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
   }
   
-  .cosmic-card {
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+  /* Ultra-modern NFT glow utilities */
+  .nft-glow {
+    box-shadow: 0 0 20px var(--nft-blue), 0 0 40px rgba(0, 229, 255, 0.5), 0 0 60px rgba(0, 229, 255, 0.3);
   }
   
-  .cosmic-card:hover {
-    border-color: rgba(0, 212, 255, 0.6);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2), 0 0 20px rgba(139, 92, 246, 0.3);
-    transform: translateY(-2px);
-    transition: all 0.3s ease;
+  .nft-glow-pink {
+    box-shadow: 0 0 20px var(--nft-pink), 0 0 40px rgba(255, 0, 110, 0.5), 0 0 60px rgba(255, 0, 110, 0.3);
   }
   
-  /* Gradient text utilities */
-  .text-cosmic-gradient {
-    background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 50%, #ec4899 100%);
+  .nft-glow-purple {
+    box-shadow: 0 0 20px var(--nft-purple), 0 0 40px rgba(181, 55, 242, 0.5), 0 0 60px rgba(181, 55, 242, 0.3);
+  }
+  
+  .nft-glow-yellow {
+    box-shadow: 0 0 20px var(--nft-yellow), 0 0 40px rgba(255, 214, 10, 0.5), 0 0 60px rgba(255, 214, 10, 0.3);
+  }
+  
+  .nft-border {
+    border: 3px solid var(--nft-blue);
+    animation: nftBorderGlow 5s ease-in-out infinite;
+  }
+  
+  .nft-card {
+    background: rgba(15, 15, 30, 0.95);
+    backdrop-filter: blur(20px) saturate(200%);
+    border: 2px solid rgba(0, 229, 255, 0.4);
+    box-shadow: 0 12px 50px rgba(0, 229, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .nft-card:hover {
+    border-color: rgba(255, 0, 110, 0.7);
+    box-shadow: 0 20px 60px rgba(255, 0, 110, 0.3), 0 0 40px rgba(0, 229, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    transform: translateY(-6px) scale(1.02);
+  }
+  
+  /* Ultra-modern gradient text utilities */
+  .text-nft-gradient {
+    background: linear-gradient(135deg, #00E5FF 0%, #B537F2 50%, #FF006E 100%);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: nftGradientShift 10s ease infinite;
   }
   
-  .text-cosmic-blue {
-    color: #00d4ff;
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  .text-nft-blue {
+    color: #00E5FF;
+    text-shadow: 0 0 25px rgba(0, 229, 255, 0.7), 0 0 50px rgba(0, 229, 255, 0.4);
   }
   
-  .text-cosmic-purple {
-    color: #8b5cf6;
-    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  .text-nft-pink {
+    color: #FF006E;
+    text-shadow: 0 0 25px rgba(255, 0, 110, 0.7), 0 0 50px rgba(255, 0, 110, 0.4);
   }
   
-  .text-cosmic-orange {
-    color: #ff6b35;
-    text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+  .text-nft-purple {
+    color: #B537F2;
+    text-shadow: 0 0 25px rgba(181, 55, 242, 0.7), 0 0 50px rgba(181, 55, 242, 0.4);
+  }
+  
+  .text-nft-yellow {
+    color: #FFD60A;
+    text-shadow: 0 0 25px rgba(255, 214, 10, 0.7), 0 0 50px rgba(255, 214, 10, 0.4);
   }
   
   /* Ensure content appears above background */
@@ -389,34 +563,199 @@
     isolation: isolate;
   }
   
-  /* Vibrant button styles */
-  .btn-cosmic {
-    background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
-    border: 1px solid rgba(0, 212, 255, 0.5);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-    transition: all 0.3s ease;
+  /* Ultra-modern NFT button styles */
+  .btn-nft {
+    background: linear-gradient(135deg, #00E5FF 0%, #B537F2 50%, #FF006E 100%);
+    background-size: 200% 200%;
+    border: 2px solid rgba(0, 229, 255, 0.6);
+    box-shadow: 0 6px 25px rgba(0, 229, 255, 0.5), 0 0 40px rgba(255, 0, 110, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
   
-  .btn-cosmic:hover {
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.6), 0 0 40px rgba(139, 92, 246, 0.4);
-    transform: translateY(-2px);
+  .btn-nft::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s;
   }
   
-  .btn-cosmic-orange {
-    background: linear-gradient(135deg, #ff6b35 0%, #f59e0b 100%);
-    border: 1px solid rgba(255, 107, 53, 0.5);
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
-    transition: all 0.3s ease;
+  .btn-nft:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 8px 35px rgba(0, 229, 255, 0.7), 0 0 50px rgba(255, 0, 110, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.25);
+    transform: translateY(-4px) scale(1.03);
   }
   
-  .btn-cosmic-orange:hover {
-    box-shadow: 0 0 30px rgba(255, 107, 53, 0.6), 0 0 40px rgba(245, 158, 11, 0.4);
-    transform: translateY(-2px);
+  .btn-nft:hover::before {
+    left: 100%;
+  }
+  
+  .btn-nft-pink {
+    background: linear-gradient(135deg, #FF006E 0%, #FF4081 100%);
+    background-size: 200% 200%;
+    border: 2px solid rgba(255, 0, 110, 0.6);
+    box-shadow: 0 6px 25px rgba(255, 0, 110, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 900;
+  }
+  
+  .btn-nft-pink:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 8px 35px rgba(255, 0, 110, 0.7), 0 0 50px rgba(255, 64, 129, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.25);
+    transform: translateY(-4px) scale(1.03);
+  }
+  
+  .btn-nft-yellow {
+    background: linear-gradient(135deg, #FFD60A 0%, #FFA500 100%);
+    background-size: 200% 200%;
+    border: 2px solid rgba(255, 214, 10, 0.6);
+    box-shadow: 0 6px 25px rgba(255, 214, 10, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.15);
+    color: #000000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 900;
+  }
+  
+  .btn-nft-yellow:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 8px 35px rgba(255, 214, 10, 0.7), 0 0 50px rgba(255, 165, 0, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.25);
+    transform: translateY(-4px) scale(1.03);
+  }
+  
+  .btn-nft-outline {
+    background: rgba(15, 15, 30, 0.7);
+    border: 3px solid rgba(0, 229, 255, 0.6);
+    box-shadow: 0 4px 20px rgba(0, 229, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 900;
+  }
+  
+  .btn-nft-outline:hover {
+    background: rgba(0, 229, 255, 0.2);
+    border-color: rgba(255, 0, 110, 0.8);
+    box-shadow: 0 6px 30px rgba(255, 0, 110, 0.5), inset 0 0 25px rgba(0, 229, 255, 0.15);
+    transform: translateY(-3px);
   }
 
   /* Admin select dropdown styling */
-  select.cosmic-card option {
-    background: rgba(15, 23, 42, 0.95);
+  select.solana-card option {
+    background: rgba(20, 20, 30, 0.95);
     color: #ffffff;
+  }
+  
+  /* Ultra-modern shimmer effect for loading states */
+  .nft-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 229, 255, 0.15) 0%,
+      rgba(255, 0, 110, 0.35) 50%,
+      rgba(0, 229, 255, 0.15) 100%
+    );
+    background-size: 200% 100%;
+    animation: nftShimmer 2.5s ease-in-out infinite;
+  }
+  
+  /* Ultra-modern NFT badge styles */
+  .badge-nft {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.25) 0%, rgba(181, 55, 242, 0.25) 100%);
+    border: 2px solid rgba(0, 229, 255, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 3px 15px rgba(0, 229, 255, 0.3);
+    font-weight: 800;
+  }
+  
+  .badge-nft-pink {
+    background: linear-gradient(135deg, rgba(255, 0, 110, 0.25) 0%, rgba(255, 64, 129, 0.25) 100%);
+    border: 2px solid rgba(255, 0, 110, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 3px 15px rgba(255, 0, 110, 0.3);
+    font-weight: 800;
+  }
+  
+  .badge-nft-yellow {
+    background: linear-gradient(135deg, rgba(255, 214, 10, 0.25) 0%, rgba(255, 165, 0, 0.25) 100%);
+    border: 2px solid rgba(255, 214, 10, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 3px 15px rgba(255, 214, 10, 0.3);
+    color: #FFD60A;
+    font-weight: 800;
+  }
+  
+  .badge-nft-purple {
+    background: linear-gradient(135deg, rgba(181, 55, 242, 0.25) 0%, rgba(138, 43, 226, 0.25) 100%);
+    border: 2px solid rgba(181, 55, 242, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 3px 15px rgba(181, 55, 242, 0.3);
+    font-weight: 800;
+  }
+  
+  /* Professional Solana Utility Classes */
+  .solana-gradient-text {
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .solana-gradient-purple-text {
+    background: var(--gradient-purple);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .solana-gradient-green-text {
+    background: var(--gradient-green);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .solana-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .solana-card:hover {
+    border-color: rgba(153, 69, 255, 0.4);
+    box-shadow: 0 20px 60px rgba(153, 69, 255, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .solana-card-elevated {
+    background: var(--surface-elevated);
+    border: 2px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: 0 12px 40px rgba(153, 69, 255, 0.1);
+  }
+  
+  .solana-glow-purple {
+    box-shadow: 0 0 20px rgba(153, 69, 255, 0.4), 0 0 40px rgba(153, 69, 255, 0.2);
+  }
+  
+  .solana-glow-green {
+    box-shadow: 0 0 20px rgba(20, 241, 149, 0.4), 0 0 40px rgba(20, 241, 149, 0.2);
+  }
+}
+
+/* Wider containers for sidebar layout - maximize content area */
+@layer components {
+  .container {
+    @apply w-full mx-auto;
+    max-width: 100% !important;
+  }
+  
+  /* Remove container padding since layout-wrapper handles it */
+  .container.mx-auto {
+    @apply px-0;
   }
 }

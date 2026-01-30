@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 export interface TraitFilterProps {
-  ordinals: unknown[]
+  nfts: unknown[]
   onFiltersChange: (filters: TraitFilters) => void
 }
 
@@ -17,7 +17,7 @@ export interface TraitFilters {
   props: string[]
 }
 
-export function TraitFilter({ ordinals, onFiltersChange }: TraitFilterProps) {
+export function TraitFilter({ nfts, onFiltersChange }: TraitFilterProps) {
   const [selectedTraits, setSelectedTraits] = useState<TraitFilters>({
     background: [],
     accessories: [],
@@ -28,11 +28,11 @@ export function TraitFilter({ ordinals, onFiltersChange }: TraitFilterProps) {
     props: []
   })
 
-  // Extract all unique traits from ordinals
-  const allTraits = ordinals.reduce((acc, ordinal) => {
-    if (!ordinal || !ordinal.traits) return acc
+  // Extract all unique traits from NFTs
+  const allTraits = nfts.reduce((acc, nft) => {
+    if (!nft || !nft.traits) return acc
     
-    const traits = ordinal.traits
+    const traits = nft.traits
     Object.entries(traits).forEach(([category, value]) => {
       if (category !== 'characterType' && typeof value === 'string' && value.trim()) {
         if (!acc[category]) acc[category] = new Set()
@@ -91,7 +91,7 @@ export function TraitFilter({ ordinals, onFiltersChange }: TraitFilterProps) {
   }
 
   return (
-    <div className="bg-[#FDFCFA] dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+    <div className="bg-[#FDFCFA] dark:bg-[#1a1a24] border border-gray-200 dark:border-[#9945FF]/20 rounded-lg p-4">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Trait Filters</h3>
@@ -103,7 +103,7 @@ export function TraitFilter({ ordinals, onFiltersChange }: TraitFilterProps) {
         </div>
         <button
           onClick={clearAllFilters}
-          className="text-sm text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+          className="text-sm text-gray-600 hover:text-gray-800 dark:text-[#a8a8b8] dark:hover:text-white"
         >
           Clear All
         </button>
@@ -112,14 +112,14 @@ export function TraitFilter({ ordinals, onFiltersChange }: TraitFilterProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {Object.entries(traitOptions).map(([category, traits]) => (
           <div key={category} className="space-y-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-white">
               <span className="text-lg">{getCategoryIcon(category)}</span>
               <span className="capitalize">{category}</span>
             </label>
             <select
               value={selectedTraits[category as keyof TraitFilters][0] || ""}
               onChange={(e) => handleTraitChange(category as keyof TraitFilters, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-[#FDFCFA] dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-[#9945FF]/30 rounded-md bg-[#FDFCFA] dark:bg-[#14141e] text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="">All {category}</option>
               {traits.map((trait) => (

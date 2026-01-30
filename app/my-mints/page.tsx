@@ -89,9 +89,9 @@ export default function MyMintsPage() {
   const getStatusBadge = (status: string) => {
     const statusColors: Record<string, string> = {
       confirmed: 'bg-green-500/20 text-green-400 border border-green-500/30',
-      minting: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
-      uploading: 'bg-[#9945FF]/20 text-[#9945FF] border border-[#9945FF]/30',
-      failed: 'bg-red-500/20 text-red-400 border border-red-500/30',
+      minting: 'bg-yellow-500/20 text-[#FBBF24] border border-yellow-500/30',
+      uploading: 'bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/30',
+      failed: 'bg-red-500/20 text-[#EF4444] border border-red-500/30',
       pending: 'bg-white/10 text-white/70 border border-white/20',
       expired: 'bg-white/10 text-white/50 border border-white/10',
     }
@@ -100,10 +100,10 @@ export default function MyMintsPage() {
 
   if (!activeWalletConnected) {
     return (
-      <div className="min-h-screen p-8">
+      <div className="min-h-screen p-8 bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-[#1a1a1a] rounded-lg shadow p-6 text-center border border-[#333]">
-            <p className="text-white/70">Please connect your wallet</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 rounded-lg shadow p-6 text-center border border-[#00E5FF]/30">
+            <p className="text-[#b4b4c8]">Please connect your wallet</p>
           </div>
         </div>
       </div>
@@ -111,25 +111,25 @@ export default function MyMintsPage() {
   }
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen p-8 bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-white">My Mints</h1>
-              <p className="text-white/70 mt-1">View your NFT mint history</p>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent">My Mints</h1>
+              <p className="text-[#b4b4c8] mt-1">View your NFT mint history</p>
             </div>
           </div>
 
           {/* Filters */}
           <div className="flex items-center gap-4 mb-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-white/70 mb-1">Filter by Collection</label>
+              <label className="block text-sm font-medium text-[#b4b4c8] mb-1">Filter by Collection</label>
               <select
                 value={collectionFilter}
                 onChange={(e) => setCollectionFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-[#333] bg-[#1a1a1a] text-white rounded-lg"
+                className="w-full px-3 py-2 border border-[#00E5FF]/30 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 text-white rounded-lg"
               >
                 <option value="">All Collections</option>
                 {collections.map((col) => (
@@ -142,7 +142,7 @@ export default function MyMintsPage() {
             <div className="flex items-end">
               <button
                 onClick={loadTransactions}
-                className="px-4 py-2 bg-[#9945FF] hover:bg-[#7C3AED] text-white rounded-lg font-medium"
+                className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white rounded-lg font-medium"
               >
                 Refresh
               </button>
@@ -151,26 +151,26 @@ export default function MyMintsPage() {
         </div>
 
         {error && (
-          <div className="mb-4 p-4 bg-[#1a1a1a] border border-red-500/50 rounded-lg">
-            <p className="text-red-400">{error}</p>
+          <div className="mb-4 p-4 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-red-500/50 rounded-lg">
+            <p className="text-[#EF4444]">{error}</p>
           </div>
         )}
 
         {loading ? (
-          <div className="bg-[#1a1a1a] rounded-lg shadow p-12 text-center border border-[#333]">
-            <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-white/70">Loading mint transactions...</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 rounded-lg shadow p-12 text-center border border-[#00E5FF]/30">
+            <div className="w-16 h-16 border-4 border-[#00E5FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-[#b4b4c8]">Loading mint transactions...</p>
           </div>
         ) : transactions.length === 0 ? (
-          <div className="bg-[#1a1a1a] rounded-lg shadow p-12 text-center border border-[#333]">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 rounded-lg shadow p-12 text-center border border-[#00E5FF]/30">
             <p className="text-white text-lg">No mint transactions found</p>
-            <p className="text-white/60 text-sm mt-2">Your mint history will appear here.</p>
+            <p className="text-[#b4b4c8] text-sm mt-2">Your mint history will appear here.</p>
           </div>
         ) : (
-          <div className="bg-[#1a1a1a] rounded-lg shadow overflow-hidden border border-[#333]">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 rounded-lg shadow overflow-hidden border border-[#00E5FF]/30">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-[#333]">
-                <thead className="bg-[#0a0a0a]">
+              <table className="min-w-full divide-y divide-[#00E5FF]/30">
+                <thead className="bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Collection</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">NFT #</th>
@@ -180,9 +180,9 @@ export default function MyMintsPage() {
                     <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Date</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#333]">
+                <tbody className="divide-y divide-[#00E5FF]/30">
                   {transactions.map((transaction) => (
-                    <tr key={transaction.id} className="hover:bg-[#222]">
+                    <tr key={transaction.id} className="hover:bg-[#00E5FF]/10">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-white">{transaction.collection_name}</div>
                       </td>
@@ -202,7 +202,7 @@ export default function MyMintsPage() {
                             href={`https://solscan.io/tx/${transaction.tx_signature}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-[#9945FF] hover:text-[#14F195] font-mono"
+                            className="text-sm text-[#00E5FF] hover:text-[#FFD60A] font-mono"
                           >
                             {transaction.tx_signature.slice(0, 16)}...
                           </a>
@@ -216,7 +216,7 @@ export default function MyMintsPage() {
                             href={`https://solscan.io/token/${transaction.mint_address}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-[#9945FF] hover:text-[#14F195] font-mono"
+                            className="text-sm text-[#00E5FF] hover:text-[#FFD60A] font-mono"
                           >
                             {transaction.mint_address.slice(0, 12)}...
                           </a>
@@ -224,7 +224,7 @@ export default function MyMintsPage() {
                           <span className="text-sm text-white/50">—</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white/60">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[#a8a8b8]/80">
                         {formatDate(transaction.created_at)}
                       </td>
                     </tr>

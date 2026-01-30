@@ -93,7 +93,7 @@ function FetchVideoButton({ errorMessage, jobId, onSuccess }: { errorMessage: st
       <button
         onClick={handleFetch}
         disabled={fetching}
-        className="w-full px-4 py-2 rounded-lg bg-[#00d4ff] hover:bg-[#00b8e6] text-white text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {fetching ? (
           <>
@@ -108,7 +108,7 @@ function FetchVideoButton({ errorMessage, jobId, onSuccess }: { errorMessage: st
         )}
       </button>
       {error && (
-        <div className="text-xs text-red-400 mt-1">{error}</div>
+        <div className="text-xs text-[#EF4444] mt-1">{error}</div>
       )}
     </div>
   )
@@ -163,7 +163,7 @@ function RetryVideoButton({ item, onSuccess }: { item: PromotionHistoryItem; onS
     <button
       onClick={handleRetry}
       disabled={fetching}
-      className="flex-1 px-3 py-2 rounded-lg bg-[#e27d0f] text-white text-sm font-semibold hover:bg-[#c96a0a] transition-colors text-center disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1"
+      className="flex-1 px-3 py-2 rounded-lg bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#00B8D4] hover:to-[#12D87A] text-white text-sm font-semibold transition-colors text-center disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1"
     >
       {fetching ? (
         <>
@@ -730,8 +730,8 @@ export default function PromotionPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Header */}
-      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
-        <div className="container mx-auto px-6 py-8">
+      <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30 -mx-6 lg:-mx-12 px-6 lg:px-12">
+        <div className="w-full py-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white">Promotion</h1>
@@ -740,10 +740,10 @@ export default function PromotionPage() {
               </p>
             </div>
             <div className="flex gap-2">
-              <div className="px-4 py-2 rounded-xl bg-[#ff6b35] text-sm font-bold shadow-lg shadow-[#ff6b35]/20">
+              <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-sm font-bold shadow-lg shadow-[#00E5FF]/20">
                 1 credit / flyer
               </div>
-              <div className="px-4 py-2 rounded-xl bg-[#00d4ff] text-sm font-bold shadow-lg shadow-[#00d4ff]/20">
+              <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-sm font-bold shadow-lg shadow-[#00E5FF]/20">
                 4 credits / video
               </div>
             </div>
@@ -751,17 +751,17 @@ export default function PromotionPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="w-full py-8">
+        <div className="w-full">
           
           {/* Wallet Warning */}
           {!activeWalletConnected && (
-            <div className="mb-6 p-4 rounded-2xl cosmic-card border-2 border-[#ff6b35]/50">
+            <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#DC1FFF]/50">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">🔗</span>
                 <div>
-                  <div className="font-bold text-[#ff6b35]">Connect your wallet</div>
-                  <div className="text-sm text-white/80">Connect to select a collection and generate flyers</div>
+                  <div className="font-bold text-[#DC1FFF]">Connect your wallet</div>
+                  <div className="text-sm text-[#a8a8b8]">Connect to select a collection and generate flyers</div>
                 </div>
               </div>
             </div>
@@ -773,8 +773,8 @@ export default function PromotionPage() {
               onClick={() => setViewMode('generate')}
               className={`px-6 py-3 rounded-xl font-bold transition-all ${
                 viewMode === 'generate'
-                  ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/20'
-                  : 'cosmic-card border-2 border-[#00d4ff]/30 text-white/70 hover:border-[#00d4ff]/50 hover:text-white'
+                  ? 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white shadow-lg shadow-[#00E5FF]/20'
+                  : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00E5FF]/30 text-white/70 hover:border-[#00E5FF]/50 hover:text-white'
               }`}
             >
               ✨ Create Content
@@ -783,8 +783,8 @@ export default function PromotionPage() {
               onClick={() => setViewMode('history')}
               className={`px-6 py-3 rounded-xl font-bold transition-all ${
                 viewMode === 'history'
-                  ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/20'
-                  : 'cosmic-card border-2 border-[#00d4ff]/30 text-white/70 hover:border-[#00d4ff]/50 hover:text-white'
+                  ? 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-white shadow-lg shadow-[#00E5FF]/20'
+                  : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00E5FF]/30 text-white/70 hover:border-[#00E5FF]/50 hover:text-white'
               }`}
             >
               📁 History {history.length > 0 && <span className="ml-1 px-2 py-0.5 rounded-full bg-white/20 text-xs">{history.length}</span>}
@@ -795,9 +795,9 @@ export default function PromotionPage() {
             <div className="space-y-6">
               
               {/* Content Type Selector */}
-              <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">0</div>
+                  <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">0</div>
                   <h2 className="text-lg font-black text-white">Content Type</h2>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -806,8 +806,8 @@ export default function PromotionPage() {
                     disabled={!activeWalletConnected}
                     className={`p-4 rounded-xl border-2 transition-all ${
                       contentType === 'flyer'
-                        ? 'border-[#ff6b35] bg-[#ff6b35]/10'
-                        : 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50'
+                        ? 'border-[#DC1FFF] bg-[#DC1FFF]/10'
+                        : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                     } disabled:opacity-50`}
                   >
                     <div className="text-2xl mb-2">🖼️</div>
@@ -819,8 +819,8 @@ export default function PromotionPage() {
                     disabled={!activeWalletConnected}
                     className={`p-4 rounded-xl border-2 transition-all ${
                       contentType === 'video'
-                        ? 'border-[#00d4ff] bg-[#00d4ff]/10'
-                        : 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50'
+                        ? 'border-[#9945FF] bg-[#9945FF]/10'
+                        : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                     } disabled:opacity-50`}
                   >
                     <div className="text-2xl mb-2">🎬</div>
@@ -832,9 +832,9 @@ export default function PromotionPage() {
 
               {/* Step 1: Collection & Count (for flyers) or Video Source (for videos) */}
               {contentType === 'flyer' ? (
-                <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">1</div>
+                    <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">1</div>
                     <h2 className="text-lg font-black text-white">Choose Collection & Count</h2>
                   </div>
                   
@@ -845,7 +845,7 @@ export default function PromotionPage() {
                         value={selectedCollectionId}
                         onChange={(e) => setSelectedCollectionId(e.target.value)}
                         disabled={!activeWalletConnected || loadingCollections}
-                        className="w-full h-12 rounded-xl border-2 border-[#00d4ff]/30 cosmic-card px-4 text-base font-medium text-white focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20 transition-colors disabled:opacity-50"
+                        className="w-full h-12 rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 text-base font-medium text-white focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                       >
                         {collections.length === 0 && (
                           <option value="" className="bg-[#0a0e27]">{loadingCollections ? 'Loading...' : 'No collections found'}</option>
@@ -866,8 +866,8 @@ export default function PromotionPage() {
                             disabled={!activeWalletConnected}
                             className={`flex-1 h-12 rounded-xl font-bold text-lg transition-all ${
                               subjectCount === n
-                                ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/20'
-                                : 'cosmic-card border border-[#00d4ff]/30 text-white/70 hover:border-[#00d4ff]/50 hover:text-white'
+                                ? 'bg-[#DC1FFF] text-white shadow-lg shadow-[#DC1FFF]/20'
+                                : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white/70 hover:border-[#9945FF]/50 hover:text-white'
                             } disabled:opacity-50`}
                           >
                             {n}
@@ -878,9 +878,9 @@ export default function PromotionPage() {
                   </div>
                 </div>
               ) : (
-                <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">1</div>
+                    <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">1</div>
                     <h2 className="text-lg font-black text-white">Choose Video Source</h2>
                   </div>
                   
@@ -890,8 +890,8 @@ export default function PromotionPage() {
                       disabled={!activeWalletConnected}
                       className={`p-4 rounded-xl border-2 transition-all ${
                         videoSourceType === 'collection'
-                          ? 'border-[#00d4ff] bg-[#00d4ff]/10'
-                          : 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50'
+                          ? 'border-[#9945FF] bg-[#9945FF]/10'
+                          : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                       } disabled:opacity-50`}
                     >
                       <div className="text-2xl mb-2">🖼️</div>
@@ -902,8 +902,8 @@ export default function PromotionPage() {
                       disabled={!activeWalletConnected}
                       className={`p-4 rounded-xl border-2 transition-all ${
                         videoSourceType === 'flyer'
-                          ? 'border-[#00d4ff] bg-[#00d4ff]/10'
-                          : 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50'
+                          ? 'border-[#9945FF] bg-[#9945FF]/10'
+                          : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                       } disabled:opacity-50`}
                     >
                       <div className="text-2xl mb-2">📄</div>
@@ -914,8 +914,8 @@ export default function PromotionPage() {
                       disabled={!activeWalletConnected}
                       className={`p-4 rounded-xl border-2 transition-all ${
                         videoSourceType === 'upload'
-                          ? 'border-[#00d4ff] bg-[#00d4ff]/10'
-                          : 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50'
+                          ? 'border-[#9945FF] bg-[#9945FF]/10'
+                          : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                       } disabled:opacity-50`}
                     >
                       <div className="text-2xl mb-2">📤</div>
@@ -932,7 +932,7 @@ export default function PromotionPage() {
                         value={selectedCollectionId}
                         onChange={(e) => setSelectedCollectionId(e.target.value)}
                         disabled={!activeWalletConnected || loadingCollections}
-                        className="w-full h-12 rounded-xl border-2 border-[#00d4ff]/30 cosmic-card px-4 text-base font-medium text-white focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20 transition-colors disabled:opacity-50"
+                        className="w-full h-12 rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 text-base font-medium text-white focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                       >
                         {collections.length === 0 && (
                           <option value="" className="bg-[#0a0e27]">{loadingCollections ? 'Loading...' : 'No collections found'}</option>
@@ -953,15 +953,15 @@ export default function PromotionPage() {
                               disabled={!activeWalletConnected}
                               className={`flex-1 h-12 rounded-xl font-bold text-lg transition-all ${
                                 videoImageCount === n
-                                  ? 'bg-[#00d4ff] text-white shadow-lg shadow-[#00d4ff]/20'
-                                  : 'cosmic-card border border-[#00d4ff]/30 text-white/70 hover:border-[#00d4ff]/50 hover:text-white'
+                                  ? 'bg-[#9945FF] text-white shadow-lg shadow-[#9945FF]/20'
+                                  : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white/70 hover:border-[#9945FF]/50 hover:text-white'
                               } disabled:opacity-50`}
                             >
                               {n}
                             </button>
                           ))}
                         </div>
-                        <div className="mt-2 text-xs text-white/60">
+                        <div className="mt-2 text-xs text-[#a8a8b8]/80">
                           💡 Select up to 3 images from your collection to animate
                         </div>
                       </div>
@@ -985,8 +985,8 @@ export default function PromotionPage() {
                               onClick={() => setSelectedFlyerId(String(item.id))}
                               className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all ${
                                 selectedFlyerId === String(item.id)
-                                  ? 'border-[#00d4ff] ring-2 ring-[#00d4ff]/30'
-                                  : 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50'
+                                  ? 'border-[#9945FF] ring-2 ring-[#9945FF]/30'
+                                  : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                               }`}
                             >
                               <img
@@ -995,8 +995,8 @@ export default function PromotionPage() {
                                 className="w-full h-full object-cover"
                               />
                               {selectedFlyerId === String(item.id) && (
-                                <div className="absolute inset-0 bg-[#00d4ff]/20 flex items-center justify-center">
-                                  <div className="w-6 h-6 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-xs">
+                                <div className="absolute inset-0 bg-[#9945FF]/20 flex items-center justify-center">
+                                  <div className="w-6 h-6 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-xs">
                                     ✓
                                   </div>
                                 </div>
@@ -1050,11 +1050,11 @@ export default function PromotionPage() {
                         <button
                           onClick={() => fileInputRef.current?.click()}
                           disabled={!activeWalletConnected || uploadingImage}
-                          className="w-full h-32 rounded-xl border-2 border-dashed border-[#00d4ff]/30 cosmic-card flex flex-col items-center justify-center text-white/70 hover:border-[#00d4ff]/50 hover:text-white transition-colors disabled:opacity-50 overflow-hidden relative"
+                          className="w-full h-32 rounded-xl border-2 border-dashed border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md flex flex-col items-center justify-center text-white/70 hover:border-[#9945FF]/50 hover:text-white transition-colors disabled:opacity-50 overflow-hidden relative"
                         >
                           {uploadingImage ? (
                             <>
-                              <div className="w-8 h-8 border-2 border-[#00d4ff] border-t-transparent rounded-full animate-spin mb-2" />
+                              <div className="w-8 h-8 border-2 border-[#9945FF] border-t-transparent rounded-full animate-spin mb-2" />
                               <span className="text-sm">Uploading...</span>
                             </>
                           ) : uploadedImageUrl ? (
@@ -1086,16 +1086,16 @@ export default function PromotionPage() {
 
               {/* Step 2: Image Selection (only for flyers or collection videos) */}
               {contentType === 'flyer' || (contentType === 'video' && videoSourceType === 'collection') ? (
-              <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">2</div>
+                    <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">2</div>
                     <h2 className="text-lg font-black text-white">Select Images</h2>
                   </div>
                   <div className={`px-3 py-1.5 rounded-full text-sm font-bold ${
                     selectedCount === (contentType === 'video' ? videoImageCount : subjectCount) 
-                      ? 'bg-[#00d4ff]/20 text-[#00d4ff] border border-[#00d4ff]/30' 
-                      : 'cosmic-card border border-[#00d4ff]/30 text-white/60'
+                      ? 'bg-[#9945FF]/20 text-[#9945FF] border border-[#9945FF]/30' 
+                      : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-[#a8a8b8]/80'
                   }`}>
                     {selectedCount} / {contentType === 'video' ? videoImageCount : subjectCount} selected
                   </div>
@@ -1132,8 +1132,8 @@ export default function PromotionPage() {
                             isSelected 
                               ? 'border-[#e27d0f] ring-2 ring-[#e27d0f]/30 scale-105' 
                               : canInteract 
-                                ? 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50 hover:scale-102 cursor-pointer' 
-                                : 'border-[#00d4ff]/20 hover:border-[#00d4ff]/30 cursor-pointer' // Still clickable to replace
+                                ? 'border-[#9945FF]/30 hover:border-[#9945FF]/50 hover:scale-102 cursor-pointer' 
+                                : 'border-[#9945FF]/20 hover:border-[#9945FF]/30 cursor-pointer' // Still clickable to replace
                           }`}
                         >
                           <img
@@ -1157,7 +1157,7 @@ export default function PromotionPage() {
                       <button
                         onClick={loadMore}
                         disabled={loadingOrdinals}
-                        className="flex-shrink-0 w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-500 hover:border-gray-400 hover:text-gray-600 transition-colors"
+                        className="flex-shrink-0 w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-[#a8a8b8]/80 hover:border-gray-400 hover:text-gray-600 transition-colors"
                       >
                         {loadingOrdinals ? (
                           <div className="w-6 h-6 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
@@ -1176,9 +1176,9 @@ export default function PromotionPage() {
 
               {/* Step 3: Scene/Action Prompt (only for flyers) */}
               {contentType === 'flyer' && (
-                <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">3</div>
+                    <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">3</div>
                     <h2 className="text-lg font-black text-white">Describe the Scene</h2>
                   </div>
                   
@@ -1188,9 +1188,9 @@ export default function PromotionPage() {
                     placeholder="Describe the scene, action, or composition... e.g., 'Standing together in a neon-lit alley, looking tough' or 'Flying through space with laser beams'"
                     disabled={!activeWalletConnected}
                     rows={3}
-                    className="w-full rounded-xl border-2 border-[#00d4ff]/30 cosmic-card px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20 transition-colors disabled:opacity-50"
+                    className="w-full rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                   />
-                  <div className="mt-2 text-xs text-white/60">
+                  <div className="mt-2 text-xs text-[#a8a8b8]/80">
                     💡 This describes what all selected images are doing together in the flyer
                   </div>
                 </div>
@@ -1200,10 +1200,10 @@ export default function PromotionPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Flyer Text (only for flyers) */}
                 {contentType === 'flyer' && (
-                  <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">4</div>
+                        <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">4</div>
                         <h2 className="text-lg font-black text-white">Flyer Text</h2>
                       </div>
                       <label className="flex items-center gap-2 text-sm text-white/70 cursor-pointer">
@@ -1212,7 +1212,7 @@ export default function PromotionPage() {
                           checked={noText}
                           onChange={(e) => setNoText(e.target.checked)}
                           disabled={!activeWalletConnected}
-                          className="w-4 h-4 rounded border-[#00d4ff]/30 cosmic-card text-[#00d4ff] focus:ring-[#00d4ff]"
+                          className="w-4 h-4 rounded border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-[#9945FF] focus:ring-[#9945FF]"
                         />
                         No text
                       </label>
@@ -1224,23 +1224,23 @@ export default function PromotionPage() {
                       placeholder="MINT LIVE NOW — BTC Bitches — 1 sat — ordmaker.fun"
                       disabled={noText || !activeWalletConnected}
                       rows={3}
-                      className="w-full rounded-xl border-2 border-[#00d4ff]/30 cosmic-card px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20 transition-colors disabled:opacity-50"
+                      className="w-full rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                     />
                   </div>
                 )}
 
                 {/* Video Settings (only for videos) */}
                 {contentType === 'video' && (
-                  <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">3</div>
+                      <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">3</div>
                       <h2 className="text-lg font-black text-white">Video Description</h2>
                     </div>
                     
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-semibold text-white mb-2">
-                          Scene <span className="text-white/60 text-xs font-normal">(what's happening)</span>
+                          Scene <span className="text-[#a8a8b8]/80 text-xs font-normal">(what's happening)</span>
                         </label>
                         <textarea
                           value={videoScene}
@@ -1248,14 +1248,14 @@ export default function PromotionPage() {
                           placeholder="e.g., driving down the road in rainy weather on the tractor"
                           disabled={!activeWalletConnected}
                           rows={3}
-                          className="w-full rounded-xl border-2 border-[#00d4ff]/30 cosmic-card px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20 transition-colors disabled:opacity-50"
+                          className="w-full rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                         />
-                        <div className="mt-1 text-xs text-white/60">Describe the scene and environment</div>
+                        <div className="mt-1 text-xs text-[#a8a8b8]/80">Describe the scene and environment</div>
                       </div>
                       
                       <div>
                         <label className="block text-sm font-semibold text-white mb-2">
-                          Actions <span className="text-white/60 text-xs font-normal">(what the character is doing)</span>
+                          Actions <span className="text-[#a8a8b8]/80 text-xs font-normal">(what the character is doing)</span>
                         </label>
                         <textarea
                           value={videoActions}
@@ -1263,14 +1263,14 @@ export default function PromotionPage() {
                           placeholder="e.g., singing, dancing, waving, etc."
                           disabled={!activeWalletConnected}
                           rows={2}
-                          className="w-full rounded-xl border-2 border-[#00d4ff]/30 cosmic-card px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20 transition-colors disabled:opacity-50"
+                          className="w-full rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                         />
-                        <div className="mt-1 text-xs text-white/60">Describe the actions or movements</div>
+                        <div className="mt-1 text-xs text-[#a8a8b8]/80">Describe the actions or movements</div>
                       </div>
                       
                       <div>
                         <label className="block text-sm font-semibold text-white mb-2">
-                          Speech/Text <span className="text-white/60 text-xs font-normal">(optional - what is being said)</span>
+                          Speech/Text <span className="text-[#a8a8b8]/80 text-xs font-normal">(optional - what is being said)</span>
                         </label>
                         <textarea
                           value={videoSpeech}
@@ -1278,9 +1278,9 @@ export default function PromotionPage() {
                           placeholder='e.g., "sweet home alabama" song'
                           disabled={!activeWalletConnected}
                           rows={2}
-                          className="w-full rounded-xl border-2 border-[#00d4ff]/30 cosmic-card px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#00d4ff] focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/20 transition-colors disabled:opacity-50"
+                          className="w-full rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                         />
-                        <div className="mt-1 text-xs text-white/60">Optional: What the character is saying or singing</div>
+                        <div className="mt-1 text-xs text-[#a8a8b8]/80">Optional: What the character is saying or singing</div>
                       </div>
                     </div>
                   </div>
@@ -1288,9 +1288,9 @@ export default function PromotionPage() {
 
                 {/* Aspect Ratio - only for flyers */}
                 {contentType === 'flyer' && (
-                  <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">5</div>
+                      <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">5</div>
                       <h2 className="text-lg font-black text-white">Format</h2>
                     </div>
                     
@@ -1306,17 +1306,17 @@ export default function PromotionPage() {
                           disabled={!activeWalletConnected}
                           className={`p-3 rounded-xl border-2 text-left transition-all ${
                             aspectRatio === format.id
-                              ? 'border-[#00d4ff] bg-[#00d4ff]/10'
-                              : 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50 cosmic-card'
+                              ? 'border-[#9945FF] bg-[#9945FF]/10'
+                              : 'border-[#9945FF]/30 hover:border-[#9945FF]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md'
                           } disabled:opacity-50`}
                         >
                           <div className="flex items-center gap-2">
                             <span>{format.icon}</span>
-                            <span className={`font-bold text-sm ${aspectRatio === format.id ? 'text-[#00d4ff]' : 'text-white'}`}>
+                            <span className={`font-bold text-sm ${aspectRatio === format.id ? 'text-[#9945FF]' : 'text-white'}`}>
                               {format.label}
                             </span>
                           </div>
-                          <div className="text-xs text-white/60 mt-1">{format.size}</div>
+                          <div className="text-xs text-[#a8a8b8]/80 mt-1">{format.size}</div>
                         </button>
                       ))}
                     </div>
@@ -1325,20 +1325,20 @@ export default function PromotionPage() {
 
                 {/* Video Preview - only for videos (fills the space where Format card would be) */}
                 {contentType === 'video' && (
-                  <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-6">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded-full bg-[#00d4ff] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#00d4ff]/20">4</div>
+                      <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">4</div>
                       <h2 className="text-lg font-black text-white">Preview</h2>
                     </div>
                     
-                    <div className="aspect-video rounded-xl border-2 border-[#00d4ff]/30 cosmic-card overflow-hidden">
+                    <div className="aspect-video rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md overflow-hidden">
                       {resultUrl ? (
                         <video src={resultUrl} controls className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-white/50 p-4">
                           {activeJobId && jobStatus && jobStatus !== 'completed' && jobStatus !== 'failed' ? (
                             <div className="text-center">
-                              <div className="w-10 h-10 border-3 border-[#ff6b35] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                              <div className="w-10 h-10 border-3 border-[#DC1FFF] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
                               <span className="text-sm font-semibold text-center block">
                                 {jobStatus === 'processing' ? 'Generating Video...' : 'Queued'}
                               </span>
@@ -1359,25 +1359,25 @@ export default function PromotionPage() {
 
               {/* Error Message */}
               {error && (
-                <div className="p-4 rounded-xl cosmic-card border-2 border-[#ff4757]/50 text-[#ff4757] font-medium">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#EF4444]/50 text-[#EF4444] font-medium">
                   ⚠️ {error}
                 </div>
               )}
 
               {/* Job Status Banner (non-blocking) */}
               {activeJobId && jobStatus && jobStatus !== 'completed' && jobStatus !== 'failed' && (
-                <div className="p-4 rounded-xl cosmic-card border-2 border-[#00d4ff]/50">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#9945FF]/50">
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 border-2 border-[#00d4ff] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-6 h-6 border-2 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
                     <div className="flex-1">
-                      <div className="font-bold text-[#00d4ff]">
+                      <div className="font-bold text-[#9945FF]">
                         {jobStatus === 'processing' 
                           ? contentType === 'video' 
                             ? '🔄 Generating Video...' 
                             : '🔄 Generating Flyer...'
                           : '⏳ Job Queued'}
                       </div>
-                      <div className="text-sm text-white/80">
+                      <div className="text-sm text-[#a8a8b8]">
                         {jobStatus === 'processing' 
                           ? contentType === 'video'
                             ? `Your video is being generated. This may take 2-5 minutes. The page will keep checking automatically - you can continue working or close the page. Completed videos will appear in your history.${taskId ? ` The TaskId is: ${taskId}` : ''}`
@@ -1397,7 +1397,7 @@ export default function PromotionPage() {
                   <button
                     onClick={handleGenerateClick}
                     disabled={!canGenerate()}
-                    className="w-full h-16 rounded-2xl bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white font-black text-xl shadow-lg shadow-[#ff6b35]/30 hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full h-16 rounded-2xl bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] text-white font-black text-xl shadow-lg shadow-[#DC1FFF]/30 hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {getButtonText()}
                   </button>
@@ -1405,7 +1405,7 @@ export default function PromotionPage() {
                 
                 {/* Mini Preview - only for flyers (videos have preview in the grid above) */}
                 {contentType === 'flyer' && (
-                  <div className={`rounded-2xl border-2 border-[#00d4ff]/30 cosmic-card overflow-hidden ${
+                  <div className={`rounded-2xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md overflow-hidden ${
                     aspectRatio === 'square' ? 'aspect-square' :
                     aspectRatio === 'portrait' ? 'aspect-[2/3]' :
                     'aspect-[3/2]'
@@ -1416,7 +1416,7 @@ export default function PromotionPage() {
                       <div className="w-full h-full flex flex-col items-center justify-center text-white/50 p-4">
                         {activeJobId && jobStatus && jobStatus !== 'completed' && jobStatus !== 'failed' ? (
                           <div className="text-center">
-                            <div className="w-8 h-8 border-3 border-[#ff6b35] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+                            <div className="w-8 h-8 border-3 border-[#DC1FFF] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
                             <span className="text-xs text-center block">
                               {jobStatus === 'processing' ? 'Generating...' : 'Queued'}
                             </span>
@@ -1435,15 +1435,15 @@ export default function PromotionPage() {
 
               {/* Result Actions */}
               {resultUrl && (
-                <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/50 p-6">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/50 p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <span className="text-3xl">✨</span>
                       <div>
-                        <div className="font-bold text-[#00d4ff]">
+                        <div className="font-bold text-[#9945FF]">
                           {contentType === 'video' ? 'Video Generated!' : 'Flyer Generated!'}
                         </div>
-                        <div className="text-sm text-white/80">
+                        <div className="text-sm text-[#a8a8b8]">
                           {contentType === 'video' 
                             ? 'Download or share your promotional video' 
                             : 'Download or share your promotional image'}
@@ -1454,7 +1454,7 @@ export default function PromotionPage() {
                       <a
                         href={resultUrl}
                         download
-                        className="px-4 py-2 rounded-xl bg-[#00d4ff] text-white font-bold hover:bg-[#00b8e6] transition-colors shadow-lg shadow-[#00d4ff]/20"
+                        className="px-4 py-2 rounded-xl bg-[#9945FF] text-white font-bold hover:bg-[#14F195] transition-colors shadow-lg shadow-[#9945FF]/20"
                       >
                         Download
                       </a>
@@ -1462,7 +1462,7 @@ export default function PromotionPage() {
                         href={resultUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 rounded-xl border-2 border-[#00d4ff]/30 text-white/70 font-bold hover:border-[#00d4ff]/50 hover:text-white transition-colors cosmic-card"
+                        className="px-4 py-2 rounded-xl border-2 border-[#9945FF]/30 text-white/70 font-bold hover:border-[#9945FF]/50 hover:text-white transition-colors bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                       >
                         Open
                       </a>
@@ -1481,13 +1481,13 @@ export default function PromotionPage() {
                   <div className="text-gray-600 font-medium">Loading history...</div>
                 </div>
               ) : history.length === 0 ? (
-                <div className="cosmic-card rounded-2xl border-2 border-[#00d4ff]/30 p-12 text-center">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-12 text-center">
                   <span className="text-5xl mb-4 block">📭</span>
                   <h3 className="text-xl font-black text-white mb-2">No flyers yet</h3>
                   <p className="text-white/70 mb-6">Generate your first promotional flyer to see it here</p>
                   <button
                     onClick={() => setViewMode('generate')}
-                    className="px-6 py-3 rounded-xl bg-[#ff6b35] text-white font-bold hover:bg-[#ff5722] transition-colors shadow-lg shadow-[#ff6b35]/20"
+                    className="px-6 py-3 rounded-xl bg-[#DC1FFF] text-white font-bold hover:bg-[#9945FF] transition-colors shadow-lg shadow-[#DC1FFF]/20"
                   >
                     Create Your First Flyer
                   </button>
@@ -1505,12 +1505,12 @@ export default function PromotionPage() {
                     return (
                       <div
                         key={item.id}
-                        className={`cosmic-card rounded-2xl border-2 overflow-hidden hover:shadow-lg transition-all group ${
+                        className={`bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 overflow-hidden hover:shadow-lg transition-all group ${
                           isFailed 
                             ? 'border-red-500/50 hover:border-red-500/70' 
                             : isPending
                             ? 'border-yellow-500/50 hover:border-yellow-500/70'
-                            : 'border-[#00d4ff]/30 hover:border-[#00d4ff]/50'
+                            : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                         }`}
                       >
                         <div 
@@ -1542,15 +1542,15 @@ export default function PromotionPage() {
                             <div className="w-full aspect-square bg-gradient-to-br from-[#0a0e27] to-[#1a1f3a] flex flex-col items-center justify-center text-white/50">
                               {isPending ? (
                                 <>
-                                  <div className="w-12 h-12 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin mb-3" />
-                                  <div className="text-sm font-semibold text-[#00d4ff]">
+                                  <div className="w-12 h-12 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mb-3" />
+                                  <div className="text-sm font-semibold text-[#9945FF]">
                                     {item.job_status === 'processing' ? 'Processing...' : 'Queued'}
                                   </div>
                                 </>
                               ) : isFailed ? (
                                 <>
                                   <span className="text-4xl mb-2">❌</span>
-                                  <div className="text-sm font-semibold text-red-400">Failed</div>
+                                  <div className="text-sm font-semibold text-[#EF4444]">Failed</div>
                                 </>
                               ) : item.image_url ? (
                                 item.is_video_job || item.image_url?.endsWith('.mp4') || item.image_url?.includes('.mp4') ? (
@@ -1609,19 +1609,19 @@ export default function PromotionPage() {
                         </div>
                         <div className="p-4">
                           <div className="font-bold text-white truncate">{item.collection_name}</div>
-                          <div className="text-xs text-white/60 mt-1">
+                          <div className="text-xs text-[#a8a8b8]/80 mt-1">
                             {new Date(item.created_at).toLocaleDateString()} • {item.character_count} {isVideo ? 'video' : 'image'}{item.character_count !== 1 ? 's' : ''}
                             {item.is_video_job && item.job_status && (
                               <span className="ml-2">• {item.job_status}</span>
                             )}
                           </div>
                           {isFailed && item.error_message && (
-                            <div className="text-xs text-red-400 mt-1">
+                            <div className="text-xs text-[#EF4444] mt-1">
                               <div className="break-words" title={item.error_message}>
                                 Error: {item.error_message}
                               </div>
                               {item.error_message.includes('KIE_AI_TASK_ID:') && (
-                                <div className="mt-1 text-[#00d4ff] font-mono text-[10px] break-all">
+                                <div className="mt-1 text-[#9945FF] font-mono text-[10px] break-all">
                                   TaskID: {item.error_message.match(/KIE_AI_TASK_ID:\s*([^\s.]+)/)?.[1] || 'N/A'}
                                 </div>
                               )}
@@ -1630,7 +1630,7 @@ export default function PromotionPage() {
                           <div className="flex gap-2 mt-3">
                             <button
                               onClick={() => setSelectedHistoryItem(item)}
-                              className="flex-1 px-3 py-2 rounded-lg cosmic-card border border-[#00d4ff]/30 text-white/70 text-sm font-semibold hover:border-[#00d4ff]/50 hover:text-white transition-colors"
+                              className="flex-1 px-3 py-2 rounded-lg bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white/70 text-sm font-semibold hover:border-[#9945FF]/50 hover:text-white transition-colors"
                             >
                               View
                             </button>
@@ -1638,7 +1638,7 @@ export default function PromotionPage() {
                               <a
                                 href={item.image_url!}
                                 download
-                                className="flex-1 px-3 py-2 rounded-lg bg-[#00d4ff] text-white text-sm font-semibold hover:bg-[#00b8e6] transition-colors text-center shadow-lg shadow-[#00d4ff]/20"
+                                className="flex-1 px-3 py-2 rounded-lg bg-[#9945FF] text-white text-sm font-semibold hover:bg-[#14F195] transition-colors text-center shadow-lg shadow-[#9945FF]/20"
                               >
                                 Download
                               </a>
@@ -1674,7 +1674,7 @@ export default function PromotionPage() {
                                 e.stopPropagation()
                                 setDeleteConfirmItem(item)
                               }}
-                              className="px-3 py-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 text-sm font-semibold transition-colors border border-red-500/30 hover:border-red-500/50"
+                              className="px-3 py-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-[#EF4444] text-sm font-semibold transition-colors border border-red-500/30 hover:border-red-500/50"
                               title="Delete promotion"
                             >
                               🗑️
@@ -1698,19 +1698,19 @@ export default function PromotionPage() {
           onClick={() => setSelectedHistoryItem(null)}
         >
           <div
-            className="cosmic-card rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-[#00d4ff]/30"
+            className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-[#9945FF]/30"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 border-b border-[#00d4ff]/30 flex items-start justify-between gap-4">
+            <div className="p-6 border-b border-[#9945FF]/30 flex items-start justify-between gap-4">
               <div>
                 <h3 className="text-xl font-black text-white">{selectedHistoryItem.collection_name}</h3>
-                <div className="text-sm text-white/60 mt-1">
+                <div className="text-sm text-[#a8a8b8]/80 mt-1">
                   {new Date(selectedHistoryItem.created_at).toLocaleDateString()} at {new Date(selectedHistoryItem.created_at).toLocaleTimeString()}
                 </div>
               </div>
               <button
                 onClick={() => setSelectedHistoryItem(null)}
-                className="w-10 h-10 rounded-xl cosmic-card border border-[#00d4ff]/30 flex items-center justify-center text-white/70 hover:border-[#00d4ff]/50 hover:text-white transition-colors"
+                className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 flex items-center justify-center text-white/70 hover:border-[#9945FF]/50 hover:text-white transition-colors"
               >
                 ✕
               </button>
@@ -1719,7 +1719,7 @@ export default function PromotionPage() {
             <div className="p-6 space-y-6">
               {/* Show status info for video jobs */}
               {selectedHistoryItem.is_video_job && (
-                <div className="p-4 rounded-xl bg-[#0a0e27]/60 border border-[#00d4ff]/30">
+                <div className="p-4 rounded-xl bg-[#0a0e27]/60 border border-[#9945FF]/30">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-semibold text-white">Job Status:</span>
                     <span className={`px-3 py-1 rounded-lg text-xs font-bold ${
@@ -1735,24 +1735,24 @@ export default function PromotionPage() {
                     </span>
                   </div>
                   {selectedHistoryItem.started_at && (
-                    <div className="text-xs text-white/60 mt-1">
+                    <div className="text-xs text-[#a8a8b8]/80 mt-1">
                       Started: {new Date(selectedHistoryItem.started_at).toLocaleString()}
                     </div>
                   )}
                   {selectedHistoryItem.completed_at && (
-                    <div className="text-xs text-white/60 mt-1">
+                    <div className="text-xs text-[#a8a8b8]/80 mt-1">
                       Completed: {new Date(selectedHistoryItem.completed_at).toLocaleString()}
                     </div>
                   )}
                   {selectedHistoryItem.error_message && (
-                    <div className="text-xs text-red-400 mt-2 p-2 rounded bg-red-500/10 border border-red-500/30">
+                    <div className="text-xs text-[#EF4444] mt-2 p-2 rounded bg-red-500/10 border border-red-500/30">
                       <div className="mb-2">
                         <div className="font-semibold mb-1">Error:</div>
                         <div className="break-words">{selectedHistoryItem.error_message}</div>
                       </div>
                       {selectedHistoryItem.error_message.includes('KIE_AI_TASK_ID:') && (
-                        <div className="mt-2 p-2 rounded bg-[#0a0e27]/60 border border-[#00d4ff]/30">
-                          <div className="text-[#00d4ff] font-semibold mb-1">Task ID:</div>
+                        <div className="mt-2 p-2 rounded bg-[#0a0e27]/60 border border-[#9945FF]/30">
+                          <div className="text-[#9945FF] font-semibold mb-1">Task ID:</div>
                           <div className="text-white font-mono text-xs break-all">
                             {selectedHistoryItem.error_message.match(/KIE_AI_TASK_ID:\s*([^\s.]+)/)?.[1]?.trim() || 'N/A'}
                           </div>
@@ -1791,7 +1791,7 @@ export default function PromotionPage() {
               {selectedHistoryItem.image_url && (selectedHistoryItem.image_url.endsWith('.mp4') || selectedHistoryItem.image_url.includes('.mp4')) ? (
                 <video
                   src={selectedHistoryItem.image_url}
-                  className="w-full rounded-xl border border-[#00d4ff]/30"
+                  className="w-full rounded-xl border border-[#9945FF]/30"
                   controls
                   autoPlay
                   loop
@@ -1801,21 +1801,21 @@ export default function PromotionPage() {
                 <img
                   src={selectedHistoryItem.image_url}
                   alt={`Flyer for ${selectedHistoryItem.collection_name}`}
-                  className="w-full rounded-xl border border-[#00d4ff]/30"
+                  className="w-full rounded-xl border border-[#9945FF]/30"
                 />
               ) : (
-                <div className="w-full aspect-video bg-gradient-to-br from-[#0a0e27] to-[#1a1f3a] flex flex-col items-center justify-center text-white/50 rounded-xl border border-[#00d4ff]/30">
+                <div className="w-full aspect-video bg-gradient-to-br from-[#0a0e27] to-[#1a1f3a] flex flex-col items-center justify-center text-white/50 rounded-xl border border-[#9945FF]/30">
                   {selectedHistoryItem.job_status === 'processing' || selectedHistoryItem.job_status === 'pending' ? (
                     <>
-                      <div className="w-16 h-16 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin mb-4" />
-                      <div className="text-lg font-semibold text-[#00d4ff]">
+                      <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mb-4" />
+                      <div className="text-lg font-semibold text-[#9945FF]">
                         {selectedHistoryItem.job_status === 'processing' ? 'Processing...' : 'Queued'}
                       </div>
                     </>
                   ) : selectedHistoryItem.job_status === 'failed' ? (
                     <>
                       <span className="text-6xl mb-4">❌</span>
-                      <div className="text-lg font-semibold text-red-400">
+                      <div className="text-lg font-semibold text-[#EF4444]">
                         {selectedHistoryItem.is_video_job ? 'Video Generation Failed' : 'Image Generation Failed'}
                       </div>
                     </>
@@ -1842,7 +1842,7 @@ export default function PromotionPage() {
                   <a
                     href={selectedHistoryItem.image_url}
                     download
-                    className="flex-1 h-12 rounded-xl bg-[#00d4ff] text-white font-bold flex items-center justify-center hover:bg-[#00b8e6] transition-colors shadow-lg shadow-[#00d4ff]/20"
+                    className="flex-1 h-12 rounded-xl bg-[#9945FF] text-white font-bold flex items-center justify-center hover:bg-[#14F195] transition-colors shadow-lg shadow-[#9945FF]/20"
                   >
                     Download
                   </a>
@@ -1850,7 +1850,7 @@ export default function PromotionPage() {
                     href={selectedHistoryItem.image_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex-1 h-12 rounded-xl border-2 border-[#00d4ff]/30 text-white/70 font-bold flex items-center justify-center hover:border-[#00d4ff]/50 hover:text-white transition-colors cosmic-card"
+                    className="flex-1 h-12 rounded-xl border-2 border-[#9945FF]/30 text-white/70 font-bold flex items-center justify-center hover:border-[#9945FF]/50 hover:text-white transition-colors bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                   >
                     Open in Tab
                   </a>
@@ -1864,8 +1864,8 @@ export default function PromotionPage() {
       {/* Credits Confirmation Modal */}
       {showCreditsConfirm && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={handleCreditsConfirmCancel}>
-          <div className="cosmic-card rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border-2 border-[#00d4ff]/50" onClick={(e) => e.stopPropagation()}>
-            <div className="bg-gradient-to-r from-[#00d4ff] to-[#8b5cf6] p-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border-2 border-[#9945FF]/50" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-gradient-to-r from-[#9945FF] to-[#8b5cf6] p-6">
               <h2 className="text-2xl font-bold text-white">Confirm Generation</h2>
               <p className="text-white/90 mt-1">Review your credits before generating</p>
             </div>
@@ -1873,38 +1873,38 @@ export default function PromotionPage() {
             <div className="p-6">
               {loadingCredits ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00d4ff] mx-auto"></div>
-                  <p className="mt-4 text-white/80">Loading credits...</p>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#9945FF] mx-auto"></div>
+                  <p className="mt-4 text-[#a8a8b8]">Loading credits...</p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 space-y-3">
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4 space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-white/80 font-medium">Current Credits:</span>
+                      <span className="text-[#a8a8b8] font-medium">Current Credits:</span>
                       <span className="text-2xl font-bold text-white">{credits ?? 0}</span>
                     </div>
                     
-                    <div className="border-t border-[#00d4ff]/30 pt-3">
+                    <div className="border-t border-[#9945FF]/30 pt-3">
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-white/80">
+                        <span className="text-[#a8a8b8]">
                           {contentType === 'video' ? 'Generating video:' : 'Generating flyer:'}
                         </span>
-                        <span className="text-lg font-semibold text-[#ff6b35]">
+                        <span className="text-lg font-semibold text-[#DC1FFF]">
                           -{contentType === 'video' ? 4 : 1}
                         </span>
                       </div>
-                      <div className="text-xs text-white/60">
+                      <div className="text-xs text-[#a8a8b8]/80">
                         ({contentType === 'video' ? '4 credits per video' : '1 credit per flyer'})
                       </div>
                     </div>
                     
-                    <div className="border-t border-[#00d4ff]/30 pt-3 mt-3">
+                    <div className="border-t border-[#9945FF]/30 pt-3 mt-3">
                       <div className="flex justify-between items-center">
                         <span className="text-white font-semibold">Total After:</span>
                         <span className={`text-2xl font-bold ${
                           (credits ?? 0) - (contentType === 'video' ? 4 : 1) >= 0 
-                            ? 'text-[#00d4ff]' 
-                            : 'text-[#ff4757]'
+                            ? 'text-[#9945FF]' 
+                            : 'text-[#EF4444]'
                         }`}>
                           {(credits ?? 0) - (contentType === 'video' ? 4 : 1)}
                         </span>
@@ -1913,8 +1913,8 @@ export default function PromotionPage() {
                   </div>
                   
                   {(credits ?? 0) - (contentType === 'video' ? 4 : 1) < 0 && (
-                    <div className="cosmic-card border border-[#ff4757]/50 rounded-lg p-3">
-                      <p className="text-sm text-[#ff4757]">
+                    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 rounded-lg p-3">
+                      <p className="text-sm text-[#EF4444]">
                         ⚠️ Insufficient credits! You need {(contentType === 'video' ? 4 : 1) - (credits ?? 0)} more credit{(contentType === 'video' ? 4 : 1) - (credits ?? 0) > 1 ? 's' : ''} to generate a {contentType}.
                       </p>
                     </div>
@@ -1923,17 +1923,17 @@ export default function PromotionPage() {
               )}
             </div>
             
-            <div className="cosmic-card border-t border-[#00d4ff]/30 px-6 py-4 flex gap-3 justify-end">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-t border-[#9945FF]/30 px-6 py-4 flex gap-3 justify-end">
               <button
                 onClick={handleCreditsConfirmCancel}
-                className="px-6 py-2 cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white/80 hover:text-white rounded-lg font-semibold transition-colors"
+                className="px-6 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-[#a8a8b8] hover:text-white rounded-lg font-semibold transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCreditsConfirmAccept}
                 disabled={loadingCredits || (credits ?? 0) - (contentType === 'video' ? 4 : 1) < 0}
-                className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e6] text-white rounded-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#00d4ff]/20 drop-shadow-lg"
+                className="px-6 py-2 bg-[#9945FF] hover:bg-[#14F195] text-white rounded-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#9945FF]/20 drop-shadow-lg"
               >
                 Accept & Generate
               </button>

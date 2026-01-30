@@ -1,5 +1,5 @@
-// Type definitions for the ordinal generation system
-export interface OrdinalTraits {
+// Type definitions for the NFT generation system
+export interface NftTraits {
   characterType: string
   background: string
   accessories: string

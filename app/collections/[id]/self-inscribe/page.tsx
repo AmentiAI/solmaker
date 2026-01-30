@@ -762,10 +762,10 @@ export default function SelfInscribePage() {
         <div className="mb-8">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00d4ff] to-[#ff6b35] bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">
                 ⚡ Self-Inscribe
               </h1>
-              <p className="text-white/60 mt-1">{collection.name}</p>
+              <p className="text-[#a8a8b8]/80 mt-1">{collection.name}</p>
             </div>
             <Link
               href={`/collections/${collectionId}`}
@@ -780,7 +780,7 @@ export default function SelfInscribePage() {
             actualMintedCount === collection.total_supply 
               ? 'bg-green-500/20 border border-green-500/50' 
               : actualMintedCount > 0
-              ? 'bg-[#00d4ff]/20 border border-[#00d4ff]/50'
+              ? 'bg-[#9945FF]/20 border border-[#9945FF]/50'
               : 'bg-white/5 border border-white/20'
           }`}>
             <div className="flex items-center gap-2">
@@ -791,8 +791,8 @@ export default function SelfInscribePage() {
                 actualMintedCount === collection.total_supply 
                   ? 'text-green-400' 
                   : actualMintedCount > 0
-                  ? 'text-[#00d4ff]'
-                  : 'text-white/80'
+                  ? 'text-[#9945FF]'
+                  : 'text-[#a8a8b8]'
               }`}>
                 {actualMintedCount === collection.total_supply
                   ? 'All Inscriptions Complete!'
@@ -823,15 +823,15 @@ export default function SelfInscribePage() {
         <div className="space-y-6">
           {/* Loading Screen */}
           {(!selfInscribeInitialized || loadingOrdinals || loadingBalance) && (
-            <div className="cosmic-card rounded-xl p-8">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-8">
               <div className="flex flex-col items-center justify-center min-h-[300px]">
                 <div className="relative mb-6">
                   <div className="w-16 h-16 rounded-full border-4 border-white/20"></div>
-                  <div className="absolute inset-0 w-16 h-16 rounded-full border-4 border-t-[#ff6b35] border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
-                  <div className="absolute inset-2 w-12 h-12 rounded-full border-4 border-t-transparent border-r-[#00d4ff] border-b-transparent border-l-transparent animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+                  <div className="absolute inset-0 w-16 h-16 rounded-full border-4 border-t-[#DC1FFF] border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+                  <div className="absolute inset-2 w-12 h-12 rounded-full border-4 border-t-transparent border-r-[#9945FF] border-b-transparent border-l-transparent animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Preparing Your Collection</h3>
-                <p className="text-white/60 text-sm mb-6 text-center max-w-md">
+                <p className="text-[#a8a8b8]/80 text-sm mb-6 text-center max-w-md">
                   Loading wallet balance and ordinal data from the blockchain...
                 </p>
               </div>
@@ -841,7 +841,7 @@ export default function SelfInscribePage() {
           {/* Main Interface */}
           {selfInscribeInitialized && !loadingOrdinals && !loadingBalance && (
             <>
-              <div className="cosmic-card rounded-xl p-6">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-6">
                 {!paymentAddress && (
                   <div className="bg-yellow-500/20 border border-yellow-500/50 rounded-lg p-4 mb-6">
                     <p className="text-sm text-yellow-200">
@@ -859,8 +859,8 @@ export default function SelfInscribePage() {
                     <div className="text-xs text-white/50">{walletBalance.toLocaleString()} sats</div>
                   </div>
 
-                  <div className="bg-[#00d4ff]/10 border border-[#00d4ff]/30 rounded-lg p-4">
-                    <div className="text-lg font-bold text-[#00d4ff]">
+                  <div className="bg-[#9945FF]/10 border border-[#9945FF]/30 rounded-lg p-4">
+                    <div className="text-lg font-bold text-[#9945FF]">
                       {ordinals.length} ordinals
                     </div>
                     <div className="text-xs text-white/50">{batches.length} batches of 10</div>
@@ -878,30 +878,30 @@ export default function SelfInscribePage() {
 
                 {/* Fee Rate Control */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
                     Network Fee (sat/vB)
                   </label>
                   {mempoolHealth && (
-                    <div className="mb-3 p-3 bg-[#00d4ff]/10 border border-[#00d4ff]/30 rounded-lg">
+                    <div className="mb-3 p-3 bg-[#9945FF]/10 border border-[#9945FF]/30 rounded-lg">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-semibold text-white/80">
+                        <span className="text-xs font-semibold text-[#a8a8b8]">
                           Mempool Health: 
                           <span className={`ml-2 ${
                             mempoolHealth.healthRating === 'excellent' ? 'text-green-400' :
-                            mempoolHealth.healthRating === 'good' ? 'text-[#00d4ff]' :
-                            mempoolHealth.healthRating === 'fair' ? 'text-yellow-400' :
-                            'text-red-400'
+                            mempoolHealth.healthRating === 'good' ? 'text-[#9945FF]' :
+                            mempoolHealth.healthRating === 'fair' ? 'text-[#FBBF24]' :
+                            'text-[#EF4444]'
                           }`}>
                             {mempoolHealth.healthRating.toUpperCase()}
                           </span>
                         </span>
-                        <span className="text-xs text-white/60">
+                        <span className="text-xs text-[#a8a8b8]/80">
                           {mempoolHealth.blocksWithSub1Sat}/{mempoolHealth.totalBlocks} blocks
                         </span>
                       </div>
-                      <p className="text-xs text-white/60 mb-1">{mempoolHealth.healthMessage}</p>
-                      <p className="text-xs text-white/80">
-                        Suggested: <span className="font-bold text-[#00d4ff]">{mempoolHealth.suggestedFeeRate.toFixed(2)} sat/vB</span> (avg + 0.02)
+                      <p className="text-xs text-[#a8a8b8]/80 mb-1">{mempoolHealth.healthMessage}</p>
+                      <p className="text-xs text-[#a8a8b8]">
+                        Suggested: <span className="font-bold text-[#9945FF]">{mempoolHealth.suggestedFeeRate.toFixed(2)} sat/vB</span> (avg + 0.02)
                       </p>
                     </div>
                   )}
@@ -940,7 +940,7 @@ export default function SelfInscribePage() {
                             setSelectedFeeRate(0.1)
                           }
                         }}
-                        className="w-full px-4 py-2 bg-[rgba(15,23,42,0.9)] border border-[rgba(0,212,255,0.3)] rounded-lg text-center font-mono text-lg text-white focus:ring-2 focus:ring-[#00d4ff] focus:border-transparent"
+                        className="w-full px-4 py-2 bg-[rgba(15,23,42,0.9)] border border-[rgba(0,212,255,0.3)] rounded-lg text-center font-mono text-lg text-white focus:ring-2 focus:ring-[#9945FF] focus:border-transparent"
                         min="0.1"
                         step="0.1"
                       />
@@ -970,7 +970,7 @@ export default function SelfInscribePage() {
                     <button
                       onClick={selectAllAffordable}
                       disabled={affordableBatches.length === 0}
-                      className="px-4 py-2 bg-[#00d4ff] hover:bg-[#00b8e0] text-[#0a0e27] rounded-lg text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-4 py-2 bg-[#9945FF] hover:bg-[#00b8e0] text-[#0a0e27] rounded-lg text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Select All Affordable
                     </button>
@@ -985,17 +985,17 @@ export default function SelfInscribePage() {
                   {selectedBatches.size > 0 && (
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <span className="text-sm text-white/60">{selectedBatches.size} batch{selectedBatches.size !== 1 ? 'es' : ''}</span>
+                        <span className="text-sm text-[#a8a8b8]/80">{selectedBatches.size} batch{selectedBatches.size !== 1 ? 'es' : ''}</span>
                         <span className="mx-2 text-white/30">|</span>
                         <span className="font-semibold text-white">{totalSelectedCost.toLocaleString()} sats</span>
                         {totalSelectedCost > walletBalance && (
-                          <span className="ml-2 text-red-400 text-sm">⚠️</span>
+                          <span className="ml-2 text-[#EF4444] text-sm">⚠️</span>
                         )}
                       </div>
                       <button
                         onClick={handleBatchInscribe}
                         disabled={selectedBatches.size === 0 || inscribing || totalSelectedCost > walletBalance}
-                        className="px-5 py-2 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-5 py-2 bg-[#DC1FFF] hover:bg-[#e55a2b] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {inscribing ? (
                           <span className="flex items-center gap-2">
@@ -1017,10 +1017,10 @@ export default function SelfInscribePage() {
               </div>
 
               {/* Batch Table */}
-              <div className="cosmic-card rounded-xl overflow-hidden">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl overflow-hidden">
                 {loadingOrdinals ? (
                   <div className="flex items-center justify-center py-12">
-                    <div className="w-12 h-12 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-12 h-12 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
                   </div>
                 ) : batches.length === 0 ? (
                   <div className="text-center py-12 text-white/40">
@@ -1033,13 +1033,13 @@ export default function SelfInscribePage() {
                     <table className="w-full">
                       <thead className="bg-white/5 border-b border-white/10">
                         <tr>
-                          <th className="px-3 py-2 text-left text-xs font-semibold text-white/60 uppercase w-12"></th>
-                          <th className="px-3 py-2 text-left text-xs font-semibold text-white/60 uppercase w-16">Batch</th>
-                          <th className="px-3 py-2 text-left text-xs font-semibold text-white/60 uppercase">Preview</th>
-                          <th className="px-3 py-2 text-center text-xs font-semibold text-white/60 uppercase w-16">Qty</th>
-                          <th className="px-3 py-2 text-right text-xs font-semibold text-white/60 uppercase w-20">Size</th>
-                          <th className="px-3 py-2 text-right text-xs font-semibold text-white/60 uppercase w-28">Cost</th>
-                          <th className="px-3 py-2 text-center text-xs font-semibold text-white/60 uppercase w-24">Status</th>
+                          <th className="px-3 py-2 text-left text-xs font-semibold text-[#a8a8b8]/80 uppercase w-12"></th>
+                          <th className="px-3 py-2 text-left text-xs font-semibold text-[#a8a8b8]/80 uppercase w-16">Batch</th>
+                          <th className="px-3 py-2 text-left text-xs font-semibold text-[#a8a8b8]/80 uppercase">Preview</th>
+                          <th className="px-3 py-2 text-center text-xs font-semibold text-[#a8a8b8]/80 uppercase w-16">Qty</th>
+                          <th className="px-3 py-2 text-right text-xs font-semibold text-[#a8a8b8]/80 uppercase w-20">Size</th>
+                          <th className="px-3 py-2 text-right text-xs font-semibold text-[#a8a8b8]/80 uppercase w-28">Cost</th>
+                          <th className="px-3 py-2 text-center text-xs font-semibold text-[#a8a8b8]/80 uppercase w-24">Status</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/5">
@@ -1071,7 +1071,7 @@ export default function SelfInscribePage() {
                                     : pendingRevealCount > 0 
                                       ? 'bg-yellow-500/10 border-l-4 border-l-yellow-500'
                                       : isSelected 
-                                        ? 'bg-[#00d4ff]/10' 
+                                        ? 'bg-[#9945FF]/10' 
                                         : 'hover:bg-white/5'
                                 } transition-colors cursor-pointer`}
                                 onClick={() => toggleBatchExpand(batchIndex)}
@@ -1085,7 +1085,7 @@ export default function SelfInscribePage() {
                                       checked={isSelected}
                                       onChange={() => toggleBatch(batchIndex)}
                                       disabled={!isAffordable || !costEstimate || isBatchComplete}
-                                      className="w-4 h-4 rounded border-white/30 bg-white/10 text-[#00d4ff] focus:ring-[#00d4ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                                      className="w-4 h-4 rounded border-white/30 bg-white/10 text-[#9945FF] focus:ring-[#9945FF] disabled:opacity-50 disabled:cursor-not-allowed"
                                     />
                                   )}
                                 </td>
@@ -1145,7 +1145,7 @@ export default function SelfInscribePage() {
                                       Ready
                                     </span>
                                   ) : (
-                                    <span className="px-2 py-0.5 bg-red-500/30 text-red-400 rounded text-xs font-medium border border-red-500/50">
+                                    <span className="px-2 py-0.5 bg-red-500/30 text-[#EF4444] rounded text-xs font-medium border border-red-500/50">
                                       ✗
                                     </span>
                                   )}
@@ -1166,7 +1166,7 @@ export default function SelfInscribePage() {
                                         <div className="flex items-center gap-2">
                                           <button
                                             onClick={(e) => { e.stopPropagation(); selectAllInBatch(batch); }}
-                                            className="px-2 py-1 bg-[#00d4ff]/20 hover:bg-[#00d4ff]/30 text-[#00d4ff] rounded text-xs font-medium border border-[#00d4ff]/30"
+                                            className="px-2 py-1 bg-[#9945FF]/20 hover:bg-[#9945FF]/30 text-[#9945FF] rounded text-xs font-medium border border-[#9945FF]/30"
                                           >
                                             Select All
                                           </button>
@@ -1209,7 +1209,7 @@ export default function SelfInscribePage() {
                                               return (
                                                 <React.Fragment key={detail.id}>
                                                   <tr 
-                                                    className={`${isMinted ? 'bg-white/5 opacity-60' : hasPendingCommit ? 'bg-yellow-500/10' : isOrdinalSelected ? 'bg-[#00d4ff]/10' : 'hover:bg-white/5'} border-b border-white/5`}
+                                                    className={`${isMinted ? 'bg-white/5 opacity-60' : hasPendingCommit ? 'bg-yellow-500/10' : isOrdinalSelected ? 'bg-[#9945FF]/10' : 'hover:bg-white/5'} border-b border-white/5`}
                                                   >
                                                     <td className="px-2 py-2">
                                                       <input
@@ -1217,7 +1217,7 @@ export default function SelfInscribePage() {
                                                         checked={isOrdinalSelected}
                                                         onChange={() => toggleOrdinalSelect(detail.id)}
                                                         disabled={isMinted}
-                                                        className="w-3 h-3 rounded border-white/30 bg-white/10 text-[#00d4ff] focus:ring-[#00d4ff] disabled:opacity-30"
+                                                        className="w-3 h-3 rounded border-white/30 bg-white/10 text-[#9945FF] focus:ring-[#9945FF] disabled:opacity-30"
                                                       />
                                                     </td>
                                                     <td className="px-2 py-2 text-white/50 text-sm">{idx + 1}</td>
@@ -1231,21 +1231,21 @@ export default function SelfInscribePage() {
                                                         className="rounded cursor-pointer border border-white/20 bg-white/10"
                                                       />
                                                     </td>
-                                                    <td className="px-2 py-2 font-mono text-white/80 text-sm">
+                                                    <td className="px-2 py-2 font-mono text-[#a8a8b8] text-sm">
                                                       #{ordinal?.ordinal_number || (batchIndex * 10) + idx + 1}
                                                     </td>
                                                     <td className="px-2 py-2 text-sm">
                                                       {isMinted ? (
                                                         <span className="px-2 py-0.5 bg-green-500/30 text-green-400 rounded text-xs font-bold">TRUE</span>
                                                       ) : (
-                                                        <span className="px-2 py-0.5 bg-red-500/30 text-red-400 rounded text-xs font-bold">FALSE</span>
+                                                        <span className="px-2 py-0.5 bg-red-500/30 text-[#EF4444] rounded text-xs font-bold">FALSE</span>
                                                       )}
                                                     </td>
-                                                    <td className={`px-2 py-2 text-sm ${exceedsLimit ? 'text-red-400 font-medium' : 'text-white'}`}>
+                                                    <td className={`px-2 py-2 text-sm ${exceedsLimit ? 'text-[#EF4444] font-medium' : 'text-white'}`}>
                                                       {detail.fileSizeKB} KB
                                                       {exceedsLimit && <span className="ml-1" title="Exceeds 350KB limit">⚠️</span>}
                                                     </td>
-                                                    <td className="px-2 py-2 font-medium text-sm text-[#ff6b35]">
+                                                    <td className="px-2 py-2 font-medium text-sm text-[#DC1FFF]">
                                                       {detail.revealFee?.toLocaleString()}
                                                     </td>
                                                     <td className="px-2 py-2 font-semibold text-sm text-green-400">
@@ -1260,7 +1260,7 @@ export default function SelfInscribePage() {
                                                               href={`https://mempool.space/tx/${pendingInsc.commit_tx_id}`}
                                                               target="_blank"
                                                               rel="noopener noreferrer"
-                                                              className="text-[#00d4ff] hover:text-[#00b8e0] text-xs"
+                                                              className="text-[#9945FF] hover:text-[#00b8e0] text-xs"
                                                               title={pendingInsc.commit_tx_id}
                                                             >
                                                               C
@@ -1271,7 +1271,7 @@ export default function SelfInscribePage() {
                                                               href={`https://mempool.space/tx/${pendingInsc.reveal_tx_id}`}
                                                               target="_blank"
                                                               rel="noopener noreferrer"
-                                                              className="text-[#00d4ff] hover:text-[#00b8e0] text-xs"
+                                                              className="text-[#9945FF] hover:text-[#00b8e0] text-xs"
                                                               title={pendingInsc.reveal_tx_id}
                                                             >
                                                               R
@@ -1291,12 +1291,12 @@ export default function SelfInscribePage() {
                                                         </div>
                                                       ) : hasPendingCommit ? (
                                                         <div className="flex items-center gap-2">
-                                                          <span className="text-yellow-400">⏳</span>
+                                                          <span className="text-[#FBBF24]">⏳</span>
                                                           <a 
                                                             href={`https://mempool.space/tx/${pendingInsc.commit_tx_id}`}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="text-[#00d4ff] hover:text-[#00b8e0] text-xs"
+                                                            className="text-[#9945FF] hover:text-[#00b8e0] text-xs"
                                                             title={pendingInsc.commit_tx_id}
                                                           >
                                                             C✓
@@ -1304,7 +1304,7 @@ export default function SelfInscribePage() {
                                                           <button
                                                             onClick={(e) => { e.stopPropagation(); handleRetryReveal(pendingInsc); }}
                                                             disabled={inscribing}
-                                                            className="px-2 py-0.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded text-xs font-medium disabled:opacity-50"
+                                                            className="px-2 py-0.5 bg-[#DC1FFF] hover:bg-[#e55a2b] text-white rounded text-xs font-medium disabled:opacity-50"
                                                           >
                                                             Reveal
                                                           </button>
@@ -1317,14 +1317,14 @@ export default function SelfInscribePage() {
                                                   {/* Details Row */}
                                                   <tr className="bg-[rgba(15,23,42,0.5)]">
                                                     <td colSpan={9} className="px-4 py-2 text-xs">
-                                                      <div className="flex flex-wrap gap-x-6 gap-y-1 text-white/60">
+                                                      <div className="flex flex-wrap gap-x-6 gap-y-1 text-[#a8a8b8]/80">
                                                         <div>
                                                           <span className="text-white/40">UUID:</span>{' '}
-                                                          <span className="font-mono text-[#00d4ff]">{ordinal?.id || detail.id}</span>
+                                                          <span className="font-mono text-[#9945FF]">{ordinal?.id || detail.id}</span>
                                                         </div>
                                                         <div>
                                                           <span className="text-white/40">is_minted:</span>{' '}
-                                                          <span className={isMinted ? 'text-green-400' : 'text-red-400'}>{String(isMinted)}</span>
+                                                          <span className={isMinted ? 'text-green-400' : 'text-[#EF4444]'}>{String(isMinted)}</span>
                                                         </div>
                                                         {pendingInsc && (
                                                           <>
@@ -1332,14 +1332,14 @@ export default function SelfInscribePage() {
                                                               <span className="text-white/40">mint_status:</span>{' '}
                                                               <span className={`font-medium ${
                                                                 pendingInsc.mint_status === 'completed' ? 'text-green-400' :
-                                                                pendingInsc.mint_status === 'failed' ? 'text-red-400' :
-                                                                'text-yellow-400'
+                                                                pendingInsc.mint_status === 'failed' ? 'text-[#EF4444]' :
+                                                                'text-[#FBBF24]'
                                                               }`}>{pendingInsc.mint_status || 'unknown'}</span>
                                                             </div>
                                                             {pendingInsc.commit_tx_id && (
                                                               <div>
                                                                 <span className="text-white/40">commit:</span>{' '}
-                                                                <a href={`https://mempool.space/tx/${pendingInsc.commit_tx_id}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[#00d4ff] hover:underline">
+                                                                <a href={`https://mempool.space/tx/${pendingInsc.commit_tx_id}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[#9945FF] hover:underline">
                                                                   {pendingInsc.commit_tx_id.substring(0, 12)}...
                                                                 </a>
                                                               </div>
@@ -1347,7 +1347,7 @@ export default function SelfInscribePage() {
                                                             {pendingInsc.reveal_tx_id && (
                                                               <div>
                                                                 <span className="text-white/40">reveal:</span>{' '}
-                                                                <a href={`https://mempool.space/tx/${pendingInsc.reveal_tx_id}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[#00d4ff] hover:underline">
+                                                                <a href={`https://mempool.space/tx/${pendingInsc.reveal_tx_id}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[#9945FF] hover:underline">
                                                                   {pendingInsc.reveal_tx_id.substring(0, 12)}...
                                                                 </a>
                                                               </div>
@@ -1382,13 +1382,13 @@ export default function SelfInscribePage() {
                                       </table>
                                       {batch.filter((o: any) => selectedOrdinals.has(o.id)).length > 0 && (
                                         <div className="px-4 py-3 bg-white/5 border-t border-white/10 flex items-center justify-between">
-                                          <div className="text-sm text-white/60">
+                                          <div className="text-sm text-[#a8a8b8]/80">
                                             <span className="font-semibold text-white">{batch.filter((o: any) => selectedOrdinals.has(o.id)).length}</span> ordinal(s) selected
                                           </div>
                                           <button
                                             onClick={(e) => { e.stopPropagation(); inscribeSelectedOrdinals(); }}
                                             disabled={inscribing}
-                                            className="px-4 py-2 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-lg text-sm font-semibold disabled:opacity-50"
+                                            className="px-4 py-2 bg-[#DC1FFF] hover:bg-[#e55a2b] text-white rounded-lg text-sm font-semibold disabled:opacity-50"
                                           >
                                             {inscribing ? 'Inscribing...' : `Inscribe ${batch.filter((o: any) => selectedOrdinals.has(o.id)).length} Selected`}
                                           </button>
@@ -1410,21 +1410,21 @@ export default function SelfInscribePage() {
 
               {/* Inscribe Button & Summary - Bottom */}
               {batches.length > 0 && selectedBatches.size > 0 && (
-                <div className="cosmic-card rounded-xl p-4">
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <span className="text-white/60">{selectedBatches.size} batch{selectedBatches.size !== 1 ? 'es' : ''} selected</span>
+                      <span className="text-[#a8a8b8]/80">{selectedBatches.size} batch{selectedBatches.size !== 1 ? 'es' : ''} selected</span>
                       <span className="text-white/30">|</span>
                       <span className="font-bold text-white">{totalSelectedCost.toLocaleString()} sats</span>
                       <span className="text-white/50 text-sm">({(totalSelectedCost / 100000000).toFixed(8)} BTC)</span>
                       {totalSelectedCost > walletBalance && (
-                        <span className="text-red-400 text-sm">⚠️ Insufficient balance</span>
+                        <span className="text-[#EF4444] text-sm">⚠️ Insufficient balance</span>
                       )}
                     </div>
                     <button
                       onClick={handleBatchInscribe}
                       disabled={selectedBatches.size === 0 || inscribing || totalSelectedCost > walletBalance}
-                      className="px-6 py-2 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-6 py-2 bg-[#DC1FFF] hover:bg-[#e55a2b] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {inscribing ? (
                         <span className="flex items-center gap-2">
@@ -1449,7 +1449,7 @@ export default function SelfInscribePage() {
             onClick={() => setDestinationModal({ show: false, action: null })}
           >
             <div
-              className="cosmic-card rounded-xl shadow-xl max-w-lg w-full overflow-hidden"
+              className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl shadow-xl max-w-lg w-full overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-4 border-b border-white/10 bg-white/5">
@@ -1465,14 +1465,14 @@ export default function SelfInscribePage() {
                   value={revealDestinationAddress}
                   onChange={(e) => setRevealDestinationAddress(e.target.value)}
                   placeholder="bc1p..."
-                  className="w-full px-3 py-2.5 bg-[#0a0e27] border border-white/20 rounded-lg text-white font-mono text-xs focus:outline-none focus:border-[#00d4ff] transition-colors"
+                  className="w-full px-3 py-2.5 bg-[#0a0e27] border border-white/20 rounded-lg text-white font-mono text-xs focus:outline-none focus:border-[#9945FF] transition-colors"
                 />
                 <p className="text-xs text-white/40 mt-2">
                   By default, inscriptions will be sent to your connected wallet. Edit the address above to send them elsewhere.
                 </p>
                 {revealDestinationAddress !== currentAddress && revealDestinationAddress.trim() && (
-                  <div className="mt-3 p-3 bg-[#ff6b35]/20 border border-[#ff6b35]/30 rounded-lg">
-                    <p className="text-sm text-[#ff6b35]">
+                  <div className="mt-3 p-3 bg-[#DC1FFF]/20 border border-[#DC1FFF]/30 rounded-lg">
+                    <p className="text-sm text-[#DC1FFF]">
                       ⚠️ You are sending to a different wallet than your connected wallet. Make sure this address is correct!
                     </p>
                   </div>
@@ -1488,7 +1488,7 @@ export default function SelfInscribePage() {
                 <button
                   onClick={confirmDestination}
                   disabled={!revealDestinationAddress || revealDestinationAddress.trim().length < 30}
-                  className="px-6 py-2 bg-[#00d4ff] hover:bg-[#00b8e0] disabled:bg-gray-600 disabled:cursor-not-allowed text-[#0a0e27] rounded-lg font-semibold transition-colors"
+                  className="px-6 py-2 bg-[#9945FF] hover:bg-[#00b8e0] disabled:bg-gray-600 disabled:cursor-not-allowed text-[#0a0e27] rounded-lg font-semibold transition-colors"
                 >
                   Confirm & Proceed
                 </button>
@@ -1504,7 +1504,7 @@ export default function SelfInscribePage() {
             onClick={() => setMetadataModal({ show: false, batchIndex: null, metadata: [] })}
           >
             <div
-              className="cosmic-card rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+              className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/5">
@@ -1532,7 +1532,7 @@ export default function SelfInscribePage() {
                     navigator.clipboard.writeText(JSON.stringify(metadataModal.metadata, null, 2))
                     alert('Metadata copied to clipboard!')
                   }}
-                  className="px-4 py-2 bg-[#00d4ff] hover:bg-[#00b8e0] text-[#0a0e27] rounded-lg font-semibold transition-colors"
+                  className="px-4 py-2 bg-[#9945FF] hover:bg-[#00b8e0] text-[#0a0e27] rounded-lg font-semibold transition-colors"
                 >
                   📋 Copy JSON
                 </button>
@@ -1547,7 +1547,7 @@ export default function SelfInscribePage() {
                     a.click()
                     URL.revokeObjectURL(url)
                   }}
-                  className="px-4 py-2 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-lg font-semibold transition-colors"
+                  className="px-4 py-2 bg-[#DC1FFF] hover:bg-[#e55a2b] text-white rounded-lg font-semibold transition-colors"
                 >
                   💾 Download JSON
                 </button>

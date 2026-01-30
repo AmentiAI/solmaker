@@ -30,11 +30,11 @@ export default function MetadataModal({
             <h3 className="text-lg font-bold text-gray-900">
               {collectionName} - NFT Metadata
             </h3>
-            <p className="text-sm text-gray-500">{metadata.length} minted NFTs</p>
+            <p className="text-sm text-[#a8a8b8]/80">{metadata.length} minted NFTs</p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none"
+            className="text-[#a8a8b8] hover:text-gray-600 text-2xl font-bold leading-none"
           >
             ×
           </button>
@@ -42,7 +42,7 @@ export default function MetadataModal({
 
         {/* JSON Content */}
         <div className="flex-1 overflow-auto p-4">
-          <pre className="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto font-mono whitespace-pre-wrap">
+          <pre className="bg-[#14141e] text-green-400 p-4 rounded-lg text-sm overflow-x-auto font-mono whitespace-pre-wrap">
             {JSON.stringify(metadata, null, 2)}
           </pre>
         </div>

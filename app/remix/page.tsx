@@ -156,12 +156,12 @@ export default function RemixPage() {
           {/* Instructions */}
           <div className="mb-8 bg-gradient-to-br from-indigo-900/50 to-purple-900/50 border border-indigo-700/50 rounded-lg p-6">
             <h2 className="text-xl font-bold text-white mb-4">How to Use</h2>
-            <div className="space-y-3 text-gray-300 text-sm">
+            <div className="space-y-3 text-white text-sm">
               <p>1. Upload one or more reference images</p>
               <p>2. Write a prompt describing what you want to change (e.g., "Use the style of image 2 but keep everything else from image 1")</p>
               <p>3. The AI will analyze your images and create a new image based on your prompt</p>
               
-              <div className="bg-yellow-900/30 border border-yellow-700/50 rounded p-3 mt-4">
+              <div className="bg-yellow-900/30 border border-[#FBBF24]/20/50 rounded p-3 mt-4">
                 <p className="text-yellow-300 font-semibold mb-2">⚠️ STRICT RULES:</p>
                 <p className="text-yellow-200 text-xs">
                   The AI will ONLY change what you explicitly mention. Everything else stays EXACTLY the same. 
@@ -193,7 +193,7 @@ export default function RemixPage() {
                 
                 {/* Image Upload */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Select Images (you can select multiple)
                   </label>
                   <input
@@ -201,20 +201,20 @@ export default function RemixPage() {
                     accept="image/*"
                     multiple
                     onChange={handleImageUpload}
-                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-900 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700"
+                    className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700"
                   />
                 </div>
 
                 {/* Uploaded Images Preview */}
                 {images.length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-sm font-medium text-gray-300 mb-2">
+                    <h3 className="text-sm font-medium text-white mb-2">
                       Uploaded Images ({images.length})
                     </h3>
                     <div className="grid grid-cols-2 gap-3">
                       {images.map((img, index) => (
                         <div key={img.id} className="relative group">
-                          <div className="relative aspect-square rounded-lg overflow-hidden border-2 border-gray-700">
+                          <div className="relative aspect-square rounded-lg overflow-hidden border-2 border-[#9945FF]/20">
                             <Image
                               src={img.preview}
                               alt={img.name}
@@ -239,17 +239,17 @@ export default function RemixPage() {
 
                 {/* Prompt Input */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Transformation Prompt *
                   </label>
                   <textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder='Example: "Use the art style of image 2 but keep the character, background, and all elements from image 1 exactly the same"'
-                    className="w-full h-32 p-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none resize-none"
+                    className="w-full h-32 p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none resize-none"
                     disabled={isGenerating}
                   />
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-xs text-[#a8a8b8]/80 mt-2">
                     Describe what you want. Reference images by number (e.g., "image 1", "image 2")
                   </p>
                 </div>
@@ -274,7 +274,7 @@ export default function RemixPage() {
                 </button>
 
                 {error && (
-                  <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-lg mt-4">
+                  <div className="bg-red-900/50 border border-[#EF4444]/20 text-red-200 px-4 py-3 rounded-lg mt-4">
                     {error}
                   </div>
                 )}
@@ -290,7 +290,7 @@ export default function RemixPage() {
                 {generatedImages.length > 0 && (
                   <button
                     onClick={() => setGeneratedImages([])}
-                    className="text-sm text-gray-400 hover:text-white"
+                    className="text-sm text-[#a8a8b8] hover:text-white"
                   >
                     Clear All
                   </button>
@@ -302,7 +302,7 @@ export default function RemixPage() {
                   {generatedImages.map((image, index) => (
                     <div
                       key={image.id}
-                      className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-lg"
+                      className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg overflow-hidden shadow-lg"
                     >
                       <div className="relative aspect-square">
                         <Image
@@ -313,10 +313,10 @@ export default function RemixPage() {
                         />
                       </div>
                       <div className="p-4">
-                        <p className="text-xs text-gray-500 mb-2">
+                        <p className="text-xs text-[#a8a8b8]/80 mb-2">
                           {new Date(image.createdAt).toLocaleString()}
                         </p>
-                        <p className="text-sm text-gray-300 mb-4 line-clamp-2">
+                        <p className="text-sm text-white mb-4 line-clamp-2">
                           {image.prompt}
                         </p>
                         <div className="grid grid-cols-2 gap-2">
@@ -341,10 +341,10 @@ export default function RemixPage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-20 bg-gray-800 border border-gray-700 rounded-lg">
+                <div className="text-center py-20 bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg">
                   <div className="text-6xl mb-4">🎨</div>
-                  <p className="text-xl text-gray-400 mb-2">No images generated yet</p>
-                  <p className="text-gray-500">Upload images and write a prompt to get started!</p>
+                  <p className="text-xl text-[#a8a8b8] mb-2">No images generated yet</p>
+                  <p className="text-[#a8a8b8]/80">Upload images and write a prompt to get started!</p>
                 </div>
               )}
             </div>

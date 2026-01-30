@@ -100,7 +100,7 @@ export function MarketplaceReviewsDisplay({
         {[1, 2, 3, 4, 5].map((star) => (
           <span
             key={star}
-            className={`text-lg ${star <= rating ? 'text-yellow-400' : 'text-gray-300'}`}
+            className={`text-lg ${star <= rating ? 'text-[#FBBF24]' : 'text-white'}`}
           >
             ★
           </span>
@@ -194,12 +194,12 @@ export function MarketplaceReviewsDisplay({
                       {review.buyer_username ? `@${review.buyer_username}` : 'Anonymous Buyer'}
                     </span>
                     {review.is_edited && (
-                      <span className="text-xs text-gray-500">(edited)</span>
+                      <span className="text-xs text-[#a8a8b8]/80">(edited)</span>
                     )}
                   </div>
                   {renderStars(review.rating)}
                 </div>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-[#a8a8b8]/80">
                   {formatDate(review.created_at)}
                 </span>
               </div>
@@ -209,7 +209,7 @@ export function MarketplaceReviewsDisplay({
               )}
 
               {review.collection_name && (
-                <div className="mt-2 text-xs text-gray-500">
+                <div className="mt-2 text-xs text-[#a8a8b8]/80">
                   Collection: {review.collection_name}
                 </div>
               )}

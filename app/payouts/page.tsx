@@ -206,7 +206,7 @@ export default function PayoutsPage() {
   if (!isConnected) {
     return (
       <div className="max-w-7xl mx-auto p-8">
-        <div className="cosmic-card rounded-lg shadow p-6 text-center border border-[#00d4ff]/30">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg shadow p-6 text-center border border-[#9945FF]/30">
           <p className="text-white/70">Please connect your wallet to view payouts</p>
         </div>
       </div>
@@ -216,7 +216,7 @@ export default function PayoutsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Header */}
-      <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#00d4ff]/30">
+      <div className="bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
         <div className="container mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
@@ -233,14 +233,14 @@ export default function PayoutsPage() {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-4 p-4 cosmic-card border border-red-500/50 rounded-lg">
-            <p className="text-red-400">{error}</p>
+          <div className="mb-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-red-500/50 rounded-lg">
+            <p className="text-[#EF4444]">{error}</p>
           </div>
         )}
 
         {/* Opt-In Card */}
         {profile && (profile.optIn !== true) && (
-          <div className="cosmic-card border-2 border-yellow-500/50 rounded-lg shadow-lg p-6 mb-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-yellow-500/50 rounded-lg shadow-lg p-6 mb-6">
             <h2 className="text-xl font-bold text-white mb-2">🔔 Opt-In Required</h2>
             {loadingOwed ? (
               <div className="flex items-center gap-3 mb-4">
@@ -265,12 +265,12 @@ export default function PayoutsPage() {
                 <p className="text-white/70 mb-2">
                   You must be a holder to opt-in to payouts.
                 </p>
-                <p className="text-red-400 font-semibold mb-4">
+                <p className="text-[#EF4444] font-semibold mb-4">
                   ❌ Not a holder - You currently hold 0 OrdMakers
                 </p>
                 <button
                   disabled
-                  className="px-6 py-3 bg-gray-600 text-gray-400 rounded-lg font-semibold cursor-not-allowed"
+                  className="px-6 py-3 bg-gray-600 text-[#a8a8b8] rounded-lg font-semibold cursor-not-allowed"
                 >
                   Not a Holder
                 </button>
@@ -282,23 +282,23 @@ export default function PayoutsPage() {
         {/* Live Preview Card - Shows what you'd get in the NEXT payout */}
         {profile?.optIn && (
           loadingPreview ? (
-            <div className="cosmic-card rounded-lg shadow p-6 mb-6 border border-green-500/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg shadow p-6 mb-6 border border-green-500/30">
               <div className="flex items-center gap-3">
                 <div className="w-5 h-5 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
                 <p className="text-white/70">Loading live preview...</p>
               </div>
             </div>
           ) : previewData && previewData.in_preview && previewData.preview_data && previewData.user_data ? (
-            <div className="cosmic-card border-2 border-green-500/50 rounded-lg shadow-lg p-6 mb-6">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-green-500/50 rounded-lg shadow-lg p-6 mb-6">
               <h2 className="text-xl font-bold text-white mb-2">🔮 Next Payout Preview</h2>
-              <p className="text-sm text-white/60 mb-4">Live estimate based on current holders and accumulated revenue since last payout</p>
+              <p className="text-sm text-[#a8a8b8]/80 mb-4">Live estimate based on current holders and accumulated revenue since last payout</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
                   <div className="text-sm text-white/70">Your Ordmakers</div>
                   <div className="text-2xl font-semibold text-white">
                     {previewData.user_data.ordmaker_count} / {previewData.preview_data.total_ordmakers}
                   </div>
-                  <div className="text-xs text-white/60 mt-1">
+                  <div className="text-xs text-[#a8a8b8]/80 mt-1">
                     {previewData.user_data.share_percentage.toFixed(2)}% of opted-in holders
                   </div>
                 </div>
@@ -307,7 +307,7 @@ export default function PayoutsPage() {
                   <div className="text-lg font-semibold text-green-400">
                     {formatSats(previewData.preview_data.total_revenue_sats)}
                   </div>
-                  <div className="text-xs text-white/60 mt-1">
+                  <div className="text-xs text-[#a8a8b8]/80 mt-1">
                     30% payout pool: {formatSats(previewData.preview_data.payout_amount_sats)}
                   </div>
                 </div>
@@ -316,7 +316,7 @@ export default function PayoutsPage() {
                   <div className="text-3xl font-bold text-green-400">
                     {formatSats(previewData.user_data.amount_sats)}
                   </div>
-                  <div className="text-xs text-white/60 mt-1">
+                  <div className="text-xs text-[#a8a8b8]/80 mt-1">
                     If snapshot taken now
                   </div>
                 </div>
@@ -330,30 +330,30 @@ export default function PayoutsPage() {
                 </div>
                 <div>
                   <div className="text-sm text-white/70">Last Payout</div>
-                  <div className="text-sm text-white/60">
+                  <div className="text-sm text-[#a8a8b8]/80">
                     {previewData.preview_data.last_payout_at ? new Date(previewData.preview_data.last_payout_at).toLocaleString() : 'Never'}
                   </div>
                 </div>
               </div>
               {previewData.watching_wallet && (
-                <div className="text-xs text-white/60 pt-3 border-t border-green-500/30">
+                <div className="text-xs text-[#a8a8b8]/80 pt-3 border-t border-green-500/30">
                   Watching wallet: {previewData.watching_wallet.substring(0, 10)}...{previewData.watching_wallet.substring(previewData.watching_wallet.length - 8)}
                 </div>
               )}
             </div>
           ) : previewData && !previewData.in_preview ? (
-            <div className="cosmic-card border-2 border-yellow-500/50 rounded-lg shadow-lg p-6 mb-6">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-yellow-500/50 rounded-lg shadow-lg p-6 mb-6">
               <h2 className="text-xl font-bold text-white mb-2">🔮 Next Payout Preview</h2>
               <p className="text-white/70 mb-4">{previewData.message || 'Unable to calculate preview'}</p>
               {previewData.preview_data && (
                 <div className="mt-4 space-y-2 text-sm">
-                  <div className="text-white/60">
+                  <div className="text-[#a8a8b8]/80">
                     <span className="font-semibold text-white">Revenue since last payout:</span> {formatSats(previewData.preview_data.total_revenue_sats)}
                   </div>
-                  <div className="text-white/60">
+                  <div className="text-[#a8a8b8]/80">
                     <span className="font-semibold text-white">Payout pool:</span> {formatSats(previewData.preview_data.payout_amount_sats)}
                   </div>
-                  <div className="text-white/60">
+                  <div className="text-[#a8a8b8]/80">
                     <span className="font-semibold text-white">Opted-in holders:</span> {previewData.preview_data.total_holders}
                   </div>
                 </div>
@@ -365,19 +365,19 @@ export default function PayoutsPage() {
 
         {/* Loading State */}
         {loading ? (
-          <div className="cosmic-card rounded-lg shadow p-12 text-center border border-[#00d4ff]/30">
-            <div className="w-16 h-16 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg shadow p-12 text-center border border-[#9945FF]/30">
+            <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-white/70">Loading payouts...</p>
           </div>
         ) : payoutsData ? (
           <>
             {/* Summary Card */}
-            <div className="cosmic-card rounded-lg shadow p-6 mb-6 border border-[#00d4ff]/30">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg shadow p-6 mb-6 border border-[#9945FF]/30">
               <h2 className="text-xl font-bold text-white mb-4">Payout History</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="text-sm text-white/70">Total Received</div>
-                  <div className="text-2xl font-semibold text-[#00d4ff]">
+                  <div className="text-2xl font-semibold text-[#9945FF]">
                     {formatSats(payoutsData.total_received_sats)}
                   </div>
                 </div>
@@ -392,17 +392,17 @@ export default function PayoutsPage() {
 
             {/* Payouts List */}
             {payoutsData.payouts.length === 0 ? (
-              <div className="cosmic-card rounded-lg shadow p-12 text-center border border-[#00d4ff]/30">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg shadow p-12 text-center border border-[#9945FF]/30">
                 <p className="text-white text-lg">No payouts yet</p>
-                <p className="text-white/60 text-sm mt-2">
+                <p className="text-[#a8a8b8]/80 text-sm mt-2">
                   Payouts will appear here once you receive community revenue distributions.
                 </p>
               </div>
             ) : (
-              <div className="cosmic-card rounded-lg shadow overflow-hidden border border-[#00d4ff]/30">
+              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-lg shadow overflow-hidden border border-[#9945FF]/30">
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-[#00d4ff]/20">
-                    <thead className="cosmic-card">
+                  <table className="min-w-full divide-y divide-[#9945FF]/20">
+                    <thead className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md">
                       <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">
                           Date
@@ -421,13 +421,13 @@ export default function PayoutsPage() {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#00d4ff]/20">
+                    <tbody className="divide-y divide-[#9945FF]/20">
                       {payoutsData.payouts.map((payout) => (
                         <tr key={payout.id} className="hover:bg-[#1a1f3a]">
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                             {formatDate(payout.created_at)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-[#00d4ff]">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-[#9945FF]">
                             {formatSats(payout.amount_sats)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
@@ -441,7 +441,7 @@ export default function PayoutsPage() {
                               href={`https://mempool.space/tx/${payout.tx_id}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#00d4ff] hover:text-[#00b8e6] font-mono text-xs"
+                              className="text-[#9945FF] hover:text-[#14F195] font-mono text-xs"
                             >
                               {payout.tx_id.substring(0, 16)}...
                             </a>

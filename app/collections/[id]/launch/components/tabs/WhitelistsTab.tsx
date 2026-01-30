@@ -17,7 +17,7 @@ export default function WhitelistsTab({
 }: WhitelistsTabProps) {
   return (
     <div className="space-y-6">
-      <p className="text-gray-500">Whitelists tab - to be implemented</p>
+      <p className="text-[#a8a8b8]/80">Whitelists tab - to be implemented</p>
     </div>
   )
 }

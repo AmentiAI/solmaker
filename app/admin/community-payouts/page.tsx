@@ -371,10 +371,10 @@ export default function AdminCommunityPayoutsPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-lg shadow p-6 text-center">
-            <p className="text-gray-600">Please connect your wallet</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#b4b4c8]">Please connect your wallet</p>
           </div>
         </div>
       </div>
@@ -383,10 +383,10 @@ export default function AdminCommunityPayoutsPage() {
 
   if (!isAdminUser) {
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-lg shadow p-6 text-center">
-            <p className="text-red-600 font-semibold">Unauthorized. Admin access only.</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#EF4444] font-semibold">Unauthorized. Admin access only.</p>
           </div>
         </div>
       </div>
@@ -394,7 +394,7 @@ export default function AdminCommunityPayoutsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       
       <div className="flex-1 ml-64 p-8">
@@ -403,8 +403,8 @@ export default function AdminCommunityPayoutsPage() {
           <div className="mb-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Community Payouts</h1>
-                <p className="text-gray-600 mt-1">Track revenue and distribute 30% to ordmaker collection holders</p>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">Community Payouts</h1>
+                <p className="text-[#b4b4c8] mt-1">Track revenue and distribute 30% to ordmaker collection holders</p>
               </div>
         
             </div>
@@ -412,8 +412,8 @@ export default function AdminCommunityPayoutsPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center justify-between">
-              <p className="text-red-700">{error}</p>
+            <div className="mb-4 p-4 bg-gradient-to-br from-red-900/20 to-red-800/10 border border-[#EF4444]/20/50 rounded-lg flex items-center justify-between">
+              <p className="text-red-300">{error}</p>
               <button
                 onClick={() => setError(null)}
                 className="text-red-700 hover:text-red-900 ml-4"
@@ -425,7 +425,7 @@ export default function AdminCommunityPayoutsPage() {
 
           {/* Success Message */}
           {successMessage && (
-            <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="mb-4 p-4 bg-gradient-to-br from-green-900/20 to-green-800/10 border border-green-700/50 rounded-lg">
               <div className="flex items-start justify-between">
                 <div className="text-green-700 whitespace-pre-line flex-1">{successMessage}</div>
                 <button
@@ -449,12 +449,12 @@ export default function AdminCommunityPayoutsPage() {
                 ) : walletBalance ? (
                   <>
                     <div className="text-2xl font-bold text-gray-900">{formatSats(walletBalance.balance_sats)}</div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-[#a8a8b8]/80 mt-1">
                       {walletBalance.utxo_count} UTXO{walletBalance.utxo_count !== 1 ? 's' : ''} • {walletBalance.address.substring(0, 20)}...
                     </div>
                   </>
                 ) : (
-                  <div className="text-lg text-gray-400">N/A</div>
+                  <div className="text-lg text-[#a8a8b8]">N/A</div>
                 )}
               </div>
 
@@ -462,10 +462,10 @@ export default function AdminCommunityPayoutsPage() {
               {holders.length > 0 && (
                 <div className="border-r border-gray-200 pr-6">
                   <div className="text-sm text-gray-600 mb-1">Total Payout</div>
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-2xl font-bold text-[#9945FF]">
                     {formatSats(holders.reduce((sum, h) => sum + (h.amount_sats || 0), 0))}
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-[#a8a8b8]/80 mt-1">
                     {holders.length} holders • {holders.reduce((sum, h) => sum + h.count, 0)} ordmakers • 100%
                   </div>
                 </div>
@@ -485,7 +485,7 @@ export default function AdminCommunityPayoutsPage() {
                         <div className={`text-2xl font-bold ${canAfford ? 'text-green-600' : 'text-red-600'}`}>
                           {canAfford ? '✅ Yes' : '❌ No'}
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">
+                        <div className="text-xs text-[#a8a8b8]/80 mt-1">
                           Need: {formatSats(totalNeeded)} • Have: {formatSats(walletBalance.balance_sats)}
                         </div>
                       </>
@@ -514,13 +514,13 @@ export default function AdminCommunityPayoutsPage() {
                     onClick={handleBuildPsbt}
                     disabled={buildingPsbt || !revenueData || !walletBalance || 
                       walletBalance.balance_sats < (holders.reduce((sum, h) => sum + (h.amount_sats || 0), 0) + 10000)}
-                    className="flex-1 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-[#FFD60A] to-[#00E5FF] hover:from-[#11c97a] hover:to-[#7a35cc] text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#FFD60A]/20"
                   >
                     {buildingPsbt ? (shouldBroadcast ? 'Building & Broadcasting PSBT...' : 'Building PSBT...') : '💰 Build PSBT & Distribute Payouts'}
                   </button>
                 </div>
                 {!shouldBroadcast && (
-                  <p className="mt-2 text-xs text-gray-500">
+                  <p className="mt-2 text-xs text-[#a8a8b8]/80">
                     ⓘ Unchecked: Will create PSBT report only (no broadcast). Check to actually broadcast the transaction.
                   </p>
                 )}
@@ -541,7 +541,7 @@ export default function AdminCommunityPayoutsPage() {
                 <button
                   onClick={handleUpdateLastPayout}
                   disabled={updatingTimestamp}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#00E5FF]/20"
                   title="Update the last payout timestamp to now (useful if it didn't update correctly)"
                 >
                   {updatingTimestamp ? 'Updating...' : '🔄 Update Last Payout Time'}
@@ -562,7 +562,7 @@ export default function AdminCommunityPayoutsPage() {
                 </div>
                 <div>
                   <div className="text-sm text-gray-600">Total Payout Amount</div>
-                  <div className="text-lg font-semibold text-blue-600">{formatSats(revenueData.payout_amount_sats)}</div>
+                  <div className="text-lg font-semibold text-[#9945FF]">{formatSats(revenueData.payout_amount_sats)}</div>
                 </div>
               </div>
               
@@ -571,24 +571,24 @@ export default function AdminCommunityPayoutsPage() {
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Revenue Breakdown</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
-                    <div className="text-xs text-gray-500">Mint Revenue</div>
+                    <div className="text-xs text-[#a8a8b8]/80">Mint Revenue</div>
                     <div className="text-sm font-semibold text-gray-900">{formatSats(revenueData.mint_revenue_sats || 0)}</div>
-                    <div className="text-xs text-gray-500 mt-1">30% Payout: {formatSats(revenueData.mint_payout_sats || 0)}</div>
+                    <div className="text-xs text-[#a8a8b8]/80 mt-1">30% Payout: {formatSats(revenueData.mint_payout_sats || 0)}</div>
                   </div>
                   <div>
-                    <div className="text-xs text-gray-500">Credit Purchases</div>
+                    <div className="text-xs text-[#a8a8b8]/80">Credit Purchases</div>
                     <div className="text-sm font-semibold text-gray-900">{formatSats(revenueData.credit_purchase_revenue_sats || 0)}</div>
-                    <div className="text-xs text-gray-500 mt-1">50% Share: {formatSats(revenueData.credit_purchase_revenue_share_sats || 0)}</div>
+                    <div className="text-xs text-[#a8a8b8]/80 mt-1">50% Share: {formatSats(revenueData.credit_purchase_revenue_share_sats || 0)}</div>
                   </div>
                   <div>
-                    <div className="text-xs text-gray-500">Credit Purchase Payout</div>
-                    <div className="text-sm font-semibold text-blue-600">{formatSats(revenueData.credit_purchase_payout_sats || 0)}</div>
-                    <div className="text-xs text-gray-500 mt-1">30% of 50% (15% total)</div>
+                    <div className="text-xs text-[#a8a8b8]/80">Credit Purchase Payout</div>
+                    <div className="text-sm font-semibold text-[#9945FF]">{formatSats(revenueData.credit_purchase_payout_sats || 0)}</div>
+                    <div className="text-xs text-[#a8a8b8]/80 mt-1">30% of 50% (15% total)</div>
                   </div>
                   <div>
-                    <div className="text-xs text-gray-500">Combined Payout</div>
+                    <div className="text-xs text-[#a8a8b8]/80">Combined Payout</div>
                     <div className="text-sm font-semibold text-green-600">{formatSats(revenueData.payout_amount_sats)}</div>
-                    <div className="text-xs text-gray-500 mt-1">Mint (30%) + Credit (15%)</div>
+                    <div className="text-xs text-[#a8a8b8]/80 mt-1">Mint (30%) + Credit (15%)</div>
                   </div>
                 </div>
               </div>
@@ -603,17 +603,17 @@ export default function AdminCommunityPayoutsPage() {
               This will paginate through all pieces (100 at a time) and build a unique wallet list.
             </p>
             {snapshotLoading && (
-              <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="mb-4 p-4 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                  <p className="text-blue-700">Fetching all holders from Magic Eden API... This may take a few minutes.</p>
+                  <p className="text-[#14F195]">Fetching all holders from Magic Eden API... This may take a few minutes.</p>
                 </div>
               </div>
             )}
             <button
               onClick={handleTakeSnapshot}
               disabled={snapshotLoading}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#00E5FF]/20"
             >
               {snapshotLoading ? '📸 Fetching Holders...' : '📸 Take Snapshot'}
             </button>
@@ -642,20 +642,20 @@ export default function AdminCommunityPayoutsPage() {
                   
                   {/* Note: All holders shown are already opted-in, but keeping filter for consistency */}
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500 italic">(All shown holders are opted-in)</span>
+                    <span className="text-sm text-[#a8a8b8]/80 italic">(All shown holders are opted-in)</span>
                   </div>
                 </div>
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                  <thead className="bg-[#050510] border-b border-[#00E5FF]/20">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Wallet Address</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Payment Address</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Opt-In</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ordmakers</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Share</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">BTC Owed</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Wallet Address</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Payment Address</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Opt-In</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Ordmakers</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">Share</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-[#a8a8b8]/80 uppercase">BTC Owed</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -672,16 +672,16 @@ export default function AdminCommunityPayoutsPage() {
                         return (
                           <tr 
                             key={index} 
-                            className={`hover:bg-gray-50 ${isBelowThreshold ? 'bg-red-50' : ''}`}
+                            className={`hover:bg-[#0f0f1e]/50 ${isBelowThreshold ? 'bg-gradient-to-br from-red-900/20 to-red-800/10' : ''}`}
                           >
                             <td className={`px-4 py-3 text-sm font-mono ${isBelowThreshold ? 'text-red-900' : 'text-gray-900'}`}>
                               {holder.wallet_address}
                             </td>
                             <td className={`px-4 py-3 text-sm font-mono ${isBelowThreshold ? 'text-red-700' : 'text-gray-600'}`}>
                               {holder.payment_address ? (
-                                <span className={isBelowThreshold ? 'text-red-600' : 'text-blue-600'}>{holder.payment_address}</span>
+                                <span className={isBelowThreshold ? 'text-red-600' : 'text-[#9945FF]'}>{holder.payment_address}</span>
                               ) : (
-                                <span className="text-gray-400 italic">Not set</span>
+                                <span className="text-[#a8a8b8] italic">Not set</span>
                               )}
                             </td>
                             <td className="px-4 py-3 text-sm">
@@ -712,11 +712,11 @@ export default function AdminCommunityPayoutsPage() {
                       })
                     })()}
                   </tbody>
-                  <tfoot className="bg-gray-50">
+                  <tfoot className="bg-[#050510] border-t border-[#00E5FF]/20">
                     <tr>
                       <td className="px-4 py-3 text-sm font-semibold text-gray-900">Total</td>
-                      <td className="px-4 py-3 text-sm font-semibold text-gray-400 italic">-</td>
-                      <td className="px-4 py-3 text-sm font-semibold text-gray-400 italic">-</td>
+                      <td className="px-4 py-3 text-sm font-semibold text-[#a8a8b8] italic">-</td>
+                      <td className="px-4 py-3 text-sm font-semibold text-[#a8a8b8] italic">-</td>
                       <td className="px-4 py-3 text-sm font-semibold text-gray-900">
                         {(() => {
                           const filtered = optInFilter === 'all' 
@@ -739,7 +739,7 @@ export default function AdminCommunityPayoutsPage() {
                         })())}
                       </td>
                     </tr>
-                    <tr className="bg-red-50">
+                    <tr className="bg-gradient-to-br from-red-900/20 to-red-800/10">
                       <td colSpan={5} className="px-4 py-2 text-sm font-semibold text-red-900">
                         Below Threshold (&lt;546 sats):
                       </td>
@@ -770,7 +770,7 @@ export default function AdminCommunityPayoutsPage() {
                 <li>No snapshot has been taken yet</li>
                 <li>Holders need to opt-in on the /payouts page</li>
               </ul>
-              <p className="text-sm text-gray-500 mt-4">
+              <p className="text-sm text-[#a8a8b8]/80 mt-4">
                 Take a snapshot to see all opted-in holders. Only opted-in holders will be shown.
               </p>
             </div>
@@ -789,7 +789,7 @@ export default function AdminCommunityPayoutsPage() {
                     href={`https://mempool.space/tx/${psbtData.tx_id}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 font-mono"
+                    className="text-[#9945FF] hover:text-blue-800 font-mono"
                   >
                     {psbtData.tx_id}
                   </a>
@@ -819,7 +819,7 @@ export default function AdminCommunityPayoutsPage() {
                   </div>
                 )}
                 {psbtData.broadcast_error && (
-                  <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="mt-2 p-3 bg-gradient-to-br from-red-900/20 to-red-800/10 border border-[#EF4444]/20/50 rounded-lg">
                     <p className="text-xs text-red-700 font-semibold">Broadcast Error:</p>
                     <p className="text-xs text-red-600">{psbtData.broadcast_error}</p>
                   </div>
@@ -833,12 +833,12 @@ export default function AdminCommunityPayoutsPage() {
                     </h3>
                     <div className="max-h-64 overflow-y-auto space-y-2">
                       {psbtData.payouts.map((payout: any, index: number) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded text-xs">
+                        <div key={index} className="flex items-center justify-between p-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded text-xs">
                           <div className="flex-1 min-w-0">
                             <div className="font-mono text-gray-700 truncate" title={payout.payment_address}>
                               {payout.payment_address}
                             </div>
-                            <div className="text-gray-500">
+                            <div className="text-[#a8a8b8]/80">
                               {payout.count} ordmaker{payout.count !== 1 ? 's' : ''} ({((payout.share || 0) * 100).toFixed(2)}%)
                             </div>
                           </div>
@@ -851,7 +851,7 @@ export default function AdminCommunityPayoutsPage() {
                   </div>
                 )}
 
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                <div className="mt-4 p-4 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg">
                   {psbtData.broadcasted ? (
                     <>
                       <p className="text-xs text-green-700 mb-2">✅ Transaction has been broadcasted to the network.</p>

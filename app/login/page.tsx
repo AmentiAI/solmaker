@@ -31,12 +31,12 @@ export default function LoginPage() {
   // Show wallet connect prompt if not connected
   if (!activeWalletConnected) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-[#FDFCFA]">
+      <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
         <div className="max-w-md w-full text-center">
-          <div className="bg-[#FDFCFA] border-2 border-gray-200 rounded-2xl p-8 shadow-xl">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border-2 border-[#00E5FF]/30 rounded-2xl p-8 shadow-xl">
             <div className="mb-6">
-              <h1 className="text-3xl font-bold text-gray-900 mb-3">Welcome</h1>
-              <p className="text-gray-600 mb-6">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-3">Welcome</h1>
+              <p className="text-[#b4b4c8] mb-6">
                 Please connect your wallet to access the platform.
               </p>
             </div>
@@ -51,10 +51,10 @@ export default function LoginPage() {
 
   // Redirecting...
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-[#FDFCFA]">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#e27d0f] border-t-transparent mx-auto mb-4"></div>
-        <p className="text-gray-600">Redirecting...</p>
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#00E5FF] border-t-transparent mx-auto mb-4"></div>
+        <p className="text-[#b4b4c8]">Redirecting...</p>
       </div>
     </div>
   )

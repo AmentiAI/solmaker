@@ -140,103 +140,117 @@ export function AppHeader() {
   }, [])
 
   return (
-    <header className="bg-[#0a0a0a]/95 backdrop-blur-md border-b border-[#222] sticky top-0 z-50" style={{ pointerEvents: 'auto', isolation: 'isolate' }}>
-      <div className="container mx-auto px-3 sm:px-4">
-        <div className="flex items-center justify-between h-[60px]">
+    <header className="sticky top-0 z-50 bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)]" style={{ pointerEvents: 'auto', isolation: 'isolate' }}>
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center">
             <Link
               href="/"
-              className="flex items-center hover:opacity-80 transition-opacity flex-shrink-0 pl-1"
+              className="flex items-center group transition-all duration-300 flex-shrink-0"
             >
-              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-[#9945FF] to-[#14F195] bg-clip-text text-transparent">
+              <span className="text-2xl font-extrabold bg-gradient-to-r from-[var(--solana-purple)] to-[var(--solana-green)] bg-clip-text text-transparent group-hover:scale-105 transition-transform">
                 SolMaker
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center">
-            <div className="flex items-center gap-1 px-2 py-1 rounded-full border border-[#333] bg-[#1a1a1a]">
-              <Link
-                href="/marketplace"
-                className={`px-3 py-1 text-sm font-medium rounded-full transition-all duration-200 whitespace-nowrap ${
-                  pathname?.startsWith('/marketplace')
-                    ? 'text-white bg-white/10'
-                    : 'text-[#999] hover:text-white'
+          <nav className="hidden lg:flex items-center gap-2">
+            <Link
+              href="/marketplace"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                pathname?.startsWith('/marketplace')
+                  ? 'text-white bg-gradient-to-r from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border border-[var(--solana-purple)]/30'
+                  : 'text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)]'
+              }`}
+            >
+              Marketplace
+            </Link>
+            <div className="relative flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setToolsOpen((v) => !v)}
+                onBlur={() => setTimeout(() => setToolsOpen(false), 120)}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 inline-flex items-center gap-1.5 ${
+                  pathname === '/promotion' || pathname === '/sticker-maker'
+                    ? 'text-white bg-gradient-to-r from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border border-[var(--solana-purple)]/30'
+                    : 'text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)]'
                 }`}
               >
-                Marketplace
-              </Link>
-              <div className="relative flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setToolsOpen((v) => !v)}
-                  onBlur={() => setTimeout(() => setToolsOpen(false), 120)}
-                  className={`px-3 py-1 text-sm font-medium rounded-full transition-all duration-200 whitespace-nowrap inline-flex items-center gap-1 ${
-                    pathname === '/promotion' || pathname === '/sticker-maker'
-                      ? 'text-white bg-white/10'
-                      : 'text-[#999] hover:text-white'
-                  }`}
-                >
-                  Promote
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {toolsOpen && (
-                  <div className="absolute right-0 mt-1 w-44 bg-[#151515] border border-[#333] rounded-lg shadow-xl overflow-hidden z-50">
-                    <Link
-                      href="/sticker-maker"
-                      className="block px-4 py-2.5 text-sm text-[#999] hover:text-white hover:bg-white/5"
-                    >
-                      Sticker Maker
-                    </Link>
-                    <Link
-                      href="/promotion"
-                      className="block px-4 py-2.5 text-sm text-[#999] hover:text-white hover:bg-white/5"
-                    >
-                      Ad/Marketing Maker
-                    </Link>
-                  </div>
-                )}
-              </div>
-              <Link
-                href="/collections"
-                className={`px-3 py-1 text-sm font-medium rounded-full transition-all duration-200 whitespace-nowrap ${
-                  pathname?.startsWith('/collections')
-                    ? 'text-white bg-white/10'
-                    : 'text-[#999] hover:text-white'
-                }`}
-              >
-                Collections
-              </Link>
-              {showCreditPurchase && (
-                <Link
-                  href="/buy-credits"
-                  className={`px-3 py-1 text-sm font-medium rounded-full transition-all duration-200 whitespace-nowrap ${
-                    pathname === '/buy-credits'
-                      ? 'text-white bg-white/10'
-                      : 'text-[#999] hover:text-white'
-                  }`}
-                >
-                  Buy Credits
-                </Link>
+                Promote
+                <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {toolsOpen && (
+                <div className="absolute right-0 mt-2 w-52 bg-[var(--surface-elevated)] backdrop-blur-xl border border-[var(--border)] rounded-xl shadow-2xl shadow-[var(--solana-purple)]/10 overflow-hidden z-50 animate-[fadeIn_0.2s_ease-out]">
+                  <Link
+                    href="/sticker-maker"
+                    className="block px-5 py-3 text-sm font-medium text-[var(--text-secondary)] hover:text-white hover:bg-[var(--solana-purple)]/10 transition-all duration-200 border-b border-[var(--border)]"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🎨</span>
+                      <span>Sticker Maker</span>
+                    </div>
+                  </Link>
+                  <Link
+                    href="/promotion"
+                    className="block px-5 py-3 text-sm font-medium text-[var(--text-secondary)] hover:text-white hover:bg-[var(--solana-purple)]/10 transition-all duration-200"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">📢</span>
+                      <span>Ad/Marketing Maker</span>
+                    </div>
+                  </Link>
+                </div>
               )}
             </div>
+            <Link
+              href="/collections"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                pathname?.startsWith('/collections')
+                  ? 'text-white bg-gradient-to-r from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border border-[var(--solana-purple)]/30'
+                  : 'text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)]'
+              }`}
+            >
+              Collections
+            </Link>
+            <Link
+              href="/solana-launchpad"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                pathname === '/solana-launchpad'
+                  ? 'text-white bg-gradient-to-r from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border border-[var(--solana-purple)]/30'
+                  : 'text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)]'
+              }`}
+            >
+              Launchpad
+            </Link>
+            {showCreditPurchase && (
+              <Link
+                href="/buy-credits"
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  pathname === '/buy-credits'
+                    ? 'text-white bg-gradient-to-r from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border border-[var(--solana-purple)]/30'
+                    : 'text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)]'
+                }`}
+              >
+                Buy Credits
+              </Link>
+            )}
           </nav>
 
           {/* Right Side - Market Data + Wallet */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-4">
             {/* SOL Price */}
             {marketData && marketData.price_usd > 0 && (
-              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#1a1a1a] border border-[#333]">
-                <div className="w-4 h-4 rounded-full bg-gradient-to-br from-[#9945FF] to-[#14F195] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-[8px] font-bold">S</span>
+              <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--solana-purple)]/40 transition-all duration-300">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[var(--solana-purple)] to-[var(--solana-green)] flex items-center justify-center flex-shrink-0">
+                  <span className="text-white text-[10px] font-bold">S</span>
                 </div>
-                <span className="text-white text-sm font-medium">${marketData.price_usd.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                <span className={`text-xs font-medium ${marketData.change_24h >= 0 ? 'text-[#22c55e]' : 'text-[#ef4444]'}`}>
-                  {marketData.change_24h >= 0 ? '+' : ''}{marketData.change_24h.toFixed(1)}%
+                <span className="text-white text-sm font-semibold">${marketData.price_usd.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                <span className={`text-xs font-semibold px-2 py-0.5 rounded-md ${marketData.change_24h >= 0 ? 'text-[var(--solana-green)] bg-[var(--solana-green)]/10' : 'text-[var(--error)] bg-[var(--error)]/10'}`}>
+                  {marketData.change_24h >= 0 ? '↗' : '↘'} {Math.abs(marketData.change_24h).toFixed(1)}%
                 </span>
               </div>
             )}
@@ -247,14 +261,14 @@ export function AppHeader() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-1.5 text-[#999] hover:text-white hover:bg-white/5 rounded-lg transition-all"
+              className="lg:hidden p-2 text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)] rounded-lg transition-all duration-300 border border-[var(--border)]"
               aria-label="Toggle menu"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                 {mobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
@@ -263,66 +277,84 @@ export function AppHeader() {
 
         {/* Mobile Navigation Menu */}
         {mobileMenuOpen && (
-          <nav className="lg:hidden py-3 border-t border-[#222]">
-            <div className="flex flex-col gap-1">
+          <nav className="lg:hidden py-4 border-t border-[var(--border)] animate-[fadeIn_0.3s_ease-out]">
+            <div className="flex flex-col gap-2">
               <Link
                 href="/marketplace"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-[#999] hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                className="px-4 py-3 text-sm font-medium text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)] rounded-lg transition-all duration-300"
               >
-                Marketplace
+                <div className="flex items-center gap-3">
+                  <span className="text-lg">🛍️</span>
+                  <span>Marketplace</span>
+                </div>
               </Link>
               <details className="group">
-                <summary className="cursor-pointer px-3 py-2 text-sm font-medium text-[#999] hover:text-white hover:bg-white/5 rounded-lg transition-all list-none flex items-center justify-between">
-                  Promote
-                  <svg className="w-3 h-3 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)] rounded-lg transition-all duration-300 list-none flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">🚀</span>
+                    <span>Promote</span>
+                  </div>
+                  <svg className="w-4 h-4 group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </summary>
-                <div className="pl-4 flex flex-col gap-1 mt-1">
+                <div className="pl-6 flex flex-col gap-2 mt-2">
                   <Link
                     href="/sticker-maker"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-3 py-2 text-sm text-[#999] hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                    className="px-4 py-2.5 text-sm font-medium text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)] rounded-lg transition-all duration-300"
                   >
-                    Sticker Maker
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">🎨</span>
+                      <span>Sticker Maker</span>
+                    </div>
                   </Link>
                   <Link
                     href="/promotion"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-3 py-2 text-sm text-[#999] hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                    className="px-4 py-2.5 text-sm font-medium text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)] rounded-lg transition-all duration-300"
                   >
-                    Ad/Marketing Maker
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">📢</span>
+                      <span>Ad/Marketing Maker</span>
+                    </div>
                   </Link>
                 </div>
               </details>
               <Link
                 href="/collections"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-[#999] hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                className="px-4 py-3 text-sm font-medium text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)] rounded-lg transition-all duration-300"
               >
-                Collections
+                <div className="flex items-center gap-3">
+                  <span className="text-lg">📚</span>
+                  <span>Collections</span>
+                </div>
               </Link>
               {showCreditPurchase && (
                 <Link
                   href="/buy-credits"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-3 py-2 text-sm font-medium text-[#999] hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                  className="px-4 py-3 text-sm font-medium text-[var(--text-secondary)] hover:text-white hover:bg-[var(--surface)] rounded-lg transition-all duration-300"
                 >
-                  Buy Credits
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">💎</span>
+                    <span>Buy Credits</span>
+                  </div>
                 </Link>
               )}
 
               {/* Market data in mobile menu */}
               {marketData && marketData.price_usd > 0 && (
-                <div className="flex items-center gap-3 px-3 py-2 mt-2 border-t border-[#222]">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-br from-[#9945FF] to-[#14F195] flex items-center justify-center">
-                      <span className="text-white text-[8px] font-bold">S</span>
+                <div className="flex items-center gap-3 px-4 py-3 mt-2 border-t border-[var(--border)] rounded-lg bg-[var(--surface)]">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[var(--solana-purple)] to-[var(--solana-green)] flex items-center justify-center">
+                      <span className="text-white text-[10px] font-bold">S</span>
                     </div>
-                    <span className="text-white text-sm font-medium">${marketData.price_usd.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                    <span className={`text-xs font-medium ${marketData.change_24h >= 0 ? 'text-[#22c55e]' : 'text-[#ef4444]'}`}>
-                      {marketData.change_24h >= 0 ? '+' : ''}{marketData.change_24h.toFixed(1)}%
+                    <span className="text-white text-sm font-semibold">${marketData.price_usd.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-md ${marketData.change_24h >= 0 ? 'text-[var(--solana-green)] bg-[var(--solana-green)]/10' : 'text-[var(--error)] bg-[var(--error)]/10'}`}>
+                      {marketData.change_24h >= 0 ? '↗' : '↘'} {Math.abs(marketData.change_24h).toFixed(1)}%
                     </span>
                   </div>
                 </div>

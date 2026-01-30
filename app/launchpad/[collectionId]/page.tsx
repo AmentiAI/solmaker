@@ -10,7 +10,7 @@ import { validateMintQuantity } from '@/lib/minting-utils'
 import { getAdaptivePollInterval } from '@/lib/polling-optimization'
 import { CollectionImageDisplay } from './components/CollectionImageDisplay'
 import { MintDetailsSection } from './components/MintDetailsSection'
-import { OrdinalChoicesMint } from './components/OrdinalChoicesMint'
+import { NftChoicesMint } from './components/NftChoicesMint'
 import { PhaseList } from './components/PhaseList'
 import { HistoryModal } from './components/HistoryModal'
 import { TopBar } from './components/TopBar'
@@ -62,7 +62,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
     ENABLE_RENDER_AUDIO: true,               // 9b: Render audio element
     ENABLE_RENDER_IMAGE: true,               // 9c: Render CollectionImageDisplay
     ENABLE_RENDER_MINT_DETAILS: true,        // 9d: Render MintDetailsSection
-    ENABLE_RENDER_CHOICES_MINT: true,        // 9d1: Render OrdinalChoicesMint
+    ENABLE_RENDER_CHOICES_MINT: true,        // 9d1: Render NftChoicesMint
     ENABLE_RENDER_PHASE_LIST: true,          // 9e: Render PhaseList
     ENABLE_RENDER_CONTAINER: true,           // 9f: Render main container divs
     
@@ -1010,14 +1010,14 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
   }, [collectionId]) // Only depend on collectionId, use refs for the rest
 
   // Handler for choices mint (takes specific ordinal_ids - supports multiple)
-  const handleChoicesMint = useCallback(async (ordinalIds: string[]) => {
+  const handleChoicesMint = useCallback(async (nftIds: string[]) => {
     if (!currentAddress || !collection || !isConnected) {
       setError('Please connect your wallet')
       return
     }
 
-    if (!ordinalIds || ordinalIds.length === 0) {
-      setError('No ordinals selected')
+    if (!nftIds || nftIds.length === 0) {
+      setError('No NFTs selected')
       return
     }
 
@@ -1038,24 +1038,24 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
       return
     }
 
-    // For choices mint, the ordinals should already be reserved when user clicked them
+    // For choices mint, the NFTs should already be reserved when user clicked them
     // We'll validate the existing reservations in create-commit, not reserve again
     setMinting(true)
     setError('')
     setCommitTxid('')
 
     try {
-      // Don't reserve again - the ordinals are already reserved from when user clicked them
+      // Don't reserve again - the NFTs are already reserved from when user clicked them
       // The create-commit endpoint will validate the existing reservations
-      const reservedOrdinalIds = ordinalIds
+      const reservedNftIds = nftIds
 
       // Continue with mint flow (supports batch minting)
-      setMintStatus(`Creating commit transaction for ${ordinalIds.length} ordinal${ordinalIds.length > 1 ? 's' : ''}...`)
+      setMintStatus(`Creating commit transaction for ${nftIds.length} NFT${nftIds.length > 1 ? 's' : ''}...`)
       const createCommitRes = await fetch('/api/mint/create-commit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ordinal_ids: reservedOrdinalIds,
+          ordinal_ids: reservedNftIds,
           minter_address: currentAddress,
           payment_address: paymentAddress || currentAddress,
           payment_pubkey: paymentPublicKey,
@@ -1139,7 +1139,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         }
       }
       
-      setMintStatus('✅ Successfully minted ordinal!')
+      setMintStatus('✅ Successfully minted NFT!')
       // Reload collection data
       if (shouldAllowUpdates()) {
         loadCollection()
@@ -1166,9 +1166,9 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
     }
 
     // SAFETY CHECK: Only allow minting with a live wallet connection
-    // This prevents sending ordinals to a cached/stale address from localStorage
+    // This prevents sending NFTs to a cached/stale address from localStorage
     if (!isLiveConnection) {
-      setError('⚠️ Wallet connection not fully established. Please disconnect and reconnect your wallet to ensure the ordinal is sent to the correct address.')
+      setError('⚠️ Wallet connection not fully established. Please disconnect and reconnect your wallet to ensure the NFT is sent to the correct address.')
       return
     }
 
@@ -1245,20 +1245,20 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
       const reserveData = await reserveRes.json()
       
       // Handle both single and batch responses
-      const reservedOrdinals = mintQuantity === 1 
+      const reservedNfts = mintQuantity === 1 
         ? [reserveData.ordinal]
         : reserveData.ordinals
       
-      const reservedOrdinalIds = reservedOrdinals.map((o: any) => o.id)
-      console.log(`✅ Reserved ${reservedOrdinalIds.length} ordinal(s):`, reservedOrdinalIds)
+      const reservedNftIds = reservedNfts.map((o: any) => o.id)
+      console.log(`✅ Reserved ${reservedNftIds.length} NFT(s):`, reservedNftIds)
 
-      // Step 2: Create ONE commit transaction for ALL reserved ordinals
+      // Step 2: Create ONE commit transaction for ALL reserved NFTs
       setMintStatus('Creating commit transaction...')
       const createCommitRes = await fetch('/api/mint/create-commit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ordinal_ids: reservedOrdinalIds, // All ordinals at once
+          ordinal_ids: reservedNftIds, // All NFTs at once
           minter_address: currentAddress,
           payment_address: paymentAddress || currentAddress,
           payment_pubkey: paymentPublicKey,
@@ -1357,7 +1357,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         }
       }
       
-      setMintStatus(`✅ Successfully minted ${mintQuantity} ordinal${mintQuantity > 1 ? 's' : ''}!`)
+      setMintStatus(`✅ Successfully minted ${mintQuantity} NFT${mintQuantity > 1 ? 's' : ''}!`)
       
       // Locally update mint counts so UI reflects immediately without waiting for poll
       if (activePhase?.whitelist_only && whitelistStatus) {
@@ -1634,14 +1634,15 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
   if (loading) {
     return (
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center">
-              <div className="w-16 h-16 border-4 border-[#4561ad] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-500">Loading collection...</p>
-            </div>
+      <div className="min-h-screen bg-[#0D0D11] flex items-center justify-center">
+        <div className="text-center">
+          <div className="relative w-20 h-20 mx-auto mb-6">
+            <div className="absolute inset-0 border-4 border-[#9945FF]/20 rounded-full" />
+            <div className="absolute inset-0 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
+            <div className="absolute inset-2 border-4 border-[#14F195]/20 rounded-full" />
+            <div className="absolute inset-2 border-4 border-[#14F195] border-b-transparent rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
           </div>
+          <p className="text-[#A1A1AA] text-lg font-medium">Loading collection...</p>
         </div>
       </div>
     )
@@ -1649,28 +1650,31 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
   if (!collection) {
     return (
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Collection Not Found</h2>
-            <Link
-              href="/launchpad"
-              className="text-[#4561ad] hover:underline"
-            >
-              ← Back to Launchpad
-            </Link>
-          </div>
+      <div className="min-h-screen bg-[#0D0D11] flex items-center justify-center">
+        <div className="text-center px-6">
+          <div className="text-6xl mb-6 opacity-50">📦</div>
+          <h2 className="text-3xl font-bold text-white mb-4">Collection Not Found</h2>
+          <p className="text-[#A1A1AA] mb-8 text-lg">The collection you're looking for doesn't exist or has been removed.</p>
+          <Link
+            href="/launchpad"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] hover:from-[#DC1FFF] hover:to-[#9945FF] text-white font-semibold rounded-xl shadow-lg shadow-[#9945FF]/30 hover:shadow-xl hover:shadow-[#9945FF]/40 transition-all duration-300 hover:scale-105"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Launchpad
+          </Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="relative w-full overflow-x-hidden">
+    <div className="min-h-screen bg-[#0D0D11]">
       {/* No background - video is handled in layout */}
       {DEBUG_FEATURES.ENABLE_RENDER_CONTAINER ? (
-        <div className="container mx-auto px-6 py-6 relative z-10">
-          <div className="max-w-6xl mx-auto">
+        <div className="container mx-auto px-6 py-8 relative z-10">
+          <div className="max-w-7xl mx-auto">
           {/* Background audio (if configured) - Step 9b */}
           {DEBUG_FEATURES.ENABLE_RENDER_AUDIO && collection.audio_url && (
             <>
@@ -1742,7 +1746,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                   {/* CollectionImageDisplay - Step 9c */}
                   {DEBUG_FEATURES.ENABLE_RENDER_IMAGE && (
                     <div className="mb-8">
-                      <div className="w-full aspect-[16/8] rounded-2xl overflow-hidden bg-[#0a0e27] border border-[#00d4ff]/30 shadow-xl">
+                      <div className="w-full aspect-[16/8] rounded-2xl overflow-hidden bg-[#121218] border border-[#9945FF]/20 shadow-xl shadow-[#9945FF]/10">
                         {DEBUG_FEATURES.ENABLE_IMAGE_VIDEO && collection.banner_video_url ? (
                           <video
                             className="w-full h-full object-fill"
@@ -1766,7 +1770,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                         )}
                       </div>
                       {DEBUG_FEATURES.ENABLE_IMAGE_SOCIAL_LINKS && (collection.twitter_url || collection.discord_url || collection.telegram_url || collection.website_url) && (
-                        <div className="mt-4 cosmic-card border border-[#00d4ff]/30 rounded-xl p-5">
+                        <div className="mt-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00E5FF]/30 rounded-xl p-5">
                           <div className="font-bold text-white mb-3">Links</div>
                           <div className="flex flex-wrap gap-3">
                             {collection.twitter_url && (
@@ -1807,7 +1811,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                                 href={collection.website_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a1f3a] hover:bg-[#2a2f4a] text-white rounded-lg text-sm font-semibold transition-colors border border-[#00d4ff]/30"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#202030] text-white rounded-lg text-sm font-semibold transition-all border border-[#00E5FF]/30 hover:border-[#00E5FF]/50"
                               >
                                 <span>🌐</span>
                                 <span>Website</span>
@@ -1822,7 +1826,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                     <div className="lg:col-span-12">
                       {/* Conditional render based on mint_type - Separated for better React lifecycle */}
                       {DEBUG_FEATURES.ENABLE_RENDER_MINT_DETAILS && DEBUG_FEATURES.ENABLE_RENDER_CHOICES_MINT && collection.mint_type === 'choices' && (
-                        <OrdinalChoicesMint
+                        <NftChoicesMint
                           collection={collection}
                           activePhase={activePhase ?? null}
                           collectionId={collectionId}
@@ -1906,7 +1910,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                 {DEBUG_FEATURES.ENABLE_RENDER_IMAGE && (
                   <div className="lg:col-span-5">
                     <div className="lg:sticky lg:top-28">
-                      <div className="rounded-2xl overflow-hidden bg-[#0a0e27] border border-[#00d4ff]/30 shadow-xl aspect-square">
+                      <div className="rounded-2xl overflow-hidden bg-[#121218] border-2 border-[#9945FF]/20 shadow-xl shadow-[#9945FF]/10 aspect-square hover:border-[#9945FF]/40 transition-all duration-300">
                         {DEBUG_FEATURES.ENABLE_IMAGE_VIDEO && collection.banner_video_url ? (
                           <video
                             className="w-full h-full object-fill"
@@ -1930,7 +1934,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                         )}
                       </div>
                       {DEBUG_FEATURES.ENABLE_IMAGE_SOCIAL_LINKS && (collection.twitter_url || collection.discord_url || collection.telegram_url || collection.website_url) && (
-                        <div className="mt-4 cosmic-card border border-[#00d4ff]/30 rounded-xl p-5">
+                        <div className="mt-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00E5FF]/30 rounded-xl p-5">
                           <div className="font-bold text-white mb-3">Links</div>
                           <div className="flex flex-wrap gap-3">
                             {collection.twitter_url && (
@@ -1971,7 +1975,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                                 href={collection.website_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a1f3a] hover:bg-[#2a2f4a] text-white rounded-lg text-sm font-semibold transition-colors border border-[#00d4ff]/30"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#202030] text-white rounded-lg text-sm font-semibold transition-all border border-[#00E5FF]/30 hover:border-[#00E5FF]/50"
                               >
                                 <span>🌐</span>
                                 <span>Website</span>
@@ -1986,7 +1990,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                 <div className="lg:col-span-7">
                   {/* Conditional render based on mint_type - Separated for better React lifecycle */}
                   {DEBUG_FEATURES.ENABLE_RENDER_MINT_DETAILS && DEBUG_FEATURES.ENABLE_RENDER_CHOICES_MINT && collection.mint_type === 'choices' && (
-                    <OrdinalChoicesMint
+                    <NftChoicesMint
                       collection={collection}
                       activePhase={activePhase ?? null}
                       collectionId={collectionId}
@@ -2067,10 +2071,10 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         <div className="container mx-auto px-6 py-12">
           <div className="max-w-4xl mx-auto">
             <div className="text-center py-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Container rendering disabled for debugging</h2>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FF006E] bg-clip-text text-transparent mb-4">Container rendering disabled for debugging</h2>
               <Link
                 href="/launchpad"
-                className="text-[#4561ad] hover:underline"
+                className="text-[#00E5FF] hover:text-[#FF006E] hover:underline transition-colors"
               >
                 ← Back to Launchpad
               </Link>

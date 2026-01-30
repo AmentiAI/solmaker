@@ -55,7 +55,7 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
       case 'failed':
         return <XCircle className="h-6 w-6 text-red-500" />
       default:
-        return <Circle className="h-6 w-6 text-gray-300" />
+        return <Circle className="h-6 w-6 text-white" />
     }
   }
 

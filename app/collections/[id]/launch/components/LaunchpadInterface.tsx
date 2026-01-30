@@ -38,7 +38,7 @@ export default function LaunchpadInterface({
           className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
             activeTab === 'settings'
               ? 'border-[#4561ad] text-[#4561ad]'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              : 'border-transparent text-[#a8a8b8]/80 hover:text-gray-700'
           }`}
         >
           ⚙️ Settings
@@ -48,7 +48,7 @@ export default function LaunchpadInterface({
           className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
             activeTab === 'phases'
               ? 'border-[#4561ad] text-[#4561ad]'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              : 'border-transparent text-[#a8a8b8]/80 hover:text-gray-700'
           }`}
         >
           📅 Mint Phases ({phases.length})
@@ -58,7 +58,7 @@ export default function LaunchpadInterface({
           className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
             activeTab === 'whitelists'
               ? 'border-[#4561ad] text-[#4561ad]'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              : 'border-transparent text-[#a8a8b8]/80 hover:text-gray-700'
           }`}
         >
           📋 Whitelists ({whitelists.length})

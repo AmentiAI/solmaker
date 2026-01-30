@@ -251,14 +251,14 @@ export default function AdminLaunchpadTransactionsPage() {
   const getStatusBadge = (status: string) => {
     const statusColors: Record<string, string> = {
       completed: 'bg-green-500/20 text-green-400 border border-green-500/30',
-      commit_broadcast: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
+      commit_broadcast: 'bg-yellow-500/20 text-[#FBBF24] border border-yellow-500/30',
       commit_confirmed: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
       reveal_broadcast: 'bg-purple-500/20 text-purple-400 border border-purple-500/30',
       reveal_confirmed: 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30',
-      failed: 'bg-red-500/20 text-red-400 border border-red-500/30',
-      pending: 'bg-gray-500/20 text-gray-400 border border-gray-500/30',
+      failed: 'bg-red-500/20 text-[#EF4444] border border-red-500/30',
+      pending: 'bg-gray-500/20 text-[#a8a8b8] border border-[#9945FF]/40/30',
     }
-    return statusColors[status] || 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+    return statusColors[status] || 'bg-gray-500/20 text-[#a8a8b8] border border-[#9945FF]/40/30'
   }
 
   const handleBroadcastReveal = async (transaction: Transaction) => {
@@ -651,10 +651,10 @@ export default function AdminLaunchpadTransactionsPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-lg shadow p-6 text-center">
-            <p className="text-gray-600">Please connect your wallet</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#b4b4c8]">Please connect your wallet</p>
           </div>
         </div>
       </div>
@@ -663,10 +663,10 @@ export default function AdminLaunchpadTransactionsPage() {
 
   if (!isAdminUser) {
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-lg shadow p-6 text-center">
-            <p className="text-red-600 font-semibold">Unauthorized. Admin access only.</p>
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#EF4444] font-semibold">Unauthorized. Admin access only.</p>
           </div>
         </div>
       </div>
@@ -674,7 +674,7 @@ export default function AdminLaunchpadTransactionsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0a0e27]">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
       <AdminSidebar />
       
       <div className="flex-1 ml-64 p-8">
@@ -683,13 +683,13 @@ export default function AdminLaunchpadTransactionsPage() {
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-white">Launchpad Transaction Management</h1>
-              <p className="text-white/70 mt-1">Manage all launchpad mint transactions - view, check, and edit</p>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent">Launchpad Transaction Management</h1>
+              <p className="text-[#b4b4c8] mt-1">Manage all launchpad mint transactions - view, check, and edit</p>
             </div>
           </div>
 
           {/* Master Check Button */}
-          <div className="mb-4 cosmic-card border border-[#00d4ff]/30 rounded-lg p-4">
+          <div className="mb-4 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-white mb-1">Master Check All Transactions</h3>
@@ -699,9 +699,9 @@ export default function AdminLaunchpadTransactionsPage() {
                 {masterCheckRunning && (
                   <div className="mt-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="w-full bg-blue-200 rounded-full h-2.5">
-                        <div
-                          className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                      <div className="w-full bg-[#050510] border border-[#00E5FF]/20 rounded-full h-2.5">
+                          <div
+                          className="bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] h-2.5 rounded-full transition-all duration-300"
                           style={{
                             width: `${masterCheckProgress.total > 0 ? (masterCheckProgress.current / masterCheckProgress.total) * 100 : 0}%`
                           }}
@@ -711,7 +711,7 @@ export default function AdminLaunchpadTransactionsPage() {
                         {masterCheckProgress.current} / {masterCheckProgress.total}
                       </span>
                     </div>
-                    <p className="text-xs text-white/60">
+                    <p className="text-xs text-[#a8a8b8]/80">
                       Checking transactions... This may take a while.
                     </p>
                   </div>
@@ -722,8 +722,8 @@ export default function AdminLaunchpadTransactionsPage() {
                 disabled={loading}
                 className={`ml-4 px-6 py-3 rounded-lg font-semibold transition-colors ${
                   masterCheckRunning
-                    ? 'bg-red-600 hover:bg-red-700 text-white'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                    ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg shadow-red-500/20'
+                    : 'bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white shadow-lg shadow-[#00E5FF]/20'
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 {masterCheckRunning ? (
@@ -751,7 +751,7 @@ export default function AdminLaunchpadTransactionsPage() {
                   setCollectionFilter(e.target.value)
                   setPage(0)
                 }}
-                className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50"
+                className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50"
               >
                 <option value="">All Collections</option>
                 {collections.map((col) => (
@@ -769,7 +769,7 @@ export default function AdminLaunchpadTransactionsPage() {
                   setStatusFilter(e.target.value)
                   setPage(0)
                 }}
-                className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50"
+                className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50"
               >
                 <option value="">All Statuses</option>
                 <option value="pending">Pending</option>
@@ -791,13 +791,13 @@ export default function AdminLaunchpadTransactionsPage() {
                   setPage(0)
                 }}
                 placeholder="Filter by wallet..."
-                className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg font-mono text-sm focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50 placeholder:text-white/40"
+                className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg font-mono text-sm focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50 placeholder:text-white/40"
               />
             </div>
             <div className="flex items-end">
               <button
                 onClick={loadTransactions}
-                className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium"
+                className="w-full px-4 py-2 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded-lg font-medium shadow-lg shadow-[#00E5FF]/20"
               >
                 🔄 Refresh
               </button>
@@ -805,12 +805,12 @@ export default function AdminLaunchpadTransactionsPage() {
           </div>
 
           {/* Stats and Bulk Actions */}
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg p-4 mb-4">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-4 mb-4">
             <div className="flex items-center justify-between mb-3">
               <div className="text-sm text-white/70">
                 Showing {transactions.length} of {totalCount} transactions
                 {selectedTransactions.size > 0 && (
-                  <span className="ml-2 text-[#00d4ff] font-medium">
+                  <span className="ml-2 text-[#9945FF] font-medium">
                     ({selectedTransactions.size} selected)
                   </span>
                 )}
@@ -819,46 +819,46 @@ export default function AdminLaunchpadTransactionsPage() {
                 <button
                   onClick={() => setPage(Math.max(0, page - 1))}
                   disabled={page === 0}
-                  className="px-3 py-1 cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white rounded text-sm disabled:opacity-50"
+                  className="px-3 py-1 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-white rounded text-sm disabled:opacity-50"
                 >
                   ← Previous
                 </button>
                 <button
                   onClick={() => setPage(page + 1)}
                   disabled={(page + 1) * limit >= totalCount}
-                  className="px-3 py-1 cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white rounded text-sm disabled:opacity-50"
+                  className="px-3 py-1 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-white rounded text-sm disabled:opacity-50"
                 >
                   Next →
                 </button>
               </div>
             </div>
             {selectedTransactions.size > 0 && (
-              <div className="flex items-center gap-2 pt-3 border-t border-[#00d4ff]/20">
+              <div className="flex items-center gap-2 pt-3 border-t border-[#9945FF]/20">
                 <span className="text-sm text-white/70">Bulk Actions:</span>
                 <button
                   onClick={() => handleBulkOperation('check')}
                   disabled={bulkProcessing}
-                  className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm disabled:opacity-50"
+                  className="px-3 py-1 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded text-sm disabled:opacity-50 shadow-lg shadow-[#00E5FF]/20"
                 >
                   🔍 Check Selected
                 </button>
                 <button
                   onClick={() => handleBulkOperation('update_status')}
                   disabled={bulkProcessing}
-                  className="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white rounded text-sm disabled:opacity-50"
+                  className="px-3 py-1 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#0f0f1e] border border-[#00E5FF]/20 text-white rounded text-sm disabled:opacity-50"
                 >
                   ✏️ Update Status
                 </button>
                 <button
                   onClick={() => handleBulkOperation('mark_completed')}
                   disabled={bulkProcessing}
-                  className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm disabled:opacity-50"
+                  className="px-3 py-1 bg-gradient-to-r from-[#FFD60A] to-[#00E5FF] hover:from-[#11c97a] hover:to-[#7a35cc] text-white rounded text-sm disabled:opacity-50 shadow-lg shadow-[#FFD60A]/20"
                 >
                   ✅ Mark Completed
                 </button>
                 <button
                   onClick={() => setSelectedTransactions(new Set())}
-                  className="px-3 py-1 cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white rounded text-sm"
+                  className="px-3 py-1 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-white rounded text-sm"
                 >
                   Clear Selection
                 </button>
@@ -869,25 +869,25 @@ export default function AdminLaunchpadTransactionsPage() {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-4 p-4 cosmic-card border border-red-500/50 rounded-lg">
-            <p className="text-red-400">{error}</p>
+          <div className="mb-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-red-500/50 rounded-lg">
+            <p className="text-[#EF4444]">{error}</p>
           </div>
         )}
 
         {/* Loading State */}
         {loading ? (
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-12 text-center">
-            <div className="w-16 h-16 border-4 border-[#00d4ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow p-12 text-center">
+            <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-white/70">Loading transactions...</p>
           </div>
         ) : transactions.length === 0 ? (
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow p-12 text-center">
-            <p className="text-white/60 text-lg">No transactions found</p>
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow p-12 text-center">
+            <p className="text-[#a8a8b8]/80 text-lg">No transactions found</p>
           </div>
         ) : (
-          <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow overflow-hidden">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-[#00d4ff]/20 text-sm">
+              <table className="min-w-full divide-y divide-[#9945FF]/20 text-sm">
                 <thead className="bg-[#0a0e27]/80">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase">
@@ -910,9 +910,9 @@ export default function AdminLaunchpadTransactionsPage() {
                     <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#00d4ff]/20">
+                <tbody className="divide-y divide-[#9945FF]/20">
                   {transactions.map((transaction) => (
-                    <tr key={transaction.id} className="hover:bg-[#00d4ff]/5">
+                    <tr key={transaction.id} className="hover:bg-[#9945FF]/5">
                       <td className="px-4 py-3 whitespace-nowrap">
                         <input
                           type="checkbox"
@@ -923,14 +923,14 @@ export default function AdminLaunchpadTransactionsPage() {
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
                         <div className="text-xs font-medium text-white">{transaction.collection_name}</div>
-                        <div className="text-xs text-white/60">{transaction.collection_id.slice(0, 8)}...</div>
+                        <div className="text-xs text-[#a8a8b8]/80">{transaction.collection_id.slice(0, 8)}...</div>
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
                         <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusBadge(transaction.mint_status)}`}>
                           {transaction.mint_status}
                         </span>
                         {transaction.error_message && (
-                          <div className="text-xs text-red-400 mt-1" title={transaction.error_message}>
+                          <div className="text-xs text-[#EF4444] mt-1" title={transaction.error_message}>
                             ⚠️ {transaction.error_code || 'Error'}
                           </div>
                         )}
@@ -951,12 +951,12 @@ export default function AdminLaunchpadTransactionsPage() {
                             href={`https://mempool.space/tx/${transaction.commit_tx_id}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-blue-600 hover:text-blue-800 font-mono"
+                            className="text-xs text-[#9945FF] hover:text-blue-800 font-mono"
                           >
                             {transaction.commit_tx_id.slice(0, 12)}...
                           </a>
                         ) : (
-                          <span className="text-xs text-gray-400">—</span>
+                          <span className="text-xs text-[#a8a8b8]">—</span>
                         )}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
@@ -965,12 +965,12 @@ export default function AdminLaunchpadTransactionsPage() {
                             href={`https://mempool.space/tx/${transaction.reveal_tx_id}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-blue-600 hover:text-blue-800 font-mono"
+                            className="text-xs text-[#9945FF] hover:text-blue-800 font-mono"
                           >
                             {transaction.reveal_tx_id.slice(0, 12)}...
                           </a>
                         ) : (
-                          <span className="text-xs text-gray-400">—</span>
+                          <span className="text-xs text-[#a8a8b8]">—</span>
                         )}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
@@ -979,20 +979,20 @@ export default function AdminLaunchpadTransactionsPage() {
                             href={`https://ordinals.com/inscription/${transaction.inscription_id}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-blue-600 hover:text-blue-800 font-mono"
+                            className="text-xs text-[#9945FF] hover:text-blue-800 font-mono"
                           >
                             {transaction.inscription_id.slice(0, 12)}...
                           </a>
                         ) : (
-                          <span className="text-xs text-gray-400">—</span>
+                          <span className="text-xs text-[#a8a8b8]">—</span>
                         )}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
-                        <div className="text-xs font-mono text-white/80">
+                        <div className="text-xs font-mono text-[#a8a8b8]">
                           {transaction.minter_wallet.slice(0, 8)}...{transaction.minter_wallet.slice(-6)}
                         </div>
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-xs text-white/60">
+                      <td className="px-4 py-3 whitespace-nowrap text-xs text-[#a8a8b8]/80">
                         {formatDate(transaction.created_at)}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
@@ -1002,16 +1002,16 @@ export default function AdminLaunchpadTransactionsPage() {
                           <div className="text-xs">
                             <div className="text-green-400 font-medium">✅ Paid</div>
                             {transaction.creator_payment_amount && (
-                              <div className="text-white/60">
+                              <div className="text-[#a8a8b8]/80">
                                 {(transaction.creator_payment_amount / 100000000).toFixed(8)} BTC
                               </div>
                             )}
                           </div>
                         ) : (
                           <div className="text-xs">
-                            <div className="text-red-400 font-medium">❌ Not Paid</div>
+                            <div className="text-[#EF4444] font-medium">❌ Not Paid</div>
                             {transaction.creator_payment_wallet && (
-                              <div className="text-white/60 text-xs font-mono">
+                              <div className="text-[#a8a8b8]/80 text-xs font-mono">
                                 Expected: {transaction.creator_payment_wallet.slice(0, 8)}...
                               </div>
                             )}
@@ -1023,7 +1023,7 @@ export default function AdminLaunchpadTransactionsPage() {
                           <button
                             onClick={() => handleCheckTransaction(transaction)}
                             disabled={processing === `check-${transaction.id}` || !!processing}
-                            className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-medium disabled:opacity-50"
+                            className="px-2 py-1 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded text-xs font-medium disabled:opacity-50 shadow-lg shadow-[#00E5FF]/20"
                             title="Check both commit and reveal"
                           >
                             {processing === `check-${transaction.id}` ? '...' : '🔍 Check'}
@@ -1033,7 +1033,7 @@ export default function AdminLaunchpadTransactionsPage() {
                             <button
                               onClick={() => handleFixCommitValue(transaction)}
                               disabled={processing === `fix-${transaction.id}` || !!processing}
-                              className="px-2 py-1 bg-yellow-600 hover:bg-yellow-700 text-white rounded text-xs font-medium disabled:opacity-50"
+                              className="px-2 py-1 bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] hover:from-[#7a35cc] hover:to-[#11c97a] text-white rounded text-xs font-medium disabled:opacity-50 shadow-lg shadow-[#00E5FF]/20"
                               title="Fix missing commit output value from reveal_data"
                             >
                               {processing === `fix-${transaction.id}` ? '...' : '🔧 Fix Value'}
@@ -1044,7 +1044,7 @@ export default function AdminLaunchpadTransactionsPage() {
                             <button
                               onClick={() => handleBroadcastReveal(transaction)}
                               disabled={processing === `reveal-${transaction.id}` || !!processing}
-                              className="px-2 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-xs font-medium disabled:opacity-50"
+                              className="px-2 py-1 bg-gradient-to-r from-[#FFD60A] to-[#00E5FF] hover:from-[#11c97a] hover:to-[#7a35cc] text-white rounded text-xs font-medium disabled:opacity-50 shadow-lg shadow-[#FFD60A]/20"
                               title="Broadcast reveal transaction"
                             >
                               {processing === `reveal-${transaction.id}` ? '...' : '📜 Broadcast Reveal'}
@@ -1063,7 +1063,7 @@ export default function AdminLaunchpadTransactionsPage() {
                           )}
                           <button
                             onClick={() => handleEdit(transaction)}
-                            className="px-2 py-1 bg-gray-600 hover:bg-gray-700 text-white rounded text-xs font-medium"
+                            className="px-2 py-1 bg-gray-600 hover:bg-[#1a1a24]/80 text-white rounded text-xs font-medium"
                           >
                             ✏️ Edit
                           </button>
@@ -1088,7 +1088,7 @@ export default function AdminLaunchpadTransactionsPage() {
         {/* Edit Modal */}
         {editingTransaction && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="cosmic-card border border-[#00d4ff]/30 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
               <div className="p-6">
                 <h2 className="text-xl font-bold text-white mb-4">Edit Transaction</h2>
                 
@@ -1098,7 +1098,7 @@ export default function AdminLaunchpadTransactionsPage() {
                     <select
                       value={editForm.mint_status}
                       onChange={(e) => setEditForm({ ...editForm, mint_status: e.target.value })}
-                      className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50"
+                      className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50"
                     >
                       <option value="pending">Pending</option>
                       <option value="commit_broadcast">Commit Broadcast</option>
@@ -1117,7 +1117,7 @@ export default function AdminLaunchpadTransactionsPage() {
                         type="number"
                         value={editForm.commit_confirmations}
                         onChange={(e) => setEditForm({ ...editForm, commit_confirmations: e.target.value })}
-                        className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50 placeholder:text-white/40"
+                        className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50 placeholder:text-white/40"
                         placeholder="Leave empty for null"
                       />
                     </div>
@@ -1127,7 +1127,7 @@ export default function AdminLaunchpadTransactionsPage() {
                         type="number"
                         value={editForm.reveal_confirmations}
                         onChange={(e) => setEditForm({ ...editForm, reveal_confirmations: e.target.value })}
-                        className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50 placeholder:text-white/40"
+                        className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50 placeholder:text-white/40"
                         placeholder="Leave empty for null"
                       />
                     </div>
@@ -1139,7 +1139,7 @@ export default function AdminLaunchpadTransactionsPage() {
                       type="text"
                       value={editForm.error_message}
                       onChange={(e) => setEditForm({ ...editForm, error_message: e.target.value })}
-                      className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50 placeholder:text-white/40"
+                      className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50 placeholder:text-white/40"
                       placeholder="Error message"
                     />
                   </div>
@@ -1150,12 +1150,12 @@ export default function AdminLaunchpadTransactionsPage() {
                       type="text"
                       value={editForm.error_code}
                       onChange={(e) => setEditForm({ ...editForm, error_code: e.target.value })}
-                      className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50 placeholder:text-white/40"
+                      className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50 placeholder:text-white/40"
                       placeholder="Error code"
                     />
                   </div>
 
-                  <div className="border-t border-[#00d4ff]/20 pt-4 mt-4">
+                  <div className="border-t border-[#9945FF]/20 pt-4 mt-4">
                     <h3 className="text-sm font-semibold text-white/70 mb-3">Timestamp Fields</h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -1164,7 +1164,7 @@ export default function AdminLaunchpadTransactionsPage() {
                           type="datetime-local"
                           value={editForm.commit_confirmed_at}
                           onChange={(e) => setEditForm({ ...editForm, commit_confirmed_at: e.target.value })}
-                          className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50"
+                          className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50"
                         />
                       </div>
                       <div>
@@ -1173,7 +1173,7 @@ export default function AdminLaunchpadTransactionsPage() {
                           type="datetime-local"
                           value={editForm.reveal_confirmed_at}
                           onChange={(e) => setEditForm({ ...editForm, reveal_confirmed_at: e.target.value })}
-                          className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50"
+                          className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50"
                         />
                       </div>
                       <div>
@@ -1182,7 +1182,7 @@ export default function AdminLaunchpadTransactionsPage() {
                           type="datetime-local"
                           value={editForm.completed_at}
                           onChange={(e) => setEditForm({ ...editForm, completed_at: e.target.value })}
-                          className="w-full px-3 py-2 cosmic-card border border-[#00d4ff]/30 text-white rounded-lg focus:ring-2 focus:ring-[#00d4ff] focus:border-[#00d4ff]/50"
+                          className="w-full px-3 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF] focus:border-[#9945FF]/50"
                         />
                       </div>
                     </div>
@@ -1190,7 +1190,7 @@ export default function AdminLaunchpadTransactionsPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-3 mt-6 pt-4 border-t border-[#00d4ff]/20">
+                <div className="flex gap-3 mt-6 pt-4 border-t border-[#9945FF]/20">
                   <button
                     onClick={handleSaveEdit}
                     disabled={processing === `edit-${editingTransaction.id}`}
@@ -1200,7 +1200,7 @@ export default function AdminLaunchpadTransactionsPage() {
                   </button>
                   <button
                     onClick={() => setEditingTransaction(null)}
-                    className="px-4 py-2 cosmic-card border border-[#00d4ff]/30 hover:border-[#00d4ff]/50 text-white rounded-lg font-medium"
+                    className="px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-white rounded-lg font-medium"
                   >
                     Cancel
                   </button>

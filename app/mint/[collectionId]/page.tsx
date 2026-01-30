@@ -726,7 +726,7 @@ export default function MintPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-red-950 via-black to-purple-950 flex items-center justify-center">
-        <div className="text-red-400 text-xl">Loading...</div>
+        <div className="text-[#EF4444] text-xl">Loading...</div>
       </div>
     )
   }
@@ -775,7 +775,7 @@ export default function MintPage() {
                 </h1>
               </div>
               {collection && (
-                <p className="text-gray-400 text-sm mt-2 ml-1">{collection.name}</p>
+                <p className="text-[#a8a8b8] text-sm mt-2 ml-1">{collection.name}</p>
               )}
             </div>
             <div className="flex items-center gap-4">
@@ -846,7 +846,7 @@ export default function MintPage() {
                 <div className="space-y-6">
                   {/* Quantity Selector */}
                   <div>
-                    <label className="block text-white/80 text-sm font-bold mb-4 uppercase tracking-wider">
+                    <label className="block text-[#a8a8b8] text-sm font-bold mb-4 uppercase tracking-wider">
                       Quantity
                     </label>
                     <div className="flex items-center gap-4 mb-2">
@@ -890,30 +890,30 @@ export default function MintPage() {
 
                   {/* Network Fee Selector */}
                   <div>
-                    <label className="block text-white/80 text-sm font-bold mb-4 uppercase tracking-wider">
+                    <label className="block text-[#a8a8b8] text-sm font-bold mb-4 uppercase tracking-wider">
                       Network Fee (sat/vB)
                     </label>
                     {mempoolHealth && (
                       <div className="mb-3 p-3 bg-black/60 border border-red-900/30 rounded-lg">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-semibold text-white/80">
+                          <span className="text-xs font-semibold text-[#a8a8b8]">
                             Mempool Health: 
                             <span className={`ml-2 ${
                               mempoolHealth.healthRating === 'excellent' ? 'text-green-400' :
                               mempoolHealth.healthRating === 'good' ? 'text-blue-400' :
-                              mempoolHealth.healthRating === 'fair' ? 'text-yellow-400' :
-                              'text-red-400'
+                              mempoolHealth.healthRating === 'fair' ? 'text-[#FBBF24]' :
+                              'text-[#EF4444]'
                             }`}>
                               {mempoolHealth.healthRating.toUpperCase()}
                             </span>
                           </span>
-                          <span className="text-xs text-white/60">
+                          <span className="text-xs text-[#a8a8b8]/80">
                             {mempoolHealth.blocksWithSub1Sat}/{mempoolHealth.totalBlocks} blocks
                           </span>
                         </div>
-                        <p className="text-xs text-white/60 mb-1">{mempoolHealth.healthMessage}</p>
-                        <p className="text-xs text-white/80">
-                          Suggested: <span className="font-bold text-red-400">{mempoolHealth.suggestedFeeRate.toFixed(2)} sat/vB</span> (avg + 0.02)
+                        <p className="text-xs text-[#a8a8b8]/80 mb-1">{mempoolHealth.healthMessage}</p>
+                        <p className="text-xs text-[#a8a8b8]">
+                          Suggested: <span className="font-bold text-[#EF4444]">{mempoolHealth.suggestedFeeRate.toFixed(2)} sat/vB</span> (avg + 0.02)
                         </p>
                       </div>
                     )}
@@ -996,20 +996,20 @@ export default function MintPage() {
                           )}
                           <div className="border-t border-red-900/30 my-2"></div>
                           <div className="flex justify-between items-center">
-                            <span className="text-white/60 text-xs">Commit Fee</span>
-                            <span className="text-white/80 font-mono text-xs">{costs.commitFee} sats</span>
+                            <span className="text-[#a8a8b8]/80 text-xs">Commit Fee</span>
+                            <span className="text-[#a8a8b8] font-mono text-xs">{costs.commitFee} sats</span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-white/60 text-xs">Reveal Fee</span>
-                            <span className="text-white/80 font-mono text-xs">{costs.revealFee} sats</span>
+                            <span className="text-[#a8a8b8]/80 text-xs">Reveal Fee</span>
+                            <span className="text-[#a8a8b8] font-mono text-xs">{costs.revealFee} sats</span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-white/60 text-xs">Output Values</span>
-                            <span className="text-white/80 font-mono text-xs">{costs.outputs} sats</span>
+                            <span className="text-[#a8a8b8]/80 text-xs">Output Values</span>
+                            <span className="text-[#a8a8b8] font-mono text-xs">{costs.outputs} sats</span>
                           </div>
                           <div className="border-t border-red-900/50 pt-3 mt-3">
                             <div className="flex justify-between items-center mb-2">
-                              <span className="text-white/80">Per Inscription</span>
+                              <span className="text-[#a8a8b8]">Per Inscription</span>
                               <span className="text-white font-mono">{costs.perInscription} sats</span>
                             </div>
                             <div className="flex justify-between items-center">
@@ -1082,7 +1082,7 @@ export default function MintPage() {
                         </div>
                       ) : (
                         <div>
-                          <p className="text-red-400 font-bold text-sm mb-2">
+                          <p className="text-[#EF4444] font-bold text-sm mb-2">
                             ❌ Wallet Not Whitelisted
                           </p>
                           <p className="text-red-300 text-xs mb-1">
@@ -1118,17 +1118,17 @@ export default function MintPage() {
                 <button
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 bg-black/60 border-2 border-red-900 text-red-400 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-900/30 transition-colors"
+                  className="px-4 py-2 bg-black/60 border-2 border-red-900 text-[#EF4444] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-900/30 transition-colors"
                 >
                   ← Prev
                 </button>
-                <span className="text-gray-300 px-4">
+                <span className="text-white px-4">
                   Page {currentPage} of {totalPages}
                 </span>
                 <button
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 bg-black/60 border-2 border-red-900 text-red-400 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-900/30 transition-colors"
+                  className="px-4 py-2 bg-black/60 border-2 border-red-900 text-[#EF4444] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-900/30 transition-colors"
                 >
                   Next →
                 </button>
@@ -1138,15 +1138,15 @@ export default function MintPage() {
             {/* Ordinals Grid */}
             {loading ? (
               <div className="text-center py-12">
-                <div className="text-gray-400">Loading ordinals...</div>
+                <div className="text-[#a8a8b8]">Loading ordinals...</div>
               </div>
             ) : ordinals.length === 0 ? (
               <div className="bg-black/40 border-2 border-red-900/50 rounded-lg p-12 text-center">
                 <div className="text-6xl mb-4">🎃</div>
-                <p className="text-gray-400 text-lg mb-4">No ordinals available for minting</p>
+                <p className="text-[#a8a8b8] text-lg mb-4">No ordinals available for minting</p>
                 <Link
                   href={`/collections/${params.collectionId}`}
-                  className="text-red-400 hover:text-red-300 underline"
+                  className="text-[#EF4444] hover:text-red-300 underline"
                 >
                   Generate ordinals first →
                 </Link>
@@ -1162,7 +1162,7 @@ export default function MintPage() {
                       className={`relative aspect-square rounded-lg overflow-hidden border-4 transition-all transform hover:scale-105 disabled:cursor-not-allowed ${
                         selectedOrdinals.has(ordinal.id)
                           ? 'border-yellow-400 shadow-lg shadow-yellow-900/50'
-                          : 'border-red-900/50 hover:border-red-700'
+                          : 'border-red-900/50 hover:border-[#EF4444]/20'
                       }`}
                     >
                       <Image
@@ -1191,17 +1191,17 @@ export default function MintPage() {
                     <button
                       onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="px-4 py-2 bg-black/60 border-2 border-red-900 text-red-400 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-900/30 transition-colors"
+                      className="px-4 py-2 bg-black/60 border-2 border-red-900 text-[#EF4444] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-900/30 transition-colors"
                     >
                       ← Prev
                     </button>
-                    <span className="text-gray-300 px-4">
+                    <span className="text-white px-4">
                       Page {currentPage} of {totalPages}
                     </span>
                     <button
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
-                      className="px-4 py-2 bg-black/60 border-2 border-red-900 text-red-400 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-900/30 transition-colors"
+                      className="px-4 py-2 bg-black/60 border-2 border-red-900 text-[#EF4444] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-900/30 transition-colors"
                     >
                       Next →
                     </button>

@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useSearchParams } from 'next/navigation'
-import { ConditionalHeader } from '@/components/conditional-header'
+import { SidebarNav } from '@/components/sidebar-nav'
 import { GlobalFooter } from '@/components/global-footer'
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -13,19 +13,24 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const seeAll = searchParams.get('seeall') === '1'
   const showComingSoon = isHomepage && !seeAll
   
-  // If coming soon, render children without header/footer
+  // If coming soon, render children without sidebar/footer
   if (showComingSoon) {
     return <>{children}</>
   }
   
-  // Normal layout with header and footer
+  // New layout with left sidebar
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden">
-      <ConditionalHeader />
-      <main className="flex-1 overflow-x-hidden">
-        {children}
-      </main>
-      <GlobalFooter />
+    <div className="flex min-h-screen overflow-x-hidden">
+      {/* Left Sidebar */}
+      <SidebarNav />
+      
+      {/* Main Content Area - Full width with proper padding */}
+      <div className="flex-1 flex flex-col lg:ml-64 w-full">
+        <main className="flex-1 overflow-x-hidden w-full px-6 lg:px-12 py-6">
+          {children}
+        </main>
+        <GlobalFooter />
+      </div>
     </div>
   )
 }
