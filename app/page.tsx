@@ -46,7 +46,25 @@ function HomePageContent() {
                 <div className="mb-12 relative">
                   <div className="w-32 h-32 mx-auto bg-gradient-to-br from-[#9945FF] via-[#DC1FFF] to-[#14F195] rounded-3xl flex items-center justify-center shadow-2xl shadow-[#9945FF]/50 animate-[solanaPulse_3s_ease-in-out_infinite] relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shimmer_2s_infinite]" />
-                    <span className="text-7xl relative z-10">✨</span>
+                    <svg className="w-20 h-20 relative z-10" viewBox="0 0 646 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M108.53 75.6899L90.81 94.6899C90.4267 95.1026 89.9626 95.432 89.4464 95.6573C88.9303 95.8827 88.3732 95.9994 87.81 95.9999H3.81C3.40937 96.0065 3.01749 95.8778 2.69685 95.6334C2.37622 95.3891 2.14602 95.0423 2.04315 94.6482C1.94028 94.2541 1.97076 93.8361 2.12982 93.4619C2.28888 93.0878 2.56774 92.7782 2.92 92.5799L20.64 73.5799C21.0226 73.1662 21.4867 72.8358 22.003 72.6096C22.5194 72.3835 23.0769 72.2665 23.64 72.2659H107.64C108.041 72.2594 108.432 72.388 108.753 72.6324C109.073 72.8767 109.304 73.2235 109.407 73.6176C109.509 74.0117 109.479 74.4297 109.32 74.8038C109.161 75.178 108.882 75.4876 108.53 75.6859V75.6899Z" fill="url(#paint0_linear)"/>
+                      <path d="M108.53 38.7388L90.81 57.7388C90.4261 58.1506 89.9616 58.4795 89.4454 58.7044C88.9292 58.9293 88.3724 59.0456 87.81 59.0458H3.81C3.40937 59.0524 3.01749 58.9237 2.69685 58.6794C2.37622 58.435 2.14602 58.0882 2.04315 57.6941C1.94028 57.3 1.97076 56.882 2.12982 56.5079C2.28888 56.1337 2.56774 55.8241 2.92 55.6258L20.64 36.6258C21.0226 36.2122 21.4867 35.8817 22.003 35.6556C22.5194 35.4295 23.0769 35.3125 23.64 35.3118H107.64C108.041 35.3053 108.432 35.434 108.753 35.6783C109.073 35.9227 109.304 36.2694 109.407 36.6635C109.509 37.0576 109.479 37.4757 109.32 37.8498C109.161 38.2239 108.882 38.5335 108.53 38.7318V38.7388Z" fill="url(#paint1_linear)"/>
+                      <path d="M20.64 22.2659L2.92 3.26592C2.56774 3.06761 2.28888 2.75801 2.12982 2.38386C1.97076 2.00972 1.94028 1.59171 2.04315 1.19763C2.14602 0.803546 2.37622 0.456721 2.69685 0.212364C3.01749 -0.031994 3.40937 -0.160697 3.81 -0.154079H87.81C88.3732 -0.154633 88.9303 -0.0379151 89.4464 0.187428C89.9626 0.412771 90.4267 0.742183 90.81 1.15492L108.53 20.1549C108.882 20.3532 109.161 20.6628 109.32 21.037C109.479 21.4111 109.509 21.8291 109.407 22.2232C109.304 22.6173 109.073 22.9641 108.753 23.2085C108.432 23.4528 108.041 23.5815 107.64 23.5749H23.64C23.0769 23.5743 22.5194 23.4573 22.003 23.2312C21.4867 23.0051 21.0226 22.6746 20.64 22.2609V22.2659Z" fill="url(#paint2_linear)"/>
+                      <defs>
+                        <linearGradient id="paint0_linear" x1="105.47" y1="72.2659" x2="8.36001" y2="99.5259" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#00FFA3"/>
+                          <stop offset="1" stopColor="#DC1FFF"/>
+                        </linearGradient>
+                        <linearGradient id="paint1_linear" x1="105.47" y1="35.3118" x2="8.36001" y2="62.5718" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#00FFA3"/>
+                          <stop offset="1" stopColor="#DC1FFF"/>
+                        </linearGradient>
+                        <linearGradient id="paint2_linear" x1="8.36001" y1="-0.154079" x2="105.47" y2="27.1059" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#00FFA3"/>
+                          <stop offset="1" stopColor="#DC1FFF"/>
+                        </linearGradient>
+                      </defs>
+                    </svg>
                   </div>
                   {/* Orbiting elements */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48">
