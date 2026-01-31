@@ -493,6 +493,30 @@ export default function AdminPage() {
     )
   }
 
+  // Show wallet connect screen if not connected
+  if (!isConnected || !currentAddress) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] flex items-center justify-center p-8">
+        <div className="max-w-md w-full">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-2xl p-8 text-center shadow-xl shadow-[#9945FF]/10 backdrop-blur-md">
+            <div className="text-6xl mb-6">👛</div>
+            <h1 className="text-3xl font-black text-[#9945FF] mb-4">Connect Your Wallet</h1>
+            <p className="text-white mb-4">Please connect your admin wallet to access the dashboard.</p>
+            <p className="text-[#a8a8b8] text-sm mb-6">
+              You'll need to verify ownership after connecting.
+            </p>
+            <div className="mb-6">
+              <WalletConnect />
+            </div>
+            <Link href="/" className="text-[#9945FF] hover:text-[#14F195] transition-colors">
+              ← Back to Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (requiresVerification) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] flex items-center justify-center p-8">
@@ -501,22 +525,28 @@ export default function AdminPage() {
             <div className="text-6xl mb-6">✋</div>
             <h1 className="text-3xl font-black text-[#FBBF24] mb-4">Verification Required</h1>
             <p className="text-white mb-4">You must verify your wallet by signing a message to access the admin dashboard.</p>
-            <p className="text-[#a8a8b8] text-sm mb-6">
+            <p className="text-[#a8a8b8] text-sm mb-4">
+              Connected: {currentAddress?.slice(0, 8)}...{currentAddress?.slice(-6)}
+            </p>
+            <p className="text-[#a8a8b8] text-xs mb-6">
               This ensures you actually own the wallet address.
             </p>
             {isVerifying ? (
               <div className="px-6 py-3 bg-gradient-to-r from-[#FBBF24] to-[#F59E0B] text-white rounded-xl font-bold mb-4">
-                Verifying...
+                Verifying... Check your wallet for the signature request
               </div>
             ) : (
               <button
                 onClick={verifyWallet}
                 className="w-full px-8 py-3 bg-gradient-to-r from-[#FBBF24] to-[#F59E0B] hover:from-[#F59E0B] hover:to-[#FBBF24] text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-[#FBBF24]/40 hover:shadow-xl hover:shadow-[#FBBF24]/50 hover:scale-105 active:scale-95 mb-4"
               >
-                Verify Wallet
+                Sign Message to Verify
               </button>
             )}
-            <Link href="/" className="text-[#9945FF] hover:text-[#14F195] transition-colors">
+            <div className="mt-4">
+              <WalletConnect />
+            </div>
+            <Link href="/" className="block mt-4 text-[#9945FF] hover:text-[#14F195] transition-colors">
               ← Back to Home
             </Link>
           </div>
