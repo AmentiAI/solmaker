@@ -75,7 +75,7 @@ export function NftCard({
           </div>
           <div
             className="absolute top-0 bottom-0 w-1 bg-[#FDFCFA] border-l-2 border-r-2 border-blue-500 cursor-ew-resize z-10 shadow-lg"
-            style={{ left: `${imageSliders[ordinal.id] ?? 50}%`, transform: 'translateX(-50%)' }}
+            style={{ left: `${imageSliders[nft.id] ?? 50}%`, transform: 'translateX(-50%)' }}
             onMouseDown={(e) => {
               e.preventDefault()
               const container = e.currentTarget.parentElement

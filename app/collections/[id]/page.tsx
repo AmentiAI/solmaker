@@ -42,6 +42,7 @@ export default function CollectionDetailsPage() {
   const params = useParams()
   const router = useRouter()
   const { currentAddress, isConnected } = useWallet()
+  const [mounted, setMounted] = useState(false)
   const [activeTab, setActiveTab] = useState<'generated' | 'compression'>('generated')
   const [compressionQuality, setCompressionQuality] = useState(100)
   const [compressionDimensions, setCompressionDimensions] = useState<number | ''>(1024)
@@ -75,6 +76,11 @@ export default function CollectionDetailsPage() {
   // Security check: user role determines access (set by useCollectionPageLogic after API auth check)
   const isUserAdmin = isAdmin(currentAddress || null)
   const hasAccess = userRole === 'owner' || userRole === 'editor' || userRole === 'viewer' || isUserAdmin
+
+  // Handle hydration - only show client-specific content after mount
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Initialize compression settings from collection
   useEffect(() => {
@@ -140,7 +146,18 @@ export default function CollectionDetailsPage() {
     }
   }
 
-  // Not connected - show connect prompt
+  // Show loading state during SSR and initial hydration
+  if (!mounted || loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto text-center py-8">
+            <div className="text-white">Loading collection...</div>
+        </div>
+      </div>
+    )
+  }
+
+  // Not connected - show connect prompt (only after hydration)
   if (!isConnected || !currentAddress) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -155,16 +172,6 @@ export default function CollectionDetailsPage() {
               Go to Collections
             </Link>
           </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto text-center py-8">
-            <div className="text-white">Loading collection...</div>
         </div>
       </div>
     )

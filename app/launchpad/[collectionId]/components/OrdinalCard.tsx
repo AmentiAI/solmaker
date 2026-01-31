@@ -35,7 +35,7 @@ export const NftCard = memo(function NftCard({
   lockExpirySeconds,
   isLocking,
   onClick,
-}: OrdinalCardProps) {
+}: NftCardProps) {
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (canClick && !isLocking) {
