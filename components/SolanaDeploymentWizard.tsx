@@ -17,6 +17,26 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
   const [steps, setSteps] = useState<DeploymentStep[]>([])
   const [isDeploying, setIsDeploying] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [network, setNetwork] = useState<string>('devnet')
+  const [loadingNetwork, setLoadingNetwork] = useState(true)
+
+  // Load network on mount
+  useState(() => {
+    async function loadNetwork() {
+      try {
+        const response = await fetch('/api/solana/network')
+        if (response.ok) {
+          const data = await response.json()
+          setNetwork(data.network)
+        }
+      } catch (error) {
+        console.error('Failed to load network:', error)
+      } finally {
+        setLoadingNetwork(false)
+      }
+    }
+    loadNetwork()
+  })
 
   const handleDeploy = async () => {
     if (!connected || !publicKey) {
@@ -69,6 +89,16 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
         <CardDescription>
           Deploy your collection as a Candy Machine on Solana blockchain
         </CardDescription>
+        {!loadingNetwork && (
+          <div className="mt-3 px-3 py-2 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 rounded-lg">
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-white/70">Network:</span>
+              <span className={`font-semibold ${network === 'mainnet-beta' ? 'text-green-400' : 'text-blue-400'}`}>
+                {network === 'mainnet-beta' ? '🚀 Mainnet (Production)' : '🧪 Devnet (Testing)'}
+              </span>
+            </div>
+          </div>
+        )}
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Deployment Steps */}

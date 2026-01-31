@@ -34,6 +34,23 @@ export function LaunchStep({
   const [loadingStats, setLoadingStats] = useState(false)
   const [exporting, setExporting] = useState(false)
   const [metadataRecordCount, setMetadataRecordCount] = useState<number>(0)
+  const [solanaNetwork, setSolanaNetwork] = useState<string>('devnet')
+  
+  // Load Solana network on mount
+  useEffect(() => {
+    async function loadNetwork() {
+      try {
+        const response = await fetch('/api/solana/network')
+        if (response.ok) {
+          const data = await response.json()
+          setSolanaNetwork(data.network)
+        }
+      } catch (error) {
+        console.error('Failed to load Solana network:', error)
+      }
+    }
+    loadNetwork()
+  }, [])
   
   // Compression check state
   const [checkingSizes, setCheckingSizes] = useState(false)
@@ -1001,9 +1018,19 @@ export function LaunchStep({
               <div className="text-4xl">🚀</div>
               <div>
                 <h3 className="font-bold text-[#9945FF] text-xl mb-2">Deploy to Solana First</h3>
+                <div className="mb-2 inline-block px-3 py-1 rounded-lg text-sm font-semibold" style={{
+                  background: solanaNetwork === 'mainnet-beta' 
+                    ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
+                    : 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                  color: 'white'
+                }}>
+                  {solanaNetwork === 'mainnet-beta' ? '🚀 Mainnet (Production)' : '🧪 Devnet (Testing)'}
+                </div>
                 <p className="text-white/70 text-sm mb-3">
                   Before launching, you need to deploy your collection as a Candy Machine on Solana blockchain.
-                  This is a one-time cost of approximately <span className="text-[#00d4ff] font-semibold">~0.16 SOL (~$32)</span>.
+                  This is a one-time cost of approximately <span className="text-[#00d4ff] font-semibold">
+                    {solanaNetwork === 'mainnet-beta' ? '~0.16 SOL (~$32)' : '~0.16 devnet SOL (free from faucet)'}
+                  </span>.
                 </p>
                 <div className="bg-black/30 rounded-lg p-4 space-y-2 text-sm">
                   <div className="flex items-center gap-2">
