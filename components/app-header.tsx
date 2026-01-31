@@ -238,6 +238,18 @@ export function AppHeader() {
                 Buy Credits
               </Link>
             )}
+            {authorized && (
+              <Link
+                href="/admin"
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 border ${
+                  pathname?.startsWith('/admin')
+                    ? 'text-white bg-gradient-to-r from-purple-600 to-pink-600 border-purple-500/50 shadow-lg shadow-purple-500/30'
+                    : 'text-purple-400 border-purple-500/30 hover:text-white hover:bg-purple-600/20 hover:border-purple-500/50'
+                }`}
+              >
+                ⚙️ Admin
+              </Link>
+            )}
           </nav>
 
           {/* Right Side - Market Data + Wallet */}
@@ -341,6 +353,18 @@ export function AppHeader() {
                   <div className="flex items-center gap-3">
                     <span className="text-lg">💎</span>
                     <span>Buy Credits</span>
+                  </div>
+                </Link>
+              )}
+              {authorized && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 border border-purple-500/30 bg-gradient-to-r from-purple-600/20 to-pink-600/20 text-purple-400 hover:text-white hover:border-purple-500/50"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">⚙️</span>
+                    <span>Admin Panel</span>
                   </div>
                 </Link>
               )}
