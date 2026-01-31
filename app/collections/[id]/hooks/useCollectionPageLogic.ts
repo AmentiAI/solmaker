@@ -230,12 +230,14 @@ export function useCollectionPageLogic(collectionId: string | string[] | undefin
 
   useEffect(() => {
     if (!collectionId) return
+    // Poll more frequently (every 5 seconds) when there are jobs processing, otherwise every 30 seconds
+    const pollInterval = (queuedJobs > 0 || processingJobs > 0) ? 5000 : 30000
     const interval = setInterval(() => {
       loadJobStatusOnly()
       if (currentPage === 1) loadOrdinalsOnly()
-    }, 30000)
+    }, pollInterval)
     return () => clearInterval(interval)
-  }, [collectionId, currentPage])
+  }, [collectionId, currentPage, queuedJobs, processingJobs])
 
   const handleGenerate = async () => {
     const isUserAdmin = isAdmin(currentAddress || null)

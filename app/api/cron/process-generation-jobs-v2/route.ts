@@ -1356,8 +1356,8 @@ async function processJob(
     // Get collection details (trait-based only)
     const collectionResult = await sql`
       SELECT id, name, description, art_style, border_requirements, custom_rules, colors_description, lighting_description,
-             COALESCE(compression_quality, 100) as compression_quality,
-             COALESCE(compression_dimensions, 1024) as compression_dimensions,
+             COALESCE(compression_quality::integer, 100) as compression_quality,
+             COALESCE(compression_dimensions::integer, 1024) as compression_dimensions,
              compression_target_kb,
              COALESCE(is_pfp_collection, false) as is_pfp_collection,
              facing_direction,
