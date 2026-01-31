@@ -25,7 +25,7 @@ async function ensureTableExists() {
     // Insert default settings if they don't exist
     await sql`
       INSERT INTO site_settings (setting_key, setting_value, description)
-      VALUES ('show_credit_purchase', 'true'::jsonb, 'Whether to show credit purchase functionality across the site')
+      VALUES ('show_credit_purchase', ${JSON.stringify(true)}, 'Whether to show credit purchase functionality across the site')
       ON CONFLICT (setting_key) DO NOTHING
     `
     
@@ -153,9 +153,11 @@ export async function PUT(request: NextRequest) {
     await ensureTableExists()
 
     // Update or insert the setting
+    // Pass JSON.stringify(value) directly - Neon driver handles JSONB conversion
+    const jsonValue = JSON.stringify(value)
     const result = await sql`
       INSERT INTO site_settings (setting_key, setting_value, updated_at)
-      VALUES (${key}, ${JSON.stringify(value)}::jsonb, CURRENT_TIMESTAMP)
+      VALUES (${key}, ${jsonValue}, CURRENT_TIMESTAMP)
       ON CONFLICT (setting_key) 
       DO UPDATE SET 
         setting_value = EXCLUDED.setting_value,

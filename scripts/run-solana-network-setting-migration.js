@@ -19,7 +19,7 @@ async function runMigration() {
       INSERT INTO site_settings (setting_key, setting_value, description)
       VALUES (
         'solana_network',
-        '"devnet"'::jsonb,
+        ${JSON.stringify('devnet')},
         'Solana network to use for deployments and minting (devnet or mainnet-beta)'
       )
       ON CONFLICT (setting_key) DO NOTHING
@@ -30,7 +30,7 @@ async function runMigration() {
       INSERT INTO site_settings (setting_key, setting_value, description)
       VALUES (
         'solana_rpc_mainnet',
-        '"https://api.mainnet-beta.solana.com"'::jsonb,
+        ${JSON.stringify('https://api.mainnet-beta.solana.com')},
         'Solana RPC endpoint for mainnet-beta'
       )
       ON CONFLICT (setting_key) DO NOTHING
@@ -41,7 +41,7 @@ async function runMigration() {
       INSERT INTO site_settings (setting_key, setting_value, description)
       VALUES (
         'solana_rpc_devnet',
-        '"https://api.devnet.solana.com"'::jsonb,
+        ${JSON.stringify('https://api.devnet.solana.com')},
         'Solana RPC endpoint for devnet'
       )
       ON CONFLICT (setting_key) DO NOTHING
