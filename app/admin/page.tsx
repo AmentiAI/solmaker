@@ -1617,6 +1617,7 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [error, setError] = useState<string | null>(null)
   const [wiping, setWiping] = useState(false)
+  const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
     if (walletAddress) {
@@ -1691,6 +1692,38 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
     return `${seconds}s`
   }
 
+  const handleProcessJobs = async () => {
+    setProcessing(true)
+    try {
+      const response = await fetch('/api/cron/process-generation-jobs-v2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          wallet_address: walletAddress,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        console.error('Process jobs error:', data)
+        throw new Error(data.error || 'Failed to process jobs')
+      }
+
+      alert(`✅ Jobs processed!\n\nProcessed: ${data.processed || 0} jobs\nSuccessful: ${data.successful || 0}\nFailed: ${data.failed || 0}`)
+      
+      // Reload jobs
+      await loadJobs()
+    } catch (err) {
+      console.error('Error processing jobs:', err)
+      alert(err instanceof Error ? err.message : 'Failed to process jobs')
+    } finally {
+      setProcessing(false)
+    }
+  }
+
   const handleWipe = async () => {
     if (!walletAddress) return
 
@@ -1740,6 +1773,14 @@ function GenerationJobsManager({ walletAddress }: { walletAddress: string }) {
           <p className="text-[#a8a8b8]">Monitor all pending, processing, and completed generation jobs</p>
         </div>
         <div className="flex gap-2">
+          <button
+            onClick={handleProcessJobs}
+            disabled={processing || loading}
+            className="px-6 py-3 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:opacity-90 text-white rounded-lg font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+            title="Manually process queued generation jobs"
+          >
+            {processing ? '⏳ Processing...' : '🚀 Process Jobs Now'}
+          </button>
           <button
             onClick={loadJobs}
             disabled={loading}

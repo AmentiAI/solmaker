@@ -28,25 +28,34 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  // Allow manual triggering for development/testing (admin only)
-  // Check if user is admin
-  const body = await request.json().catch(() => ({}));
-  const walletAddress = body.wallet_address || null;
-  
-  if (!walletAddress) {
-    return NextResponse.json({ error: 'Wallet address required' }, { status: 400 });
+  try {
+    // Allow manual triggering for development/testing (admin only)
+    // Check if user is admin
+    const body = await request.json().catch(() => ({}));
+    const walletAddress = body.wallet_address || null;
+    
+    if (!walletAddress) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 400 });
+    }
+    
+    if (!sql) {
+      return NextResponse.json({ error: 'Database connection not available' }, { status: 500 });
+    }
+    
+    const { isAdmin } = await checkAuthorizationServer(walletAddress, sql);
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 });
+    }
+    
+    return await processJobs();
+  } catch (error) {
+    console.error('[Cron POST] Error:', error);
+    return NextResponse.json({ 
+      error: 'Failed to process jobs',
+      details: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
+    }, { status: 500 });
   }
-  
-  if (!sql) {
-    return NextResponse.json({ error: 'Database connection not available' }, { status: 500 });
-  }
-  
-  const { isAdmin } = await checkAuthorizationServer(walletAddress, sql);
-  if (!isAdmin) {
-    return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 });
-  }
-  
-  return processJobs();
 }
 
 // Helper function to save generation errors to the database
@@ -99,10 +108,14 @@ async function saveGenerationError(
 }
 
 async function processJobs() {
+  console.log('[Cron] Starting processJobs function...');
 
   if (!sql) {
+    console.error('[Cron] Database connection not available');
     return NextResponse.json({ error: 'Database connection not available' }, { status: 500 });
   }
+
+  console.log('[Cron] Database connection OK');
 
   try {
     // ============================================
