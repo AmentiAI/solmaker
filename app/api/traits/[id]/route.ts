@@ -20,9 +20,7 @@ export async function GET(
         t.id,
         t.name,
         t.description,
-        t.trait_prompt,
         t.rarity_weight,
-        t.is_ignored,
         t.created_at,
         t.updated_at,
         l.id as layer_id,
@@ -58,7 +56,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { name, description, trait_prompt, rarity_weight, is_ignored } = body;
+    const { name, description, rarity_weight } = body;
 
     if (!name || name.trim() === '') {
       return NextResponse.json({ error: 'Trait name is required' }, { status: 400 });
@@ -68,12 +66,10 @@ export async function PUT(
       UPDATE traits 
       SET name = ${name.trim()}, 
           description = ${description || null},
-          trait_prompt = ${trait_prompt || null},
           rarity_weight = ${rarity_weight || 1},
-          is_ignored = ${is_ignored === true},
           updated_at = CURRENT_TIMESTAMP
       WHERE id = ${id}
-      RETURNING id, name, description, trait_prompt, rarity_weight, is_ignored, created_at, updated_at
+      RETURNING id, name, description, rarity_weight, created_at, updated_at
     `;
 
     if (!trait) {

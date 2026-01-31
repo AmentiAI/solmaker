@@ -388,15 +388,15 @@ export default function SimpleGeneratePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 w-full">
       {/* Header */}
-      <header className="border-b border-gray-800 bg-black/40 backdrop-blur-sm sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4">
+      <header className="border-b border-gray-800 bg-black/40 backdrop-blur-sm sticky top-0 z-40 w-full">
+        <div className="w-full px-8 py-6">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-white">Simple Image Generator</h1>
+            <h1 className="text-4xl font-bold text-white">Simple Image Generator</h1>
             <Link
               href="/"
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors text-lg"
             >
               Back to Collections
             </Link>
@@ -404,48 +404,48 @@ export default function SimpleGeneratePage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
+      <main className="w-full px-8 py-12">
+        <div className="w-full max-w-[1800px] mx-auto">
           {/* Generation Form */}
           <div className="mb-16">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Left: Generation Controls */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div>
-                  <h2 className="text-xl font-bold text-white mb-4">Generate Unique Images</h2>
-                  <p className="text-[#a8a8b8] text-sm mb-6">
+                  <h2 className="text-3xl font-bold text-white mb-6">Generate Unique Images</h2>
+                  <p className="text-[#a8a8b8] text-lg mb-6">
                     Create unique images with edge-to-edge borders. No traits needed - just describe what you want!
                   </p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {/* Image Description */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-lg font-medium text-white mb-3">
                       Image Description *
                     </label>
                     <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="Describe what you want to generate... (e.g., 'A mystical crystal glowing with blue energy', 'A medieval sword with ornate handle', etc.)"
-                      className="w-full h-32 p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
+                      className="w-full h-40 p-4 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white text-base placeholder-gray-500 focus:border-purple-500 focus:outline-none resize-none"
                       disabled={isGenerating}
                     />
                   </div>
 
                   {/* Batch Count */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-lg font-medium text-white mb-3">
                       Generate Count (1-10)
                     </label>
-                    <div className="flex gap-2 mb-2">
+                    <div className="flex gap-3 mb-3">
                       {[1, 5, 10].map((count) => (
                         <button
                           key={count}
                           type="button"
                           onClick={() => setBatchCount(count)}
                           disabled={isGenerating}
-                          className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-colors ${
+                          className={`flex-1 py-3 px-6 rounded-lg font-semibold text-lg transition-colors ${
                             batchCount === count
                               ? 'bg-purple-600 text-white'
                               : 'bg-[#1a1a24] text-white hover:bg-[#1a1a24]/80'
@@ -464,35 +464,35 @@ export default function SimpleGeneratePage() {
                         const val = Math.max(1, Math.min(10, parseInt(e.target.value) || 1))
                         setBatchCount(val)
                       }}
-                      className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                      className="w-full p-4 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white text-base placeholder-gray-500 focus:border-purple-500 focus:outline-none"
                       disabled={isGenerating}
                     />
-                    <p className="text-xs text-[#a8a8b8]/80 mt-1">
+                    <p className="text-sm text-[#a8a8b8]/80 mt-2">
                       Each image will be unique but follow the same art style and vibe
                     </p>
                   </div>
 
                   {/* Cost Estimation */}
                   {costEstimation && (
-                    <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/50 rounded-lg p-4">
-                      <h3 className="text-sm font-semibold text-blue-300 mb-3 flex items-center gap-2">
+                    <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/50 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold text-blue-300 mb-4 flex items-center gap-2">
                         <span>💰</span>
                         Cost Estimation
                       </h3>
-                      <div className="space-y-2 text-sm">
+                      <div className="space-y-3 text-base">
                         <div className="flex justify-between items-center">
                           <span className="text-[#a8a8b8]">Per Image:</span>
-                          <span className="text-white font-mono font-semibold">{formatCost(costEstimation.perImage)}</span>
+                          <span className="text-white font-mono font-semibold text-lg">{formatCost(costEstimation.perImage)}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-[#a8a8b8]">Total ({batchCount} image{batchCount > 1 ? 's' : ''}):</span>
-                          <span className="text-green-400 font-mono font-bold text-lg">{formatCost(costEstimation.total)}</span>
+                          <span className="text-green-400 font-mono font-bold text-xl">{formatCost(costEstimation.total)}</span>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-[#a8a8b8]/80 pt-2 border-t border-[#9945FF]/20">
+                        <div className="flex justify-between items-center text-sm text-[#a8a8b8]/80 pt-2 border-t border-[#9945FF]/20">
                           <span>Estimated Prompt Length:</span>
                           <span className="font-mono">{costEstimation.estimatedTokens} tokens</span>
                         </div>
-                        <div className="text-xs text-[#a8a8b8]/80 pt-1">
+                        <div className="text-sm text-[#a8a8b8]/80 pt-1">
                           <span>Model: gpt-image-1 | Size: {costEstimation.size} | Quality: {costEstimation.quality.toUpperCase()}</span>
                         </div>
                       </div>
@@ -501,7 +501,7 @@ export default function SimpleGeneratePage() {
 
                   {/* Art Style */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-lg font-medium text-white mb-3">
                       Art Style
                     </label>
                     <input
@@ -509,20 +509,20 @@ export default function SimpleGeneratePage() {
                       value={artStyle}
                       onChange={(e) => setArtStyle(e.target.value)}
                       placeholder="Professional digital illustration style..."
-                      className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                      className="w-full p-4 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white text-base placeholder-gray-500 focus:border-purple-500 focus:outline-none"
                       disabled={isGenerating}
                     />
                   </div>
 
                   {/* Border Style */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-lg font-medium text-white mb-3">
                       Border Style
                     </label>
                     <select
                       value={borderStyle}
                       onChange={(e) => setBorderStyle(e.target.value)}
-                      className="w-full p-3 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white focus:border-purple-500 focus:outline-none"
+                      className="w-full p-4 border border-[#9945FF]/30 rounded-lg bg-[#14141e] text-white text-base focus:border-purple-500 focus:outline-none"
                       disabled={isGenerating}
                     >
                       {borderOptions.map((option) => (
@@ -537,7 +537,7 @@ export default function SimpleGeneratePage() {
                   <button
                     onClick={handleGenerate}
                     disabled={isGenerating || !description.trim()}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-5 px-8 rounded-lg text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                   >
                     {isGenerating ? (
                       <span className="flex flex-col items-center justify-center gap-2">
@@ -571,10 +571,10 @@ export default function SimpleGeneratePage() {
 
               {/* Right: Generation Prompt Display */}
               <div className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg shadow-lg">
-                <div className="flex items-center justify-between p-4 border-b border-[#9945FF]/20">
-                  <h3 className="text-lg font-semibold text-white">Generation Prompt</h3>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-[#a8a8b8]">
+                <div className="flex items-center justify-between p-6 border-b border-[#9945FF]/20">
+                  <h3 className="text-2xl font-semibold text-white">Generation Prompt</h3>
+                  <div className="flex items-center gap-3">
+                    <span className="text-base text-[#a8a8b8]">
                       {currentPrompt.length.toLocaleString()} characters
                     </span>
                     {currentPrompt && (
@@ -582,7 +582,7 @@ export default function SimpleGeneratePage() {
                         onClick={() => {
                           navigator.clipboard.writeText(currentPrompt)
                         }}
-                        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-[#9945FF] text-sm"
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-[#9945FF] text-base font-semibold"
                       >
                         Copy
                       </button>
@@ -590,11 +590,11 @@ export default function SimpleGeneratePage() {
                   </div>
                 </div>
 
-                <div className="p-4">
+                <div className="p-6">
                   <textarea
                     value={currentPrompt}
                     onChange={(e) => setCurrentPrompt(e.target.value)}
-                    className="w-full h-64 p-3 border border-[#9945FF]/30 rounded-md bg-[#14141e] text-gray-100 font-mono text-sm resize-none"
+                    className="w-full h-[500px] p-4 border border-[#9945FF]/30 rounded-md bg-[#14141e] text-gray-100 font-mono text-base resize-none"
                     placeholder="Generation prompt will appear here after creating an image..."
                     readOnly
                   />
@@ -606,23 +606,23 @@ export default function SimpleGeneratePage() {
           {/* Generated Images Grid */}
           {images.length > 0 && (
             <div>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-4xl font-bold text-white">
                   Generated Images ({images.length})
                 </h2>
                 <button
                   onClick={() => setImages([])}
-                  className="text-sm text-[#a8a8b8] hover:text-white"
+                  className="text-lg text-[#a8a8b8] hover:text-white font-semibold"
                 >
                   Clear All
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {images.map((image) => (
                   <div
                     key={image.id}
-                    className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg overflow-hidden shadow-lg"
+                    className="bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg overflow-hidden shadow-lg hover:border-[#9945FF]/40 transition-all"
                   >
                     <div className="relative aspect-square">
                       <Image
@@ -632,18 +632,18 @@ export default function SimpleGeneratePage() {
                         className="object-cover"
                       />
                     </div>
-                    <div className="p-4">
-                      <p className="text-sm text-white mb-2 line-clamp-2">
+                    <div className="p-5">
+                      <p className="text-base text-white mb-3 line-clamp-2">
                         {image.description}
                       </p>
-                      <p className="text-xs text-[#a8a8b8]/80 mb-3">
+                      <p className="text-sm text-[#a8a8b8]/80 mb-4">
                         {new Date(image.createdAt).toLocaleString()}
                       </p>
-                      <div className="flex gap-2">
+                      <div className="flex gap-3">
                         <button
                           onClick={() => handleSaveToCollection(image)}
                           disabled={!christmasCollectionId || savingImages.has(image.id)}
-                          className="flex-1 text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-[#1a1a24]/80 disabled:cursor-not-allowed text-white py-2 px-4 rounded transition-colors"
+                          className="flex-1 text-base bg-emerald-600 hover:bg-emerald-700 disabled:bg-[#1a1a24]/80 disabled:cursor-not-allowed text-white py-3 px-4 rounded font-semibold transition-colors"
                         >
                           {savingImages.has(image.id) ? (
                             <span className="flex items-center justify-center gap-1">
@@ -659,13 +659,13 @@ export default function SimpleGeneratePage() {
                         </button>
                         <button
                           onClick={() => handleDelete(image.id)}
-                          className="flex-1 text-sm bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition-colors"
+                          className="flex-1 text-base bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded font-semibold transition-colors"
                         >
                           Delete
                         </button>
                       </div>
                       {saveMessages[image.id] && (
-                        <p className={`text-xs mt-2 ${
+                        <p className={`text-sm mt-3 ${
                           saveMessages[image.id].startsWith('✅')
                             ? 'text-[#14F195]'
                             : 'text-[#EF4444]'
@@ -681,10 +681,10 @@ export default function SimpleGeneratePage() {
           )}
 
           {images.length === 0 && !isGenerating && (
-            <div className="text-center py-20">
-              <div className="text-6xl mb-4">🎨</div>
-              <p className="text-xl text-[#a8a8b8] mb-2">No images generated yet</p>
-              <p className="text-[#a8a8b8]/80">Describe what you want and generate your first image!</p>
+            <div className="text-center py-32">
+              <div className="text-8xl mb-6">🎨</div>
+              <p className="text-3xl text-[#a8a8b8] mb-3">No images generated yet</p>
+              <p className="text-xl text-[#a8a8b8]/80">Describe what you want and generate your first image!</p>
             </div>
           )}
         </div>

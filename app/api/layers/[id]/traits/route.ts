@@ -17,9 +17,7 @@ export async function GET(
         id,
         name,
         description,
-        trait_prompt,
         rarity_weight,
-        is_ignored,
         created_at,
         updated_at
       FROM traits 
@@ -46,7 +44,7 @@ export async function POST(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { name, description, trait_prompt, rarity_weight } = body;
+    const { name, description, rarity_weight } = body;
 
     if (!name || name.trim() === '') {
       return NextResponse.json({ error: 'Trait name is required' }, { status: 400 });
@@ -54,9 +52,9 @@ export async function POST(
 
     // Create the trait
     const result = await sql`
-      INSERT INTO traits (layer_id, name, description, trait_prompt, rarity_weight)
-      VALUES (${id}, ${name.trim()}, ${description || null}, ${trait_prompt || null}, ${rarity_weight || 1})
-      RETURNING id, name, description, trait_prompt, rarity_weight, created_at, updated_at
+      INSERT INTO traits (layer_id, name, description, rarity_weight)
+      VALUES (${id}, ${name.trim()}, ${description || null}, ${rarity_weight || 1})
+      RETURNING id, name, description, rarity_weight, created_at, updated_at
     ` as any[];
     
     const trait = result && result.length > 0 ? result[0] : null;

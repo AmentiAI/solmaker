@@ -170,78 +170,105 @@ export default function LaunchpadPage() {
 
   return (
     <div className="min-h-screen text-white">
-      {/* Hero Header */}
-      <div className="relative bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-b border-[var(--solana-purple)]/20 overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-[var(--solana-purple)]/20 rounded-full blur-3xl animate-[solanaFloat_6s_ease-in-out_infinite]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[var(--solana-green)]/15 rounded-full blur-3xl animate-[solanaFloat_8s_ease-in-out_infinite]" style={{ animationDelay: '1s' }} />
+      {/* Revolutionary Hero Header - 2026 Ultra-Modern */}
+      <div className="relative bg-gradient-to-br from-[#050508] via-[#0a0a0f] to-[#050508] border-b-2 border-[#9945FF]/40 overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12">
+        {/* Ultra-Premium Animated background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#9945FF]/25 rounded-full blur-[120px] animate-[particleFloat_20s_ease-in-out_infinite]" />
+          <div className="absolute bottom-0 right-1/4 w-[700px] h-[700px] bg-[#14F195]/20 rounded-full blur-[120px] animate-[particleFloat_25s_ease-in-out_infinite]" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#DC1FFF]/15 rounded-full blur-[100px] animate-[particleFloat_22s_ease-in-out_infinite]" style={{ animationDelay: '1s' }} />
+          
+          {/* Cyber grid */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: `
+              repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(153, 69, 255, 0.15) 60px, rgba(153, 69, 255, 0.15) 61px),
+              repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(20, 241, 149, 0.1) 60px, rgba(20, 241, 149, 0.1) 61px)
+            `
+          }} />
         </div>
 
-        <div className="w-full py-16 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="p-3 bg-gradient-to-br from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border border-[var(--solana-purple)]/50 rounded-2xl backdrop-blur-md">
-                <Rocket className="h-8 w-8 text-[var(--solana-purple)]" />
+        <div className="w-full py-20 relative z-10">
+          <div className="max-w-6xl mx-auto text-center space-y-8">
+            {/* Premium Badge */}
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="p-4 bg-gradient-to-br from-[#9945FF] via-[#DC1FFF] to-[#9945FF] border-2 border-[#9945FF]/50 rounded-2xl cyber-glow">
+                <Rocket className="h-10 w-10 text-white" />
               </div>
-              <Badge className="bg-gradient-to-r from-[var(--solana-purple)]/20 to-[var(--solana-green)]/20 border-[var(--solana-purple)]/40 text-[var(--solana-purple)] text-sm px-4 py-1.5">
-                NFT LAUNCHPAD
-              </Badge>
+              <div className="glass-card border-2 border-[#9945FF]/50 rounded-full px-6 py-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-[#14F195] rounded-full animate-pulse ultra-glow-green" />
+                  <span className="text-sm font-black text-[#14F195] uppercase tracking-wider">NFT LAUNCHPAD</span>
+                </div>
+              </div>
             </div>
             
-            <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-[var(--solana-purple)] to-[var(--solana-green)] bg-clip-text text-transparent">
-              NFT Launchpad
+            <h1 className="text-7xl md:text-8xl font-black tracking-tight leading-none">
+              <span className="gradient-text-neon">NFT Launchpad</span>
             </h1>
             
-            <p className="text-[var(--text-secondary)] text-xl font-medium max-w-2xl mx-auto">
-              Mint exclusive NFT collections on Solana. Lightning-fast launches with fair distribution.
+            <p className="text-2xl md:text-3xl text-[#B4B4C8] font-bold max-w-3xl mx-auto leading-relaxed">
+              Mint <span className="text-[#9945FF] font-black">exclusive collections</span> on Solana. 
+              <span className="text-[#14F195] font-black"> Lightning-fast</span> launches with fair distribution.
             </p>
 
-            {/* Stats */}
-            <div className="flex flex-wrap justify-center gap-8 mt-8">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-[var(--solana-purple)]/10 border border-[var(--solana-purple)]/30 rounded-xl">
-                  <Zap className="h-5 w-5 text-[var(--solana-purple)]" />
-                </div>
-                <div>
-                  <p className="text-2xl font-black text-white">{collections.filter(c => c.is_live).length}</p>
-                  <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Live Drops</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-[var(--solana-green)]/10 border border-[var(--solana-green)]/30 rounded-xl">
-                  <Users className="h-5 w-5 text-[var(--solana-green)]" />
-                </div>
-                <div>
-                  <p className="text-2xl font-black text-white">{collections.reduce((sum, c) => sum + c.minted_count, 0)}</p>
-                  <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Total Minted</p>
+            {/* Premium Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
+              <div className="glass-card border-2 border-[#9945FF]/40 rounded-2xl p-6 hover:border-[#9945FF] transition-all duration-300 group">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-gradient-to-br from-[#9945FF] to-[#DC1FFF] rounded-xl cyber-glow group-hover:scale-110 transition-transform duration-300">
+                    <Zap className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-4xl font-black text-white gradient-text-neon">{collections.filter(c => c.is_live).length}</p>
+                    <p className="text-sm text-[#B4B4C8] font-bold uppercase tracking-wide">Live Drops</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-[var(--solana-cyan)]/10 border border-[var(--solana-cyan)]/30 rounded-xl">
-                  <TrendingUp className="h-5 w-5 text-[var(--solana-cyan)]" />
+              
+              <div className="glass-card border-2 border-[#14F195]/40 rounded-2xl p-6 hover:border-[#14F195] transition-all duration-300 group">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-gradient-to-br from-[#14F195] to-[#10B981] rounded-xl shadow-2xl shadow-[#14F195]/60 group-hover:scale-110 transition-transform duration-300">
+                    <Users className="h-6 w-6 text-black" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-4xl font-black text-[#14F195] drop-shadow-[0_0_20px_rgba(20,241,149,0.8)]">{collections.reduce((sum, c) => sum + c.minted_count, 0)}</p>
+                    <p className="text-sm text-[#B4B4C8] font-bold uppercase tracking-wide">Total Minted</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-2xl font-black text-white">{collections.length}</p>
-                  <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Collections</p>
+              </div>
+              
+              <div className="glass-card border-2 border-[#00D4FF]/40 rounded-2xl p-6 hover:border-[#00D4FF] transition-all duration-300 group">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-gradient-to-br from-[#00D4FF] to-[#9945FF] rounded-xl ultra-glow-cyan group-hover:scale-110 transition-transform duration-300">
+                    <TrendingUp className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-4xl font-black text-[#00D4FF] drop-shadow-[0_0_20px_rgba(0,212,255,0.8)]">{collections.length}</p>
+                    <p className="text-sm text-[#B4B4C8] font-bold uppercase tracking-wide">Collections</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Launch Collection Button */}
-            <div className="mt-10">
+            {/* Premium Launch Collection Button */}
+            <div className="mt-12">
               {isConnected ? (
                 <Button
                   onClick={handleOpenLaunchModal}
-                  className="px-8 py-6 text-lg font-bold bg-gradient-to-r from-[var(--solana-purple)] to-[var(--solana-green)] hover:from-[var(--solana-green)] hover:to-[var(--solana-purple)] text-white rounded-xl shadow-lg shadow-[var(--solana-purple)]/25 hover:shadow-[var(--solana-purple)]/40 transition-all"
+                  size="lg"
+                  className="group px-10 py-7 text-xl font-black bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] bg-[length:200%_100%] hover:bg-[position:100%_0] text-white rounded-2xl shadow-2xl shadow-[#9945FF]/60 hover:shadow-[#9945FF]/80 transition-all duration-300 hover:scale-105 relative overflow-hidden"
                 >
-                  <Plus className="h-5 w-5 mr-2" />
-                  Launch Collection
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
+                  <Plus className="h-6 w-6 mr-3 relative z-10" />
+                  <span className="relative z-10">Launch Collection</span>
+                  <Sparkles className="h-6 w-6 ml-3 relative z-10" />
                 </Button>
               ) : (
-                <p className="text-[var(--text-secondary)] text-sm">
-                  Connect your wallet to launch a collection
-                </p>
+                <div className="glass-card border-2 border-[#9945FF]/40 rounded-2xl px-8 py-4 inline-block">
+                  <p className="text-[#B4B4C8] text-lg font-bold">
+                    Connect your wallet to launch a collection
+                  </p>
+                </div>
               )}
             </div>
           </div>

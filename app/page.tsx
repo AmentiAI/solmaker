@@ -10,158 +10,176 @@ function HomePageContent() {
   
   if (!seeAll) {
     return (
-      <div className="fixed inset-0 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] flex items-center justify-center overflow-hidden">
-        {/* Animated background elements with floating animation */}
+      <div className="fixed inset-0 bg-black flex items-center justify-center overflow-hidden">
+        {/* REVOLUTIONARY 2026 Background - Maximum Impact */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-[500px] h-[500px] bg-[#9945FF]/20 rounded-full blur-3xl animate-[solanaFloat_8s_ease-in-out_infinite]" />
-          <div className="absolute bottom-20 right-20 w-[600px] h-[600px] bg-[#14F195]/15 rounded-full blur-3xl animate-[solanaFloat_10s_ease-in-out_infinite]" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#DC1FFF]/10 rounded-full blur-3xl animate-[solanaFloat_12s_ease-in-out_infinite]" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-40 right-40 w-[400px] h-[400px] bg-[#00D4FF]/15 rounded-full blur-3xl animate-[solanaFloat_9s_ease-in-out_infinite]" style={{ animationDelay: '3s' }} />
+          {/* Radial gradient base - deep purple to black */}
+          <div className="absolute inset-0 bg-gradient-radial from-[#1a0a2e] via-[#0f0520] to-black" />
+          
+          {/* MASSIVE animated orbs - ultra intense */}
+          <div className="absolute top-0 left-0 w-[900px] h-[900px] bg-[#9945FF]/40 rounded-full blur-[150px] animate-[particleFloat_18s_ease-in-out_infinite]" />
+          <div className="absolute bottom-0 right-0 w-[1000px] h-[1000px] bg-[#14F195]/35 rounded-full blur-[150px] animate-[particleFloat_22s_ease-in-out_infinite]" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/3 right-1/4 w-[800px] h-[800px] bg-[#DC1FFF]/30 rounded-full blur-[140px] animate-[particleFloat_25s_ease-in-out_infinite]" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-1/3 left-1/4 w-[700px] h-[700px] bg-[#00D4FF]/30 rounded-full blur-[130px] animate-[particleFloat_20s_ease-in-out_infinite]" style={{ animationDelay: '3s' }} />
+          
+          {/* Subtle cyber grid */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: `
+              repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(153, 69, 255, 0.15) 80px, rgba(153, 69, 255, 0.15) 81px),
+              repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(20, 241, 149, 0.1) 80px, rgba(20, 241, 149, 0.1) 81px)
+            `
+          }} />
+          
+          {/* Animated scan line */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#9945FF]/20 to-transparent h-40 animate-[scanLine_10s_linear_infinite]" />
+          </div>
         </div>
         
-        {/* Floating particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
+        {/* Premium floating particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(50)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-2 h-2 bg-[#9945FF]/30 rounded-full animate-[solanaFloat_15s_ease-in-out_infinite]"
+              className="absolute rounded-full animate-[particleFloat_25s_ease-in-out_infinite]"
               style={{
+                width: `${1 + Math.random() * 3}px`,
+                height: `${1 + Math.random() * 3}px`,
+                background: i % 4 === 0 ? 'rgba(153, 69, 255, 0.6)' : i % 4 === 1 ? 'rgba(20, 241, 149, 0.5)' : i % 4 === 2 ? 'rgba(0, 212, 255, 0.5)' : 'rgba(220, 31, 255, 0.4)',
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${10 + Math.random() * 10}s`
+                animationDelay: `${Math.random() * 10}s`,
+                animationDuration: `${20 + Math.random() * 20}s`,
+                boxShadow: `0 0 ${15 + Math.random() * 25}px currentColor`,
+                filter: 'blur(0.5px)'
               }}
             />
           ))}
         </div>
         
-        <div className="container mx-auto px-6 py-12 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            <div className="relative">
-              {/* Glow effect behind card */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#9945FF]/20 to-[#14F195]/20 rounded-3xl blur-3xl" />
+        <div className="container mx-auto px-6 py-8 relative z-10">
+          <div className="max-w-7xl mx-auto">
+            {/* REVOLUTIONARY HERO SECTION */}
+            <div className="text-center mb-16">
+              {/* MASSIVE Title */}
+              <h1 className="text-8xl md:text-9xl lg:text-[10rem] font-black mb-8 leading-none tracking-tighter">
+                <span className="gradient-text-neon drop-shadow-[0_0_40px_rgba(153,69,255,0.8)]">
+                  SolMaker.Fun
+                </span>
+              </h1>
               
-              <div className="relative bg-[#121218]/90 border-2 border-[#9945FF]/40 rounded-3xl p-12 md:p-20 text-center shadow-2xl shadow-[#9945FF]/30 backdrop-blur-2xl">
-                {/* Logo/Icon */}
-                <div className="mb-12 relative">
-                  <div className="w-32 h-32 mx-auto bg-gradient-to-br from-[#9945FF] via-[#DC1FFF] to-[#14F195] rounded-3xl flex items-center justify-center shadow-2xl shadow-[#9945FF]/50 animate-[solanaPulse_3s_ease-in-out_infinite] relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shimmer_2s_infinite]" />
-                    <svg className="w-16 h-16 relative z-10" viewBox="0 0 397.7 311.7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7z" fill="url(#gradient1)"/>
-                      <path d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8z" fill="url(#gradient2)"/>
-                      <path d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="url(#gradient3)"/>
-                      <defs>
-                        <linearGradient id="gradient1" x1="360.8" y1="351.5" x2="141.2" y2="132" gradientUnits="userSpaceOnUse">
-                          <stop offset="0" stopColor="#00FFA3"/>
-                          <stop offset="1" stopColor="#DC1FFF"/>
-                        </linearGradient>
-                        <linearGradient id="gradient2" x1="264.8" y1="77.6" x2="45.2" y2="-141.9" gradientUnits="userSpaceOnUse">
-                          <stop offset="0" stopColor="#00FFA3"/>
-                          <stop offset="1" stopColor="#DC1FFF"/>
-                        </linearGradient>
-                        <linearGradient id="gradient3" x1="312.5" y1="214.5" x2="92.9" y2="-5" gradientUnits="userSpaceOnUse">
-                          <stop offset="0" stopColor="#00FFA3"/>
-                          <stop offset="1" stopColor="#DC1FFF"/>
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  {/* Orbiting elements */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48">
-                    <div className="absolute top-0 left-1/2 w-3 h-3 bg-[#9945FF] rounded-full animate-[spin_4s_linear_infinite]" />
-                    <div className="absolute top-1/2 right-0 w-2 h-2 bg-[#14F195] rounded-full animate-[spin_6s_linear_infinite]" />
-                    <div className="absolute bottom-0 left-1/2 w-2 h-2 bg-[#DC1FFF] rounded-full animate-[spin_5s_linear_infinite]" />
+              {/* Coming Soon Badge */}
+              <div className="inline-flex items-center gap-4 px-10 py-5 glass-card border-2 border-[#14F195]/60 rounded-full mb-10 group hover:border-[#14F195] transition-all duration-300">
+                <div className="relative">
+                  <div className="w-4 h-4 bg-[#14F195] rounded-full animate-ping absolute" />
+                  <div className="w-4 h-4 bg-[#14F195] rounded-full relative ultra-glow-green" />
+                </div>
+                <span className="text-4xl font-black text-white">Coming Soon</span>
+              </div>
+              
+              {/* Description */}
+              <p className="text-2xl md:text-3xl lg:text-4xl text-white/90 mb-16 leading-relaxed font-bold max-w-5xl mx-auto">
+                The <span className="gradient-text-neon font-black">most revolutionary NFT platform</span> on Solana. 
+                Create, launch, and dominate.
+              </p>
+              
+              {/* REVOLUTIONARY Feature Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20 max-w-7xl mx-auto">
+                {/* AI Collection Generator */}
+                <div className="group relative h-[320px]">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition duration-500 animate-[cyberPulse_3s_ease-in-out_infinite]" />
+                  <div className="relative glass-card border-2 border-[#9945FF]/60 rounded-3xl p-8 hover:border-[#9945FF] transition-all duration-500 transform-3d hover-lift overflow-hidden h-full flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#9945FF]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="w-20 h-20 bg-gradient-to-br from-[#9945FF] via-[#DC1FFF] to-[#9945FF] rounded-2xl flex items-center justify-center mb-6 shadow-2xl shadow-[#9945FF]/80 group-hover:scale-110 transition-transform duration-300">
+                        <span className="text-4xl">🎨</span>
+                      </div>
+                      <h3 className="text-2xl font-black text-white mb-4 min-h-[64px]">AI Collection Generator</h3>
+                      <p className="text-lg text-white/80 font-semibold leading-relaxed">Create any size collections with cutting-edge AI in minutes</p>
+                    </div>
                   </div>
                 </div>
                 
-                {/* Main heading */}
-                <div className="mb-8">
-                  <h1 className="text-7xl md:text-8xl font-black mb-4 bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#14F195] bg-clip-text text-transparent animate-[solanaGradientShift_8s_ease_infinite] bg-[length:200%_auto]">
-                    SolMaker.Fun
-                  </h1>
-                  <div className="inline-block px-6 py-3 bg-gradient-to-r from-[#9945FF]/20 to-[#14F195]/20 border border-[#9945FF]/50 rounded-full">
-                    <p className="text-2xl md:text-3xl font-bold text-white">
-                      Coming Soon
-                    </p>
+                {/* NFT Launchpad */}
+                <div className="group relative h-[320px]">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-[#14F195] via-[#10B981] to-[#14F195] rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition duration-500" />
+                  <div className="relative glass-card border-2 border-[#14F195]/60 rounded-3xl p-8 hover:border-[#14F195] transition-all duration-500 transform-3d hover-lift overflow-hidden h-full flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#14F195]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="w-20 h-20 bg-gradient-to-br from-[#14F195] via-[#10B981] to-[#14F195] rounded-2xl flex items-center justify-center mb-6 shadow-2xl shadow-[#14F195]/80 group-hover:scale-110 transition-transform duration-300">
+                        <span className="text-4xl">🚀</span>
+                      </div>
+                      <h3 className="text-2xl font-black text-white mb-4 min-h-[64px]">NFT Launchpad</h3>
+                      <p className="text-lg text-white/80 font-semibold leading-relaxed">Multi-phase minting, whitelists, and instant deployment</p>
+                    </div>
                   </div>
                 </div>
                 
-                <p className="text-xl md:text-2xl text-[#A1A1AA] mb-16 leading-relaxed font-medium max-w-3xl mx-auto">
-                  The <span className="text-[#9945FF] font-bold">ultimate NFT platform</span> on Solana is launching soon. 
-                  Create, launch, and promote your collections with <span className="text-[#14F195] font-bold">powerful tools</span> built for creators.
+                {/* Promo Tools */}
+                <div className="group relative h-[320px]">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-[#DC1FFF] via-[#9945FF] to-[#DC1FFF] rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition duration-500" />
+                  <div className="relative glass-card border-2 border-[#DC1FFF]/60 rounded-3xl p-8 hover:border-[#DC1FFF] transition-all duration-500 transform-3d hover-lift overflow-hidden h-full flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#DC1FFF]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="w-20 h-20 bg-gradient-to-br from-[#DC1FFF] via-[#9945FF] to-[#DC1FFF] rounded-2xl flex items-center justify-center mb-6 shadow-2xl shadow-[#DC1FFF]/80 group-hover:scale-110 transition-transform duration-300">
+                        <span className="text-4xl">📢</span>
+                      </div>
+                      <h3 className="text-2xl font-black text-white mb-4 min-h-[64px]">Promo Tools</h3>
+                      <p className="text-lg text-white/80 font-semibold leading-relaxed">AI-powered flyers, videos, and viral marketing content</p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Marketplace */}
+                <div className="group relative h-[320px]">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-[#00D4FF] via-[#9945FF] to-[#00D4FF] rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition duration-500" />
+                  <div className="relative glass-card border-2 border-[#00D4FF]/60 rounded-3xl p-8 hover:border-[#00D4FF] transition-all duration-500 transform-3d hover-lift overflow-hidden h-full flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00D4FF]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="w-20 h-20 bg-gradient-to-br from-[#00D4FF] via-[#9945FF] to-[#00D4FF] rounded-2xl flex items-center justify-center mb-6 shadow-2xl shadow-[#00D4FF]/80 group-hover:scale-110 transition-transform duration-300">
+                        <span className="text-4xl">🛒</span>
+                      </div>
+                      <h3 className="text-2xl font-black text-white mb-4 min-h-[64px]">Marketplace</h3>
+                      <p className="text-lg text-white/80 font-semibold leading-relaxed">List or buy NFTs right on our platform</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* PREMIUM Status Badges */}
+              <div className="flex flex-wrap items-center justify-center gap-6 mb-16">
+                <div className="group relative">
+                  <div className="absolute -inset-1 bg-[#9945FF] rounded-full blur-lg opacity-50 group-hover:opacity-100 transition duration-300" />
+                  <div className="relative glass-card flex items-center gap-4 px-10 py-5 border-2 border-[#9945FF]/60 rounded-full hover:border-[#9945FF] transition-all duration-300">
+                    <div className="relative">
+                      <div className="w-5 h-5 bg-[#9945FF] rounded-full animate-ping absolute ultra-glow" />
+                      <div className="w-5 h-5 bg-[#9945FF] rounded-full relative ultra-glow" />
+                    </div>
+                    <span className="text-xl font-black text-white">Platform in Development</span>
+                  </div>
+                </div>
+                
+                <div className="group relative">
+                  <div className="absolute -inset-1 bg-[#14F195] rounded-full blur-lg opacity-50 group-hover:opacity-100 transition duration-300" />
+                  <div className="relative glass-card flex items-center gap-4 px-10 py-5 border-2 border-[#14F195]/60 rounded-full hover:border-[#14F195] transition-all duration-300">
+                    <div className="relative">
+                      <div className="w-5 h-5 bg-[#14F195] rounded-full animate-ping absolute ultra-glow-green" style={{ animationDelay: '0.5s' }} />
+                      <div className="w-5 h-5 bg-[#14F195] rounded-full relative ultra-glow-green" />
+                    </div>
+                    <span className="text-xl font-black text-white">Launching Q1 2026</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Footer Message */}
+              <div className="pt-16 border-t-2 border-white/10">
+                <p className="text-2xl md:text-3xl text-white/80 font-bold">
+                  Get ready for the <span className="gradient-text-neon font-black text-3xl md:text-4xl">future of NFTs</span> on Solana
                 </p>
-                
-                {/* Feature cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-                  <div className="group relative overflow-hidden bg-gradient-to-br from-[#9945FF]/10 to-[#DC1FFF]/10 border border-[#9945FF]/30 rounded-2xl p-6 hover:border-[#9945FF]/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-[#9945FF]/20">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#9945FF]/0 via-[#9945FF]/10 to-[#9945FF]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                    <div className="relative">
-                      <div className="w-12 h-12 bg-gradient-to-br from-[#9945FF] to-[#DC1FFF] rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-[#9945FF]/30">
-                        <span className="text-2xl">🎨</span>
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">AI Collection Generator</h3>
-                      <p className="text-sm text-[#A1A1AA]">Create entire NFT collections with AI-powered generation</p>
-                    </div>
-                  </div>
-                  
-                  <div className="group relative overflow-hidden bg-gradient-to-br from-[#14F195]/10 to-[#10B981]/10 border border-[#14F195]/30 rounded-2xl p-6 hover:border-[#14F195]/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-[#14F195]/20" style={{ animationDelay: '0.1s' }}>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#14F195]/0 via-[#14F195]/10 to-[#14F195]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                    <div className="relative">
-                      <div className="w-12 h-12 bg-gradient-to-br from-[#14F195] to-[#10B981] rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-[#14F195]/30">
-                        <span className="text-2xl">🚀</span>
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">NFT Launchpad</h3>
-                      <p className="text-sm text-[#A1A1AA]">Launch collections with multi-phase minting & whitelists</p>
-                    </div>
-                  </div>
-                  
-                  <div className="group relative overflow-hidden bg-gradient-to-br from-[#DC1FFF]/10 to-[#9945FF]/10 border border-[#DC1FFF]/30 rounded-2xl p-6 hover:border-[#DC1FFF]/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-[#DC1FFF]/20" style={{ animationDelay: '0.2s' }}>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#DC1FFF]/0 via-[#DC1FFF]/10 to-[#DC1FFF]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                    <div className="relative">
-                      <div className="w-12 h-12 bg-gradient-to-br from-[#DC1FFF] to-[#9945FF] rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-[#DC1FFF]/30">
-                        <span className="text-2xl">📢</span>
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">Promo Tools</h3>
-                      <p className="text-sm text-[#A1A1AA]">Generate stunning flyers & videos for your collection</p>
-                    </div>
-                  </div>
-                  
-                  <div className="group relative overflow-hidden bg-gradient-to-br from-[#00D4FF]/10 to-[#9945FF]/10 border border-[#00D4FF]/30 rounded-2xl p-6 hover:border-[#00D4FF]/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-[#00D4FF]/20" style={{ animationDelay: '0.3s' }}>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF]/0 via-[#00D4FF]/10 to-[#00D4FF]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                    <div className="relative">
-                      <div className="w-12 h-12 bg-gradient-to-br from-[#00D4FF] to-[#9945FF] rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-[#00D4FF]/30">
-                        <span className="text-2xl">⚡</span>
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">Lightning Fast</h3>
-                      <p className="text-sm text-[#A1A1AA]">Built on Solana for instant transactions & low fees</p>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Status indicators */}
-                <div className="flex flex-wrap items-center justify-center gap-6 mb-12">
-                  <div className="flex items-center gap-3 px-6 py-3 bg-[#9945FF]/10 border border-[#9945FF]/30 rounded-full backdrop-blur-sm">
-                    <div className="relative">
-                      <span className="w-3 h-3 bg-[#9945FF] rounded-full block animate-ping absolute" />
-                      <span className="w-3 h-3 bg-[#9945FF] rounded-full block relative" />
-                    </div>
-                    <span className="text-sm font-bold text-white">Platform in Development</span>
-                  </div>
-                  <div className="flex items-center gap-3 px-6 py-3 bg-[#14F195]/10 border border-[#14F195]/30 rounded-full backdrop-blur-sm">
-                    <div className="relative">
-                      <span className="w-3 h-3 bg-[#14F195] rounded-full block animate-ping absolute" style={{ animationDelay: '0.5s' }} />
-                      <span className="w-3 h-3 bg-[#14F195] rounded-full block relative" />
-                    </div>
-                    <span className="text-sm font-bold text-white">Launching Q1 2026</span>
-                  </div>
-                </div>
-                
-                {/* Footer text */}
-                <div className="pt-8 border-t border-[#9945FF]/20">
-                  <p className="text-base text-[#A1A1AA] font-medium">
-                    Get ready for the <span className="text-[#9945FF] font-bold">next generation</span> of NFT creation on Solana
-                  </p>
-                </div>
               </div>
             </div>
           </div>

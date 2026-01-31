@@ -215,9 +215,9 @@ export function WalletConnect() {
     return (
       <button
         disabled
-        className="px-3 py-1.5 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:opacity-90 text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
+        className="w-full px-5 py-4 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:opacity-90 text-white rounded-xl text-base font-bold transition-all duration-200 flex items-center justify-center gap-3"
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
         Connect Wallet
@@ -229,7 +229,7 @@ export function WalletConnect() {
     return (
       <button
         disabled
-        className="px-3 py-1.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 text-white rounded-lg text-sm font-medium opacity-50 cursor-not-allowed border border-[#9945FF]/30"
+        className="w-full px-5 py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 text-white rounded-xl text-base font-bold opacity-50 cursor-not-allowed border border-[#9945FF]/30"
       >
         Connecting...
       </button>
@@ -252,15 +252,17 @@ export function WalletConnect() {
         : `${formatAddress(activeAddress)} | ${creditDisplay}`
 
     return (
-      <div className="relative flex flex-col items-end" ref={dropdownRef}>
+      <div className="relative flex flex-col w-full" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="px-3 py-1.5 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 hover:bg-[#252525] text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 border border-[#9945FF]/30"
+          className="w-full px-5 py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 hover:bg-[#252525] text-white rounded-xl text-base font-bold transition-all duration-200 flex items-center justify-between gap-3 border border-[#9945FF]/30"
         >
-          <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full"></span>
-          {buttonText}
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <span className="w-2 h-2 bg-[#22c55e] rounded-full flex-shrink-0"></span>
+            <span className="truncate">{buttonText}</span>
+          </div>
           <svg
-            className={`w-3.5 h-3.5 transition-transform text-[#a8a8b8]/80 ${isOpen ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 transition-transform text-[#a8a8b8]/80 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -270,88 +272,85 @@ export function WalletConnect() {
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-64 bg-[#151515] border border-[#9945FF]/30 rounded-xl shadow-xl z-[100] overflow-hidden">
-            <div className="p-4 border-b border-[#9945FF]/30">
-              <div className="flex items-center gap-3">
+          <div className="absolute left-0 right-0 top-full mt-2 bg-[#151515] border border-[#9945FF]/30 rounded-xl shadow-xl z-[9999] overflow-hidden">
+            <div className="p-5 border-b border-[#9945FF]/30">
+              <div className="flex items-center gap-4">
                 {profile?.avatarUrl ? (
                   <img
                     src={profile.avatarUrl}
                     alt={profile.displayName || profile.username || 'Avatar'}
-                    className="w-10 h-10 rounded-full object-cover border-2 border-[#9945FF]/50"
+                    className="w-12 h-12 rounded-full object-cover border-2 border-[#9945FF]/50"
                   />
                 ) : (
-                  <div className="w-10 h-10 bg-gradient-to-br from-[#9945FF] to-[#14F195] rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#9945FF] to-[#14F195] rounded-full flex items-center justify-center text-white font-bold text-lg">
                     {profile?.username?.charAt(0).toUpperCase() || activeAddress.charAt(0).toUpperCase()}
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold truncate">
+                  <p className="text-white font-bold truncate text-base">
                     {profile?.displayName || profile?.username || 'Wallet'}
                   </p>
-                  <p className="text-[#a8a8b8]/80 text-xs font-mono truncate" title={activeAddress}>
+                  <p className="text-[#a8a8b8]/80 text-sm font-mono truncate" title={activeAddress}>
                     {formatAddress(activeAddress)}
                   </p>
-                  <p className="text-[#14F195] text-xs mt-1">Solana</p>
+                  <p className="text-[#14F195] text-sm mt-1 font-semibold">Solana</p>
                 </div>
               </div>
             </div>
 
-            <div className="p-2">
+            <div className="p-3">
               {!isVerified && !isVerifying && (
                 <button
                   onClick={handleVerify}
-                  className="w-full px-4 py-2 bg-[#9945FF] hover:bg-[#8836E0] text-white rounded-lg text-sm font-semibold transition-colors mb-2"
+                  className="w-full px-5 py-3 bg-[#9945FF] hover:bg-[#8836E0] text-white rounded-xl text-base font-bold transition-colors mb-3"
                 >
                   Verify Wallet
                 </button>
               )}
               {isVerifying && (
-                <div className="w-full px-4 py-2 bg-[#9945FF] text-white rounded-lg text-sm font-semibold text-center mb-2 opacity-50">
+                <div className="w-full px-5 py-3 bg-[#9945FF] text-white rounded-xl text-base font-bold text-center mb-3 opacity-50">
                   Verifying...
                 </div>
               )}
               {isVerified && (
-                <div className="w-full px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold text-center mb-2 flex items-center justify-center gap-2">
+                <div className="w-full px-5 py-3 bg-green-600 text-white rounded-xl text-base font-bold text-center mb-3 flex items-center justify-center gap-2">
                   <span>&#10003;</span>
                   Verified
                 </div>
               )}
-              <div className="border-t border-[#9945FF]/30 pt-2 mt-2">
-                <Link href="/profile" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors relative">
+              <div className="border-t border-[#9945FF]/30 pt-3 mt-3">
+                <Link href="/profile" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors relative font-semibold">
                   Profile
                   {pendingInvitations > 0 && (
-                    <span className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-bold rounded-full border-2 border-[#151515] shadow-lg animate-pulse">
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center min-w-[20px] h-[20px] px-1.5 bg-red-500 text-white text-xs font-bold rounded-full border-2 border-[#151515] shadow-lg animate-pulse">
                       {pendingInvitations > 9 ? '9+' : pendingInvitations}
                     </span>
                   )}
                 </Link>
-                <Link href="/collections" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
+                <Link href="/collections" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
                   Collections
                 </Link>
-                <Link href="/my-mints" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
+                <Link href="/my-mints" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
                   Transactions
                 </Link>
-                <Link href="/transactions" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
+                <Link href="/transactions" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
                   Credit Usage
                 </Link>
-                <Link href="/payouts" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
-                  Payouts
-                </Link>
-                <Link href="/rewards" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
+                <Link href="/rewards" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
                   Rewards
                 </Link>
-                <Link href="/guide" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
+                <Link href="/guide" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
                   Guide
                 </Link>
-                <Link href="/support" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-lg transition-colors">
+                <Link href="/support" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
                   Support
                 </Link>
               </div>
 
-              <div className="border-t border-[#9945FF]/30 pt-2 mt-2">
+              <div className="border-t border-[#9945FF]/30 pt-3 mt-3">
                 <button
                   onClick={handleDisconnect}
-                  className="w-full px-4 py-2 bg-[#ff5252]/10 hover:bg-[#ff5252]/20 text-[#ff5252] rounded-lg text-sm font-medium transition-colors border border-[#ff5252]/20"
+                  className="w-full px-5 py-3 bg-[#ff5252]/10 hover:bg-[#ff5252]/20 text-[#ff5252] rounded-xl text-base font-bold transition-colors border border-[#ff5252]/20"
                 >
                   Disconnect
                 </button>
@@ -364,12 +363,12 @@ export function WalletConnect() {
   }
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative w-full" ref={dropdownRef}>
       <button
         onClick={handleConnect}
-        className="px-3 py-1.5 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:opacity-90 text-white rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5"
+        className="w-full px-5 py-4 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:opacity-90 text-white rounded-xl text-base font-bold transition-all duration-200 flex items-center justify-center gap-3"
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
         Connect Wallet

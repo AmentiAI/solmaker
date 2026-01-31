@@ -3,6 +3,7 @@ export const AUTHORIZED_WALLETS = [
   'bc1pmhglspy7jd7fzx6ycrdcdyet35ppqsu2ywfaakzapzxpwde3jafshshqwe', // Bitcoin wallet
   'bc1ptku2xtatqhntfctzachrmr8laq36s20wtrgnm66j39g0a3fwamlqxkryf2', // Bitcoin wallet
   'D3SNZXJwsMVqJM7qBMUZ8w2rnDhNiLbSs2TT1Ez8GiLJ', // Solana wallet - Admin
+  '5evWF4HACa6fomaEzXS4UtCogR6S9R5nh1PLgm6dEFZK', // Solana wallet - Dev Admin
 ]
 
 export const AUTHORIZED_USERNAMES = [

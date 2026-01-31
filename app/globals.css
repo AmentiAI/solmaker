@@ -3,13 +3,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Professional Solana Design System - Phase 1 */
-/* Primary: Solana Purple #9945FF | Accent: Solana Green #14F195 | Supporting: Gradients */
+/* REVOLUTIONARY SOLMAKER.FUN DESIGN SYSTEM */
+/* Ultra-Modern, Cutting-Edge, Jaw-Dropping Interface */
 :root {
-  /* Base Colors */
-  --background: #0D0D11;
+  /* Base Colors - Deep Space Theme */
+  --background: #050508;
   --foreground: #ffffff;
-  --card: #121218;
+  --card: #0a0a0f;
   --card-foreground: #ffffff;
   --popover: #0D0D11;
   --popover-foreground: #ffffff;
@@ -23,8 +23,8 @@
   --accent-foreground: #0D0D11;
   --destructive: #EF4444;
   --destructive-foreground: #ffffff;
-  --border: rgba(153, 69, 255, 0.2);
-  --input: #121218;
+  --border: rgba(153, 69, 255, 0.3);
+  --input: #0a0a0f;
   --ring: #9945FF;
   
   /* Chart Colors */
@@ -47,21 +47,27 @@
   --sidebar-border: rgba(153, 69, 255, 0.2);
   --sidebar-ring: #9945FF;
   
-  /* Professional Solana Brand Colors */
+  /* Revolutionary Solana Brand Colors - Enhanced */
   --solana-purple: #9945FF;
   --solana-purple-dark: #7C3AED;
-  --solana-purple-light: #A855F7;
+  --solana-purple-light: #B565FF;
   --solana-green: #14F195;
   --solana-green-dark: #10B981;
   --solana-green-light: #34D399;
   --solana-cyan: #00D4FF;
   --solana-pink: #DC1FFF;
+  --solana-blue: #4F46E5;
+  --neon-purple: #A855F7;
+  --neon-green: #10B981;
+  --neon-cyan: #06B6D4;
+  --neon-pink: #EC4899;
   
-  /* Professional Neutral Colors */
-  --surface: #121218;
-  --surface-elevated: #1A1A22;
+  /* Ultra-Modern Surface Colors */
+  --surface: #0a0a0f;
+  --surface-elevated: #12121a;
+  --surface-glass: rgba(18, 18, 26, 0.7);
   --text-primary: #FFFFFF;
-  --text-secondary: #A1A1AA;
+  --text-secondary: #B4B4C8;
   --text-muted: #71717A;
   
   /* Semantic Colors */
@@ -70,11 +76,14 @@
   --error: #EF4444;
   --info: #00D4FF;
   
-  /* Professional Gradients */
-  --gradient-primary: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
-  --gradient-purple: linear-gradient(135deg, #7C3AED 0%, #9945FF 50%, #DC1FFF 100%);
-  --gradient-green: linear-gradient(135deg, #10B981 0%, #14F195 100%);
-  --gradient-surface: linear-gradient(135deg, #121218 0%, #1A1A22 100%);
+  /* Revolutionary Gradients - Ultra Vibrant */
+  --gradient-primary: linear-gradient(135deg, #9945FF 0%, #00D4FF 50%, #14F195 100%);
+  --gradient-purple: linear-gradient(135deg, #7C3AED 0%, #9945FF 30%, #DC1FFF 70%, #EC4899 100%);
+  --gradient-green: linear-gradient(135deg, #10B981 0%, #14F195 50%, #00D4FF 100%);
+  --gradient-surface: linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #1a1a28 100%);
+  --gradient-glow: linear-gradient(135deg, rgba(153, 69, 255, 0.3) 0%, rgba(20, 241, 149, 0.3) 100%);
+  --gradient-neon: linear-gradient(90deg, #9945FF 0%, #00D4FF 25%, #14F195 50%, #DC1FFF 75%, #9945FF 100%);
+  --gradient-cyber: linear-gradient(135deg, #4F46E5 0%, #9945FF 50%, #EC4899 100%);
   
   /* Professional Spacing System (4px base) */
   --space-1: 0.25rem;   /* 4px */
@@ -757,5 +766,326 @@
   /* Remove container padding since layout-wrapper handles it */
   .container.mx-auto {
     @apply px-0;
+  }
+}
+
+/* ============================================ */
+/* REVOLUTIONARY ANIMATIONS & EFFECTS */
+/* ============================================ */
+
+/* Cyber Pulse - Intense 3D glow effect */
+@keyframes cyberPulse {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+    box-shadow: 
+      0 0 20px rgba(153, 69, 255, 0.6),
+      0 0 40px rgba(153, 69, 255, 0.4),
+      0 0 60px rgba(153, 69, 255, 0.2),
+      inset 0 0 20px rgba(153, 69, 255, 0.1);
+  }
+  50% {
+    transform: scale(1.05) translateZ(10px);
+    box-shadow: 
+      0 0 30px rgba(153, 69, 255, 0.8),
+      0 0 60px rgba(153, 69, 255, 0.6),
+      0 0 90px rgba(153, 69, 255, 0.4),
+      inset 0 0 30px rgba(153, 69, 255, 0.2);
+  }
+}
+
+/* Neon Glow - Multi-color glow */
+@keyframes neonGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(153, 69, 255, 0.8)) drop-shadow(0 0 20px rgba(153, 69, 255, 0.4));
+  }
+  33% {
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.8)) drop-shadow(0 0 20px rgba(0, 212, 255, 0.4));
+  }
+  66% {
+    filter: drop-shadow(0 0 10px rgba(20, 241, 149, 0.8)) drop-shadow(0 0 20px rgba(20, 241, 149, 0.4));
+  }
+}
+
+/* Holographic Shift - 3D hologram effect */
+@keyframes holographicShift {
+  0%, 100% {
+    background-position: 0% 50%;
+    transform: perspective(1000px) rotateY(0deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: perspective(1000px) rotateY(5deg);
+  }
+}
+
+/* Glitch Effect - Cyberpunk glitch */
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translate(2px, -2px);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translate(-2px, -2px);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(2px, 2px);
+    opacity: 0.9;
+  }
+}
+
+/* Particle Float - Floating particles */
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px) scale(1.1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-10px) translateX(-10px) scale(0.9);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translateY(-30px) translateX(5px) scale(1.05);
+    opacity: 0.5;
+  }
+}
+
+/* Scan Line - Futuristic scan effect */
+@keyframes scanLine {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* Energy Wave - Pulsing energy */
+@keyframes energyWave {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Neon Border - Animated border */
+@keyframes neonBorder {
+  0%, 100% {
+    border-color: rgba(153, 69, 255, 0.6);
+    box-shadow: 0 0 10px rgba(153, 69, 255, 0.4), inset 0 0 10px rgba(153, 69, 255, 0.2);
+  }
+  33% {
+    border-color: rgba(0, 212, 255, 0.6);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.4), inset 0 0 10px rgba(0, 212, 255, 0.2);
+  }
+  66% {
+    border-color: rgba(20, 241, 149, 0.6);
+    box-shadow: 0 0 10px rgba(20, 241, 149, 0.4), inset 0 0 10px rgba(20, 241, 149, 0.2);
+  }
+}
+
+/* Matrix Rain - Digital rain effect */
+@keyframes matrixRain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Cyber Rotate - 3D rotation */
+@keyframes cyberRotate {
+  0% {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg) rotateX(0deg);
+  }
+}
+
+/* Glow Intensify - Intensifying glow */
+@keyframes glowIntensify {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+    box-shadow: 0 0 20px currentColor;
+  }
+  50% {
+    filter: brightness(1.3) saturate(1.5);
+    box-shadow: 0 0 40px currentColor, 0 0 60px currentColor;
+  }
+}
+
+/* ============================================ */
+/* REVOLUTIONARY UTILITY CLASSES */
+/* ============================================ */
+
+@layer utilities {
+  /* Cyber Effects */
+  .cyber-glow {
+    animation: cyberPulse 3s ease-in-out infinite;
+  }
+  
+  .neon-text {
+    text-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor;
+    animation: neonGlow 4s ease-in-out infinite;
+  }
+  
+  .holographic {
+    background: linear-gradient(135deg, #9945FF, #00D4FF, #14F195, #DC1FFF);
+    background-size: 300% 300%;
+    animation: holographicShift 6s ease-in-out infinite;
+  }
+  
+  .glitch-effect {
+    animation: glitch 0.3s infinite;
+  }
+  
+  /* Glass Morphism - Ultra Modern */
+  .glass-card {
+    background: rgba(10, 10, 15, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(153, 69, 255, 0.2);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-card-hover:hover {
+    background: rgba(10, 10, 15, 0.8);
+    border-color: rgba(153, 69, 255, 0.5);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+      0 12px 48px rgba(153, 69, 255, 0.3),
+      0 0 0 1px rgba(153, 69, 255, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Neon Borders */
+  .neon-border {
+    border: 2px solid;
+    animation: neonBorder 3s ease-in-out infinite;
+  }
+  
+  /* 3D Transform Effects */
+  .transform-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-8px) translateZ(20px) scale(1.03);
+  }
+  
+  /* Gradient Text - Ultra Vibrant */
+  .gradient-text {
+    background: linear-gradient(135deg, #9945FF 0%, #00D4FF 50%, #14F195 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: solanaGradientShift 8s ease infinite;
+  }
+  
+  .gradient-text-neon {
+    background: linear-gradient(90deg, #9945FF, #00D4FF, #14F195, #DC1FFF, #9945FF);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300% 300%;
+    animation: solanaGradientShift 6s ease infinite;
+    filter: drop-shadow(0 0 20px rgba(153, 69, 255, 0.6));
+  }
+  
+  /* Particle Background */
+  .particle-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(153, 69, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: particleFloat 20s ease-in-out infinite;
+  }
+  
+  /* Scan Line Effect */
+  .scan-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 212, 255, 0.1) 50%, transparent 100%);
+    animation: scanLine 4s linear infinite;
+    pointer-events: none;
+  }
+  
+  /* Energy Pulse */
+  .energy-pulse::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    background: radial-gradient(circle, rgba(153, 69, 255, 0.4) 0%, transparent 70%);
+    border-radius: inherit;
+    animation: energyWave 2s ease-out infinite;
+  }
+  
+  /* Ultra Glow */
+  .ultra-glow {
+    box-shadow: 
+      0 0 20px rgba(153, 69, 255, 0.6),
+      0 0 40px rgba(153, 69, 255, 0.4),
+      0 0 60px rgba(153, 69, 255, 0.2),
+      0 0 80px rgba(153, 69, 255, 0.1);
+  }
+  
+  .ultra-glow-green {
+    box-shadow: 
+      0 0 20px rgba(20, 241, 149, 0.6),
+      0 0 40px rgba(20, 241, 149, 0.4),
+      0 0 60px rgba(20, 241, 149, 0.2);
+  }
+  
+  .ultra-glow-cyan {
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.6),
+      0 0 40px rgba(0, 212, 255, 0.4),
+      0 0 60px rgba(0, 212, 255, 0.2);
   }
 }

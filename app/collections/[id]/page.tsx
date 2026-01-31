@@ -234,8 +234,8 @@ export default function CollectionDetailsPage() {
 
   return (
     <>
-  <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 pb-[500px]">
-      <div className="max-w-6xl mx-auto">
+  <div className="w-full px-8 py-8 pb-[500px]">
+      <div className="w-full max-w-[1800px] mx-auto">
           <CollectionHeader
             collection={collection}
             collaboratorCount={collaboratorCount}

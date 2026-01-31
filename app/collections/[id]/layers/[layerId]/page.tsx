@@ -22,9 +22,7 @@ interface Trait {
   id: string
   name: string
   description?: string
-  trait_prompt?: string
   rarity_weight: number
-  is_ignored?: boolean
   created_at: string
   updated_at: string
 }
@@ -158,34 +156,9 @@ export default function LayerDetailsPage() {
   }
 
   const handleToggleIgnore = async (traitId: string) => {
-    const trait = traits.find(t => t.id === traitId)
-    if (!trait) return
-
-    const newIgnoreStatus = !trait.is_ignored
-
-    try {
-      const response = await fetch(`/api/traits/${traitId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: trait.name,
-          description: trait.description,
-          trait_prompt: trait.trait_prompt,
-          rarity_weight: trait.rarity_weight,
-          is_ignored: newIgnoreStatus
-        })
-      })
-      if (response.ok) {
-        await loadTraits()
-        toast.success(`Trait ${newIgnoreStatus ? 'ignored' : 'unignored'}`)
-      } else {
-        const errorData = await response.json()
-        toast.error(`Error: ${errorData.error || 'Failed to update trait'}`)
-      }
-    } catch (error) {
-      console.error('Error toggling ignore:', error)
-      toast.error('Failed to update trait')
-    }
+    // This feature is currently disabled as is_ignored column doesn't exist in the database
+    toast.info('Ignore feature is currently unavailable')
+    return
   }
 
   // Filter and sort traits
@@ -197,8 +170,7 @@ export default function LayerDetailsPage() {
       const query = searchQuery.toLowerCase()
       filtered = filtered.filter(trait => 
         trait.name.toLowerCase().includes(query) ||
-        trait.description?.toLowerCase().includes(query) ||
-        trait.trait_prompt?.toLowerCase().includes(query)
+        trait.description?.toLowerCase().includes(query)
       )
     }
 
@@ -424,8 +396,8 @@ export default function LayerDetailsPage() {
 
   return (
     <div className="min-h-screen bg-[#0f172a]">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="w-full px-8 py-8">
+        <div className="w-full max-w-[1800px] mx-auto">
           <div className="mb-6">
             <Link 
               href={`/collections/${params.id}`} 

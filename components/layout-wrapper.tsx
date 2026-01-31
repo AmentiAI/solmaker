@@ -25,7 +25,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       <SidebarNav />
       
       {/* Main Content Area - Full width with proper padding */}
-      <div className="flex-1 flex flex-col lg:ml-72 w-full">
+      <div className="flex-1 flex flex-col lg:ml-80 w-full">
         <main className="flex-1 overflow-x-hidden w-full px-6 lg:px-12 py-6">
           {children}
         </main>

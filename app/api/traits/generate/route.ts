@@ -382,13 +382,12 @@ DESCRIPTION: [detailed visual description]
     }
 
     // Create all traits in the database
-    // IMPORTANT: trait_prompt stores the detailed description (not the theme) for deterministic image generation
     const createdTraits = [];
     for (const parsedTrait of parsedTraits) {
       const [trait] = await sql`
-        INSERT INTO traits (layer_id, name, description, trait_prompt, rarity_weight)
-        VALUES (${layer_id}, ${parsedTrait.name}, ${parsedTrait.description}, ${parsedTrait.description}, ${rarity_weight})
-        RETURNING id, name, description, trait_prompt, rarity_weight, created_at, updated_at
+        INSERT INTO traits (layer_id, name, description, rarity_weight)
+        VALUES (${layer_id}, ${parsedTrait.name}, ${parsedTrait.description}, ${rarity_weight})
+        RETURNING id, name, description, rarity_weight, created_at, updated_at
       `;
       createdTraits.push(trait);
     }
