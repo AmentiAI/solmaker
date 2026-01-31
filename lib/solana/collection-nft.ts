@@ -11,6 +11,8 @@ import {
   PublicKey as UmiPublicKey,
   Umi,
   TransactionBuilder,
+  createNoopSigner,
+  signerIdentity,
 } from '@metaplex-foundation/umi'
 import { createUmiInstance, createUmiWithSigner } from './umi-config'
 
@@ -84,6 +86,8 @@ export async function buildCollectionNftTransaction(
   
   // Set the authority as identity temporarily (just for building, not signing)
   const authorityPubkey = publicKey(params.authority)
+  const tempSigner = createNoopSigner(authorityPubkey)
+  umi.use(signerIdentity(tempSigner))
   
   const { builder, collectionMint } = await createCollectionNFT(umi, params)
   

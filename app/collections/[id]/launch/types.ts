@@ -49,6 +49,8 @@ export interface Collection {
   compression_dimensions?: number
   compression_target_kb?: number
   compression_format?: string
+  candy_machine_address?: string
+  collection_mint_address?: string
 }
 
 export type Step = 1 | 2 | 3 | 4 | 5

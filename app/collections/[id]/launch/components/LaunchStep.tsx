@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Collection } from '../types'
 import { toast } from 'sonner'
 import JSZip from 'jszip'
+import { SolanaDeploymentWizard } from '@/components/SolanaDeploymentWizard'
 
 interface MintSummary {
   total_mints: number
@@ -992,6 +993,65 @@ export function LaunchStep({
         ) : null}
       </div>
 
+      {/* Solana Deployment - Show if not deployed yet */}
+      {!collection.candy_machine_address && !isLive && (
+        <div className="mb-6">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/30 backdrop-blur-md p-6 mb-4">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="text-4xl">🚀</div>
+              <div>
+                <h3 className="font-bold text-[#9945FF] text-xl mb-2">Deploy to Solana First</h3>
+                <p className="text-white/70 text-sm mb-3">
+                  Before launching, you need to deploy your collection as a Candy Machine on Solana blockchain.
+                  This is a one-time cost of approximately <span className="text-[#00d4ff] font-semibold">~0.16 SOL (~$32)</span>.
+                </p>
+                <div className="bg-black/30 rounded-lg p-4 space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/50">1.</span>
+                    <span className="text-white/70">Upload metadata & images (free)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/50">2.</span>
+                    <span className="text-white/70">Create collection NFT (~0.01 SOL)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/50">3.</span>
+                    <span className="text-white/70">Deploy Candy Machine (~0.15 SOL)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <SolanaDeploymentWizard
+            collectionId={collection.id}
+            onComplete={() => {
+              toast.success('Collection deployed to Solana!')
+              window.location.reload()
+            }}
+          />
+        </div>
+      )}
+
+      {/* Deployment Success - Show if deployed */}
+      {collection.candy_machine_address && (
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-green-500/50 backdrop-blur-md p-6 mb-6">
+          <div className="flex items-start gap-4">
+            <div className="text-4xl">✅</div>
+            <div>
+              <h3 className="font-bold text-green-500 text-xl mb-2">Deployed to Solana!</h3>
+              <p className="text-white/70 text-sm mb-3">
+                Your collection is deployed and ready to mint on Solana.
+              </p>
+              <div className="bg-black/30 rounded-lg p-3 font-mono text-sm break-all">
+                <span className="text-white/50">Candy Machine:</span>{' '}
+                <span className="text-[#00d4ff]">{collection.candy_machine_address}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Launch Status */}
       {isLive ? (
         <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/50 rounded-lg p-6">
@@ -1013,13 +1073,22 @@ export function LaunchStep({
           <h3 className="font-bold text-[#00d4ff] mb-2">Ready to Launch!</h3>
           <p className="text-white/70 text-sm mb-4">
             Once you launch, your collection will be live on the launchpad and collectors can start minting.
+            {!collection.candy_machine_address && (
+              <span className="block mt-2 text-yellow-500 text-xs">
+                ⚠️ Note: You must deploy to Solana first (see above)
+              </span>
+            )}
           </p>
           <button
             onClick={onLaunch}
-            disabled={saving || collection.launch_status === 'live'}
+            disabled={saving || collection.launch_status === 'live' || !collection.candy_machine_address}
             className="px-6 py-3 bg-[#e27d0f] hover:bg-[#c96a0a] text-white rounded-lg font-bold text-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {collection.launch_status === 'live' ? 'Already Live' : 'Launch Collection'}
+            {!collection.candy_machine_address 
+              ? 'Deploy to Solana First ↑' 
+              : collection.launch_status === 'live' 
+              ? 'Already Live' 
+              : 'Launch Collection'}
           </button>
         </div>
       )}

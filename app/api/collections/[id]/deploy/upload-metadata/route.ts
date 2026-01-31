@@ -34,12 +34,30 @@ export async function POST(
 
     const collection = collections[0]
 
-    // Check if already uploaded
+    // Check if already uploaded - if so, return existing metadata
     if (collection.metadata_uploaded) {
-      return NextResponse.json({ 
-        error: 'Metadata already uploaded',
-        message: 'Use force=true to re-upload'
-      }, { status: 400 })
+      console.log('📦 Metadata already uploaded, returning existing URIs...')
+      
+      // Get existing metadata URIs
+      const existingUris = await sql`
+        SELECT metadata_uri
+        FROM nft_metadata_uris
+        WHERE collection_id = ${collectionId}::uuid
+        ORDER BY nft_number
+      ` as any[]
+
+      if (existingUris.length > 0) {
+        return NextResponse.json({
+          success: true,
+          message: `Using existing metadata (${existingUris.length} NFTs already uploaded)`,
+          count: existingUris.length,
+          metadataUris: existingUris.map(u => u.metadata_uri),
+          alreadyUploaded: true,
+        })
+      }
+      
+      // If metadata_uploaded is true but no URIs found, continue with upload
+      console.log('⚠️  metadata_uploaded is true but no URIs found, proceeding with upload...')
     }
 
     // Update status

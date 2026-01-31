@@ -3,7 +3,7 @@
  * Use this in the collection launch page
  */
 
-import { Transaction } from '@solana/web3.js'
+import { VersionedTransaction } from '@solana/web3.js'
 
 export interface DeploymentStep {
   id: string
@@ -132,7 +132,7 @@ export class SolanaDeployment {
         throw new Error('Wallet not connected')
       }
 
-      const transaction = Transaction.from(Buffer.from(data.transaction, 'base64'))
+      const transaction = VersionedTransaction.deserialize(Buffer.from(data.transaction, 'base64'))
       const { signature } = await window.solana.signAndSendTransaction(transaction)
 
       // Confirm with backend
@@ -198,7 +198,7 @@ export class SolanaDeployment {
           description: `Signing transaction ${i + 1} of ${data.transactions.length}: ${txData.description}`
         })
 
-        const transaction = Transaction.from(Buffer.from(txData.transaction, 'base64'))
+        const transaction = VersionedTransaction.deserialize(Buffer.from(txData.transaction, 'base64'))
         const { signature } = await window.solana.signAndSendTransaction(transaction)
         signatures.push(signature)
 
@@ -271,7 +271,7 @@ export async function mintFromCandyMachine(
       throw new Error('Wallet not connected')
     }
 
-    const transaction = Transaction.from(Buffer.from(buildData.transaction, 'base64'))
+    const transaction = VersionedTransaction.deserialize(Buffer.from(buildData.transaction, 'base64'))
     const { signature } = await window.solana.signAndSendTransaction(transaction)
 
     // Confirm with backend
