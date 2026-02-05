@@ -17,77 +17,71 @@ export async function GET(request: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0')
     const limit = parseInt(searchParams.get('limit') || '50')
 
-    // Build query
-    let whereConditions: string[] = []
-    let params: any[] = []
-    let paramIndex = 1
+    // Build WHERE conditions
+    const whereConditions: any[] = []
 
     // Status filter
-    whereConditions.push(`status = $${paramIndex}`)
-    params.push(status)
-    paramIndex++
+    whereConditions.push(sql`status = ${status}`)
 
     // Collection filter
     if (collection) {
-      whereConditions.push(`metadata->>'collection'->>'key' = $${paramIndex}`)
-      params.push(collection)
-      paramIndex++
+      whereConditions.push(sql`metadata->'collection'->>'key' = ${collection}`)
     }
 
     // Price range filter
     if (priceMin) {
-      whereConditions.push(`price_lamports >= $${paramIndex}`)
-      params.push(parseInt(priceMin))
-      paramIndex++
+      whereConditions.push(sql`price_lamports >= ${parseInt(priceMin)}`)
     }
 
     if (priceMax) {
-      whereConditions.push(`price_lamports <= $${paramIndex}`)
-      params.push(parseInt(priceMax))
-      paramIndex++
+      whereConditions.push(sql`price_lamports <= ${parseInt(priceMax)}`)
     }
 
     // Search filter
     if (search) {
-      whereConditions.push(`(
-        title ILIKE $${paramIndex}
-        OR description ILIKE $${paramIndex}
-        OR mint_address ILIKE $${paramIndex}
+      const searchPattern = `%${search}%`
+      whereConditions.push(sql`(
+        title ILIKE ${searchPattern}
+        OR description ILIKE ${searchPattern}
+        OR mint_address ILIKE ${searchPattern}
       )`)
-      params.push(`%${search}%`)
-      paramIndex++
     }
 
-    const whereClause = whereConditions.length > 0
-      ? `WHERE ${whereConditions.join(' AND ')}`
-      : ''
+    // Build WHERE clause
+    let whereClause = sql``
+    if (whereConditions.length > 0) {
+      whereClause = sql`WHERE ${whereConditions[0]}`
+      for (let i = 1; i < whereConditions.length; i++) {
+        whereClause = sql`${whereClause} AND ${whereConditions[i]}`
+      }
+    }
 
-    // Sort clause
-    let orderClause = ''
+    // Build ORDER BY clause
+    let orderClause = sql``
     switch (sortBy) {
       case 'price_low':
-        orderClause = 'ORDER BY price_lamports ASC'
+        orderClause = sql`ORDER BY price_lamports ASC`
         break
       case 'price_high':
-        orderClause = 'ORDER BY price_lamports DESC'
+        orderClause = sql`ORDER BY price_lamports DESC`
         break
       case 'recent':
       default:
-        orderClause = 'ORDER BY created_at DESC'
+        orderClause = sql`ORDER BY created_at DESC`
         break
     }
 
     // Get total count
-    const countResult = await sql.unsafe(`
+    const countResult = await sql`
       SELECT COUNT(*) as total
       FROM nft_listings
       ${whereClause}
-    `, params)
+    `
 
-    const total = parseInt(countResult[0].total)
+    const total = countResult && countResult[0] ? parseInt(countResult[0].total) : 0
 
     // Get listings
-    const listings = await sql.unsafe(`
+    const listings = await sql`
       SELECT
         id,
         mint_address,
@@ -104,12 +98,12 @@ export async function GET(request: NextRequest) {
       FROM nft_listings
       ${whereClause}
       ${orderClause}
-      LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
-    `, [...params, limit, offset])
+      LIMIT ${limit} OFFSET ${offset}
+    `
 
     return NextResponse.json({
       success: true,
-      listings,
+      listings: listings || [],
       total,
       page: Math.floor(offset / limit) + 1,
       limit,
