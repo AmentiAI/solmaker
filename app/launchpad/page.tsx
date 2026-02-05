@@ -256,7 +256,7 @@ export default function LaunchpadPage() {
                 <Button
                   onClick={handleOpenLaunchModal}
                   size="lg"
-                  className="group px-10 py-7 text-xl font-black bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] bg-[length:200%_100%] hover:bg-[position:100%_0] text-white rounded-2xl shadow-2xl shadow-[#9945FF]/60 hover:shadow-[#9945FF]/80 transition-all duration-300 hover:scale-105 relative overflow-hidden"
+                  className="group px-10 py-7 text-xl font-black bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] text-white rounded-2xl shadow-2xl shadow-[#9945FF]/60 hover:shadow-[#9945FF]/80 transition-all duration-300 hover:scale-105 relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
                   <Plus className="h-6 w-6 mr-3 relative z-10" />

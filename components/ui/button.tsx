@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] bg-[length:200%_100%] text-white shadow-lg shadow-[#9945FF]/50 hover:shadow-2xl hover:shadow-[#9945FF]/70 hover:scale-105 hover:bg-[position:100%_0] active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700',
+        default: 'bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] text-white shadow-lg shadow-[#9945FF]/50 hover:shadow-2xl hover:shadow-[#9945FF]/70 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700',
         secondary:
-          'bg-gradient-to-r from-[#14F195] via-[#10B981] to-[#14F195] bg-[length:200%_100%] text-black font-extrabold shadow-lg shadow-[#14F195]/50 hover:shadow-2xl hover:shadow-[#14F195]/70 hover:scale-105 hover:bg-[position:100%_0] active:scale-95',
+          'bg-gradient-to-r from-[#14F195] via-[#10B981] to-[#14F195] text-black font-extrabold shadow-lg shadow-[#14F195]/50 hover:shadow-2xl hover:shadow-[#14F195]/70 hover:scale-105 active:scale-95',
         outline:
           'border-2 border-[#9945FF]/60 hover:border-[#9945FF] hover:bg-gradient-to-r hover:from-[#9945FF]/20 hover:to-[#DC1FFF]/20 text-white font-bold hover:scale-105 hover:shadow-xl hover:shadow-[#9945FF]/40 active:scale-95 backdrop-blur-sm',
         ghost:
           'hover:bg-gradient-to-r hover:from-[#9945FF]/15 hover:to-[#DC1FFF]/15 text-[#B4B4C8] hover:text-white font-semibold hover:scale-105 active:scale-95',
         destructive:
-          'bg-gradient-to-r from-[#EF4444] via-[#DC2626] to-[#EF4444] bg-[length:200%_100%] text-white shadow-lg shadow-red-500/50 hover:shadow-2xl hover:shadow-red-500/70 hover:scale-105 hover:bg-[position:100%_0] active:scale-95',
+          'bg-gradient-to-r from-[#EF4444] via-[#DC2626] to-[#EF4444] text-white shadow-lg shadow-red-500/50 hover:shadow-2xl hover:shadow-red-500/70 hover:scale-105 active:scale-95',
         link: 'text-[#9945FF] underline-offset-4 hover:underline hover:text-[#A855F7] hover:drop-shadow-[0_0_10px_rgba(153,69,255,0.8)]',
       },
       size: {

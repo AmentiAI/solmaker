@@ -22,6 +22,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    if (!sql) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 500 }
+      )
+    }
+
     // Get listing and transaction from database
     const listing = await sql`
       SELECT * FROM nft_listings
@@ -29,14 +36,15 @@ export async function POST(request: NextRequest) {
       LIMIT 1
     `
 
-    if (listing.length === 0) {
+    const listings = Array.isArray(listing) ? listing : []
+    if (listings.length === 0) {
       return NextResponse.json(
         { error: 'Listing not found' },
         { status: 404 }
       )
     }
 
-    const listingData = listing[0]
+    const listingData = listings[0] as any
 
     if (listingData.status !== 'active') {
       return NextResponse.json(
@@ -45,12 +53,34 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // CRITICAL: Verify payment on-chain
-    const paymentVerification = await verifyPurchaseTransaction(
-      paymentTxSignature,
-      listingData.seller_wallet,
-      listingData.price_lamports
-    )
+    // CRITICAL: Verify payment on-chain with retries (transaction may not be confirmed yet)
+    let paymentVerification = { valid: false, error: 'Not checked yet' }
+    const maxRetries = 10
+    const retryDelay = 2000 // 2 seconds
+    
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      paymentVerification = await verifyPurchaseTransaction(
+        paymentTxSignature,
+        listingData.seller_wallet,
+        listingData.price_lamports
+      )
+
+      if (paymentVerification.valid) {
+        break // Payment verified successfully
+      }
+
+      // If transaction not found, wait and retry
+      if (paymentVerification.error?.includes('Transaction not found') && attempt < maxRetries - 1) {
+        console.log(`Payment verification attempt ${attempt + 1}/${maxRetries} - waiting for confirmation...`)
+        await new Promise(resolve => setTimeout(resolve, retryDelay))
+        continue
+      }
+
+      // Other errors - don't retry
+      if (!paymentVerification.error?.includes('Transaction not found')) {
+        break
+      }
+    }
 
     if (!paymentVerification.valid) {
       return NextResponse.json(
@@ -82,14 +112,15 @@ export async function POST(request: NextRequest) {
     } catch (error) {
       console.error('Error delivering NFT:', error)
 
-      // Mark transaction as failed
-      await sql`
-        UPDATE nft_transactions SET
-          status = 'failed',
-          error_message = ${(error as Error).message}
-        WHERE listing_id = ${listingId}
-        AND buyer_wallet = ${buyerWallet}
-      `
+      // Mark transaction as failed (without error_message column)
+      if (sql) {
+        await sql`
+          UPDATE nft_transactions SET
+            status = 'failed'
+          WHERE listing_id = ${listingId}
+          AND buyer_wallet = ${buyerWallet}
+        `
+      }
 
       return NextResponse.json(
         {
@@ -108,56 +139,55 @@ export async function POST(request: NextRequest) {
       // Don't fail the request, but log for monitoring
     }
 
-    // Update database atomically
+    // Update database (NFT was delivered successfully)
     try {
-      await sql.begin(async (sql) => {
-        // Update listing
+      // Update listing
+      await sql`
+        UPDATE nft_listings SET
+          status = 'sold',
+          sold_to_wallet = ${buyerWallet},
+          sold_tx_signature = ${paymentTxSignature},
+          sold_at = NOW()
+        WHERE id = ${listingId}
+      `
+
+      // Update transaction
+      await sql`
+        UPDATE nft_transactions SET
+          status = 'confirmed',
+          tx_signature = ${deliveryTxSignature}
+        WHERE listing_id = ${listingId}
+        AND buyer_wallet = ${buyerWallet}
+      `
+
+      // Update collection stats
+      const metadata = listingData.metadata
+      if (metadata && metadata.collection) {
         await sql`
-          UPDATE nft_listings SET
-            status = 'sold',
-            sold_to_wallet = ${buyerWallet},
-            sold_tx_signature = ${paymentTxSignature},
-            sold_at = NOW()
-          WHERE id = ${listingId}
+          UPDATE nft_collections SET
+            total_sales = total_sales + 1,
+            total_volume_lamports = total_volume_lamports + ${listingData.price_lamports},
+            total_listings = GREATEST(total_listings - 1, 0)
+          WHERE symbol = ${metadata.collection.key}
         `
 
-        // Update transaction
-        await sql`
-          UPDATE nft_transactions SET
-            status = 'confirmed',
-            tx_signature = ${deliveryTxSignature}
-          WHERE listing_id = ${listingId}
-          AND buyer_wallet = ${buyerWallet}
+        // Recalculate floor price
+        const newFloorResult = await sql`
+          SELECT MIN(price_lamports) as floor_price
+          FROM nft_listings
+          WHERE metadata->>'collection'->>'key' = ${metadata.collection.key}
+          AND status = 'active'
         `
 
-        // Update collection stats
-        const metadata = listingData.metadata
-        if (metadata && metadata.collection) {
+        const floorResults = Array.isArray(newFloorResult) ? newFloorResult : []
+        if (floorResults.length > 0 && floorResults[0].floor_price) {
           await sql`
-            UPDATE nft_collections SET
-              total_sales = total_sales + 1,
-              total_volume_lamports = total_volume_lamports + ${listingData.price_lamports},
-              total_listings = GREATEST(total_listings - 1, 0)
+            UPDATE nft_collections
+            SET floor_price_lamports = ${floorResults[0].floor_price}
             WHERE symbol = ${metadata.collection.key}
           `
-
-          // Recalculate floor price
-          const newFloorResult = await sql`
-            SELECT MIN(price_lamports) as floor_price
-            FROM nft_listings
-            WHERE metadata->>'collection'->>'key' = ${metadata.collection.key}
-            AND status = 'active'
-          `
-
-          if (newFloorResult.length > 0 && newFloorResult[0].floor_price) {
-            await sql`
-              UPDATE nft_collections
-              SET floor_price_lamports = ${newFloorResult[0].floor_price}
-              WHERE symbol = ${metadata.collection.key}
-            `
-          }
         }
-      })
+      }
     } catch (error) {
       console.error('Error updating database after successful NFT delivery:', error)
       // NFT was delivered successfully but DB update failed

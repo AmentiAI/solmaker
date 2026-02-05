@@ -16,6 +16,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    if (!sql) {
+      return NextResponse.json(
+        { error: 'Database not available' },
+        { status: 500 }
+      )
+    }
+
     // Get listing from database
     const listing = await sql`
       SELECT * FROM nft_listings
@@ -23,14 +30,15 @@ export async function POST(request: NextRequest) {
       LIMIT 1
     `
 
-    if (listing.length === 0) {
+    const listings = Array.isArray(listing) ? listing : []
+    if (listings.length === 0) {
       return NextResponse.json(
         { error: 'Listing not found' },
         { status: 404 }
       )
     }
 
-    const listingData = listing[0]
+    const listingData = listings[0] as any
 
     if (listingData.status !== 'pending') {
       return NextResponse.json(
@@ -90,8 +98,7 @@ export async function POST(request: NextRequest) {
     await sql`
       UPDATE nft_listings SET
         status = 'active',
-        listing_tx_signature = ${txSignature},
-        updated_at = NOW()
+        listing_tx_signature = ${txSignature}
       WHERE id = ${listingId}
     `
 
@@ -114,8 +121,7 @@ export async function POST(request: NextRequest) {
             NOW()
           )
           ON CONFLICT (symbol) DO UPDATE SET
-            total_listings = nft_collections.total_listings + 1,
-            updated_at = NOW()
+            total_listings = nft_collections.total_listings + 1
         `
 
         // Update floor price if this is lower
@@ -139,9 +145,11 @@ export async function POST(request: NextRequest) {
       LIMIT 1
     `
 
+    const updatedListings = Array.isArray(updatedListing) ? updatedListing : []
+
     return NextResponse.json({
       success: true,
-      listing: updatedListing[0],
+      listing: updatedListings[0],
     })
   } catch (error: any) {
     console.error('Error in POST /api/marketplace/solana/confirm-listing:', error)

@@ -13,6 +13,7 @@ import {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
 } from '@solana/spl-token'
+import bs58 from 'bs58'
 import { getConnection } from './connection'
 
 /**
@@ -25,21 +26,33 @@ export async function buildTransferToEscrow(
   platformWallet: PublicKey
 ): Promise<{ transaction: Transaction; escrowTokenAccount: PublicKey }> {
   const connection = getConnection()
+  
+  // Import the getNftTokenAccount function
+  const { getNftTokenAccount } = await import('./nft-fetcher')
 
-  // Get associated token accounts
-  const ownerTokenAccount = await getAssociatedTokenAddress(
-    nftMint,
-    ownerWallet,
-    false,
-    TOKEN_PROGRAM_ID,
-    ASSOCIATED_TOKEN_PROGRAM_ID
+  // Get the actual token account that holds the NFT
+  const nftAccountInfo = await getNftTokenAccount(
+    nftMint.toBase58(),
+    ownerWallet.toBase58()
   )
 
+  if (!nftAccountInfo) {
+    throw new Error('Could not find NFT token account. Make sure you own this NFT.')
+  }
+
+  const { tokenAccount: ownerTokenAccount, tokenProgram } = nftAccountInfo
+  
+  // Determine which token program and ATA program to use
+  const TOKEN_2022_PROGRAM_ID = new PublicKey('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb')
+  const isToken2022 = tokenProgram.equals(TOKEN_2022_PROGRAM_ID)
+  const tokenProgramId = isToken2022 ? TOKEN_2022_PROGRAM_ID : TOKEN_PROGRAM_ID
+
+  // Get escrow token account (always use same program as the NFT)
   const escrowTokenAccount = await getAssociatedTokenAddress(
     nftMint,
     platformWallet,
     false,
-    TOKEN_PROGRAM_ID,
+    tokenProgramId,
     ASSOCIATED_TOKEN_PROGRAM_ID
   )
 
@@ -57,21 +70,39 @@ export async function buildTransferToEscrow(
         escrowTokenAccount, // ATA address
         platformWallet, // Owner
         nftMint, // Mint
-        TOKEN_PROGRAM_ID,
+        tokenProgramId,
         ASSOCIATED_TOKEN_PROGRAM_ID
       )
     )
   }
 
+  // Verify the owner token account has the NFT before building transfer
+  const ownerAccountInfo = await connection.getParsedAccountInfo(ownerTokenAccount)
+  if (!ownerAccountInfo.value) {
+    throw new Error(`Owner token account ${ownerTokenAccount.toBase58()} does not exist`)
+  }
+
+  const accountData = ownerAccountInfo.value.data as any
+  const amount = accountData.parsed?.info?.tokenAmount?.uiAmount
+  const accountOwner = accountData.parsed?.info?.owner
+
+  if (amount !== 1) {
+    throw new Error(`Owner token account does not have the NFT (amount: ${amount})`)
+  }
+
+  if (accountOwner !== ownerWallet.toBase58()) {
+    throw new Error(`Owner token account is not owned by seller wallet`)
+  }
+
   // Transfer NFT (amount = 1 for NFTs)
   transaction.add(
     createTransferInstruction(
-      ownerTokenAccount, // From
+      ownerTokenAccount, // From (actual token account holding the NFT)
       escrowTokenAccount, // To
       ownerWallet, // Owner
       1, // Amount
       [], // Multisig signers (none)
-      TOKEN_PROGRAM_ID
+      tokenProgramId
     )
   )
 
@@ -270,19 +301,32 @@ export async function verifyNftReceived(
  * WARNING: This should only be used server-side
  */
 export function getPlatformWalletKeypair(): Keypair {
-  const privateKeyBase58 = process.env.SOLANA_PLATFORM_PRIVATE_KEY
+  const privateKey = process.env.SOLANA_PLATFORM_PRIVATE_KEY
 
-  if (!privateKeyBase58) {
+  if (!privateKey) {
     throw new Error('SOLANA_PLATFORM_PRIVATE_KEY not configured')
   }
 
   try {
-    // Decode base58 private key
-    const bs58 = require('bs58')
-    const privateKeyBytes = bs58.decode(privateKeyBase58)
+    // Try to parse as JSON array first (e.g., [1,2,3,...])
+    if (privateKey.startsWith('[')) {
+      const arrayKey = JSON.parse(privateKey)
+      return Keypair.fromSecretKey(Uint8Array.from(arrayKey))
+    }
+    
+    // Try as base58 string
+    const privateKeyBytes = bs58.decode(privateKey)
+    
+    // Solana secret keys should be 64 bytes
+    if (privateKeyBytes.length !== 64) {
+      throw new Error(`Invalid key length: ${privateKeyBytes.length} bytes (expected 64)`)
+    }
+    
     return Keypair.fromSecretKey(privateKeyBytes)
-  } catch (error) {
-    throw new Error('Invalid SOLANA_PLATFORM_PRIVATE_KEY format')
+  } catch (error: any) {
+    console.error('Error parsing SOLANA_PLATFORM_PRIVATE_KEY:', error.message)
+    console.error('Private key preview:', privateKey.substring(0, 20) + '...')
+    throw new Error(`Invalid SOLANA_PLATFORM_PRIVATE_KEY format: ${error.message}`)
   }
 }
 

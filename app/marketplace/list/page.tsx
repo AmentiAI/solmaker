@@ -57,14 +57,25 @@ export default function ListNftPage() {
   }
 
   const handleCreateListing = async () => {
-    if (!selectedNft || !publicKey || !signTransaction) {
-      toast.error('Missing required data')
+    // Specific validation checks with helpful messages
+    if (!selectedNft) {
+      toast.error('Please select an NFT to list')
+      return
+    }
+
+    if (!publicKey) {
+      toast.error('Wallet not connected. Please connect your wallet.')
+      return
+    }
+
+    if (!signTransaction) {
+      toast.error('Wallet does not support transaction signing')
       return
     }
 
     const priceNum = parseFloat(price)
-    if (isNaN(priceNum) || priceNum <= 0) {
-      toast.error('Please enter a valid price')
+    if (!price || isNaN(priceNum) || priceNum <= 0) {
+      toast.error('Please enter a valid price greater than 0')
       return
     }
 

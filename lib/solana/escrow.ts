@@ -1,4 +1,10 @@
 import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js'
+import {
+  getAssociatedTokenAddress,
+  createAssociatedTokenAccountInstruction,
+  TOKEN_PROGRAM_ID,
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+} from '@solana/spl-token'
 import { getConnection } from './connection'
 import { PLATFORM_FEE_BPS } from './cost-estimation'
 
@@ -33,28 +39,87 @@ export function calculatePlatformFee(priceLamports: number): number {
 
 /**
  * Build a purchase transaction that pays seller + platform fee
+ * Also creates buyer's token account if needed (buyer pays for it)
  */
 export async function buildPurchaseTransaction(
   buyerPubkey: PublicKey,
   sellerPubkey: PublicKey,
-  priceLamports: number
-): Promise<{ transaction: Transaction; platformFee: number }> {
+  priceLamports: number,
+  mintAddress?: string
+): Promise<{ transaction: Transaction; platformFee: number; needsTokenAccount: boolean }> {
   const connection = getConnection()
   const { blockhash } = await connection.getLatestBlockhash('finalized')
 
-  const platformFee = calculatePlatformFee(priceLamports)
-  const sellerAmount = priceLamports - platformFee
-
-  const platformWallet = process.env.PLATFORM_FEE_WALLET
+  const platformWallet = process.env.SOLANA_PLATFORM_WALLET
   if (!platformWallet) {
-    throw new Error('PLATFORM_FEE_WALLET not configured')
+    throw new Error('SOLANA_PLATFORM_WALLET not configured')
   }
 
   const platformPubkey = new PublicKey(platformWallet)
+  
+  // Check if platform wallet exists and has balance
+  const platformAccountInfo = await connection.getAccountInfo(platformPubkey)
+  const RENT_EXEMPT_MINIMUM = 890880 // lamports (~0.00089 SOL)
+  
+  let platformFee = calculatePlatformFee(priceLamports)
+  
+  // If platform wallet doesn't exist or has 0 balance, ensure first transfer meets rent exemption
+  if (!platformAccountInfo || platformAccountInfo.lamports === 0) {
+    if (platformFee < RENT_EXEMPT_MINIMUM) {
+      platformFee = RENT_EXEMPT_MINIMUM
+    }
+  }
+  
+  const sellerAmount = priceLamports - platformFee
+  if (sellerAmount < 0) {
+    throw new Error('Price too low to cover platform fee and rent exemption')
+  }
 
   const transaction = new Transaction()
   transaction.recentBlockhash = blockhash
   transaction.feePayer = buyerPubkey
+
+  let needsTokenAccount = false
+
+  // If mintAddress provided, check if buyer needs a token account
+  if (mintAddress) {
+    try {
+      const mintPubkey = new PublicKey(mintAddress)
+      
+      // Check both token programs
+      const TOKEN_2022_PROGRAM_ID = new PublicKey('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb')
+      
+      // Try to detect which token program (check escrow account to determine)
+      const escrowTokenAccount = await getAssociatedTokenAddress(
+        mintPubkey,
+        platformPubkey,
+        false,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID
+      )
+      
+      const escrowAccountInfo = await connection.getAccountInfo(escrowTokenAccount)
+      const tokenProgramId = escrowAccountInfo ? TOKEN_PROGRAM_ID : TOKEN_2022_PROGRAM_ID
+
+      const buyerTokenAccount = await getAssociatedTokenAddress(
+        mintPubkey,
+        buyerPubkey,
+        false,
+        tokenProgramId,
+        ASSOCIATED_TOKEN_PROGRAM_ID
+      )
+
+      const buyerAccountInfo = await connection.getAccountInfo(buyerTokenAccount)
+      if (!buyerAccountInfo) {
+        needsTokenAccount = true
+        // NOTE: Token account creation is now handled by the platform during NFT delivery
+        // We don't include it in the purchase transaction to avoid rent calculation issues
+      }
+    } catch (error) {
+      console.error('Error checking buyer token account:', error)
+      // Continue without token account creation - it might not be needed
+    }
+  }
 
   // Pay seller
   transaction.add(
@@ -74,7 +139,7 @@ export async function buildPurchaseTransaction(
     })
   )
 
-  return { transaction, platformFee }
+  return { transaction, platformFee, needsTokenAccount }
 }
 
 /**

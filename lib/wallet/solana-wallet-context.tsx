@@ -18,6 +18,7 @@ interface SolanaWalletContextType extends SolanaWalletState {
   connect: () => Promise<boolean>
   disconnect: () => Promise<void>
   sendTransaction: (to: string, amount: number) => Promise<string>
+  signTransaction: ((transaction: Transaction) => Promise<Transaction>) | undefined
   getBalance: () => Promise<number>
   verifyWallet: (overridePublicKey?: PublicKey) => Promise<boolean>
   selectWallet: (walletName: string | null) => void
@@ -32,7 +33,7 @@ interface SolanaWalletContextType extends SolanaWalletState {
 const SolanaWalletContext = createContext<SolanaWalletContextType | undefined>(undefined)
 
 export function SolanaWalletProvider({ children }: { children: ReactNode }) {
-  const { wallet, publicKey, connected, connecting, connect: adapterConnect, disconnect: adapterDisconnect, select, signMessage, sendTransaction: adapterSendTransaction } = useWallet()
+  const { wallet, publicKey, connected, connecting, connect: adapterConnect, disconnect: adapterDisconnect, select, signMessage, sendTransaction: adapterSendTransaction, signTransaction } = useWallet()
   const { connection } = useConnection()
   
   const [state, setState] = useState<SolanaWalletState>({
@@ -363,6 +364,7 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
     connect,
     disconnect,
     sendTransaction,
+    signTransaction,
     getBalance,
     verifyWallet,
     selectWallet: select,
@@ -398,6 +400,7 @@ export function useSolanaWallet() {
       connect: async () => false,
       disconnect: async () => {},
       sendTransaction: async () => { throw new Error('Solana wallet not available') },
+      signTransaction: undefined,
       getBalance: async () => 0,
       verifyWallet: async () => false,
       selectWallet: () => {},

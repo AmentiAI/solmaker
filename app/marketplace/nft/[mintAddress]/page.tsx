@@ -26,7 +26,7 @@ export default function NftDetailPage() {
   const router = useRouter()
   const { isConnected, publicKey, signTransaction } = useSolanaWallet()
 
-  const mintAddress = params.mintAddress as string
+  const listingId = params.mintAddress as string // Still using mintAddress param name for backwards compat
 
   const [listing, setListing] = useState<NftListing | null>(null)
   const [loading, setLoading] = useState(true)
@@ -35,7 +35,7 @@ export default function NftDetailPage() {
 
   useEffect(() => {
     loadListing()
-  }, [mintAddress])
+  }, [listingId])
 
   const loadListing = async () => {
     setLoading(true)
@@ -44,7 +44,8 @@ export default function NftDetailPage() {
       const data = await response.json()
 
       if (response.ok) {
-        const found = data.listings.find((l: any) => l.mint_address === mintAddress)
+        // First try to find by ID (new way), then fall back to mint_address (old way for backwards compat)
+        const found = data.listings.find((l: any) => l.id === listingId || l.mint_address === listingId)
         if (found) {
           setListing(found)
         } else {
@@ -94,7 +95,15 @@ export default function NftDetailPage() {
       const transactionBuffer = Buffer.from(data.transaction, 'base64')
       const transaction = Transaction.from(transactionBuffer)
 
-      toast.info(`Please sign to purchase for ${listing.price_sol} SOL`)
+      // Calculate total cost including token account if needed
+      const tokenAccountCost = data.needsTokenAccount ? data.tokenAccountRent / LAMPORTS_PER_SOL : 0
+      const totalCost = parseFloat(listing.price_sol) + tokenAccountCost
+      
+      const costMessage = data.needsTokenAccount 
+        ? `${listing.price_sol} SOL + ${tokenAccountCost.toFixed(4)} SOL (token account creation)`
+        : `${listing.price_sol} SOL`
+      
+      toast.info(`Please sign to purchase for ${costMessage}`)
       const signedTx = await signTransaction(transaction)
 
       // Step 3: Broadcast payment
@@ -307,7 +316,7 @@ export default function NftDetailPage() {
               <p className="text-sm text-[#B4B4C8] mb-2">Current Price</p>
               <div className="flex items-baseline gap-3 mb-6">
                 <span className="text-6xl font-black text-[#14F195] drop-shadow-[0_0_20px_rgba(20,241,149,0.6)]">
-                  {listing.price_sol.toFixed(2)}
+                  {parseFloat(listing.price_sol).toFixed(2)}
                 </span>
                 <span className="text-2xl font-bold text-[#B4B4C8]">SOL</span>
               </div>
@@ -338,7 +347,7 @@ export default function NftDetailPage() {
                 <div className="mb-6 space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-[#B4B4C8]">Price</span>
-                    <span className="text-white font-bold">{listing.price_sol.toFixed(4)} SOL</span>
+                    <span className="text-white font-bold">{parseFloat(listing.price_sol).toFixed(4)} SOL</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#B4B4C8]">Platform Fee (2%)</span>
@@ -347,7 +356,7 @@ export default function NftDetailPage() {
                   <div className="border-t border-[#9945FF]/20 pt-2 flex justify-between">
                     <span className="text-white font-bold">Total</span>
                     <span className="text-[#14F195] font-black text-lg">
-                      {listing.price_sol.toFixed(4)} SOL
+                      {parseFloat(listing.price_sol).toFixed(4)} SOL
                     </span>
                   </div>
                 </div>
@@ -367,13 +376,18 @@ export default function NftDetailPage() {
                   {canceling ? 'Canceling...' : 'Cancel Listing'}
                 </button>
               ) : (
-                <button
-                  onClick={handlePurchase}
-                  disabled={purchasing}
-                  className="w-full px-8 py-4 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-[#A855F7] hover:to-[#10B981] text-white font-black rounded-xl transition-all disabled:opacity-50 shadow-2xl shadow-[#9945FF]/50"
-                >
-                  {purchasing ? 'Purchasing...' : `Purchase for ${listing.price_sol.toFixed(2)} SOL`}
-                </button>
+                <div>
+                  <button
+                    onClick={handlePurchase}
+                    disabled={purchasing}
+                    className="w-full px-8 py-4 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-[#A855F7] hover:to-[#10B981] text-white font-black rounded-xl transition-all disabled:opacity-50 shadow-2xl shadow-[#9945FF]/50"
+                  >
+                    {purchasing ? 'Purchasing...' : `Purchase for ${parseFloat(listing.price_sol).toFixed(2)} SOL`}
+                  </button>
+                  <p className="text-xs text-[#B4B4C8] mt-3 text-center">
+                    Plus network fees (~0.00001 SOL). Token account will be created automatically if needed.
+                  </p>
+                </div>
               )}
             </div>
 

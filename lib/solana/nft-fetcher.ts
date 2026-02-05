@@ -12,6 +12,7 @@ export interface SolanaNft {
   attributes: Array<{ trait_type: string; value: string }>
   ownerAddress: string
   uri?: string
+  tokenProgram?: string
 }
 
 export interface NftMetadata {
@@ -79,6 +80,7 @@ async function fetchNftsViaHelius(
         attributes: nft.metadata.attributes || [],
         ownerAddress: walletAddress,
         uri: nft.metadata.uri,
+        tokenProgram: nft.token_info?.token_program || 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
       })
     }
 
@@ -97,43 +99,54 @@ async function fetchNftsOnChain(walletAddress: string): Promise<SolanaNft[]> {
   const connection = getConnection()
   const walletPubkey = new PublicKey(walletAddress)
 
-  try {
-    // Get all token accounts owned by wallet
-    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(walletPubkey, {
-      programId: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
-    })
+  const TOKEN_PROGRAM_ID = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA')
+  const TOKEN_2022_PROGRAM_ID = new PublicKey('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb')
 
+  try {
     const nfts: SolanaNft[] = []
 
-    for (const { account } of tokenAccounts.value) {
-      const parsedInfo = account.data.parsed.info
+    // Check both token programs
+    for (const programId of [TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID]) {
+      try {
+        const tokenAccounts = await connection.getParsedTokenAccountsByOwner(walletPubkey, {
+          programId,
+        })
 
-      // Only include NFTs (amount = 1, decimals = 0)
-      if (
-        parsedInfo.tokenAmount.decimals === 0 &&
-        parsedInfo.tokenAmount.uiAmount === 1
-      ) {
-        const mintAddress = parsedInfo.mint
+        for (const { account, pubkey } of tokenAccounts.value) {
+          const parsedInfo = account.data.parsed.info
 
-        try {
-          const metadata = await getNftMetadata(mintAddress)
+          // Only include NFTs (amount = 1, decimals = 0)
+          if (
+            parsedInfo.tokenAmount.decimals === 0 &&
+            parsedInfo.tokenAmount.uiAmount === 1
+          ) {
+            const mintAddress = parsedInfo.mint
 
-          nfts.push({
-            mintAddress,
-            name: metadata.name,
-            symbol: metadata.symbol,
-            image: metadata.image || metadata.uri,
-            collectionName: metadata.collection?.key,
-            collectionAddress: metadata.collection?.key,
-            attributes: metadata.attributes || [],
-            ownerAddress: walletAddress,
-            uri: metadata.uri,
-          })
-        } catch (error) {
-          console.error(`Failed to fetch metadata for ${mintAddress}:`, error)
-          // Skip NFTs with metadata errors
-          continue
+            try {
+              const metadata = await getNftMetadata(mintAddress)
+
+              nfts.push({
+                mintAddress,
+                name: metadata.name,
+                symbol: metadata.symbol,
+                image: metadata.image || metadata.uri,
+                collectionName: metadata.collection?.key,
+                collectionAddress: metadata.collection?.key,
+                attributes: metadata.attributes || [],
+                ownerAddress: walletAddress,
+                uri: metadata.uri,
+                tokenProgram: programId.toBase58(),
+              })
+            } catch (error) {
+              console.error(`Failed to fetch metadata for ${mintAddress}:`, error)
+              // Skip NFTs with metadata errors
+              continue
+            }
+          }
         }
+      } catch (error) {
+        console.error(`Error fetching from ${programId.toBase58()}:`, error)
+        // Continue with next program
       }
     }
 
@@ -310,5 +323,45 @@ export async function verifyNftOwnership(
   } catch (error) {
     console.error('Error verifying NFT ownership:', error)
     return false
+  }
+}
+
+/**
+ * Get the actual token account that holds the NFT
+ */
+export async function getNftTokenAccount(
+  mintAddress: string,
+  ownerAddress: string
+): Promise<{ tokenAccount: PublicKey; tokenProgram: PublicKey } | null> {
+  const connection = getConnection()
+
+  try {
+    const mintPubkey = new PublicKey(mintAddress)
+
+    // Get largest token accounts for this mint
+    const largestAccounts = await connection.getTokenLargestAccounts(mintPubkey)
+
+    for (const account of largestAccounts.value) {
+      const accountInfo = await connection.getParsedAccountInfo(account.address)
+
+      if (accountInfo.value) {
+        const data = accountInfo.value.data as any
+        const owner = data.parsed?.info?.owner
+        const amount = data.parsed?.info?.tokenAmount?.uiAmount
+
+        // Check if this account is owned by the claimed owner and has amount 1
+        if (owner === ownerAddress && amount === 1) {
+          return {
+            tokenAccount: account.address,
+            tokenProgram: accountInfo.value.owner,
+          }
+        }
+      }
+    }
+
+    return null
+  } catch (error) {
+    console.error('Error getting NFT token account:', error)
+    return null
   }
 }

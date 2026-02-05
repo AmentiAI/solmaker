@@ -83,8 +83,34 @@ export async function POST(request: NextRequest) {
     } catch (error) {
       console.error('Error building transaction:', error)
       return NextResponse.json(
-        { error: 'Failed to build transaction' },
+        { error: `Failed to build transaction: ${error.message}` },
         { status: 500 }
+      )
+    }
+    
+    // Simulate the transaction before sending to user
+    try {
+      const { getConnection } = await import('@/lib/solana/connection')
+      const connection = getConnection()
+      
+      const simulationResult = await connection.simulateTransaction(transaction)
+      
+      if (simulationResult.value.err) {
+        console.error('Transaction simulation failed:', simulationResult.value)
+        return NextResponse.json(
+          { 
+            error: 'Transaction simulation failed', 
+            details: JSON.stringify(simulationResult.value.err),
+            logs: simulationResult.value.logs 
+          },
+          { status: 400 }
+        )
+      }
+    } catch (simError: any) {
+      console.error('Simulation error:', simError)
+      return NextResponse.json(
+        { error: 'Transaction simulation error', details: simError.message },
+        { status: 400 }
       )
     }
 

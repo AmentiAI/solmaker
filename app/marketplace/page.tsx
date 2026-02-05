@@ -244,7 +244,7 @@ export default function MarketplacePage() {
               {isConnected && (
                 <Link
                   href="/marketplace/list"
-                  className="group px-8 py-4 bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] bg-[length:200%_100%] text-white font-black rounded-xl shadow-2xl shadow-[#9945FF]/50 transition-all duration-300 hover:scale-105 hover:bg-[position:100%_0] hover:shadow-[#9945FF]/70 relative overflow-hidden"
+                  className="group px-8 py-4 bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] text-white font-black rounded-xl shadow-2xl shadow-[#9945FF]/50 transition-all duration-300 hover:scale-105 hover:shadow-[#9945FF]/70 relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
                   <span className="relative z-10">List NFT</span>
@@ -271,7 +271,7 @@ export default function MarketplacePage() {
                 {filteredListings.map((listing) => (
                   <Link
                     key={listing.id}
-                    href={`/marketplace/nft/${listing.mint_address}`}
+                    href={`/marketplace/nft/${listing.id}`}
                     className="group"
                   >
                     <div className="glass-card-hover border-2 border-[#9945FF]/30 rounded-2xl overflow-hidden hover:border-[#9945FF] transition-all duration-500 transform-3d hover-lift">
@@ -306,7 +306,7 @@ export default function MarketplacePage() {
                           <span className="text-sm font-bold text-[#B4B4C8]">Price</span>
                           <div className="flex items-center gap-2">
                             <span className="text-xl font-black text-[#14F195] drop-shadow-[0_0_10px_rgba(20,241,149,0.6)]">
-                              {listing.price_sol.toFixed(2)}
+                              {parseFloat(listing.price_sol).toFixed(2)}
                             </span>
                             <span className="text-sm font-bold text-[#B4B4C8]">SOL</span>
                           </div>
