@@ -64,7 +64,18 @@ export async function POST(request: NextRequest) {
     const borderReqs = border_requirements?.trim() || null;
     
     const collectionDescription = description?.trim() || `Ordinal collection with unique characters and traits.`;
-    
+
+    // Validate PFP settings (needed for custom rules prompt)
+    const isPfp = is_pfp_collection === true || is_pfp_collection === 'true';
+    const validFacingDirections = ['left', 'left-front', 'front', 'right-front', 'right'];
+    const facingDir = isPfp && facing_direction && validFacingDirections.includes(facing_direction)
+      ? facing_direction
+      : null;
+    const validBodyStyles = ['full', 'half', 'headonly'];
+    const bodyStyleValue = isPfp && body_style && validBodyStyles.includes(body_style)
+      ? body_style
+      : 'full';
+
     // Generate custom rules with head and body frame dimensions using OpenAI (lazy mode only)
     let customRulesValue = custom_rules?.trim() || null;
     if (!customRulesValue) {
@@ -146,17 +157,6 @@ Return ONLY the prompt text, no additional explanation.`;
     const format = compression_format && ['jpg', 'png', 'webp'].includes(compression_format)
       ? compression_format
       : 'webp'; // Default to webp
-    
-    // Validate PFP settings
-    const isPfp = is_pfp_collection === true || is_pfp_collection === 'true'
-    const validFacingDirections = ['left', 'left-front', 'front', 'right-front', 'right']
-    const facingDir = isPfp && facing_direction && validFacingDirections.includes(facing_direction)
-      ? facing_direction
-      : null
-    const validBodyStyles = ['full', 'half', 'headonly']
-    const bodyStyleValue = isPfp && body_style && validBodyStyles.includes(body_style)
-      ? body_style
-      : 'full'
 
     // Step 2: Create collection with settings from form
     const pixelPerfectValue = pixel_perfect === true || pixel_perfect === 'true';
@@ -230,7 +230,7 @@ Return ONLY the prompt text, no additional explanation.`;
     const creditsNeeded = await calculateCreditsNeeded('trait_generation', totalTraits);
 
     // Check and deduct credits
-    const hasCredits = await hasEnoughCredits(wallet_address, creditsNeeded);
+    const hasCredits = await hasEnoughCredits(walletAddress, creditsNeeded);
     if (!hasCredits) {
       // Delete collection and layers if credits insufficient
       await db`DELETE FROM layers WHERE collection_id = ${collectionId}::uuid`;
@@ -242,7 +242,7 @@ Return ONLY the prompt text, no additional explanation.`;
     }
 
     const creditsDeducted = await deductCredits(
-      wallet_address,
+      walletAddress,
       creditsNeeded,
       `Auto-generating ${totalTraits} traits for chibi collection`
     );

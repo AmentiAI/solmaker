@@ -867,7 +867,7 @@ export default function CreateCollectionPage() {
               <div className="p-6">
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2">
+                    <label className="block text-base font-semibold text-white mb-2">
                       Type in 1 word
                     </label>
                     <input
@@ -956,18 +956,18 @@ export default function CreateCollectionPage() {
         </div>
       )}
       
-      <div className="min-h-screen">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-12">
+      <div className="min-h-screen w-full">
+        <div className="w-full max-w-[min(1600px,96vw)] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-6 sm:py-8 md:py-10 lg:py-12">
             <Link 
               href="/collections" 
-              className="text-[#9945FF] hover:text-[#14F195] mb-6 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+              className="text-[#9945FF] hover:text-[#14F195] mb-6 inline-flex items-center gap-2 text-base font-medium transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               Back to Collections
             </Link>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4 sm:mb-6 md:mb-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-6 sm:mb-8 md:mb-10">
               Create New Collection
             </h1>
 
@@ -975,13 +975,13 @@ export default function CreateCollectionPage() {
         <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl mb-6 overflow-hidden">
           <button
             onClick={() => setShowInstructions(!showInstructions)}
-            className="w-full flex items-center justify-between p-4 hover:bg-[#9945FF]/10 transition-colors"
+            className="w-full flex items-center justify-between p-5 sm:p-6 hover:bg-[#9945FF]/10 transition-colors"
           >
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <h3 className="text-xl font-bold text-white flex items-center gap-2">
               <span>📝</span> Creating Your Collection
             </h3>
             <svg
-              className={`w-5 h-5 text-white/70 transition-transform duration-200 ${showInstructions ? 'transform rotate-180' : ''}`}
+              className={`w-6 h-6 text-white/70 transition-transform duration-200 ${showInstructions ? 'transform rotate-180' : ''}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -991,7 +991,7 @@ export default function CreateCollectionPage() {
           </button>
           {showInstructions && (
             <div className="px-6 pb-6 pt-2">
-              <div className="space-y-2 text-sm text-[#a8a8b8]">
+              <div className="space-y-3 text-base text-[#a8a8b8]">
                 <p className="flex items-start gap-2">
                   <span className="text-[#9945FF] mt-1">1.</span>
                   <span><strong>Name your collection</strong> - Choose something memorable that represents your project</span>
@@ -1013,28 +1013,28 @@ export default function CreateCollectionPage() {
           )}
         </div>
 
-        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4 sm:p-6 md:p-8 shadow-xl backdrop-blur-sm">
+        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-xl backdrop-blur-sm">
           {!activeWalletConnected && (
             <div className="mb-6 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#DC1FFF]/50 rounded-xl backdrop-blur-sm">
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-[#DC1FFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <p className="text-[#DC1FFF] text-sm">
+                <p className="text-[#DC1FFF] text-base">
                   Please connect your wallet in the header to create a collection.
                 </p>
               </div>
             </div>
           )}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8 text-base">
             {/* Fancy Step Indicator with Theme Colors */}
-            <div className="relative mb-8">
+            <div className="relative mb-10">
               {/* Progress Bar Background */}
-              <div className="absolute top-1/2 left-0 right-0 h-1 bg-[#9945FF]/20 rounded-full transform -translate-y-1/2"></div>
+              <div className="absolute top-1/2 left-0 right-0 h-1.5 sm:h-2 bg-[#9945FF]/20 rounded-full transform -translate-y-1/2"></div>
               
               {/* Animated Progress Fill */}
               <div 
-                className="absolute top-1/2 left-0 h-1 bg-gradient-to-r from-[#e27d0f] to-[#4561ad] rounded-full transform -translate-y-1/2 transition-all duration-500 ease-out"
+                className="absolute top-1/2 left-0 h-1.5 sm:h-2 bg-gradient-to-r from-[#e27d0f] to-[#4561ad] rounded-full transform -translate-y-1/2 transition-all duration-500 ease-out"
                 style={{ width: `${((formStep - 1) / 3) * 100}%` }}
               ></div>
               
@@ -1051,7 +1051,7 @@ export default function CreateCollectionPage() {
                       <button
                         type="button"
                         onClick={() => setFormStep(step as 1 | 2 | 3 | 4)}
-                        className={`relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full font-bold text-xs sm:text-sm transition-all duration-300 transform hover:scale-110 ${
+                        className={`relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full font-bold text-sm sm:text-base transition-all duration-300 transform hover:scale-110 ${
                           isActive
                             ? 'bg-gradient-to-br from-[#e27d0f] to-[#d66f0d] text-white shadow-lg shadow-[#e27d0f]/50 ring-2 sm:ring-4 ring-[#e27d0f]/20'
                             : isCompleted
@@ -1073,7 +1073,7 @@ export default function CreateCollectionPage() {
                       </button>
                       
                       {/* Step Label - Hidden on very small screens, shown on sm+ */}
-                      <span className={`mt-1 sm:mt-2 text-[10px] sm:text-xs font-semibold transition-colors duration-300 text-center ${
+                      <span className={`mt-2 sm:mt-3 text-xs sm:text-sm font-semibold transition-colors duration-300 text-center ${
                         isActive ? 'text-[#e27d0f]' : isCompleted ? 'text-[#4561ad]' : 'text-white/50'
                       }`}>
                         <span className="hidden sm:inline">{stepLabels[step - 1]}</span>
@@ -1088,17 +1088,17 @@ export default function CreateCollectionPage() {
             {/* STEP 1: Basic Info */}
             {formStep === 1 && (
             <div className="animate-fadeIn">
-            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-3 sm:p-4 space-y-3 sm:space-y-4">
+            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-lg p-5 sm:p-6 md:p-8 space-y-5 sm:space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-white mb-2">
+                <label className="block text-base sm:text-lg font-semibold text-white mb-3">
                   Collection Name *
                 </label>
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="flex-1 border border-[#9945FF]/30 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none transition-all duration-200 text-base"
+                    className="flex-1 border border-[#9945FF]/30 rounded-lg px-4 sm:px-5 py-3 sm:py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none transition-all duration-200 text-lg"
                     placeholder="Enter collection name"
                     required
                   />
@@ -1109,7 +1109,7 @@ export default function CreateCollectionPage() {
                       setCollectionSuggestionsPfp(isPfpCollection)
                       setShowCollectionSuggestionsModal(true)
                     }}
-                    className="px-4 py-2.5 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium text-sm transition-colors whitespace-nowrap"
+                    className="px-5 py-3 sm:py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium text-base transition-colors whitespace-nowrap"
                   >
                     ✨ Suggestions
                   </button>
@@ -1117,15 +1117,15 @@ export default function CreateCollectionPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
+                <label className="block text-base sm:text-lg font-medium text-white mb-3">
                   Description (Optional)
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full border border-[#9945FF]/30 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none text-base resize-y"
+                  className="w-full border border-[#9945FF]/30 rounded-lg px-4 sm:px-5 py-3 sm:py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md text-white placeholder-white/50 focus:border-[#9945FF] focus:ring-2 focus:ring-[#9945FF]/20 focus:outline-none text-lg resize-y"
                   placeholder="Enter collection description"
-                  rows={3}
+                  rows={4}
                 />
               </div>
 
@@ -1139,24 +1139,24 @@ export default function CreateCollectionPage() {
                     onChange={(e) => setIsPfpCollection(e.target.checked)}
                     className="w-5 h-5 text-[#9945FF] border-[#9945FF]/30 rounded focus:ring-[#9945FF] bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md"
                   />
-                  <label htmlFor="isPfpCollection" className="text-sm font-semibold text-white cursor-pointer">
+                  <label htmlFor="isPfpCollection" className="text-base font-semibold text-white cursor-pointer">
                     This is a Profile Picture (PFP) collection
                   </label>
                 </div>
-                <p className="text-xs text-[#a8a8b8]/80 mt-2 ml-8">
+                <p className="text-sm text-[#a8a8b8]/80 mt-3 ml-8">
                   Check this if you're creating profile pictures with character traits
                 </p>
               </div>
             </div>
 
             {/* Step 1 Navigation */}
-            <div className="flex justify-end pt-4 sm:pt-6">
+            <div className="flex justify-end pt-6 sm:pt-8">
               <button
                 type="button"
                 onClick={() => setFormStep(2)}
-                className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] hover:from-[#9945FF] hover:to-[#ff4500] text-white rounded-lg sm:rounded-full font-bold shadow-lg shadow-[#DC1FFF]/30 hover:shadow-[#DC1FFF]/50 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 hover:scale-105"
+                className="group w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] hover:from-[#9945FF] hover:to-[#ff4500] text-white rounded-lg sm:rounded-full font-bold shadow-lg shadow-[#DC1FFF]/30 hover:shadow-[#DC1FFF]/50 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 hover:scale-105"
               >
-                <span className="text-sm sm:text-base">Next: Art Style</span>
+                <span className="text-base sm:text-lg">Next: Art Style</span>
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -1224,7 +1224,7 @@ export default function CreateCollectionPage() {
                   <div className="space-y-3 sm:space-y-4">
                     {isPfpCollection && (
                     <>
-                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">PFP Advanced Settings</h3>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4">PFP Advanced Settings</h3>
 
                     <div className="flex items-center gap-3">
                       <input
@@ -1245,7 +1245,7 @@ export default function CreateCollectionPage() {
                     {isPfpCollection && (
                       <div className="space-y-3 sm:space-y-4">
                         <div>
-                          <label className="block text-sm font-medium text-white mb-2">
+                          <label className="block text-base font-medium text-white mb-2">
                             Character Facing Direction
                           </label>
                           <select
@@ -1262,7 +1262,7 @@ export default function CreateCollectionPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-white mb-2">
+                          <label className="block text-base font-medium text-white mb-2">
                             Body Visibility
                           </label>
                           <select
@@ -1298,8 +1298,8 @@ export default function CreateCollectionPage() {
 
                 {imageSourceTab === 'reference' && (
                   <div className="space-y-3 sm:space-y-4">
-                    <h3 className="text-base sm:text-lg font-semibold text-white mb-2">Auto-fill from Reference Image</h3>
-                    <p className="text-xs sm:text-sm text-white/70 mb-3 sm:mb-4 break-words">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-3">Auto-fill from Reference Image</h3>
+                    <p className="text-sm text-white/70 mb-4 break-words">
                       Upload a reference image and we'll analyze the art style + vibe, then auto-fill all creation settings.
                     </p>
 
@@ -1461,7 +1461,7 @@ export default function CreateCollectionPage() {
 
                 {/* Style Dropdown and Info */}
                 <div className="w-full sm:flex-1 relative">
-                  <label className="block text-sm font-semibold text-white mb-1">
+                  <label className="block text-base font-semibold text-white mb-2">
                     Art Style
                   </label>
 
@@ -1548,14 +1548,14 @@ export default function CreateCollectionPage() {
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                <span className="text-sm sm:text-base">Back</span>
+                <span className="text-base sm:text-lg">Back</span>
               </button>
               <button
                 type="button"
                 onClick={() => setFormStep(3)}
                 className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#e27d0f] to-[#d66f0d] hover:from-[#d66f0d] hover:to-[#c96a0a] text-white rounded-lg sm:rounded-full font-bold shadow-lg shadow-[#e27d0f]/30 hover:shadow-[#e27d0f]/50 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 hover:scale-105"
               >
-                <span className="text-sm sm:text-base">Next: Advanced</span>
+                <span className="text-base sm:text-lg">Next: Advanced</span>
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -1633,7 +1633,7 @@ export default function CreateCollectionPage() {
               <div className="p-4 sm:p-6">
                 {styleDetailTab === 'color' && (
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2">
+                    <label className="block text-base font-semibold text-white mb-2">
                       Color Mood
                     </label>
                     <div className="flex flex-col sm:flex-row gap-2">
@@ -1657,7 +1657,7 @@ export default function CreateCollectionPage() {
                         )}
                       </button>
                     </div>
-                    <p className="text-xs text-[#a8a8b8]/80 mt-2">
+                    <p className="text-sm text-[#a8a8b8]/80 mt-2">
                       Describe the color mood: contrast, saturation, brightness, warmth, etc.
                     </p>
                   </div>
@@ -1665,7 +1665,7 @@ export default function CreateCollectionPage() {
 
                 {styleDetailTab === 'lighting' && (
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2">
+                    <label className="block text-base font-semibold text-white mb-2">
                       Lighting Style
                     </label>
                     <div className="flex flex-col sm:flex-row gap-2">
@@ -1689,7 +1689,7 @@ export default function CreateCollectionPage() {
                         )}
                       </button>
                     </div>
-                    <p className="text-xs text-[#a8a8b8]/80 mt-2">
+                    <p className="text-sm text-[#a8a8b8]/80 mt-2">
                       Describe the lighting: direction, intensity, mood, shadows, etc.
                     </p>
                   </div>
@@ -1697,7 +1697,7 @@ export default function CreateCollectionPage() {
 
                 {styleDetailTab === 'border' && (
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-2">
+                    <label className="block text-base font-semibold text-white mb-2">
                       Border Style
                     </label>
                     <div className="flex flex-col sm:flex-row gap-2">
@@ -1721,7 +1721,7 @@ export default function CreateCollectionPage() {
                         )}
                       </button>
                     </div>
-                    <p className="text-xs text-[#a8a8b8]/80 mt-2">
+                    <p className="text-sm text-[#a8a8b8]/80 mt-2">
                       <strong>Note:</strong> Leave empty for no border. Describe border style, thickness, color, and ornamentations.
                     </p>
                   </div>
@@ -1756,7 +1756,7 @@ export default function CreateCollectionPage() {
                 <div className="px-4 pb-4 space-y-4 border-t border-[#9945FF]/30">
                   {/* Custom Rules */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-base font-medium text-white mb-2">
                       Custom Generation Rules
                     </label>
                     <div className="flex flex-col sm:flex-row gap-2 items-start">
@@ -1795,7 +1795,7 @@ export default function CreateCollectionPage() {
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                <span className="text-sm sm:text-base">Back</span>
+                <span className="text-base sm:text-lg">Back</span>
               </button>
               <button
                 type="button"
@@ -1834,7 +1834,7 @@ export default function CreateCollectionPage() {
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
+                  <label className="block text-base font-medium text-[#a8a8b8] mb-2">
                     File Format
                   </label>
                   <select
@@ -1849,7 +1849,7 @@ export default function CreateCollectionPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
+                  <label className="block text-base font-medium text-[#a8a8b8] mb-2">
                     Compression Quality: {compressionQuality !== '' ? `${compressionQuality}%` : 'Not set'}
                   </label>
                   <input
@@ -1866,7 +1866,7 @@ export default function CreateCollectionPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
+                  <label className="block text-base font-medium text-[#a8a8b8] mb-2">
                     Image Dimensions (Width × Height)
                   </label>
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-2 items-start sm:items-center">

@@ -140,7 +140,7 @@ export function GenerationSection({
         ) : (
           <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
             <button onClick={onGenerate} disabled={generating || layers.length === 0} className={`${hasActiveFilters ? 'bg-[#DC1FFF] hover:bg-[#9945FF] border-2 border-[#00d4ff]/50 shadow-lg shadow-[#DC1FFF]/20' : 'bg-[#00d4ff] hover:bg-[#14F195] shadow-lg shadow-[#00d4ff]/20'} text-white px-4 sm:px-6 py-2 sm:py-3 rounded disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base font-bold transition-all duration-200 w-full sm:w-auto drop-shadow-lg`}>
-              {generating ? 'Queueing...' : hasActiveFilters ? `⚠️ Generate ${generateQuantity > 1 ? `${generateQuantity} ` : ''}Ordinal${generateQuantity > 1 ? 's' : ''} (Filtered)` : `🎨 Generate ${generateQuantity > 1 ? `${generateQuantity} ` : ''}Ordinal${generateQuantity > 1 ? 's' : ''}`}
+              {generating ? 'Queueing...' : hasActiveFilters ? `⚠️ Generate ${generateQuantity > 1 ? `${generateQuantity} ` : ''}NFT${generateQuantity > 1 ? 's' : ''} (Filtered)` : `🎨 Generate ${generateQuantity > 1 ? `${generateQuantity} ` : ''}NFT${generateQuantity > 1 ? 's' : ''}`}
             </button>
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <label className="text-xs sm:text-sm text-white whitespace-nowrap">Quantity:</label>

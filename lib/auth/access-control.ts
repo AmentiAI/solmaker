@@ -10,6 +10,8 @@ export const AUTHORIZED_USERNAMES = [
   'SigNullBtc',
   'signullbtc',
   'mrbrc',
+  'user_gnauf4j1',
+  'gnauf4j1',
 ]
 
 /**

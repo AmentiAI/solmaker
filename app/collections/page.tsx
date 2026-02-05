@@ -65,23 +65,28 @@ export default function CollectionsPage() {
       return
     }
 
+    const walletRequested = currentAddress
     setLoading(true)
     try {
-      const response = await fetch(`/api/collections?wallet_address=${encodeURIComponent(currentAddress)}`, {
+      const response = await fetch(`/api/collections?wallet_address=${encodeURIComponent(walletRequested)}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         cache: 'no-store'
       })
-      
-      if (response.ok) {
+
+      // Only apply response if wallet is still connected and same as requested (owned + collaborator only)
+      if (activeWalletAddress === walletRequested && response.ok) {
         const data = await response.json()
         const ownedList = data.owned_collections || []
         const collabList = data.collaborator_collections || []
         const allCollectionsList = data.collections || []
-        
         setOwnedCollections(ownedList)
         setCollabCollections(collabList)
         setCollections(allCollectionsList)
+      } else if (activeWalletAddress !== walletRequested) {
+        setCollections([])
+        setOwnedCollections([])
+        setCollabCollections([])
       }
     } catch (error) {
       console.error('Error loading collections:', error)

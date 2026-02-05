@@ -3,7 +3,8 @@ import { sql } from '@/lib/database';
 import { hasEnoughCredits } from '@/lib/credits/credits';
 import { requireWalletAuth } from '@/lib/auth/signature-verification';
 
-// GET /api/collections - List all collections for a wallet
+// GET /api/collections - List collections for a wallet (owned + collaborator only)
+// Only returns: 1) collections where wallet_address = owner, 2) collections where wallet is an accepted collaborator.
 // OPTIMIZED: Reduced from 6-8 queries to 2 queries
 export async function GET(request: NextRequest) {
   if (!sql) {
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
     const walletAddress = searchParams.get('wallet_address');
     const isLockedFilter = searchParams.get('is_locked'); // Optional filter for locked collections
 
-    if (!walletAddress || walletAddress.trim() === '') {
+    if (!walletAddress || typeof walletAddress !== 'string' || walletAddress.trim() === '') {
       return NextResponse.json({ 
         error: 'Wallet address is required',
         details: 'Please provide a valid wallet_address query parameter'

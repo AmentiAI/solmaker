@@ -1,87 +1,92 @@
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useWallet } from '@/lib/wallet/compatibility'
+import { useSolanaWallet } from '@/lib/wallet/solana-wallet-context'
 import { toast } from 'sonner'
+import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 
-interface OrdinalListing {
+interface SolanaNftListing {
   id: string
-  inscription_id: string
-  inscription_number?: number
+  mint_address: string
   title?: string
-  price_sats: number
+  price_lamports: number
+  price_sol: number
   seller_wallet: string
-  collection_symbol?: string
-  image_url?: string
+  collection_name?: string
+  image_url: string
   status: string
   created_at: string
+  metadata?: any
 }
 
 export default function MarketplacePage() {
   const router = useRouter()
-  const { isConnected, currentAddress } = useWallet()
+  const { isConnected, publicKey } = useSolanaWallet()
 
-  const [ordinalListings, setOrdinalListings] = useState<OrdinalListing[]>([])
-  const [filteredListings, setFilteredListings] = useState<OrdinalListing[]>([])
+  const [nftListings, setNftListings] = useState<SolanaNftListing[]>([])
+  const [filteredListings, setFilteredListings] = useState<SolanaNftListing[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState<'recent' | 'price_low' | 'price_high'>('recent')
   const [priceRange, setPriceRange] = useState<'all' | 'under_1' | '1_to_5' | 'over_5'>('all')
 
   useEffect(() => {
-    loadOrdinalListings()
+    loadNftListings()
   }, [])
 
   useEffect(() => {
     applyFilters()
-  }, [ordinalListings, searchQuery, sortBy, priceRange])
+  }, [nftListings, searchQuery, sortBy, priceRange])
 
-  const loadOrdinalListings = async () => {
+  const loadNftListings = async () => {
     setLoading(true)
     try {
-      const response = await fetch('/api/marketplace/ordinals/listings?status=active')
+      const response = await fetch('/api/marketplace/solana/listings?status=active')
       const data = await response.json()
       if (response.ok) {
-        setOrdinalListings(data.listings || [])
+        setNftListings(data.listings || [])
+      } else {
+        toast.error('Failed to load NFT listings')
       }
     } catch (error) {
-      console.error('Error loading ordinal listings:', error)
+      console.error('Error loading NFT listings:', error)
+      toast.error('Failed to load marketplace')
     } finally {
       setLoading(false)
     }
   }
 
   const applyFilters = () => {
-    let filtered = [...ordinalListings]
+    let filtered = [...nftListings]
 
     // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(listing => 
+      filtered = filtered.filter(listing =>
         listing.title?.toLowerCase().includes(query) ||
-        listing.collection_symbol?.toLowerCase().includes(query) ||
-        listing.inscription_number?.toString().includes(query)
+        listing.collection_name?.toLowerCase().includes(query) ||
+        listing.mint_address.toLowerCase().includes(query)
       )
     }
 
     // Price range filter
     if (priceRange !== 'all') {
       filtered = filtered.filter(listing => {
-        const btc = listing.price_sats / 100000000
-        if (priceRange === 'under_1') return btc < 1
-        if (priceRange === '1_to_5') return btc >= 1 && btc <= 5
-        if (priceRange === 'over_5') return btc > 5
+        const sol = listing.price_sol
+        if (priceRange === 'under_1') return sol < 1
+        if (priceRange === '1_to_5') return sol >= 1 && sol <= 5
+        if (priceRange === 'over_5') return sol > 5
         return true
       })
     }
 
     // Sort
     if (sortBy === 'price_low') {
-      filtered.sort((a, b) => a.price_sats - b.price_sats)
+      filtered.sort((a, b) => a.price_lamports - b.price_lamports)
     } else if (sortBy === 'price_high') {
-      filtered.sort((a, b) => b.price_sats - a.price_sats)
+      filtered.sort((a, b) => b.price_lamports - a.price_lamports)
     } else {
       filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     }
@@ -98,18 +103,18 @@ export default function MarketplacePage() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#9945FF]/20 rounded-full blur-[100px] animate-[particleFloat_20s_ease-in-out_infinite]" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#14F195]/15 rounded-full blur-[100px] animate-[particleFloat_25s_ease-in-out_infinite]" />
         </div>
-        
+
         <div className="w-full py-16 relative z-10">
           <div className="max-w-5xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 glass-card border-2 border-[#9945FF]/40 rounded-full mb-6">
               <div className="w-2 h-2 bg-[#14F195] rounded-full animate-pulse ultra-glow-green" />
-              <span className="text-sm font-black text-[#14F195]">LIVE MARKETPLACE</span>
+              <span className="text-sm font-black text-[#14F195]">SOLANA NFT MARKETPLACE</span>
             </div>
             <h1 className="text-6xl md:text-7xl font-black text-white mb-6 leading-tight">
               NFT <span className="gradient-text-neon">Marketplace</span>
             </h1>
             <p className="text-2xl text-[#B4B4C8] font-semibold max-w-2xl">
-              Discover, collect, and trade <span className="text-[#9945FF] font-black">revolutionary</span> digital assets on Solana
+              Discover, collect, and trade <span className="text-[#9945FF] font-black">revolutionary</span> Solana NFTs
             </p>
           </div>
         </div>
@@ -156,11 +161,10 @@ export default function MarketplacePage() {
                     <button
                       key={option.value}
                       onClick={() => setPriceRange(option.value as any)}
-                      className={`group w-full px-4 py-3 rounded-xl text-left transition-all duration-300 relative overflow-hidden ${
-                        priceRange === option.value
+                      className={`group w-full px-4 py-3 rounded-xl text-left transition-all duration-300 relative overflow-hidden ${priceRange === option.value
                           ? 'glass-card border-2 border-[#14F195]/60 text-white font-bold shadow-lg shadow-[#14F195]/20'
                           : 'hover:glass-card hover:border-2 hover:border-[#14F195]/30 text-[#B4B4C8] hover:text-white font-semibold'
-                      }`}
+                        }`}
                     >
                       {priceRange === option.value && (
                         <div className="absolute inset-0 bg-gradient-to-r from-[#14F195]/10 to-[#10B981]/10" />
@@ -186,11 +190,10 @@ export default function MarketplacePage() {
                     <button
                       key={option.value}
                       onClick={() => setSortBy(option.value as any)}
-                      className={`group w-full px-4 py-3 rounded-xl text-left transition-all duration-300 relative overflow-hidden ${
-                        sortBy === option.value
+                      className={`group w-full px-4 py-3 rounded-xl text-left transition-all duration-300 relative overflow-hidden ${sortBy === option.value
                           ? 'glass-card border-2 border-[#DC1FFF]/60 text-white font-bold shadow-lg shadow-[#DC1FFF]/20'
                           : 'hover:glass-card hover:border-2 hover:border-[#DC1FFF]/30 text-[#B4B4C8] hover:text-white font-semibold'
-                      }`}
+                        }`}
                     >
                       {sortBy === option.value && (
                         <div className="absolute inset-0 bg-gradient-to-r from-[#DC1FFF]/10 to-[#9945FF]/10" />
@@ -240,7 +243,7 @@ export default function MarketplacePage() {
               </div>
               {isConnected && (
                 <Link
-                  href="/marketplace/ordinals/list"
+                  href="/marketplace/list"
                   className="group px-8 py-4 bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] bg-[length:200%_100%] text-white font-black rounded-xl shadow-2xl shadow-[#9945FF]/50 transition-all duration-300 hover:scale-105 hover:bg-[position:100%_0] hover:shadow-[#9945FF]/70 relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
@@ -268,7 +271,7 @@ export default function MarketplacePage() {
                 {filteredListings.map((listing) => (
                   <Link
                     key={listing.id}
-                    href={`/marketplace/ordinals/${listing.id}`}
+                    href={`/marketplace/nft/${listing.mint_address}`}
                     className="group"
                   >
                     <div className="glass-card-hover border-2 border-[#9945FF]/30 rounded-2xl overflow-hidden hover:border-[#9945FF] transition-all duration-500 transform-3d hover-lift">
@@ -277,7 +280,7 @@ export default function MarketplacePage() {
                         {listing.image_url ? (
                           <img
                             src={listing.image_url}
-                            alt={listing.title || `NFT #${listing.inscription_number}`}
+                            alt={listing.title || 'NFT'}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />
                         ) : (
@@ -286,26 +289,26 @@ export default function MarketplacePage() {
                           </div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        
+
                         {/* Premium badge */}
                         <div className="absolute top-4 right-4 px-3 py-1.5 glass-card border border-[#14F195]/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                           <span className="text-xs font-black text-[#14F195]">VIEW</span>
                         </div>
                       </div>
-                      
+
                       {/* Premium Info */}
                       <div className="p-5 space-y-3 relative">
                         <div className="absolute inset-0 bg-gradient-to-br from-[#9945FF]/5 to-[#14F195]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <h3 className="text-lg font-black text-white truncate relative z-10">
-                          {listing.title || `NFT #${listing.inscription_number}`}
+                          {listing.title || 'Solana NFT'}
                         </h3>
                         <div className="flex items-center justify-between relative z-10">
                           <span className="text-sm font-bold text-[#B4B4C8]">Price</span>
                           <div className="flex items-center gap-2">
                             <span className="text-xl font-black text-[#14F195] drop-shadow-[0_0_10px_rgba(20,241,149,0.6)]">
-                              {(listing.price_sats / 100000000).toFixed(4)}
+                              {listing.price_sol.toFixed(2)}
                             </span>
-                            <span className="text-sm font-bold text-[#B4B4C8]">BTC</span>
+                            <span className="text-sm font-bold text-[#B4B4C8]">SOL</span>
                           </div>
                         </div>
                       </div>
@@ -315,7 +318,7 @@ export default function MarketplacePage() {
               </div>
             )}
 
-            {/* Pagination - NEW Bottom Center */}
+            {/* Pagination */}
             {filteredListings.length > 0 && (
               <div className="mt-12 flex items-center justify-center gap-2">
                 <button className="px-4 py-2 bg-[#121218] border border-[#9945FF]/20 text-white rounded-lg hover:border-[#9945FF]/40 transition-all">
@@ -323,12 +326,6 @@ export default function MarketplacePage() {
                 </button>
                 <button className="px-4 py-2 bg-gradient-to-r from-[#9945FF] to-[#A855F7] text-white rounded-lg font-semibold">
                   1
-                </button>
-                <button className="px-4 py-2 bg-[#121218] border border-[#9945FF]/20 text-white rounded-lg hover:border-[#9945FF]/40 transition-all">
-                  2
-                </button>
-                <button className="px-4 py-2 bg-[#121218] border border-[#9945FF]/20 text-white rounded-lg hover:border-[#9945FF]/40 transition-all">
-                  3
                 </button>
                 <button className="px-4 py-2 bg-[#121218] border border-[#9945FF]/20 text-white rounded-lg hover:border-[#9945FF]/40 transition-all">
                   Next

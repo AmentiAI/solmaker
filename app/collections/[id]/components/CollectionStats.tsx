@@ -25,7 +25,7 @@ export function CollectionStats({ layers, totalOrdinals, isActive }: CollectionS
       </div>
       <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg p-2">
         <p className="text-lg sm:text-xl font-bold text-[#DC1FFF]">{totalOrdinals}</p>
-        <p className="text-[10px] text-white/70">Ordinals</p>
+        <p className="text-[10px] text-white/70">NFTs</p>
       </div>
       <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg p-2">
         <p className={`text-lg sm:text-xl font-bold ${isActive ? 'text-[#00d4ff]' : 'text-white/70'}`}>
