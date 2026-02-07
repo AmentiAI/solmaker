@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { getConnection } from '@/lib/solana/connection'
+import { getConnectionAsync } from '@/lib/solana/connection'
 import { verifyNftInEscrow } from '@/lib/solana/marketplace-transactions'
 
 export async function POST(request: NextRequest) {
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify transaction on-chain
-    const connection = getConnection()
+    const connection = await getConnectionAsync()
     let tx
     try {
       tx = await connection.getTransaction(txSignature, {

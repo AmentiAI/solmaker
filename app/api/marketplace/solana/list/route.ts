@@ -90,8 +90,8 @@ export async function POST(request: NextRequest) {
     
     // Simulate the transaction before sending to user
     try {
-      const { getConnection } = await import('@/lib/solana/connection')
-      const connection = getConnection()
+      const { getConnectionAsync } = await import('@/lib/solana/connection')
+      const connection = await getConnectionAsync()
       
       const simulationResult = await connection.simulateTransaction(transaction)
       

@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Phase, Collection, WhitelistStatus, UserMintStatus } from './types'
 import { MAX_PER_TRANSACTION } from '@/lib/minting-constants'
+import { getSolscanUrl, preloadSolscanNetwork } from '@/lib/solscan'
 
 interface MintDetailsSectionProps {
   collection: Collection
@@ -66,7 +67,9 @@ export function MintDetailsSection({
   formatTimeUntil,
 }: MintDetailsSectionProps) {
   const [aboutOpen, setAboutOpen] = useState(false)
-  
+
+  useEffect(() => { preloadSolscanNetwork() }, [])
+
   return (
     <div className="lg:col-span-7">
       {/* Preview Mode Banner */}
@@ -303,15 +306,15 @@ export function MintDetailsSection({
 
           {/* Estimated Cost Breakdown */}
           {isConnected && (() => {
-            // Solana: flat rent + priority fee, no complex vsize calculation
-            const rentPerNft = 2039280 // ~0.00204 SOL rent-exempt minimum for token account
-            const platformFee = 10000 * mintQuantity // Platform fee per NFT in lamports
+            const platformFeeSol = parseFloat(process.env.NEXT_PUBLIC_SOLANA_PLATFORM_FEE_SOL || '0.01')
+            const platformFeeLamports = Math.floor(platformFeeSol * 1_000_000_000)
+            const rentPerNft = 2_039_280 // ~0.00204 SOL rent for Core Asset account
             const networkFees = (priorityFee + 5000) * mintQuantity // priority fee + base tx fee
-            const mintAndFees = platformFee + networkFees + (rentPerNft * mintQuantity)
 
-            const totalEstimate =
-              (activePhase.mint_price_lamports * mintQuantity) + // Mint price
-              mintAndFees // Mint + Fees
+            const totalMintPrice = activePhase.mint_price_lamports * mintQuantity
+            const totalPlatformFee = platformFeeLamports * mintQuantity
+            const totalRent = rentPerNft * mintQuantity
+            const totalEstimate = totalMintPrice + totalPlatformFee + totalRent + networkFees
 
             return (
               <div className="mt-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-xl">
@@ -323,22 +326,26 @@ export function MintDetailsSection({
                     <span className="text-white font-medium">
                       {activePhase.mint_price_lamports === 0
                         ? 'Free'
-                        : formatLamports(activePhase.mint_price_lamports * mintQuantity)}
+                        : formatLamports(totalMintPrice)}
                     </span>
                   </div>
-                  {/* Mint + Fees - combines Platform Fee, Rent, and Network Fee */}
+                  {/* Platform Fee */}
+                  {platformFeeLamports > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-[#a8a8b8]">Platform Fee {mintQuantity > 1 ? `(${mintQuantity}x)` : ''}</span>
+                      <span className="text-white font-medium">{formatLamports(totalPlatformFee)}</span>
+                    </div>
+                  )}
+                  {/* Rent + Network */}
                   <div className="flex justify-between">
-                    <span className="text-[#a8a8b8]">Mint + Fees</span>
-                    <span className="text-white font-medium">~{formatLamports(mintAndFees)}</span>
+                    <span className="text-[#a8a8b8]">Rent + Network</span>
+                    <span className="text-white font-medium">~{formatLamports(totalRent + networkFees)}</span>
                   </div>
                   <div className="border-t border-[#9945FF]/20 pt-2 mt-2 flex justify-between">
                     <span className="text-[#a8a8b8] font-semibold">Estimated Total</span>
                     <span className="bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent font-bold">~{formatLamports(totalEstimate)}</span>
                   </div>
                 </div>
-                <p className="text-[10px] text-[#a8a8b8] mt-2">
-                  * Includes rent, platform fee, and network fees
-                </p>
               </div>
             )
           })()}
@@ -359,7 +366,7 @@ export function MintDetailsSection({
           {txSignature && (
             <div className="mt-4">
               <a
-                href={`https://solscan.io/tx/${txSignature}`}
+                href={getSolscanUrl(txSignature, 'tx')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#9945FF] hover:text-[#DC1FFF] hover:underline text-sm transition-colors"

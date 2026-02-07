@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { getConnection } from '@/lib/solana/connection'
+import { getConnectionAsync, getExplorerUrlAsync } from '@/lib/solana/connection'
 
 // POST /api/mint/confirm-mint - Confirm NFT mint after transaction is signed
 export async function POST(request: NextRequest) {
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     const session = sessions[0]
 
     // Verify transaction on-chain
-    const connection = getConnection()
+    const connection = await getConnectionAsync()
     let confirmed = false
     try {
       const txResult = await connection.getTransaction(tx_signature, {
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       confirmed,
       txSignature: tx_signature,
       mintAddress: mint_address,
-      explorerUrl: `https://solscan.io/tx/${tx_signature}`,
+      explorerUrl: await getExplorerUrlAsync(tx_signature, 'tx'),
     })
   } catch (error: any) {
     console.error('[Confirm Mint] Error:', error)

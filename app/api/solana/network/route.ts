@@ -18,8 +18,8 @@ export async function GET() {
     ])
     
     const network = networkResult[0]?.setting_value || 'devnet'
-    const mainnetRpc = mainnetRpcResult[0]?.setting_value || 'https://api.mainnet-beta.solana.com'
-    const devnetRpc = devnetRpcResult[0]?.setting_value || 'https://api.devnet.solana.com'
+    const mainnetRpc = mainnetRpcResult[0]?.setting_value || process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+    const devnetRpc = devnetRpcResult[0]?.setting_value || process.env.SOLANA_DEVNET_RPC_URL || 'https://api.devnet.solana.com'
     
     const activeRpc = network === 'mainnet-beta' ? mainnetRpc : devnetRpc
     
@@ -36,15 +36,21 @@ export async function GET() {
   } catch (error: any) {
     console.error('[Solana Network API] Error:', error)
     
-    // Fallback to env vars
+    // Fallback to env vars - pick the right RPC based on network
     const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK || 'devnet'
-    const rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.devnet.solana.com'
+    const mainnetRpc = process.env.SOLANA_RPC_URL || process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+    const devnetRpc = process.env.SOLANA_DEVNET_RPC_URL || process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC_URL || 'https://api.devnet.solana.com'
+    const rpcUrl = network === 'mainnet-beta' ? mainnetRpc : devnetRpc
     
     return NextResponse.json({
       network,
       rpcUrl,
       isMainnet: network === 'mainnet-beta',
       isDevnet: network === 'devnet',
+      endpoints: {
+        mainnet: mainnetRpc,
+        devnet: devnetRpc,
+      },
       fallback: true,
     })
   }

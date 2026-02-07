@@ -6,6 +6,7 @@ import { useWallet } from '@/lib/wallet/compatibility'
 import { useCreditCosts, formatCreditCost } from '@/lib/credits/use-credit-costs'
 import { PaymentMethod } from '@/components/payment-method-selector'
 import { CreditPurchaseModal } from '@/components/credit-purchase-modal'
+import { getSolscanUrl } from '@/lib/solscan'
 
 interface CreditPurchaseProps {
   onPurchaseComplete?: () => void
@@ -388,7 +389,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
                   </button>
                 </div>
                 <a
-                  href={`https://solscan.io/tx/${txid}`}
+                  href={getSolscanUrl(txid, 'tx')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-[#00d4ff] hover:text-[#14F195] text-sm underline transition-colors"
@@ -436,7 +437,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
                     </div>
                   </div>
                   <a
-                    href={`https://solscan.io/tx/${txid}`}
+                    href={getSolscanUrl(txid, 'tx')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-[#00d4ff] hover:text-[#14F195] text-sm underline"

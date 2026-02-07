@@ -5,6 +5,7 @@ import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
 import { WalletConnect } from '@/components/wallet-connect'
 import { AdminSidebar } from '@/components/admin-sidebar'
+import { getSolscanUrl } from '@/lib/solscan'
 import Link from 'next/link'
 
 interface PendingPayment {
@@ -331,7 +332,7 @@ export default function SolanaTransactionsPage() {
                           <td className="py-4 px-4">
                           {tx.payment_txid ? (
                             <a
-                              href={`https://solscan.io/tx/${tx.payment_txid}`}
+                              href={getSolscanUrl(tx.payment_txid, 'tx')}
                               target="_blank"
                               rel="noopener noreferrer"
                                 className="text-[#00E5FF] hover:text-[#FFD60A] font-mono text-xs hover:underline flex items-center gap-1 transition-colors"

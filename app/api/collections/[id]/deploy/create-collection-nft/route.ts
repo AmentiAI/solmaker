@@ -80,13 +80,12 @@ export async function POST(
       'vercel-blob'
     )
 
-    // Build collection NFT transaction
-    console.log('🏗️ Building collection NFT transaction...')
+    // Build Core Collection transaction
+    console.log('🏗️ Building Core Collection transaction...')
     const result = await buildCollectionNftTransaction({
       name: collection.name,
-      symbol: collection.symbol || collection.name.substring(0, 10).toUpperCase(),
       uri: metadataResult.uri,
-      sellerFeeBasisPoints: collection.royalty_percentage ? collection.royalty_percentage * 100 : 500,
+      royaltyBasisPoints: collection.royalty_percentage ? collection.royalty_percentage * 100 : 500,
       authority: wallet_address,
       creators: [{
         address: wallet_address,
@@ -156,7 +155,6 @@ export async function PUT(
       UPDATE collections
       SET 
         collection_mint_address = ${collection_mint_address},
-        collection_authority = ${wallet_address},
         deployment_status = 'deploying_candy_machine'
       WHERE id = ${collectionId}::uuid
     `

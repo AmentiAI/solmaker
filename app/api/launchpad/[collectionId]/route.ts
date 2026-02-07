@@ -3,6 +3,7 @@ import { sql } from '@/lib/database'
 import { isAuthorized } from '@/lib/auth/access-control'
 import { calculatePublicPhaseRemaining } from '@/lib/minting-utils'
 import { requireWalletAuth } from '@/lib/auth/signature-verification'
+import { getPlatformFeeSol, getPlatformWalletAddress } from '@/lib/solana/platform-wallet'
 
 /**
  * Get launch_status - use database value directly
@@ -285,6 +286,14 @@ export async function GET(
       compression_target_kb: cAny?.compression_target_kb ?? null,
       // Average ordinal size for cost estimation (in KB)
       avg_ordinal_size_kb: parseFloat(cAny?.avg_ordinal_size_kb || '50'),
+      // Solana deployment fields
+      candy_machine_address: cAny?.candy_machine_address || null,
+      collection_mint_address: cAny?.collection_mint_address || null,
+      deployment_status: cAny?.deployment_status || null,
+      metadata_uploaded: cAny?.metadata_uploaded || false,
+      // Platform fee info (from env)
+      platform_fee_sol: getPlatformFeeSol(),
+      platform_wallet: getPlatformWalletAddress(),
     }
 
     return NextResponse.json({

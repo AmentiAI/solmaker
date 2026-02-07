@@ -438,14 +438,16 @@ export function NftChoicesMint({
             if (!activePhase || lockedCount === 0) return null
 
             // Solana cost calculation
-            const rentPerNft = 2_039_280 // ~0.00204 SOL rent-exempt minimum for token account
-            const platformFee = 10_000 * lockedCount // Platform fee per NFT in lamports
-            const networkFees = (priorityFee + 5000) * lockedCount // priority fee + base tx fee
-            const mintAndFees = platformFee + networkFees + (rentPerNft * lockedCount)
+            const platformFeeSol = parseFloat(process.env.NEXT_PUBLIC_SOLANA_PLATFORM_FEE_SOL || '0.01')
+            const platformFeeLamports = Math.floor(platformFeeSol * 1_000_000_000)
+            const rentPerNft = 2_039_280 // ~0.00204 SOL rent for Core Asset account
+            const networkFees = (priorityFee + 5000) * lockedCount
 
             const mintPricePerNft = activePhase.mint_price_lamports || 0
             const totalMintPrice = mintPricePerNft * lockedCount
-            const totalEstimate = totalMintPrice + mintAndFees
+            const totalPlatformFee = platformFeeLamports * lockedCount
+            const totalRent = rentPerNft * lockedCount
+            const totalEstimate = totalMintPrice + totalPlatformFee + totalRent + networkFees
 
             return (
               <div className="mt-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-xl">
@@ -467,19 +469,23 @@ export function NftChoicesMint({
                         : formatLamports(totalMintPrice)}
                     </span>
                   </div>
-                  {/* Mint + Fees - combines Platform Fee, Rent, and Network Fee */}
+                  {/* Platform Fee */}
+                  {platformFeeLamports > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-[#a8a8b8]">Platform Fee {lockedCount > 1 ? `(${lockedCount}x)` : ''}</span>
+                      <span className="text-white font-medium">{formatLamports(totalPlatformFee)}</span>
+                    </div>
+                  )}
+                  {/* Rent + Network */}
                   <div className="flex justify-between">
-                    <span className="text-[#a8a8b8]">Mint + Fees</span>
-                    <span className="text-white font-medium">~{formatLamports(mintAndFees)}</span>
+                    <span className="text-[#a8a8b8]">Rent + Network</span>
+                    <span className="text-white font-medium">~{formatLamports(totalRent + networkFees)}</span>
                   </div>
                   <div className="border-t border-[#9945FF]/20 pt-2 mt-2 flex justify-between">
                     <span className="text-[#a8a8b8] font-semibold">Estimated Total</span>
                     <span className="bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent font-bold">~{formatLamports(totalEstimate)}</span>
                   </div>
                 </div>
-                <p className="text-[10px] text-[#a8a8b8] mt-2">
-                  * Includes rent, platform fee, and network fees
-                </p>
               </div>
             )
           })()}

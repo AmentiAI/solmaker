@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { WalletConnect } from '@/components/wallet-connect'
+import { getSolscanUrl } from '@/lib/solscan'
 import Link from 'next/link'
 
 interface Transaction {
@@ -304,7 +305,7 @@ export default function TransactionsPage() {
                             {tx.paymentTxId ? (
                               <a
                                 href={tx.paymentType === 'sol' 
-                                  ? `https://solscan.io/tx/${tx.paymentTxId}`
+                                  ? getSolscanUrl(tx.paymentTxId, 'tx')
                                   : `https://mempool.space/tx/${tx.paymentTxId}`
                                 }
                                 target="_blank"

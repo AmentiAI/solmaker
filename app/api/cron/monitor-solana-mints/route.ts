@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { getConnection } from '@/lib/solana/connection'
+import { getConnectionAsync } from '@/lib/solana/connection'
 
 /**
  * POST /api/cron/monitor-solana-mints
@@ -35,7 +35,7 @@ export async function POST() {
 
     console.log(`📋 Checking ${pendingMints.length} pending mints...`)
 
-    const connection = getConnection()
+    const connection = await getConnectionAsync()
     let confirmed = 0
     let failed = 0
     let stillPending = 0

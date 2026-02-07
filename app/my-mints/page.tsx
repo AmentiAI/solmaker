@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
+import { getSolscanUrl } from '@/lib/solscan'
 import Link from 'next/link'
 
 interface MintTransaction {
@@ -199,7 +200,7 @@ export default function MyMintsPage() {
                       <td className="px-6 py-4">
                         {transaction.tx_signature ? (
                           <a
-                            href={`https://solscan.io/tx/${transaction.tx_signature}`}
+                            href={getSolscanUrl(transaction.tx_signature, 'tx')}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm text-[#00E5FF] hover:text-[#FFD60A] font-mono"
@@ -213,7 +214,7 @@ export default function MyMintsPage() {
                       <td className="px-6 py-4">
                         {transaction.mint_address ? (
                           <a
-                            href={`https://solscan.io/token/${transaction.mint_address}`}
+                            href={getSolscanUrl(transaction.mint_address, 'token')}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm text-[#00E5FF] hover:text-[#FFD60A] font-mono"

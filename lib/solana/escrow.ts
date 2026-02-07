@@ -5,7 +5,7 @@ import {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
 } from '@solana/spl-token'
-import { getConnection } from './connection'
+import { getConnectionAsync } from './connection'
 import { PLATFORM_FEE_BPS } from './cost-estimation'
 
 /**
@@ -47,7 +47,7 @@ export async function buildPurchaseTransaction(
   priceLamports: number,
   mintAddress?: string
 ): Promise<{ transaction: Transaction; platformFee: number; needsTokenAccount: boolean }> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   const { blockhash } = await connection.getLatestBlockhash('finalized')
 
   const platformWallet = process.env.SOLANA_PLATFORM_WALLET
@@ -150,7 +150,7 @@ export async function verifyPurchaseTransaction(
   expectedSellerWallet: string,
   expectedPriceLamports: number
 ): Promise<{ valid: boolean; error?: string }> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
 
   try {
     const tx = await connection.getTransaction(signature, {

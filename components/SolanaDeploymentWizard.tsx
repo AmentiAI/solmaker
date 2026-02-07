@@ -3,9 +3,17 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { CheckCircle2, Circle, Loader2, XCircle, Rocket } from 'lucide-react'
+import { CheckCircle2, Circle, Loader2, XCircle, Rocket, RefreshCw, Copy } from 'lucide-react'
 import { SolanaDeployment, DeploymentStep } from '@/lib/solana-deployment'
 import { useWallet } from '@solana/wallet-adapter-react'
+
+interface DeploymentResult {
+  candyMachineAddress: string | null
+  collectionMintAddress: string | null
+  deploymentStatus: string | null
+  metadataUploaded: boolean
+  dbVerified: boolean
+}
 
 interface SolanaDeploymentWizardProps {
   collectionId: string
@@ -13,12 +21,14 @@ interface SolanaDeploymentWizardProps {
 }
 
 export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeploymentWizardProps) {
-  const { publicKey, connected } = useWallet()
+  const { publicKey, connected, signTransaction } = useWallet()
   const [steps, setSteps] = useState<DeploymentStep[]>([])
   const [isDeploying, setIsDeploying] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [network, setNetwork] = useState<string>('devnet')
   const [loadingNetwork, setLoadingNetwork] = useState(true)
+  const [deploymentResult, setDeploymentResult] = useState<DeploymentResult | null>(null)
+  const [verifying, setVerifying] = useState(false)
 
   // Load network on mount
   useState(() => {
@@ -38,18 +48,57 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
     loadNetwork()
   })
 
+  const verifyDatabase = async (): Promise<DeploymentResult> => {
+    setVerifying(true)
+    try {
+      const response = await fetch(`/api/collections/${collectionId}/deploy/status?wallet_address=${publicKey?.toBase58()}`)
+      const data = await response.json()
+      console.log('[DeploymentWizard] DB verification response:', JSON.stringify(data, null, 2))
+      
+      const result: DeploymentResult = {
+        candyMachineAddress: data.candy_machine_address || null,
+        collectionMintAddress: data.collection_mint_address || null,
+        deploymentStatus: data.deployment_status || null,
+        metadataUploaded: data.metadata_uploaded || false,
+        dbVerified: !!(data.candy_machine_address && data.collection_mint_address),
+      }
+      setDeploymentResult(result)
+      return result
+    } catch (err: any) {
+      console.error('[DeploymentWizard] DB verification failed:', err)
+      const result: DeploymentResult = {
+        candyMachineAddress: null,
+        collectionMintAddress: null,
+        deploymentStatus: null,
+        metadataUploaded: false,
+        dbVerified: false,
+      }
+      setDeploymentResult(result)
+      return result
+    } finally {
+      setVerifying(false)
+    }
+  }
+
   const handleDeploy = async () => {
     if (!connected || !publicKey) {
       setError('Please connect your wallet first')
       return
     }
 
+    if (!signTransaction) {
+      setError('Wallet does not support transaction signing')
+      return
+    }
+
     setIsDeploying(true)
     setError(null)
+    setDeploymentResult(null)
 
     const deployment = new SolanaDeployment(
       collectionId,
       publicKey.toBase58(),
+      { signTransaction: signTransaction as any },
       (updatedSteps) => setSteps(updatedSteps)
     )
 
@@ -60,7 +109,13 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
     setIsDeploying(false)
 
     if (result.success) {
-      onComplete?.()
+      // Don't reload immediately - verify the DB was updated and show results
+      const dbResult = await verifyDatabase()
+      console.log('[DeploymentWizard] Post-deploy DB check:', JSON.stringify(dbResult, null, 2))
+      
+      if (!dbResult.dbVerified) {
+        setError('WARNING: Deployment succeeded on-chain but database may not have saved. Check the details below. You may need to reload the page and try again.')
+      }
     } else {
       setError(result.error || 'Deployment failed')
     }
@@ -130,19 +185,101 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
 
         {/* Error Message */}
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-800">{error}</p>
+          <div className="p-4 bg-red-900/30 border border-red-500/50 rounded-lg">
+            <p className="text-sm text-red-300">{error}</p>
+          </div>
+        )}
+
+        {/* Deployment Result / DB Verification */}
+        {deploymentResult && (
+          <div className={`p-4 rounded-lg border ${deploymentResult.dbVerified ? 'bg-green-900/20 border-green-500/50' : 'bg-yellow-900/20 border-yellow-500/50'}`}>
+            <h4 className={`font-bold text-sm mb-3 ${deploymentResult.dbVerified ? 'text-green-400' : 'text-yellow-400'}`}>
+              {deploymentResult.dbVerified ? '✅ Deployment Verified in Database' : '⚠️ Database Verification'}
+            </h4>
+            <div className="space-y-2 text-sm font-mono">
+              <div className="flex justify-between items-center">
+                <span className="text-white/50">DB Status:</span>
+                <span className={deploymentResult.deploymentStatus === 'deployed' ? 'text-green-400' : 'text-yellow-400'}>
+                  {deploymentResult.deploymentStatus || 'NOT SET'}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-white/50">Metadata Uploaded:</span>
+                <span className={deploymentResult.metadataUploaded ? 'text-green-400' : 'text-red-400'}>
+                  {deploymentResult.metadataUploaded ? 'YES' : 'NO'}
+                </span>
+              </div>
+              <div>
+                <span className="text-white/50">Collection Mint:</span>
+                <div className="mt-1 p-2 bg-black/40 rounded text-xs break-all flex items-center gap-2">
+                  <span className={deploymentResult.collectionMintAddress ? 'text-[#00d4ff]' : 'text-red-400'}>
+                    {deploymentResult.collectionMintAddress || 'NOT SAVED'}
+                  </span>
+                  {deploymentResult.collectionMintAddress && (
+                    <button 
+                      onClick={() => navigator.clipboard.writeText(deploymentResult.collectionMintAddress!)}
+                      className="text-white/30 hover:text-white/70 flex-shrink-0"
+                    >
+                      <Copy className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div>
+                <span className="text-white/50">Candy Machine:</span>
+                <div className="mt-1 p-2 bg-black/40 rounded text-xs break-all flex items-center gap-2">
+                  <span className={deploymentResult.candyMachineAddress ? 'text-[#00d4ff]' : 'text-red-400'}>
+                    {deploymentResult.candyMachineAddress || 'NOT SAVED'}
+                  </span>
+                  {deploymentResult.candyMachineAddress && (
+                    <button 
+                      onClick={() => navigator.clipboard.writeText(deploymentResult.candyMachineAddress!)}
+                      className="text-white/30 hover:text-white/70 flex-shrink-0"
+                    >
+                      <Copy className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 flex gap-2">
+              <Button
+                onClick={() => verifyDatabase()}
+                disabled={verifying}
+                variant="outline"
+                size="sm"
+              >
+                {verifying ? (
+                  <><Loader2 className="mr-2 h-3 w-3 animate-spin" /> Checking DB...</>
+                ) : (
+                  <><RefreshCw className="mr-2 h-3 w-3" /> Re-check Database</>
+                )}
+              </Button>
+              {deploymentResult.dbVerified && (
+                <Button
+                  onClick={() => {
+                    onComplete?.()
+                    window.location.reload()
+                  }}
+                  size="sm"
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  <CheckCircle2 className="mr-2 h-3 w-3" /> Continue (Reload Page)
+                </Button>
+              )}
+            </div>
           </div>
         )}
 
         {/* Action Button */}
-        {steps.length === 0 && (
+        {steps.length === 0 && !deploymentResult && (
           <div className="space-y-4">
-            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h4 className="font-medium text-sm text-blue-900 mb-2">
+            <div className="p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+              <h4 className="font-medium text-sm text-blue-300 mb-2">
                 Before you deploy:
               </h4>
-              <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+              <ul className="text-sm text-blue-200/70 space-y-1 list-disc list-inside">
                 <li>Make sure all NFT images are generated</li>
                 <li>Ensure you have ~0.2 SOL in your wallet for deployment costs</li>
                 <li>Double-check your collection settings and royalties</li>

@@ -91,9 +91,9 @@ export async function POST(request: NextRequest) {
     
     // Simulate the transaction to catch issues early
     try {
-      const { getConnection } = await import('@/lib/solana/connection')
+      const { getConnectionAsync } = await import('@/lib/solana/connection')
       const { LAMPORTS_PER_SOL } = await import('@solana/web3.js')
-      const connection = getConnection()
+      const connection = await getConnectionAsync()
       
       const simulationResult = await connection.simulateTransaction(transaction)
       

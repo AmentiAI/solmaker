@@ -21,7 +21,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
   const resolvedParams = use(params)
   const collectionId = resolvedParams.collectionId
   const pathname = usePathname()
-  const { connected: isConnected, publicKey, sendTransaction } = useWallet()
+  const { connected: isConnected, publicKey, sendTransaction, signTransaction } = useWallet()
   const { connection } = useConnection()
   const currentAddress = publicKey?.toBase58() || null
 
@@ -53,6 +53,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
   const [showHistory, setShowHistory] = useState(false)
   const [mintHistory, setMintHistory] = useState<any[]>([])
   const [loadingHistory, setLoadingHistory] = useState(false)
+  const [mintDebug, setMintDebug] = useState<any>(null)
   const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number; aspectRatio: number } | null>(null)
 
   // Live countdown timer
@@ -820,15 +821,37 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         throw new Error(errData.error || 'Failed to confirm mint')
       }
 
-      const confirmData = await confirmRes.json()
+      let confirmData = await confirmRes.json()
+
+      // If not confirmed yet, poll for up to 30 seconds
+      if (!confirmData.confirmed && signature) {
+        setMintStatus('Transaction sent! Waiting for on-chain confirmation...')
+        for (let poll = 0; poll < 10; poll++) {
+          await new Promise(r => setTimeout(r, 3000))
+          try {
+            const pollRes = await fetch(
+              `/api/launchpad/${collectionId}/mint/confirm?signature=${signature}`
+            )
+            if (pollRes.ok) {
+              const pollData = await pollRes.json()
+              if (pollData.mint?.confirmed || pollData.confirmed) {
+                confirmData = { ...confirmData, confirmed: true }
+                break
+              }
+            }
+          } catch {
+            // ignore poll errors
+          }
+        }
+      }
 
       if (confirmData.confirmed) {
         setMintStatus('Successfully minted NFT!')
       } else {
-        setMintStatus('Transaction submitted! Confirmation pending...')
+        setMintStatus('Mint transaction sent! It may take a moment to confirm on-chain.')
       }
 
-      // Update local state
+      // Update local state (optimistic - tx was sent successfully)
       if (activePhase?.whitelist_only && whitelistStatus) {
         setWhitelistStatus(prev => prev ? {
           ...prev,
@@ -963,12 +986,84 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         throw new Error('No transaction returned from server')
       }
 
-      // Step 3: Sign and send transaction
-      setMintStatus('Please approve the transaction in your wallet...')
+      // Decode transaction for debug
       const txBytes = Buffer.from(buildData.transaction, 'base64')
       const tx = VersionedTransaction.deserialize(txBytes)
+      
+      // Extract debug info from the transaction
+      try {
+        const msg = tx.message
+        const accountKeys = msg.getAccountKeys()
+        const keys = Array.from({ length: accountKeys.length }, (_, i) => accountKeys.get(i)?.toBase58() || 'unknown')
+        const header = msg.header
+        
+        const debugInstructions = msg.compiledInstructions.map((ix: any, idx: number) => {
+          const programId = keys[ix.programIdIndex] || 'unknown'
+          const accounts = ix.accountKeyIndexes.map((keyIdx: number) => ({
+            pubkey: keys[keyIdx] || 'unknown',
+            isSigner: keyIdx < header.numRequiredSignatures,
+            isWritable: keyIdx < header.numRequiredSignatures - header.numReadonlySignedAccounts || 
+              (keyIdx >= header.numRequiredSignatures && keyIdx < keys.length - header.numReadonlyUnsignedAccounts),
+          }))
+          return {
+            index: idx,
+            programId,
+            accounts,
+            dataLength: ix.data.length,
+            dataHex: Buffer.from(ix.data).toString('hex').substring(0, 40),
+          }
+        })
 
-      const signature = await sendTransaction(tx, connection)
+        const signatures = tx.signatures.map((sig, i) => ({
+          index: i,
+          pubkey: keys[i],
+          signed: !sig.every((b: number) => b === 0),
+        }))
+
+        setMintDebug({
+          timestamp: new Date().toISOString(),
+          nftMint: buildData.nftMint,
+          mintPrice: buildData.mintPrice,
+          platformFee: buildData.platformFee,
+          totalCost: buildData.totalCost,
+          feePayer: keys[0],
+          numSignatures: header.numRequiredSignatures,
+          totalAccounts: keys.length,
+          signatures,
+          instructions: debugInstructions,
+          allKeys: keys,
+          apiResponse: { success: buildData.success, nftMint: buildData.nftMint, mintPrice: buildData.mintPrice, platformFee: buildData.platformFee, totalCost: buildData.totalCost },
+          simulation: buildData.simulation,
+          serverDebug: buildData.debug,
+        })
+      } catch (debugErr) {
+        console.error('Debug extraction failed:', debugErr)
+        setMintDebug({ error: 'Failed to extract debug info', raw: String(debugErr) })
+      }
+
+      // Step 3: Sign and send transaction
+      // Use signTransaction + sendRawTransaction instead of sendTransaction
+      // to avoid the wallet's internal RPC which may fail with partially-signed txs
+      setMintStatus('Please approve the transaction in your wallet...')
+
+      if (!signTransaction) {
+        throw new Error('Wallet does not support signTransaction')
+      }
+
+      const signed = await signTransaction(tx)
+      const rawTx = signed.serialize()
+
+      // Use our own RPC connection (not wallet adapter's) to avoid blockhash mismatch
+      const networkRes = await fetch('/api/solana/network')
+      const networkData = await networkRes.json()
+      const rpcUrl = networkData.rpcUrl || 'https://api.devnet.solana.com'
+      const { Connection: Web3Connection } = await import('@solana/web3.js')
+      const mintConnection = new Web3Connection(rpcUrl, 'confirmed')
+
+      const signature = await mintConnection.sendRawTransaction(rawTx, {
+        skipPreflight: true, // Already simulated on server
+        preflightCommitment: 'confirmed',
+      })
       setTxSignature(signature)
       setMintStatus('Transaction sent! Confirming...')
 
@@ -988,15 +1083,38 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         throw new Error(errData.error || 'Failed to confirm mint')
       }
 
-      const confirmData = await confirmRes.json()
+      let confirmData = await confirmRes.json()
+
+      // If not confirmed yet, poll for up to 30 seconds
+      if (!confirmData.confirmed && signature) {
+        setMintStatus('Transaction sent! Waiting for on-chain confirmation...')
+        for (let poll = 0; poll < 10; poll++) {
+          await new Promise(r => setTimeout(r, 3000))
+          try {
+            const pollRes = await fetch(
+              `/api/launchpad/${collectionId}/mint/confirm?signature=${signature}`
+            )
+            if (pollRes.ok) {
+              const pollData = await pollRes.json()
+              if (pollData.mint?.confirmed || pollData.confirmed) {
+                confirmData = { ...confirmData, confirmed: true }
+                break
+              }
+            }
+          } catch {
+            // ignore poll errors
+          }
+        }
+      }
 
       if (confirmData.confirmed) {
         setMintStatus(`Successfully minted ${mintQuantity} NFT${mintQuantity > 1 ? 's' : ''}!`)
       } else {
-        setMintStatus('Transaction submitted! Confirmation pending...')
+        // Even if not confirmed yet, the tx was sent - show optimistic success
+        setMintStatus(`Mint transaction sent! It may take a moment to confirm on-chain.`)
       }
 
-      // Update local state
+      // Update local state (optimistic - tx was sent successfully)
       if (activePhase?.whitelist_only && whitelistStatus) {
         setWhitelistStatus(prev => prev ? {
           ...prev,
@@ -1591,6 +1709,122 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                       formatTimeUntil={formatTimeUntil}
                     />
                   )}
+
+                  {/* Mint Transaction Debug Panel */}
+                  {mintDebug && (
+                    <div className="mt-4 p-4 bg-black/60 border border-yellow-500/40 rounded-xl text-xs font-mono overflow-auto max-h-[600px]">
+                      <div className="flex justify-between items-center mb-3">
+                        <h4 className="text-yellow-400 font-bold text-sm">Mint Transaction Debug</h4>
+                        <button onClick={() => setMintDebug(null)} className="text-white/40 hover:text-white text-xs">Close</button>
+                      </div>
+                      
+                      <div className="space-y-2 mb-3">
+                        <div><span className="text-white/50">Timestamp:</span> <span className="text-white/80">{mintDebug.timestamp}</span></div>
+                        <div><span className="text-white/50">NFT Mint:</span> <span className="text-cyan-400">{mintDebug.nftMint}</span></div>
+                        <div><span className="text-white/50">Mint Price:</span> <span className="text-white/80">{mintDebug.mintPrice} SOL</span></div>
+                        {mintDebug.platformFee !== undefined && <div><span className="text-white/50">Platform Fee:</span> <span className="text-white/80">{mintDebug.platformFee} SOL</span></div>}
+                        {mintDebug.totalCost !== undefined && <div><span className="text-white/50">Total Cost:</span> <span className="text-green-400">{mintDebug.totalCost} SOL</span></div>}
+                        <div><span className="text-white/50">Fee Payer:</span> <span className="text-cyan-400">{mintDebug.feePayer}</span></div>
+                        <div><span className="text-white/50">Required Signatures:</span> <span className="text-white/80">{mintDebug.numSignatures}</span></div>
+                        <div><span className="text-white/50">Total Accounts:</span> <span className="text-white/80">{mintDebug.totalAccounts}</span></div>
+                      </div>
+
+                      {/* Server-side simulation results */}
+                      {mintDebug.simulation && (
+                        <div className={`mb-3 p-3 rounded border ${mintDebug.simulation.success ? 'bg-green-900/20 border-green-500/40' : 'bg-red-900/20 border-red-500/40'}`}>
+                          <h5 className={`font-semibold mb-2 ${mintDebug.simulation.success ? 'text-green-400' : 'text-red-400'}`}>
+                            Server Simulation: {mintDebug.simulation.success ? 'PASSED' : 'FAILED'}
+                          </h5>
+                          {mintDebug.simulation.error && (
+                            <div className="text-red-300 mb-2">
+                              <span className="text-white/50">Error:</span> {JSON.stringify(mintDebug.simulation.error)}
+                            </div>
+                          )}
+                          {mintDebug.simulation.unitsConsumed !== undefined && (
+                            <div className="text-white/60 mb-2">
+                              <span className="text-white/50">Units consumed:</span> {mintDebug.simulation.unitsConsumed}
+                            </div>
+                          )}
+                          {mintDebug.simulation.logs && mintDebug.simulation.logs.length > 0 && (
+                            <div>
+                              <span className="text-white/50">Logs ({mintDebug.simulation.logs.length}):</span>
+                              <div className="mt-1 max-h-[200px] overflow-auto bg-black/40 p-2 rounded text-[10px] leading-relaxed">
+                                {mintDebug.simulation.logs.map((log: string, i: number) => (
+                                  <div key={i} className={log.includes('failed') || log.includes('Error') || log.includes('error') ? 'text-red-400' : 'text-white/60'}>
+                                    {log}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Server debug info */}
+                      {mintDebug.serverDebug && (
+                        <div className="mb-3 p-2 bg-white/5 rounded border border-white/10">
+                          <h5 className="text-yellow-400/80 font-semibold mb-1">Server Context</h5>
+                          <div className="space-y-1 text-[10px]">
+                            <div><span className="text-white/50">Candy Machine:</span> <span className="text-cyan-400">{mintDebug.serverDebug.candyMachine}</span></div>
+                            <div><span className="text-white/50">Collection Mint:</span> <span className="text-cyan-400">{mintDebug.serverDebug.collectionMint}</span></div>
+                            <div><span className="text-white/50">Collection Authority:</span> <span className="text-cyan-400">{mintDebug.serverDebug.collectionUpdateAuthority}</span></div>
+                            <div><span className="text-white/50">Minter:</span> <span className="text-cyan-400">{mintDebug.serverDebug.minter}</span></div>
+                            <div><span className="text-white/50">Mint Price (lamports):</span> <span className="text-white/80">{mintDebug.serverDebug.mintPrice}</span></div>
+                          </div>
+                        </div>
+                      )}
+
+                      {mintDebug.signatures && (
+                        <div className="mb-3">
+                          <h5 className="text-yellow-400/80 font-semibold mb-1">Signatures ({mintDebug.signatures.length})</h5>
+                          {mintDebug.signatures.map((sig: any) => (
+                            <div key={sig.index} className="flex gap-2 py-0.5">
+                              <span className="text-white/40">#{sig.index}</span>
+                              <span className="text-cyan-400">{sig.pubkey?.substring(0, 20)}...</span>
+                              <span className={sig.signed ? 'text-green-400' : 'text-red-400'}>
+                                {sig.signed ? 'SIGNED' : 'UNSIGNED'}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {mintDebug.instructions && (
+                        <div className="mb-3">
+                          <h5 className="text-yellow-400/80 font-semibold mb-1">Instructions ({mintDebug.instructions.length})</h5>
+                          {mintDebug.instructions.map((ix: any) => (
+                            <div key={ix.index} className="mb-3 p-2 bg-white/5 rounded border border-white/10">
+                              <div className="mb-1">
+                                <span className="text-white/50">Instruction #{ix.index}</span>
+                                {' '}<span className="text-purple-400">Program: {ix.programId}</span>
+                              </div>
+                              <div className="text-white/40 mb-1">Data ({ix.dataLength} bytes): {ix.dataHex}...</div>
+                              <div className="text-white/50 text-[10px]">Accounts ({ix.accounts.length}):</div>
+                              {ix.accounts.map((acc: any, i: number) => (
+                                <div key={i} className="flex gap-2 text-[10px] py-0.5 pl-2">
+                                  <span className="text-cyan-400/70">{acc.pubkey?.substring(0, 24)}...</span>
+                                  {acc.isSigner && <span className="text-green-400">Signer</span>}
+                                  {acc.isWritable && <span className="text-orange-400">Writable</span>}
+                                </div>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {mintDebug.allKeys && (
+                        <div>
+                          <h5 className="text-yellow-400/80 font-semibold mb-1">All Account Keys ({mintDebug.allKeys.length})</h5>
+                          {mintDebug.allKeys.map((key: string, i: number) => (
+                            <div key={i} className="text-[10px] py-0.5">
+                              <span className="text-white/40">#{i}</span> <span className="text-cyan-400/70">{key}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   <PhaseList
                     collection={collection}
                     activePhase={activePhase ?? null}

@@ -1,5 +1,5 @@
 import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js'
-import { getConnection } from './connection'
+import { getConnectionAsync } from './connection'
 
 export interface NftMintParams {
   name: string
@@ -23,7 +23,7 @@ export async function verifyTransaction(
   signature: string,
   commitment: 'confirmed' | 'finalized' = 'confirmed'
 ): Promise<boolean> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   try {
     const result = await connection.getTransaction(signature, {
       commitment,
@@ -39,7 +39,7 @@ export async function verifyTransaction(
  * Get transaction details
  */
 export async function getTransactionDetails(signature: string) {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   try {
     const result = await connection.getTransaction(signature, {
       commitment: 'confirmed',
@@ -55,7 +55,7 @@ export async function getTransactionDetails(signature: string) {
  * Check if a mint address exists on-chain
  */
 export async function checkMintExists(mintAddress: string): Promise<boolean> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   try {
     const pubkey = new PublicKey(mintAddress)
     const accountInfo = await connection.getAccountInfo(pubkey)
@@ -69,7 +69,7 @@ export async function checkMintExists(mintAddress: string): Promise<boolean> {
  * Get SOL balance for a wallet
  */
 export async function getWalletBalance(walletAddress: string): Promise<number> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   try {
     const pubkey = new PublicKey(walletAddress)
     const balance = await connection.getBalance(pubkey)
@@ -87,7 +87,7 @@ export async function buildTransferTransaction(
   toPubkey: PublicKey,
   lamports: number
 ): Promise<Transaction> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   const { blockhash } = await connection.getLatestBlockhash('finalized')
 
   const transaction = new Transaction()

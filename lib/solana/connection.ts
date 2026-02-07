@@ -29,8 +29,8 @@ async function getNetworkSettings(): Promise<{ network: string; rpcUrl: string }
       ])
       
       const network = networkResult[0]?.setting_value || 'devnet'
-      const mainnetRpc = mainnetRpcResult[0]?.setting_value || 'https://api.mainnet-beta.solana.com'
-      const devnetRpc = devnetRpcResult[0]?.setting_value || 'https://api.devnet.solana.com'
+      const mainnetRpc = mainnetRpcResult[0]?.setting_value || process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+      const devnetRpc = devnetRpcResult[0]?.setting_value || process.env.SOLANA_DEVNET_RPC_URL || 'https://api.devnet.solana.com'
       
       const rpcUrl = network === 'mainnet-beta' ? mainnetRpc : devnetRpc
       
@@ -45,22 +45,34 @@ async function getNetworkSettings(): Promise<{ network: string; rpcUrl: string }
     }
   }
   
-  // Fallback to env vars
+  // Fallback to env vars - pick the right RPC based on network
   const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK || process.env.SOLANA_CLUSTER || 'devnet'
-  const rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || process.env.SOLANA_RPC_URL || clusterApiUrl(network as any)
+  
+  const mainnetRpc = process.env.SOLANA_RPC_URL || process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+  const devnetRpc = process.env.SOLANA_DEVNET_RPC_URL || process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC_URL || 'https://api.devnet.solana.com'
+  
+  const rpcUrl = network === 'mainnet-beta' ? mainnetRpc : devnetRpc
+  
+  console.log(`[Solana Connection] Using env var fallback: network=${network}, rpc=${rpcUrl.substring(0, 40)}...`)
   
   return { network, rpcUrl }
 }
 
 export async function getConnectionAsync(): Promise<Connection> {
-  const { rpcUrl } = await getNetworkSettings()
+  const { network, rpcUrl } = await getNetworkSettings()
+  // Always create fresh connection to respect network switches
   connectionInstance = new Connection(rpcUrl, 'confirmed')
+  cachedNetwork = network
   return connectionInstance
 }
 
 export function getConnection(): Connection {
   if (!connectionInstance) {
-    const rpcUrl = process.env.SOLANA_RPC_URL || process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl('devnet')
+    // Pick the right RPC based on network setting
+    const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK || process.env.SOLANA_CLUSTER || 'devnet'
+    const mainnetRpc = process.env.SOLANA_RPC_URL || process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+    const devnetRpc = process.env.SOLANA_DEVNET_RPC_URL || process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC_URL || 'https://api.devnet.solana.com'
+    const rpcUrl = network === 'mainnet-beta' ? mainnetRpc : devnetRpc
     connectionInstance = new Connection(rpcUrl, 'confirmed')
   }
   return connectionInstance

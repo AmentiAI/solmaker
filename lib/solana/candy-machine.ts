@@ -1,36 +1,52 @@
+/**
+ * Metaplex Core Candy Machine operations.
+ * Uses the new mpl-core-candy-machine SDK (replaces legacy mpl-candy-machine).
+ *
+ * Key differences from legacy:
+ * - Creates Core Assets (not SPL tokens) - much cheaper & simpler
+ * - Guards are built-in: solPayment (creator price), solFixedFee (platform fee)
+ * - No setMintAuthority needed - guards handle everything on-chain
+ * - Minting uses mintV1 (through Candy Guard) with guard args
+ */
+
 import {
-  create,
+  create as createCoreCandyMachineWithGuard,
   addConfigLines,
   fetchCandyMachine,
-  mintV2,
+  mintV1,
   CandyMachine,
-  getMerkleRoot,
-  getMerkleProof,
-} from '@metaplex-foundation/mpl-candy-machine'
+} from '@metaplex-foundation/mpl-core-candy-machine'
 import {
   generateSigner,
-  percentAmount,
   publicKey,
   some,
+  none,
+  sol,
   TransactionBuilder,
   Umi,
   PublicKey as UmiPublicKey,
+  KeypairSigner,
+  createNoopSigner,
+  createSignerFromKeypair,
 } from '@metaplex-foundation/umi'
-import { createUmiInstance } from './umi-config'
+import { createUmiInstanceAsync } from './umi-config'
+
+// =============================================
+// Types
+// =============================================
 
 export interface CandyMachineConfig {
-  collectionMint: string // Collection NFT address
-  collectionUpdateAuthority: string // Who can update the collection
-  itemsAvailable: number // Total NFTs in collection
-  sellerFeeBasisPoints: number // Royalties (500 = 5%)
-  symbol: string
-  maxEditionSupply: number // Usually 0 for unique NFTs
-  isMutable: boolean
-  creators: Array<{
-    address: string
-    percentageShare: number
-    verified: boolean
-  }>
+  collectionMint: string
+  collectionUpdateAuthority: string
+  itemsAvailable: number
+  /** Mint price in SOL that goes to the creator */
+  mintPriceSol: number
+  /** Creator wallet that receives mint payments */
+  creatorWallet: string
+  /** Platform fee in SOL per mint */
+  platformFeeSol: number
+  /** Platform wallet that receives platform fees */
+  platformWallet: string
   configLineSettings?: {
     prefixName: string
     nameLength: number
@@ -40,37 +56,28 @@ export interface CandyMachineConfig {
   }
 }
 
-export interface CandyMachineGuards {
-  solPayment?: {
-    lamports: bigint
-    destination: string
-  }
-  startDate?: {
-    date: bigint // Unix timestamp
-  }
-  endDate?: {
-    date: bigint
-  }
-  mintLimit?: {
-    id: number
-    limit: number
-  }
-  allowList?: {
-    merkleRoot: Uint8Array
-  }
-}
+// =============================================
+// Create Candy Machine + Candy Guard
+// =============================================
 
 /**
- * Create a new Candy Machine
- * Returns the transaction builder for the user to sign
+ * Create a Core Candy Machine with a Candy Guard in one step.
+ * Guards enforce:
+ * - solPayment: mint price paid to the creator
+ * - solFixedFee: platform fee paid to the platform wallet
+ *
+ * No setMintAuthority needed! Guards handle everything on-chain.
  */
 export async function createCandyMachine(
   umi: Umi,
   config: CandyMachineConfig
-): Promise<{ builder: TransactionBuilder; candyMachine: UmiPublicKey }> {
+): Promise<{
+  builder: TransactionBuilder
+  candyMachine: UmiPublicKey
+  candyMachineSigner: KeypairSigner
+}> {
   const candyMachine = generateSigner(umi)
 
-  // Default config line settings if not provided
   const configLineSettings = config.configLineSettings || {
     prefixName: '',
     nameLength: 32,
@@ -79,32 +86,57 @@ export async function createCandyMachine(
     isSequential: false,
   }
 
-  const builder = create(umi, {
+  // collectionUpdateAuthority must be a Signer (noop - user signs on frontend)
+  const collectionUpdateAuthoritySigner = createNoopSigner(publicKey(config.collectionUpdateAuthority))
+
+  // Build guards configuration
+  const guards: any = {}
+
+  // solPayment guard: mint price goes to the creator
+  if (config.mintPriceSol > 0) {
+    guards.solPayment = some({
+      lamports: sol(config.mintPriceSol),
+      destination: publicKey(config.creatorWallet),
+    })
+  }
+
+  // solFixedFee guard: platform fee goes to the platform wallet
+  if (config.platformFeeSol > 0) {
+    guards.solFixedFee = some({
+      lamports: sol(config.platformFeeSol),
+      destination: publicKey(config.platformWallet),
+    })
+  }
+
+  console.log('[Core CM] Creating with guards:', {
+    solPayment: config.mintPriceSol > 0 ? `${config.mintPriceSol} SOL → ${config.creatorWallet.substring(0, 8)}...` : 'none',
+    solFixedFee: config.platformFeeSol > 0 ? `${config.platformFeeSol} SOL → ${config.platformWallet.substring(0, 8)}...` : 'none',
+  })
+
+  // create() builds both the Candy Machine AND the Candy Guard in one transaction
+  const builder = await createCoreCandyMachineWithGuard(umi, {
     candyMachine,
-    collectionMint: publicKey(config.collectionMint),
-    collectionUpdateAuthority: publicKey(config.collectionUpdateAuthority),
+    collection: publicKey(config.collectionMint),
+    collectionUpdateAuthority: collectionUpdateAuthoritySigner,
     itemsAvailable: config.itemsAvailable,
-    sellerFeeBasisPoints: percentAmount(config.sellerFeeBasisPoints / 100),
-    symbol: config.symbol,
-    maxEditionSupply: config.maxEditionSupply,
-    isMutable: config.isMutable,
-    creators: config.creators.map(c => ({
-      address: publicKey(c.address),
-      percentageShare: c.percentageShare,
-      verified: c.verified,
-    })),
+    isMutable: true,
     configLineSettings: some(configLineSettings),
+    guards,
   })
 
   return {
     builder,
     candyMachine: candyMachine.publicKey,
+    candyMachineSigner: candyMachine,
   }
 }
 
+// =============================================
+// Add Config Lines
+// =============================================
+
 /**
- * Add config lines (NFT metadata URIs) to Candy Machine
- * This tells the CM where each NFT's metadata is located
+ * Add config lines (NFT metadata URIs) to the Candy Machine.
  */
 export async function addCandyMachineConfigLines(
   umi: Umi,
@@ -119,44 +151,81 @@ export async function addCandyMachineConfigLines(
   })
 }
 
+// =============================================
+// Minting
+// =============================================
+
 /**
- * Build a mint transaction from Candy Machine
- * User will sign and broadcast this
+ * Build a mint transaction from Core Candy Machine.
+ * Uses mintV1 which goes through the Candy Guard and enforces all guards.
+ *
+ * IMPORTANT: No platform wallet signing needed!
+ * The guards handle payment enforcement on-chain:
+ * - solPayment → minter pays creator automatically
+ * - solFixedFee → minter pays platform fee automatically
+ *
+ * The minter just needs to sign the transaction.
  */
 export async function buildCandyMachineMint(
   umi: Umi,
   params: {
     candyMachineAddress: string
     collectionMint: string
-    collectionUpdateAuthority: string
     minterPublicKey: string
-    merkleProof?: Uint8Array[] // For whitelist
+    mintPriceSol: number
+    creatorWallet: string
+    platformFeeSol: number
+    platformWallet: string
   }
-): Promise<{ builder: TransactionBuilder; nftMint: UmiPublicKey }> {
+): Promise<{
+  builder: TransactionBuilder
+  nftMint: UmiPublicKey
+  nftMintSigner: KeypairSigner
+}> {
   const nftMint = generateSigner(umi)
-  const candyMachine = await fetchCandyMachine(umi, publicKey(params.candyMachineAddress))
+  const candyMachineData = await fetchCandyMachine(umi, publicKey(params.candyMachineAddress))
 
+  console.log('[Core CM Mint] CM data:', {
+    address: candyMachineData.publicKey.toString(),
+    itemsAvailable: Number(candyMachineData.data.itemsAvailable),
+    itemsRedeemed: Number(candyMachineData.itemsRedeemed),
+    authority: candyMachineData.authority.toString(),
+    mintAuthority: candyMachineData.mintAuthority.toString(),
+  })
+
+  // Build mint args for the guards
   const mintArgs: any = {}
-  
-  // Add merkle proof if whitelist is enabled
-  if (params.merkleProof) {
-    mintArgs.allowList = some({ merkleProof: params.merkleProof })
+
+  if (params.mintPriceSol > 0) {
+    mintArgs.solPayment = some({
+      destination: publicKey(params.creatorWallet),
+    })
   }
 
-  const builder = mintV2(umi, {
-    candyMachine: candyMachine.publicKey,
-    nftMint,
-    collectionMint: publicKey(params.collectionMint),
-    collectionUpdateAuthority: publicKey(params.collectionUpdateAuthority),
-    tokenStandard: candyMachine.tokenStandard,
+  if (params.platformFeeSol > 0) {
+    mintArgs.solFixedFee = some({
+      destination: publicKey(params.platformWallet),
+    })
+  }
+
+  // mintV1 goes through the Candy Guard → enforces guards → mints Core Asset
+  const builder = mintV1(umi, {
+    candyMachine: candyMachineData.publicKey,
+    asset: nftMint,
+    collection: publicKey(params.collectionMint),
     mintArgs,
   })
 
   return {
     builder,
     nftMint: nftMint.publicKey,
+    nftMintSigner: nftMint,
   }
 }
+
+// =============================================
+// Queries
+// =============================================
 
 /**
  * Fetch Candy Machine data from chain
@@ -164,7 +233,7 @@ export async function buildCandyMachineMint(
 export async function getCandyMachineData(
   candyMachineAddress: string
 ): Promise<CandyMachine> {
-  const umi = createUmiInstance()
+  const umi = await createUmiInstanceAsync()
   return fetchCandyMachine(umi, publicKey(candyMachineAddress))
 }
 
@@ -175,29 +244,40 @@ export async function getCandyMachineAvailability(
   candyMachineAddress: string
 ): Promise<{ itemsAvailable: number; itemsRedeemed: number; itemsRemaining: number }> {
   const cm = await getCandyMachineData(candyMachineAddress)
-  
   return {
-    itemsAvailable: Number(cm.itemsAvailable),
+    itemsAvailable: Number(cm.data.itemsAvailable),
     itemsRedeemed: Number(cm.itemsRedeemed),
-    itemsRemaining: Number(cm.itemsAvailable) - Number(cm.itemsRedeemed),
+    itemsRemaining: Number(cm.data.itemsAvailable) - Number(cm.itemsRedeemed),
   }
 }
 
+// =============================================
+// Deployment helpers
+// =============================================
+
 /**
- * Build complete Candy Machine with config lines in batches
- * This is the full deployment flow
+ * Build complete Candy Machine with config lines in batches.
+ *
+ * Transaction order:
+ * 1. Create Candy Machine + Candy Guard (needs CM keypair + user signature)
+ * 2. Add config lines in batches (needs user signature)
+ *
+ * No setMintAuthority step needed - guards handle everything!
  */
 export async function deployCandyMachineWithMetadata(
   umi: Umi,
   config: CandyMachineConfig,
   metadataUris: Array<{ name: string; uri: string }>
-): Promise<{ candyMachine: UmiPublicKey; transactions: TransactionBuilder[] }> {
-  // Step 1: Create Candy Machine
-  const { builder: createBuilder, candyMachine } = await createCandyMachine(umi, config)
-  
-  const transactions: TransactionBuilder[] = [createBuilder]
-  
-  // Step 2: Add config lines in batches (max 10-20 per transaction)
+): Promise<{
+  candyMachine: UmiPublicKey
+  candyMachineSigner: KeypairSigner
+  transactions: TransactionBuilder[]
+}> {
+  // Step 1: Create Candy Machine + Candy Guard
+  const { builder, candyMachine, candyMachineSigner } = await createCandyMachine(umi, config)
+  const transactions: TransactionBuilder[] = [builder]
+
+  // Step 2: Add config lines in batches (max 10 per transaction)
   const batchSize = 10
   for (let i = 0; i < metadataUris.length; i += batchSize) {
     const batch = metadataUris.slice(i, i + batchSize)
@@ -212,6 +292,7 @@ export async function deployCandyMachineWithMetadata(
 
   return {
     candyMachine,
+    candyMachineSigner,
     transactions,
   }
 }
@@ -220,14 +301,13 @@ export async function deployCandyMachineWithMetadata(
  * Estimate Candy Machine deployment costs
  */
 export function estimateCandyMachineCost(itemsAvailable: number): {
-  candyMachineRent: number // SOL
-  configLinesRent: number // SOL
-  totalCost: number // SOL
+  candyMachineRent: number
+  configLinesRent: number
+  totalCost: number
 } {
-  // Approximate costs (may vary slightly)
-  const candyMachineRent = 0.15 // Base CM account
-  const configLinesRent = itemsAvailable * 0.000005 // Per config line
-  
+  // Core assets are cheaper than legacy Token Metadata
+  const candyMachineRent = 0.05 // Core CM base account is smaller
+  const configLinesRent = itemsAvailable * 0.000003 // Per config line (cheaper)
   return {
     candyMachineRent,
     configLinesRent,

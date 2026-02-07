@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { getSolscanUrl } from '@/lib/solscan'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
@@ -315,7 +316,7 @@ export default function SolanaAdminPage() {
                                 {collection.candy_machine_address.substring(0, 20)}...
                               </code>
                               <a
-                                href={`https://solscan.io/account/${collection.candy_machine_address}`}
+                                href={getSolscanUrl(collection.candy_machine_address, 'account')}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-[#9945FF] hover:underline text-xs flex items-center gap-1"
@@ -392,7 +393,7 @@ export default function SolanaAdminPage() {
                         {mint.mint_tx_signature && (
                           <div className="mt-2">
                             <a
-                              href={`https://solscan.io/tx/${mint.mint_tx_signature}`}
+                              href={getSolscanUrl(mint.mint_tx_signature, 'tx')}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-[#9945FF] hover:underline text-xs flex items-center gap-1"
@@ -443,7 +444,7 @@ export default function SolanaAdminPage() {
                       </div>
                       <Button asChild variant="outline" size="sm">
                         <a
-                          href={`https://solscan.io/account/${profile.wallet_address}`}
+                          href={getSolscanUrl(profile.wallet_address, 'account')}
                           target="_blank"
                           rel="noopener noreferrer"
                         >

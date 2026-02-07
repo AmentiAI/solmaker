@@ -28,6 +28,19 @@ async function ensureTableExists() {
       VALUES ('show_credit_purchase', ${JSON.stringify(true)}, 'Whether to show credit purchase functionality across the site')
       ON CONFLICT (setting_key) DO NOTHING
     `
+
+    // Seed Solana network defaults from env vars
+    const defaultDevnetRpc = process.env.SOLANA_DEVNET_RPC_URL || 'https://api.devnet.solana.com'
+    const defaultMainnetRpc = process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+    
+    await sql`
+      INSERT INTO site_settings (setting_key, setting_value, description)
+      VALUES 
+        ('solana_network', ${JSON.stringify('devnet')}, 'Active Solana network (devnet or mainnet-beta)'),
+        ('solana_rpc_devnet', ${JSON.stringify(defaultDevnetRpc)}, 'Solana devnet RPC endpoint'),
+        ('solana_rpc_mainnet', ${JSON.stringify(defaultMainnetRpc)}, 'Solana mainnet RPC endpoint')
+      ON CONFLICT (setting_key) DO NOTHING
+    `
     
     console.log('[Site Settings] Ensured table exists')
   } catch (error) {
@@ -111,9 +124,14 @@ export async function GET(request: NextRequest) {
     ` as any[]
 
     const settings = Array.isArray(result) ? result.map((s: any) => {
-      const value = typeof s.setting_value === 'string' 
-        ? JSON.parse(s.setting_value) 
-        : s.setting_value
+      let value = s.setting_value
+      if (typeof value === 'string') {
+        try {
+          value = JSON.parse(value)
+        } catch {
+          // Not valid JSON - keep as plain string
+        }
+      }
       return {
         key: s.setting_key,
         value,
@@ -167,9 +185,14 @@ export async function PUT(request: NextRequest) {
 
     if (Array.isArray(result) && result.length > 0) {
       const setting = result[0]
-      const parsedValue = typeof setting.setting_value === 'string' 
-        ? JSON.parse(setting.setting_value) 
-        : setting.setting_value
+      let parsedValue = setting.setting_value
+      if (typeof parsedValue === 'string') {
+        try {
+          parsedValue = JSON.parse(parsedValue)
+        } catch {
+          // Not valid JSON - keep as plain string
+        }
+      }
       
       return NextResponse.json({
         success: true,

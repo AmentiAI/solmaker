@@ -1,5 +1,5 @@
 import { Connection, PublicKey } from '@solana/web3.js'
-import { getConnection } from './connection'
+import { getConnectionAsync } from './connection'
 import { sql } from '@/lib/database'
 
 export interface SolanaNft {
@@ -96,7 +96,7 @@ async function fetchNftsViaHelius(
  * Fetch NFTs using on-chain Metaplex queries (slower, but works without API key)
  */
 async function fetchNftsOnChain(walletAddress: string): Promise<SolanaNft[]> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   const walletPubkey = new PublicKey(walletAddress)
 
   const TOKEN_PROGRAM_ID = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA')
@@ -161,7 +161,7 @@ async function fetchNftsOnChain(walletAddress: string): Promise<SolanaNft[]> {
  * Get detailed NFT metadata from mint address
  */
 export async function getNftMetadata(mintAddress: string): Promise<NftMetadata> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   const mintPubkey = new PublicKey(mintAddress)
 
   try {
@@ -295,7 +295,7 @@ export async function verifyNftOwnership(
   mintAddress: string,
   ownerAddress: string
 ): Promise<boolean> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
 
   try {
     const mintPubkey = new PublicKey(mintAddress)
@@ -333,7 +333,7 @@ export async function getNftTokenAccount(
   mintAddress: string,
   ownerAddress: string
 ): Promise<{ tokenAccount: PublicKey; tokenProgram: PublicKey } | null> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
 
   try {
     const mintPubkey = new PublicKey(mintAddress)

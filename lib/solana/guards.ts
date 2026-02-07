@@ -1,25 +1,30 @@
 /**
- * Candy Machine Guards Configuration
+ * Core Candy Machine Guards Configuration
  * Guards control who can mint, when, how much, etc.
+ *
+ * Uses the new mpl-core-candy-machine guard system.
  */
 
 import {
   updateCandyGuard,
-  CandyGuard,
-  GuardSet,
-  DefaultGuardSet,
-} from '@metaplex-foundation/mpl-candy-machine'
+} from '@metaplex-foundation/mpl-core-candy-machine'
 import {
   publicKey,
   some,
   none,
+  sol,
   TransactionBuilder,
   Umi,
   dateTime,
 } from '@metaplex-foundation/umi'
 
 export interface SolPaymentGuard {
-  lamports: bigint
+  amountSol: number
+  destination: string
+}
+
+export interface SolFixedFeeGuard {
+  amountSol: number
   destination: string
 }
 
@@ -36,46 +41,48 @@ export interface MintLimitGuard {
   limit: number
 }
 
-export interface AllowListGuard {
-  merkleRoot: Uint8Array
-}
-
 export interface GuardConfig {
   solPayment?: SolPaymentGuard
+  solFixedFee?: SolFixedFeeGuard
   startDate?: StartDateGuard
   endDate?: EndDateGuard
   mintLimit?: MintLimitGuard
-  allowList?: AllowListGuard
-  redeemedAmount?: number
 }
 
 /**
- * Update Candy Machine guards
- * Guards control access to minting
+ * Update Core Candy Machine guards
  */
 export async function updateCandyMachineGuards(
   umi: Umi,
   candyGuardAddress: string,
   guards: GuardConfig
 ): Promise<TransactionBuilder> {
-  const guardSet: Partial<DefaultGuardSet> = {}
+  const guardSet: any = {}
 
-  // SOL Payment guard (mint price)
+  // SOL Payment guard (mint price to creator)
   if (guards.solPayment) {
     guardSet.solPayment = some({
-      lamports: guards.solPayment.lamports,
+      lamports: sol(guards.solPayment.amountSol),
       destination: publicKey(guards.solPayment.destination),
     })
   }
 
-  // Start date guard (when minting begins)
+  // SOL Fixed Fee guard (platform fee)
+  if (guards.solFixedFee) {
+    guardSet.solFixedFee = some({
+      lamports: sol(guards.solFixedFee.amountSol),
+      destination: publicKey(guards.solFixedFee.destination),
+    })
+  }
+
+  // Start date guard
   if (guards.startDate) {
     guardSet.startDate = some({
       date: dateTime(guards.startDate.date.toISOString()),
     })
   }
 
-  // End date guard (when minting ends)
+  // End date guard
   if (guards.endDate) {
     guardSet.endDate = some({
       date: dateTime(guards.endDate.date.toISOString()),
@@ -90,62 +97,39 @@ export async function updateCandyMachineGuards(
     })
   }
 
-  // Allow list guard (whitelist via Merkle tree)
-  if (guards.allowList) {
-    guardSet.allowList = some({
-      merkleRoot: guards.allowList.merkleRoot,
-    })
-  }
-
   return updateCandyGuard(umi, {
     candyGuard: publicKey(candyGuardAddress),
-    guards: guardSet as DefaultGuardSet,
+    guards: guardSet,
   })
-}
-
-/**
- * Configure guards for a specific phase
- * Use for multi-phase launches
- */
-export interface PhaseGuardConfig {
-  label: string // Phase identifier
-  guards: GuardConfig
-}
-
-export async function configurePhaseGuards(
-  umi: Umi,
-  candyGuardAddress: string,
-  phases: PhaseGuardConfig[]
-): Promise<TransactionBuilder[]> {
-  // Create guard group for each phase
-  const transactions: TransactionBuilder[] = []
-
-  for (const phase of phases) {
-    const tx = await updateCandyMachineGuards(umi, candyGuardAddress, phase.guards)
-    transactions.push(tx)
-  }
-
-  return transactions
 }
 
 /**
  * Build basic guards for single-phase launch
  */
 export function buildBasicGuards(params: {
-  mintPriceLamports: bigint
-  destinationWallet: string
+  mintPriceSol: number
+  creatorWallet: string
+  platformFeeSol: number
+  platformWallet: string
   startDate: Date
   endDate?: Date
   maxPerWallet?: number
 }): GuardConfig {
   const guards: GuardConfig = {
     solPayment: {
-      lamports: params.mintPriceLamports,
-      destination: params.destinationWallet,
+      amountSol: params.mintPriceSol,
+      destination: params.creatorWallet,
     },
     startDate: {
       date: params.startDate,
     },
+  }
+
+  if (params.platformFeeSol > 0) {
+    guards.solFixedFee = {
+      amountSol: params.platformFeeSol,
+      destination: params.platformWallet,
+    }
   }
 
   if (params.endDate) {
@@ -165,31 +149,6 @@ export function buildBasicGuards(params: {
 }
 
 /**
- * Build whitelist guards using Merkle tree
- */
-export function buildWhitelistGuards(params: {
-  merkleRoot: Uint8Array
-  mintPriceLamports: bigint
-  destinationWallet: string
-  startDate: Date
-  endDate?: Date
-}): GuardConfig {
-  return {
-    allowList: {
-      merkleRoot: params.merkleRoot,
-    },
-    solPayment: {
-      lamports: params.mintPriceLamports,
-      destination: params.destinationWallet,
-    },
-    startDate: {
-      date: params.startDate,
-    },
-    endDate: params.endDate ? { date: params.endDate } : undefined,
-  }
-}
-
-/**
  * Estimate if guards will allow minting at current time
  */
 export function canMintWithGuards(guards: GuardConfig): {
@@ -198,7 +157,6 @@ export function canMintWithGuards(guards: GuardConfig): {
 } {
   const now = new Date()
 
-  // Check start date
   if (guards.startDate && guards.startDate.date > now) {
     return {
       canMint: false,
@@ -206,7 +164,6 @@ export function canMintWithGuards(guards: GuardConfig): {
     }
   }
 
-  // Check end date
   if (guards.endDate && guards.endDate.date < now) {
     return {
       canMint: false,

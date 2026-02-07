@@ -717,7 +717,18 @@ export default function CollectionLaunchPage() {
     }
   }
 
-  // Not connected - show connect prompt FIRST (before loading check)
+  // Show loading spinner during SSR and initial hydration (must be FIRST to prevent hydration mismatch)
+  if (!mounted || loading) {
+    return (
+      <div className="container mx-auto px-6 py-12">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="w-12 h-12 border-4 border-[#4561ad] border-t-transparent rounded-full animate-spin" />
+        </div>
+      </div>
+    )
+  }
+
+  // Not connected - show connect prompt (only after mount)
   if (!isConnected || !currentAddress) {
     return (
       <div className="container mx-auto px-6 py-12">
@@ -737,14 +748,14 @@ export default function CollectionLaunchPage() {
     )
   }
 
-  // Security check: Must be connected and must be owner/collaborator (only after mount)
-  const isOwner = mounted && collection && currentAddress && 
+  // Security check: Must be connected and must be owner/collaborator
+  const isOwner = collection && currentAddress && 
     (collection as any)?.creator_wallet === currentAddress
   
   // Check if user is a collaborator (from API response)
-  const isCollaborator = mounted && collection && (collection as any)?.is_collaborator === true
+  const isCollaborator = collection && (collection as any)?.is_collaborator === true
   
-  const hasAccess = mounted && isConnected && currentAddress && (isOwner || isCollaborator || (collection as any)?.is_owner === true)
+  const hasAccess = isConnected && currentAddress && (isOwner || isCollaborator || (collection as any)?.is_owner === true)
 
   const handleStatusChangeConfirm = async () => {
     if (!currentAddress) {
@@ -833,17 +844,6 @@ export default function CollectionLaunchPage() {
     }
   }
 
-  // Show loading during SSR and initial hydration
-  if (!mounted || loading) {
-    return (
-      <div className="container mx-auto px-6 py-12">
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="w-12 h-12 border-4 border-[#4561ad] border-t-transparent rounded-full animate-spin" />
-        </div>
-      </div>
-    )
-  }
-
   // Show status change confirmation if collection is draft
   if (showStatusChangeConfirm && collectionStatusError) {
     return (
@@ -883,42 +883,39 @@ export default function CollectionLaunchPage() {
     )
   }
 
-  // Only check access after mount to prevent hydration mismatch
-  if (mounted) {
-    if (!collection && !showStatusChangeConfirm) {
-      return (
-        <div className="container mx-auto px-6 py-12">
-          <div className="max-w-7xl mx-auto text-center">
-            <p className="text-white/70">Collection not found</p>
-          </div>
+  if (!collection && !showStatusChangeConfirm) {
+    return (
+      <div className="container mx-auto px-6 py-12">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-white/70">Collection not found</p>
         </div>
-      )
-    }
+      </div>
+    )
+  }
 
-    // Not authorized - show access denied
-    if (!hasAccess) {
-      return (
-        <div className="container mx-auto px-6 py-12">
-          <div className="max-w-7xl mx-auto text-center">
-            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#DC1FFF]/50 rounded-xl p-8 max-w-2xl mx-auto">
-              <div className="text-6xl mb-4">🚫</div>
-              <h2 className="text-2xl font-bold text-white mb-4">Access Denied</h2>
-              <p className="text-white/70 mb-6">
-                You don't have permission to edit this collection. Only the collection owner or authorized collaborators can access launch settings.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/collections" className="px-6 py-3 bg-[#4561ad] hover:bg-[#3a5294] text-white rounded-lg font-semibold transition-colors">
-                  Go to Collections
-                </Link>
-                <Link href={`/launchpad/${collectionId}`} className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#9945FF]/30">
-                  View on Launchpad
-                </Link>
-              </div>
+  // Not authorized - show access denied
+  if (!hasAccess) {
+    return (
+      <div className="container mx-auto px-6 py-12">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#DC1FFF]/50 rounded-xl p-8 max-w-2xl mx-auto">
+            <div className="text-6xl mb-4">🚫</div>
+            <h2 className="text-2xl font-bold text-white mb-4">Access Denied</h2>
+            <p className="text-white/70 mb-6">
+              You don&#39;t have permission to edit this collection. Only the collection owner or authorized collaborators can access launch settings.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/collections" className="px-6 py-3 bg-[#4561ad] hover:bg-[#3a5294] text-white rounded-lg font-semibold transition-colors">
+                Go to Collections
+              </Link>
+              <Link href={`/launchpad/${collectionId}`} className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#9945FF]/30">
+                View on Launchpad
+              </Link>
             </div>
           </div>
         </div>
-      )
-    }
+      </div>
+    )
   }
 
   // Check if collection is in launchpad status but not launched (not launchpad_live)

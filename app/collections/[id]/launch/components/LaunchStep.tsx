@@ -1010,8 +1010,8 @@ export function LaunchStep({
         ) : null}
       </div>
 
-      {/* Solana Deployment - Show if not deployed yet */}
-      {!collection.candy_machine_address && !isLive && (
+      {/* Solana Deployment - Show if not deployed yet (even if live, must deploy first) */}
+      {!collection.candy_machine_address && (
         <div className="mb-6">
           <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/30 backdrop-blur-md p-6 mb-4">
             <div className="flex items-start gap-4 mb-4">

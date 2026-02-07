@@ -14,7 +14,7 @@ import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
 } from '@solana/spl-token'
 import bs58 from 'bs58'
-import { getConnection } from './connection'
+import { getConnectionAsync } from './connection'
 
 /**
  * Build transaction to transfer NFT from owner to platform escrow
@@ -25,7 +25,7 @@ export async function buildTransferToEscrow(
   ownerWallet: PublicKey,
   platformWallet: PublicKey
 ): Promise<{ transaction: Transaction; escrowTokenAccount: PublicKey }> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   
   // Import the getNftTokenAccount function
   const { getNftTokenAccount } = await import('./nft-fetcher')
@@ -118,7 +118,7 @@ export async function buildTransferToBuyer(
   buyerWallet: PublicKey,
   platformWallet: PublicKey
 ): Promise<{ transaction: Transaction; buyerTokenAccount: PublicKey }> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
 
   // Get associated token accounts
   const escrowTokenAccount = await getAssociatedTokenAddress(
@@ -181,7 +181,7 @@ export async function buildReturnToSeller(
   sellerWallet: PublicKey,
   platformWallet: PublicKey
 ): Promise<{ transaction: Transaction }> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
 
   // Get associated token accounts
   const escrowTokenAccount = await getAssociatedTokenAddress(
@@ -227,7 +227,7 @@ export async function verifyNftInEscrow(
   nftMint: string,
   platformWallet: string
 ): Promise<boolean> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
 
   try {
     const mintPubkey = new PublicKey(nftMint)
@@ -265,7 +265,7 @@ export async function verifyNftReceived(
   nftMint: string,
   buyerWallet: string
 ): Promise<boolean> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
 
   try {
     const mintPubkey = new PublicKey(nftMint)
@@ -336,7 +336,7 @@ export function getPlatformWalletKeypair(): Keypair {
 export async function signAndSendWithPlatform(
   transaction: Transaction
 ): Promise<string> {
-  const connection = getConnection()
+  const connection = await getConnectionAsync()
   const platformKeypair = getPlatformWalletKeypair()
 
   // Sign transaction
