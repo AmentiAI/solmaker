@@ -1,0 +1,11 @@
+# Generated flyers
+generated/*.png
+
+# Progress tracking
+progress.json
+
+# Environment variables
+.env
+
+# Don't ignore the generated directory itself
+!generated/.gitkeep

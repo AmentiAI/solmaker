@@ -572,47 +572,47 @@ export function CreditPurchaseModal({ isOpen, onClose, tierIndex }: CreditPurcha
       onClick={handleBackdropClick}
       style={{ pointerEvents: 'auto' }}
     >
-      <div className="bg-[#14141e] border border-gray-800 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">Purchase {tier.credits} Credits</h2>
+      <div className="bg-[#14141e] border border-gray-800 rounded-xl p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl w-full mx-2 sm:mx-4 shadow-2xl">
+        <div className="flex items-center justify-between mb-4 sm:mb-6 md:mb-8 lg:mb-10 xl:mb-12">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white">Purchase {tier.credits} Credits</h2>
           <button
             onClick={onClose}
             className="text-[#a8a8b8] hover:text-white transition-colors"
             disabled={creating}
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <div className="space-y-4 mb-6">
+        <div className="space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8 xl:space-y-10 mb-4 sm:mb-6 md:mb-8 lg:mb-10 xl:mb-12">
           {/* Auto-detected payment method indicator */}
-          <div className="p-3 bg-gradient-to-r from-[#4561ad]/20 to-[#e27d0f]/20 border border-[#4561ad]/30 rounded-lg">
-            <p className="text-sm text-white">
+          <div className="p-3 sm:p-4 md:p-5 lg:p-6 xl:p-8 bg-gradient-to-r from-[#4561ad]/20 to-[#e27d0f]/20 border border-[#4561ad]/30 rounded-lg">
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-white">
               <span className="font-semibold">Payment Method:</span>{' '}
               <span className="text-[#e27d0f]">₿ Bitcoin</span>
-              <span className="text-[#a8a8b8]/80 ml-2">(Auto-detected from your wallet)</span>
+              <span className="text-[#a8a8b8]/80 ml-2 hidden sm:inline">(Auto-detected from your wallet)</span>
             </p>
           </div>
 
-          <div className="bg-[#1a1a24]/50 rounded-lg p-4">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-[#a8a8b8]">Credits:</span>
-              <span className="text-white font-bold">{tier.credits}</span>
+          <div className="bg-[#1a1a24]/50 rounded-lg p-3 sm:p-4 md:p-5 lg:p-8 xl:p-10">
+            <div className="flex justify-between items-center mb-3 sm:mb-4 md:mb-5 lg:mb-6 xl:mb-8">
+              <span className="text-[#a8a8b8] text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">Credits:</span>
+              <span className="text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">{tier.credits}</span>
             </div>
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-[#a8a8b8]">Price:</span>
-              <span className="text-white font-bold">${tier.totalPrice}</span>
+            <div className="flex justify-between items-center mb-3 sm:mb-4 md:mb-5 lg:mb-6 xl:mb-8">
+              <span className="text-[#a8a8b8] text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">Price:</span>
+              <span className="text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">${tier.totalPrice}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#a8a8b8]">Per Credit:</span>
-              <span className="text-white">${tier.pricePerCredit.toFixed(2)}</span>
+              <span className="text-[#a8a8b8] text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">Per Credit:</span>
+              <span className="text-white text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">${tier.pricePerCredit.toFixed(2)}</span>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-2">
+            <label className="block text-sm sm:text-base md:text-lg lg:text-xl xl:text-xl font-medium text-white mb-2 sm:mb-3 md:mb-3 lg:mb-4 xl:mb-5">
               Fee Rate (sat/vB)
             </label>
             <input
@@ -622,25 +622,25 @@ export function CreditPurchaseModal({ isOpen, onClose, tierIndex }: CreditPurcha
               placeholder={String(recommendedFeeRate)}
               min="1"
               step="1"
-              className="w-full px-4 py-2 bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8 lg:py-5 xl:px-10 xl:py-6 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl bg-[#1a1a24] border border-[#9945FF]/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               disabled={creating}
             />
-            <p className="text-xs text-[#a8a8b8]/80 mt-1">
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#a8a8b8]/80 mt-1 sm:mt-2 md:mt-2 lg:mt-3 xl:mt-4">
               Recommended: {recommendedFeeRate} sat/vB (economy)
             </p>
           </div>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-900/50 border border-[#EF4444]/20 text-red-200 rounded-lg text-sm">
+          <div className="mb-4 sm:mb-5 md:mb-6 lg:mb-8 xl:mb-10 p-3 sm:p-4 md:p-5 lg:p-6 xl:p-8 bg-red-900/50 border border-[#EF4444]/20 text-red-200 rounded-lg text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
             {error}
           </div>
         )}
 
-        <div className="flex gap-3">
+        <div className="flex gap-2 sm:gap-3 md:gap-4 lg:gap-6 xl:gap-8">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold shadow-lg shadow-blue-500/20 transition-all duration-200"
+            className="flex-1 px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8 lg:py-5 xl:px-10 xl:py-6 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold shadow-lg shadow-blue-500/20 transition-all duration-200"
             disabled={creating}
           >
             Cancel
@@ -648,12 +648,12 @@ export function CreditPurchaseModal({ isOpen, onClose, tierIndex }: CreditPurcha
           <button
             onClick={handleConfirm}
             disabled={creating || !feeRate}
-            className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8 lg:py-5 xl:px-10 xl:py-6 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {creating ? (
               <>
-                <span className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
-                Processing...
+                <span className="inline-block animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-7 xl:w-7 border-b-2 border-white mr-2"></span>
+                <span className="hidden sm:inline">Processing...</span>
               </>
             ) : (
               'Confirm Purchase'

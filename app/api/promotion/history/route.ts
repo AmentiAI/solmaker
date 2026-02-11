@@ -15,25 +15,27 @@ export async function GET(request: NextRequest) {
     }
 
     // Fetch promotion history for this wallet, ordered by most recent first.
-    // Be resilient to schema differences (subject_type may not exist).
+    // Be resilient to schema differences (subject_type and collection_name may not exist).
     let promotions: any[] = []
     try {
+      // Join with collections to get collection_name
       promotions = (await sql`
         SELECT
-          id,
-          wallet_address,
-          collection_id,
-          collection_name,
-          image_url,
-          flyer_text,
-          character_count,
-          character_actions,
-          no_text,
-          subject_type,
-          created_at
-        FROM promotions
-        WHERE wallet_address = ${walletAddress}
-        ORDER BY created_at DESC
+          p.id,
+          p.wallet_address,
+          p.collection_id,
+          c.name as collection_name,
+          p.image_url,
+          p.flyer_text,
+          p.character_count,
+          p.character_actions,
+          p.no_text,
+          p.subject_type,
+          p.created_at
+        FROM promotions p
+        LEFT JOIN collections c ON c.id = p.collection_id
+        WHERE p.wallet_address = ${walletAddress}
+        ORDER BY p.created_at DESC
         LIMIT 100
       `) as any[]
     } catch (e: any) {
@@ -41,29 +43,34 @@ export async function GET(request: NextRequest) {
       if (msg.includes('subject_type') && msg.includes('does not exist')) {
         promotions = (await sql`
           SELECT
-            id,
-            wallet_address,
-            collection_id,
-            collection_name,
-            image_url,
-            flyer_text,
-            character_count,
-            character_actions,
-            no_text,
-            created_at
-          FROM promotions
-          WHERE wallet_address = ${walletAddress}
-          ORDER BY created_at DESC
+            p.id,
+            p.wallet_address,
+            p.collection_id,
+            c.name as collection_name,
+            p.image_url,
+            p.flyer_text,
+            p.character_count,
+            p.character_actions,
+            p.no_text,
+            p.created_at
+          FROM promotions p
+          LEFT JOIN collections c ON c.id = p.collection_id
+          WHERE p.wallet_address = ${walletAddress}
+          ORDER BY p.created_at DESC
           LIMIT 100
         `) as any[]
+      } else if (msg.includes('does not exist')) {
+        // Promotions table might be empty or not exist - that's ok
+        console.log('[promotion/history] Promotions table issue:', msg)
+        promotions = []
       } else {
         throw e
       }
     }
 
-    // Also fetch ALL video job attempts from promotion_jobs table (regardless of status)
-    // This includes pending, processing, completed, and failed video jobs
-    let videoJobs: any[] = []
+    // Fetch ALL promotion jobs from promotion_jobs table (flyers AND videos, regardless of status)
+    // This includes pending, processing, completed, and failed jobs
+    let promotionJobs: any[] = []
     try {
       const jobs = (await sql`
         SELECT
@@ -81,32 +88,35 @@ export async function GET(request: NextRequest) {
           pj.error_message,
           pj.created_at,
           pj.started_at,
-          pj.completed_at,
-          pj.subject_actions::text as subject_actions_json
+          pj.completed_at
         FROM promotion_jobs pj
         LEFT JOIN collections c ON c.id = pj.collection_id
         WHERE pj.wallet_address = ${walletAddress}
-          AND (
-            -- Video jobs: check if subject_actions JSON contains content_type: 'video'
-            (pj.subject_actions::text LIKE '%"content_type":"video"%')
-            OR (pj.subject_actions::text LIKE '%"content_type": "video"%')
-            OR (pj.subject_actions::text LIKE '%content_type%video%')
-            OR (pj.subject_actions::jsonb->>'content_type' = 'video')
-          )
         ORDER BY pj.created_at DESC
         LIMIT 200
       `) as any[]
 
-      // Transform video jobs to match promotion history format
-      videoJobs = jobs.map((job: any) => {
+      // Transform promotion jobs to match promotion history format
+      promotionJobs = jobs.map((job: any) => {
         let actions = job.character_actions
+        let actionsStr = ''
+
         if (typeof actions === 'string') {
+          actionsStr = actions
           try {
             actions = JSON.parse(actions)
           } catch {
             actions = []
           }
+        } else if (typeof actions === 'object') {
+          actionsStr = JSON.stringify(actions)
         }
+
+        // Detect if it's a video job by checking content_type in subject_actions
+        const isVideoJob =
+          (typeof actions === 'object' && actions?.content_type === 'video') ||
+          (actionsStr.includes('"content_type":"video"')) ||
+          (actionsStr.includes('"content_type": "video"'))
 
         return {
           id: `job_${job.id}`, // Prefix to distinguish from promotions table IDs
@@ -120,21 +130,22 @@ export async function GET(request: NextRequest) {
           no_text: job.no_text || false,
           subject_type: job.subject_type || 'selected',
           created_at: job.created_at,
-          // Additional fields for video jobs
+          // Additional fields for jobs
           job_status: job.status, // 'pending', 'processing', 'completed', 'failed'
           error_message: job.error_message,
           started_at: job.started_at,
           completed_at: job.completed_at,
-          is_video_job: true,
+          is_video_job: isVideoJob,
         }
       })
     } catch (e: any) {
-      console.error('[promotion/history] Error fetching video jobs:', e)
-      // Don't fail the whole request if video jobs query fails
+      console.error('[promotion/history] Error fetching promotion jobs:', e)
+      // Don't fail the whole request if jobs query fails
+      promotionJobs = []
     }
 
     // Combine and sort by created_at DESC
-    const allItems = [...promotions, ...videoJobs].sort((a, b) => {
+    const allItems = [...promotions, ...promotionJobs].sort((a, b) => {
       const dateA = new Date(a.created_at).getTime()
       const dateB = new Date(b.created_at).getTime()
       return dateB - dateA

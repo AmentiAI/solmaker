@@ -170,106 +170,44 @@ export default function LaunchpadPage() {
 
   return (
     <div className="min-h-screen text-white">
-      {/* Revolutionary Hero Header - 2026 Ultra-Modern */}
-      <div className="relative bg-gradient-to-br from-[#050508] via-[#0a0a0f] to-[#050508] border-b-2 border-[#9945FF]/40 overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12">
-        {/* Ultra-Premium Animated background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#9945FF]/25 rounded-full blur-[120px] animate-[particleFloat_20s_ease-in-out_infinite]" />
-          <div className="absolute bottom-0 right-1/4 w-[700px] h-[700px] bg-[#14F195]/20 rounded-full blur-[120px] animate-[particleFloat_25s_ease-in-out_infinite]" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#DC1FFF]/15 rounded-full blur-[100px] animate-[particleFloat_22s_ease-in-out_infinite]" style={{ animationDelay: '1s' }} />
-          
-          {/* Cyber grid */}
-          <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: `
-              repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(153, 69, 255, 0.15) 60px, rgba(153, 69, 255, 0.15) 61px),
-              repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(20, 241, 149, 0.1) 60px, rgba(20, 241, 149, 0.1) 61px)
-            `
-          }} />
-        </div>
+      {/* Clean Minimal Header */}
+      <div className="relative bg-[#0a0a0f] border-b border-white/5">
+        <div className="w-full py-6 sm:py-8 px-3 sm:px-4 md:px-6">
+          <div className="max-w-7xl mx-auto">
+            {/* Simple Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+              <div>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1">Launchpad</h1>
+                <p className="text-sm sm:text-base text-gray-400">Discover and mint exclusive NFT collections</p>
+              </div>
 
-        <div className="w-full py-20 relative z-10">
-          <div className="max-w-6xl mx-auto text-center space-y-8">
-            {/* Premium Badge */}
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="p-4 bg-gradient-to-br from-[#9945FF] via-[#DC1FFF] to-[#9945FF] border-2 border-[#9945FF]/50 rounded-2xl cyber-glow">
-                <Rocket className="h-10 w-10 text-white" />
-              </div>
-              <div className="glass-card border-2 border-[#9945FF]/50 rounded-full px-6 py-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-[#14F195] rounded-full animate-pulse ultra-glow-green" />
-                  <span className="text-sm font-black text-[#14F195] uppercase tracking-wider">NFT LAUNCHPAD</span>
-                </div>
-              </div>
-            </div>
-            
-            <h1 className="text-7xl md:text-8xl font-black tracking-tight leading-none">
-              <span className="gradient-text-neon">NFT Launchpad</span>
-            </h1>
-            
-            <p className="text-2xl md:text-3xl text-[#B4B4C8] font-bold max-w-3xl mx-auto leading-relaxed">
-              Mint <span className="text-[#9945FF] font-black">exclusive collections</span> on Solana. 
-              <span className="text-[#14F195] font-black"> Lightning-fast</span> launches with fair distribution.
-            </p>
-
-            {/* Premium Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
-              <div className="glass-card border-2 border-[#9945FF]/40 rounded-2xl p-6 hover:border-[#9945FF] transition-all duration-300 group">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-gradient-to-br from-[#9945FF] to-[#DC1FFF] rounded-xl cyber-glow group-hover:scale-110 transition-transform duration-300">
-                    <Zap className="h-6 w-6 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-4xl font-black text-white gradient-text-neon">{collections.filter(c => c.is_live).length}</p>
-                    <p className="text-sm text-[#B4B4C8] font-bold uppercase tracking-wide">Live Drops</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="glass-card border-2 border-[#14F195]/40 rounded-2xl p-6 hover:border-[#14F195] transition-all duration-300 group">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-gradient-to-br from-[#14F195] to-[#10B981] rounded-xl shadow-2xl shadow-[#14F195]/60 group-hover:scale-110 transition-transform duration-300">
-                    <Users className="h-6 w-6 text-black" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-4xl font-black text-[#14F195] drop-shadow-[0_0_20px_rgba(20,241,149,0.8)]">{collections.reduce((sum, c) => sum + c.minted_count, 0)}</p>
-                    <p className="text-sm text-[#B4B4C8] font-bold uppercase tracking-wide">Total Minted</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="glass-card border-2 border-[#00D4FF]/40 rounded-2xl p-6 hover:border-[#00D4FF] transition-all duration-300 group">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-gradient-to-br from-[#00D4FF] to-[#9945FF] rounded-xl ultra-glow-cyan group-hover:scale-110 transition-transform duration-300">
-                    <TrendingUp className="h-6 w-6 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-4xl font-black text-[#00D4FF] drop-shadow-[0_0_20px_rgba(0,212,255,0.8)]">{collections.length}</p>
-                    <p className="text-sm text-[#B4B4C8] font-bold uppercase tracking-wide">Collections</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Premium Launch Collection Button */}
-            <div className="mt-12">
-              {isConnected ? (
+              {isConnected && (
                 <Button
                   onClick={handleOpenLaunchModal}
-                  size="lg"
-                  className="group px-10 py-7 text-xl font-black bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] text-white rounded-2xl shadow-2xl shadow-[#9945FF]/60 hover:shadow-[#9945FF]/80 transition-all duration-300 hover:scale-105 relative overflow-hidden"
+                  className="bg-white text-black hover:bg-gray-100 font-semibold w-full sm:w-auto"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
-                  <Plus className="h-6 w-6 mr-3 relative z-10" />
-                  <span className="relative z-10">Launch Collection</span>
-                  <Sparkles className="h-6 w-6 ml-3 relative z-10" />
+                  <Plus className="h-4 w-4 mr-2" />
+                  Launch Collection
                 </Button>
-              ) : (
-                <div className="glass-card border-2 border-[#9945FF]/40 rounded-2xl px-8 py-4 inline-block">
-                  <p className="text-[#B4B4C8] text-lg font-bold">
-                    Connect your wallet to launch a collection
-                  </p>
-                </div>
               )}
+            </div>
+
+            {/* Minimal Stats */}
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+              <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4">
+                <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{collections.filter(c => c.is_live).length}</p>
+                <p className="text-xs sm:text-sm text-gray-400 mt-0.5">Live Now</p>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4">
+                <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{collections.reduce((sum, c) => sum + c.minted_count, 0)}</p>
+                <p className="text-xs sm:text-sm text-gray-400 mt-0.5">Total Minted</p>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4">
+                <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{collections.length}</p>
+                <p className="text-xs sm:text-sm text-gray-400 mt-0.5">Collections</p>
+              </div>
             </div>
           </div>
         </div>
@@ -396,86 +334,65 @@ export default function LaunchpadPage() {
       )}
 
       {/* Main Content */}
-      <div className="w-full py-12">
-        {/* Filters and Search */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--text-secondary)]" />
-            <Input
-              placeholder="Search collections..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12"
-            />
-          </div>
-          
-          <div className="flex gap-3">
-            <Button
-              variant={filterStatus === 'all' ? 'default' : 'outline'}
-              onClick={() => setFilterStatus('all')}
-            >
-              ALL
-            </Button>
-            <Button
-              variant={filterStatus === 'live' ? 'default' : 'outline'}
-              onClick={() => setFilterStatus('live')}
-            >
-              <Zap className="h-4 w-4 mr-2" />
-              LIVE
-            </Button>
-            <Button
-              variant={filterStatus === 'upcoming' ? 'default' : 'outline'}
-              onClick={() => setFilterStatus('upcoming')}
-            >
-              <Clock className="h-4 w-4 mr-2" />
-              UPCOMING
-            </Button>
-            <Button
-              variant={filterStatus === 'ended' ? 'default' : 'outline'}
-              onClick={() => setFilterStatus('ended')}
-            >
-              ENDED
-            </Button>
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              variant={viewMode === 'grid' ? 'default' : 'outline'}
-              size="icon"
-              onClick={() => setViewMode('grid')}
-            >
-              <Grid3x3 className="h-5 w-5" />
-            </Button>
-            <Button
-              variant={viewMode === 'list' ? 'default' : 'outline'}
-              size="icon"
-              onClick={() => setViewMode('list')}
-            >
-              <List className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Collections Grid/List */}
-        {filteredCollections.length === 0 ? (
-          <div className="py-20 text-center bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[var(--solana-purple)]/20 rounded-2xl backdrop-blur-md">
-            <div className="text-6xl mb-6 opacity-50 animate-[solanaFloat_4s_ease-in-out_infinite]">🚀</div>
-            <h3 className="text-3xl font-black text-white mb-3">No Collections Found</h3>
-            <p className="text-[var(--text-secondary)] text-lg font-medium mb-8 max-w-md mx-auto">
-              Try adjusting your search or filters to find what you're looking for.
-            </p>
-          </div>
-        ) : (
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'flex flex-col gap-6'}>
-            {filteredCollections.map((collection) => (
-              <CollectionCard
-                key={collection.id}
-                collection={collection}
-                viewMode={viewMode}
+      <div className="w-full py-4 sm:py-6 px-3 sm:px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Clean Filters */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search collections..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-11 sm:pl-12 pr-4 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 text-sm sm:text-base focus:outline-none focus:border-white/20 transition-colors"
               />
-            ))}
+            </div>
+
+            <div className="flex gap-2">
+              {[
+                { value: 'all', label: 'All' },
+                { value: 'live', label: 'Live' },
+                { value: 'upcoming', label: 'Upcoming' },
+                { value: 'ended', label: 'Ended' },
+              ].map((filter) => (
+                <button
+                  key={filter.value}
+                  onClick={() => setFilterStatus(filter.value as typeof filterStatus)}
+                  className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
+                    filterStatus === filter.value
+                      ? 'bg-white text-black'
+                      : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10'
+                  }`}
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </div>
           </div>
-        )}
+
+          {/* Collections Grid */}
+          {filteredCollections.length === 0 ? (
+            <div className="py-16 sm:py-20 md:py-24 text-center">
+              <div className="text-5xl sm:text-6xl mb-6 opacity-30">🚀</div>
+              <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">No collections found</h3>
+              <p className="text-sm sm:text-base text-gray-400">
+                Try adjusting your search or filters
+              </p>
+            </div>
+          ) : (
+            <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6' : 'flex flex-col gap-4 sm:gap-5 md:gap-6'}>
+              {filteredCollections.map((collection) => (
+                <CollectionCard
+                  key={collection.id}
+                  collection={collection}
+                  viewMode={viewMode}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
       </div>
     </div>
   )
@@ -558,11 +475,11 @@ function CollectionCard({
     <Link href={`/launchpad/${collection.id}`}>
       <Card className="group hover:scale-[1.02] transition-all duration-300 cursor-pointer">
         <CardContent className="p-0">
-          <div className="relative aspect-square rounded-t-2xl overflow-hidden border-b border-[var(--solana-purple)]/30">
-            <img 
-              src={collection.image_url} 
+          <div className="relative aspect-video rounded-t-2xl overflow-hidden border-b border-[var(--solana-purple)]/30">
+            <img
+              src={collection.image_url}
               alt={collection.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             {isLive && !isSoldOut && (
               <div className="absolute top-4 right-4">
@@ -580,35 +497,35 @@ function CollectionCard({
             )}
           </div>
 
-          <div className="p-6 space-y-4">
+          <div className="p-4 space-y-3">
             <div>
-              <h3 className="text-xl font-bold text-white mb-2 line-clamp-1">{collection.name}</h3>
-              <p className="text-[var(--text-secondary)] text-sm line-clamp-2">{collection.description}</p>
+              <h3 className="text-lg font-bold text-white mb-1 line-clamp-1">{collection.name}</h3>
+              <p className="text-[var(--text-secondary)] text-xs line-clamp-2">{collection.description}</p>
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Price</p>
-                <p className="text-2xl font-black text-[var(--solana-green)]">{collection.mint_price} SOL</p>
+                <p className="text-xs text-[var(--text-secondary)]">Price</p>
+                <p className="text-xl font-black text-[var(--solana-green)]">{collection.mint_price} SOL</p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Minted</p>
-                <p className="text-lg font-black text-white">{collection.minted_count} / {collection.total_supply}</p>
+                <p className="text-xs text-[var(--text-secondary)]">Minted</p>
+                <p className="text-sm font-bold text-white">{collection.minted_count} / {collection.total_supply}</p>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="h-2 bg-[#0f0f1e] border border-[var(--solana-purple)]/30 rounded-full overflow-hidden">
-                <div 
+            <div className="space-y-1.5">
+              <div className="h-1.5 bg-[#0f0f1e] border border-[var(--solana-purple)]/30 rounded-full overflow-hidden">
+                <div
                   className="h-full bg-gradient-to-r from-[var(--solana-purple)] to-[var(--solana-green)] transition-all duration-500"
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <p className="text-xs text-[var(--text-secondary)] text-center">{progress.toFixed(1)}% minted</p>
+              <p className="text-xs text-[var(--text-secondary)] text-right">{progress.toFixed(1)}%</p>
             </div>
 
-            <Button className="w-full">
-              <Sparkles className="h-4 w-4 mr-2" />
+            <Button className="w-full h-9 text-sm">
+              <Sparkles className="h-3.5 w-3.5 mr-1.5" />
               {isSoldOut ? 'View Collection' : 'Mint Now'}
             </Button>
           </div>

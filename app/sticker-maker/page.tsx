@@ -275,24 +275,24 @@ export default function StickerMakerPage() {
     <div className="min-h-screen">
       {/* Hero Header */}
       <div className="relative bg-gradient-to-r from-[#0a0e27]/90 via-[#1a1f3a]/90 to-[#0f172a]/90 text-white border-b border-[#9945FF]/30">
-        <div className="container mx-auto px-6 py-8">
-      
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
+
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 sm:gap-4">
             <div>
-              <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white">Sticker Creator</h1>
-              <p className="text-[#a5b4fc] mt-2 text-lg">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white">Sticker Creator</h1>
+              <p className="text-[#a5b4fc] mt-1 sm:mt-2 text-sm sm:text-base md:text-lg">
                 Transform any image into a sticker with transparent backgrounds
               </p>
             </div>
-            <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-sm font-bold shadow-lg shadow-[#00E5FF]/20">
+            <div className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] text-xs sm:text-sm font-bold shadow-lg shadow-[#00E5FF]/20 whitespace-nowrap">
               {CREDITS_PER_STICKER} credit{CREDITS_PER_STICKER > 1 ? 's' : ''} / sticker
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
+        <div className="w-full">
 
         {!activeWalletConnected && (
           <div className="rounded-lg border border-[#DC1FFF]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 text-[#DC1FFF]">
@@ -309,8 +309,8 @@ export default function StickerMakerPage() {
           </div>
         )}
 
-        <section className="grid gap-8 lg:grid-cols-2">
-          <div className="space-y-6 rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl">
+        <section className="grid gap-4 sm:gap-6 md:gap-8 lg:grid-cols-2">
+          <div className="space-y-4 sm:space-y-6 md:space-y-8 rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 sm:p-6 md:p-8 shadow-xl">
             <div className="space-y-3">
               <div className="block text-sm font-semibold text-white">
                 Reference Image{selectedFiles.length > 1 ? 's' : ''} {selectedFiles.length > 0 && `(${selectedFiles.length})`}
@@ -465,10 +465,10 @@ export default function StickerMakerPage() {
             )}
           </div>
 
-          <div className="space-y-6">
-            <div className="rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-white">AI Analysis</h2>
+          <div className="space-y-4 sm:space-y-6 md:space-y-8">
+            <div className="rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 sm:p-6 md:p-8 shadow-xl">
+              <div className="mb-4 sm:mb-6 flex items-center justify-between">
+                <h2 className="text-base sm:text-lg md:text-xl font-semibold text-white">AI Analysis</h2>
                 {result?.analysis && (
                   <button
                     onClick={() => navigator.clipboard.writeText(result.analysis)}
@@ -483,13 +483,13 @@ export default function StickerMakerPage() {
                 readOnly
                 value={formattedAnalysis}
                 placeholder="Detailed description of the uploaded image will appear here after processing."
-                className="h-32 w-full resize-none rounded-lg border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-3 font-mono text-[10px] leading-tight text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#9945FF]/50"
+                className="h-48 w-full resize-none rounded-lg border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 font-mono text-sm leading-relaxed text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#9945FF]/50"
               />
             </div>
 
-            <div className="rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-white">Generation Prompt</h2>
+            <div className="rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 sm:p-6 md:p-8 shadow-xl">
+              <div className="mb-4 sm:mb-6 flex items-center justify-between">
+                <h2 className="text-base sm:text-lg md:text-xl font-semibold text-white">Generation Prompt</h2>
                 {result?.chromaticPrompt && (
                   <button
                     onClick={() => navigator.clipboard.writeText(result.chromaticPrompt)}
@@ -503,14 +503,14 @@ export default function StickerMakerPage() {
                 readOnly
                 value={result?.chromaticPrompt ?? ""}
                 placeholder="The sticker generation prompt will appear here after processing."
-                className="h-32 w-full resize-none rounded-lg border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-3 font-mono text-[10px] leading-tight text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#9945FF]/50"
+                className="h-48 w-full resize-none rounded-lg border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 font-mono text-sm leading-relaxed text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#9945FF]/50"
               />
             </div>
 
             {result?.chromaticImageUrl && (
-              <div className="space-y-3 rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl">
+              <div className="space-y-4 sm:space-y-6 rounded-xl border border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-4 sm:p-6 md:p-8 shadow-xl">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-white">Your Sticker</h2>
+                  <h2 className="text-base sm:text-lg md:text-xl font-semibold text-white">Your Sticker</h2>
                   <div className="flex items-center gap-3 text-xs text-white/70">
                     <a
                       href={result.chromaticImageUrl}

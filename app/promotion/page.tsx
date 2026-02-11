@@ -878,61 +878,61 @@ export default function PromotionPage() {
                   </div>
                 </div>
               ) : (
-                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">1</div>
-                    <h2 className="text-lg font-black text-white">Choose Video Source</h2>
+                <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-7 h-7 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-xs shadow-lg shadow-[#9945FF]/20">1</div>
+                    <h2 className="text-base font-bold text-white">Choose Video Source</h2>
                   </div>
-                  
-                  <div className="grid grid-cols-3 gap-4 mb-6">
+
+                  <div className="grid grid-cols-3 gap-3 mb-4">
                     <button
                       onClick={() => setVideoSourceType('collection')}
                       disabled={!activeWalletConnected}
-                      className={`p-4 rounded-xl border-2 transition-all ${
+                      className={`p-3 rounded-lg border-2 transition-all ${
                         videoSourceType === 'collection'
                           ? 'border-[#9945FF] bg-[#9945FF]/10'
                           : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                       } disabled:opacity-50`}
                     >
-                      <div className="text-2xl mb-2">🖼️</div>
-                      <div className="font-bold text-white text-sm">Collection</div>
+                      <div className="text-xl mb-1">🖼️</div>
+                      <div className="font-bold text-white text-xs">Collection</div>
                     </button>
                     <button
                       onClick={() => setVideoSourceType('flyer')}
                       disabled={!activeWalletConnected}
-                      className={`p-4 rounded-xl border-2 transition-all ${
+                      className={`p-3 rounded-lg border-2 transition-all ${
                         videoSourceType === 'flyer'
                           ? 'border-[#9945FF] bg-[#9945FF]/10'
                           : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                       } disabled:opacity-50`}
                     >
-                      <div className="text-2xl mb-2">📄</div>
-                      <div className="font-bold text-white text-sm">Flyer</div>
+                      <div className="text-xl mb-1">📄</div>
+                      <div className="font-bold text-white text-xs">Flyer</div>
                     </button>
                     <button
                       onClick={() => setVideoSourceType('upload')}
                       disabled={!activeWalletConnected}
-                      className={`p-4 rounded-xl border-2 transition-all ${
+                      className={`p-3 rounded-lg border-2 transition-all ${
                         videoSourceType === 'upload'
                           ? 'border-[#9945FF] bg-[#9945FF]/10'
                           : 'border-[#9945FF]/30 hover:border-[#9945FF]/50'
                       } disabled:opacity-50`}
                     >
-                      <div className="text-2xl mb-2">📤</div>
-                      <div className="font-bold text-white text-sm">Upload</div>
+                      <div className="text-xl mb-1">📤</div>
+                      <div className="font-bold text-white text-xs">Upload</div>
                     </button>
                   </div>
 
                   {/* Collection source */}
                   {videoSourceType === 'collection' && (
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2">Collection</label>
+                      <label className="block text-xs font-semibold text-white mb-1.5">Collection</label>
                       <select
                         value={selectedCollectionId}
                         onChange={(e) => setSelectedCollectionId(e.target.value)}
                         disabled={!activeWalletConnected || loadingCollections}
-                        className="w-full h-12 rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 text-base font-medium text-white focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
+                        className="w-full h-9 rounded-lg border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-3 text-sm font-medium text-white focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                       >
                         {collections.length === 0 && (
                           <option value="" className="bg-[#0a0e27]">{loadingCollections ? 'Loading...' : 'No collections found'}</option>
@@ -942,16 +942,16 @@ export default function PromotionPage() {
                         ))}
                       </select>
                       </div>
-                      
+
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">How many images?</label>
+                        <label className="block text-xs font-semibold text-white mb-1.5">How many images?</label>
                         <div className="flex gap-2">
                           {[1, 2, 3].map((n) => (
                             <button
                               key={n}
                               onClick={() => setVideoImageCount(n)}
                               disabled={!activeWalletConnected}
-                              className={`flex-1 h-12 rounded-xl font-bold text-lg transition-all ${
+                              className={`flex-1 h-9 rounded-lg font-bold text-base transition-all ${
                                 videoImageCount === n
                                   ? 'bg-[#9945FF] text-white shadow-lg shadow-[#9945FF]/20'
                                   : 'bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 text-white/70 hover:border-[#9945FF]/50 hover:text-white'
@@ -1231,15 +1231,15 @@ export default function PromotionPage() {
 
                 {/* Video Settings (only for videos) */}
                 {contentType === 'video' && (
-                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-[#9945FF]/20">3</div>
-                      <h2 className="text-lg font-black text-white">Video Description</h2>
+                  <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-2xl border-2 border-[#9945FF]/30 p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-7 h-7 rounded-full bg-[#9945FF] text-white flex items-center justify-center font-bold text-xs shadow-lg shadow-[#9945FF]/20">3</div>
+                      <h2 className="text-base font-bold text-white">Video Description</h2>
                     </div>
-                    
-                    <div className="space-y-4">
+
+                    <div className="space-y-3">
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">
+                        <label className="block text-xs font-semibold text-white mb-1.5">
                           Scene <span className="text-[#a8a8b8]/80 text-xs font-normal">(what's happening)</span>
                         </label>
                         <textarea
@@ -1247,14 +1247,14 @@ export default function PromotionPage() {
                           onChange={(e) => setVideoScene(e.target.value)}
                           placeholder="e.g., driving down the road in rainy weather on the tractor"
                           disabled={!activeWalletConnected}
-                          rows={3}
-                          className="w-full rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
+                          rows={2}
+                          className="w-full rounded-lg border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-3 py-2 text-sm text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                         />
                         <div className="mt-1 text-xs text-[#a8a8b8]/80">Describe the scene and environment</div>
                       </div>
-                      
+
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">
+                        <label className="block text-xs font-semibold text-white mb-1.5">
                           Actions <span className="text-[#a8a8b8]/80 text-xs font-normal">(what the character is doing)</span>
                         </label>
                         <textarea
@@ -1263,13 +1263,13 @@ export default function PromotionPage() {
                           placeholder="e.g., singing, dancing, waving, etc."
                           disabled={!activeWalletConnected}
                           rows={2}
-                          className="w-full rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
+                          className="w-full rounded-lg border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-3 py-2 text-sm text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                         />
                         <div className="mt-1 text-xs text-[#a8a8b8]/80">Describe the actions or movements</div>
                       </div>
-                      
+
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">
+                        <label className="block text-xs font-semibold text-white mb-1.5">
                           Speech/Text <span className="text-[#a8a8b8]/80 text-xs font-normal">(optional - what is being said)</span>
                         </label>
                         <textarea
@@ -1278,7 +1278,7 @@ export default function PromotionPage() {
                           placeholder='e.g., "sweet home alabama" song'
                           disabled={!activeWalletConnected}
                           rows={2}
-                          className="w-full rounded-xl border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-4 py-3 text-base text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
+                          className="w-full rounded-lg border-2 border-[#9945FF]/30 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md px-3 py-2 text-sm text-white placeholder:text-white/50 focus:border-[#9945FF] focus:outline-none focus:ring-2 focus:ring-[#9945FF]/20 transition-colors disabled:opacity-50"
                         />
                         <div className="mt-1 text-xs text-[#a8a8b8]/80">Optional: What the character is saying or singing</div>
                       </div>
