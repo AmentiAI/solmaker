@@ -46,21 +46,28 @@ export function isAdmin(walletAddress: string | null | undefined): boolean {
 export async function checkAuthorizationServer(
   requestOrWallet: any,
   sql?: any,
-  requireSignature: boolean = true
+  requireSignature: boolean = false // Only require signature for write operations by default
 ): Promise<{ isAuthorized: boolean; isAdmin: boolean; walletAddress: string | null; error?: string }> {
   let walletAddress: string | null = null
 
-  // If it's a NextRequest object, verify the signature
+  // If it's a NextRequest object, check if signature is needed
   if (requestOrWallet && typeof requestOrWallet === 'object' && requestOrWallet.url) {
-    // This is a NextRequest - REQUIRE SIGNATURE VERIFICATION
-    const authResult = await requireWalletAuth(requestOrWallet, requireSignature)
+    // Determine if this is a write operation (POST, PUT, DELETE, PATCH)
+    const method = requestOrWallet.method
+    const isWriteOperation = ['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)
+
+    // Require signature for write operations or if explicitly requested
+    const needsSignature = requireSignature || isWriteOperation
+
+    // Try to verify signature if needed
+    const authResult = await requireWalletAuth(requestOrWallet, needsSignature)
 
     if (!authResult.isValid) {
       return {
         isAuthorized: false,
         isAdmin: false,
         walletAddress: null,
-        error: authResult.error || 'Authentication failed - signature required'
+        error: authResult.error || 'Authentication failed'
       }
     }
 
