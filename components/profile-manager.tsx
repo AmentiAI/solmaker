@@ -455,47 +455,6 @@ export function ProfileManager() {
                 </div>
               )}
               
-              {/* Payout Opt-In Status */}
-              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-yellow-500/30 rounded-xl p-6 bg-gradient-to-br from-yellow-900/20 to-orange-900/20 backdrop-blur-sm">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm text-white/70 mb-2 font-medium">Payout Opt-In Status</p>
-                    {profile.optIn === true ? (
-                      <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-sm font-semibold border border-green-500/30">
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                          </svg>
-                          Opted In
-                        </span>
-                        <p className="text-xs text-[#a8a8b8]/80 mt-1">You're eligible to receive community payouts</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-yellow-500/20 text-[#FBBF24] rounded-lg text-sm font-semibold border border-yellow-500/30">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
-                            Not Opted In
-                          </span>
-                        </div>
-                        <p className="text-xs text-white/70 mb-3">You need to opt-in to receive community revenue payouts</p>
-                        <Link
-                          href="/payouts"
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white rounded-lg font-semibold text-sm transition-all duration-200 shadow-lg shadow-yellow-500/20 transform hover:scale-105"
-                        >
-                          <span>💎</span>
-                          <span>Go to Payouts Page</span>
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
             </div>
           ) : null}
           

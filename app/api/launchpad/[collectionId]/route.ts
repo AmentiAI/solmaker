@@ -523,16 +523,33 @@ export async function PATCH(
 
   try {
     const { collectionId } = await params
-    
+
+    // Debug: log request body
+    const bodyDebug = await request.clone().json()
+    console.log('[PATCH /api/launchpad] Request auth params:', {
+      wallet_address: bodyDebug.wallet_address,
+      has_signature: !!bodyDebug.signature,
+      has_message: !!bodyDebug.message,
+      has_timestamp: !!bodyDebug.timestamp,
+      signature_length: bodyDebug.signature?.length,
+      message_preview: bodyDebug.message?.substring(0, 50)
+    })
+
     // SECURITY: Require signature verification
     const auth = await requireWalletAuth(request, true)
+    console.log('[PATCH /api/launchpad] Auth result:', {
+      isValid: auth.isValid,
+      walletAddress: auth.walletAddress,
+      error: auth.error
+    })
+
     if (!auth.isValid || !auth.walletAddress) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         error: auth.error || 'Authentication required',
         details: 'Please sign the request with your wallet to verify ownership'
       }, { status: 401 })
     }
-    
+
     const wallet_address = auth.walletAddress
     const body = await request.clone().json()
     const { 

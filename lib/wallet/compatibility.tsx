@@ -16,7 +16,8 @@ interface WalletContextType {
   isVerifying: boolean
   isLiveConnection: boolean
   verifyWallet: () => Promise<boolean>
-  signMessage: (message: string) => Promise<string>
+  // Changed to match Solana wallet adapter signature (Uint8Array -> Uint8Array)
+  signMessage: ((message: Uint8Array) => Promise<Uint8Array>) | null
   signPsbt: (psbtBase64: string, autoFinalize?: boolean, broadcast?: boolean) => Promise<any>
   connect: (provider: any) => Promise<void>
   disconnect: () => void
@@ -38,15 +39,9 @@ export function useWallet(): WalletContextType {
     isVerifying: solana.isVerifying,
     isLiveConnection: solana.isConnected,
     verifyWallet: solana.verifyWallet,
-    signMessage: async (message: string) => {
-      if (!solanaSignMessage) {
-        throw new Error('Wallet signMessage not available')
-      }
-      const messageBytes = new TextEncoder().encode(message)
-      const signature = await solanaSignMessage(messageBytes)
-      // Convert signature to base64 string
-      return Buffer.from(signature).toString('base64')
-    },
+    // Return the raw Solana signMessage function (Uint8Array -> Uint8Array)
+    // This matches the signature expected by generateApiAuth
+    signMessage: solanaSignMessage || null,
     signPsbt: async () => {
       throw new Error("PSBTs are not supported on Solana")
     },

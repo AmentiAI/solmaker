@@ -184,13 +184,6 @@ export function ProfileDropdown() {
               Payouts
             </Link>
             <Link
-              href="/rewards"
-              className="block px-4 py-2 text-sm text-white/70 hover:text-white hover:bg-[#1a1f3a] transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Rewards
-            </Link>
-            <Link
               href="/guide"
               className="block px-4 py-2 text-sm text-white/70 hover:text-white hover:bg-[#1a1f3a] transition-colors"
               onClick={() => setIsOpen(false)}

@@ -346,9 +346,6 @@ export function WalletConnect() {
                 <Link href="/transactions" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
                   Credit Usage
                 </Link>
-                <Link href="/rewards" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
-                  Rewards
-                </Link>
                 <Link href="/guide" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-base text-[#a8a8b8] hover:text-white hover:bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-xl transition-colors font-semibold">
                   Guide
                 </Link>

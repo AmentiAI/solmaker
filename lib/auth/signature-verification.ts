@@ -25,12 +25,19 @@ async function verifySolanaSignature(
   address: string
 ): Promise<boolean> {
   try {
+    console.log('[verifySolanaSignature] Verifying:', {
+      address,
+      message,
+      signature_length: signature?.length,
+      signature_preview: signature?.substring(0, 20) + '...'
+    })
+
     // Validate message format
     const messagePattern = /^Verify wallet ownership for (.+) at (\d+)$/
     const match = message.match(messagePattern)
 
     if (!match) {
-      console.error('Invalid message format')
+      console.error('[verifySolanaSignature] Invalid message format:', message)
       return false
     }
 
@@ -57,8 +64,38 @@ async function verifySolanaSignature(
     // Encode the message to bytes
     const messageBytes = new TextEncoder().encode(message)
 
-    // Decode the signature from base58
-    const signatureBytes = bs58.decode(signature)
+    // Decode the signature - handle base58, base64, and hex formats
+    let signatureBytes: Uint8Array
+    try {
+      // Try base58 first (most common for Solana)
+      signatureBytes = bs58.decode(signature)
+      console.log('[verifySolanaSignature] Decoded base58 signature, length:', signatureBytes.length)
+    } catch (e) {
+      // If base58 fails, try base64 (also common for Solana wallets)
+      try {
+        console.log('[verifySolanaSignature] Signature is not base58, trying base64')
+        signatureBytes = Uint8Array.from(Buffer.from(signature, 'base64'))
+        console.log('[verifySolanaSignature] Decoded base64 signature, length:', signatureBytes.length)
+      } catch (base64Error) {
+        // If base64 fails, try hex
+        try {
+          console.log('[verifySolanaSignature] Signature is not base64, trying hex')
+          signatureBytes = new Uint8Array(
+            signature.match(/.{1,2}/g)!.map(byte => parseInt(byte, 16))
+          )
+          console.log('[verifySolanaSignature] Decoded hex signature, length:', signatureBytes.length)
+        } catch (hexError) {
+          console.error('[verifySolanaSignature] Failed to decode signature as base58, base64, or hex')
+          return false
+        }
+      }
+    }
+
+    // Verify signature is exactly 64 bytes (Ed25519 requirement)
+    if (signatureBytes.length !== 64) {
+      console.error('[verifySolanaSignature] Invalid signature length:', signatureBytes.length, 'expected 64 bytes')
+      return false
+    }
 
     // Verify the signature cryptographically
     const isValidSignature = nacl.sign.detached.verify(
