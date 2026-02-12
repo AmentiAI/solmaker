@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CREDIT_TIERS } from '@/lib/credits/constants';
 import { sql } from '@/lib/database';
+import { requireWalletAuth } from '@/lib/auth/signature-verification';
 
 // POST /api/credits/purchase - Create a credit purchase request
 export async function POST(request: NextRequest) {
@@ -9,8 +10,18 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    // REQUIRE SIGNATURE VERIFICATION
+    const authResult = await requireWalletAuth(request, true);
+    if (!authResult.isValid) {
+      return NextResponse.json(
+        { error: authResult.error || 'Wallet signature verification failed' },
+        { status: 401 }
+      );
+    }
+
+    const wallet_address = authResult.walletAddress;
     const body = await request.json();
-    const { wallet_address, tier_index } = body;
+    const { tier_index } = body;
 
     if (!wallet_address) {
       return NextResponse.json({ error: 'Wallet address is required' }, { status: 400 });

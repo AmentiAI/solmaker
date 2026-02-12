@@ -1,3 +1,5 @@
+import { requireWalletAuth } from './signature-verification'
+
 // Authorized wallet addresses and usernames for restricted features
 export const AUTHORIZED_WALLETS = [
   'bc1pmhglspy7jd7fzx6ycrdcdyet35ppqsu2ywfaakzapzxpwde3jafshshqwe', // Bitcoin wallet
@@ -37,48 +39,39 @@ export function isAdmin(walletAddress: string | null | undefined): boolean {
 /**
  * Server-side authorization check that can also check by username
  * Use this in API routes when you have access to the database
- * 
+ *
+ * REQUIRES SIGNATURE VERIFICATION for admin operations
  * Can accept either a NextRequest object or a wallet address string
  */
 export async function checkAuthorizationServer(
   requestOrWallet: any,
-  sql?: any
-): Promise<{ isAuthorized: boolean; isAdmin: boolean; walletAddress: string | null }> {
-  // Extract wallet address - handle both NextRequest and string
+  sql?: any,
+  requireSignature: boolean = true
+): Promise<{ isAuthorized: boolean; isAdmin: boolean; walletAddress: string | null; error?: string }> {
   let walletAddress: string | null = null
-  
-  if (typeof requestOrWallet === 'string') {
-    walletAddress = requestOrWallet
-  } else if (requestOrWallet && typeof requestOrWallet === 'object') {
-    // It's a NextRequest - extract wallet_address from query params or body
-    try {
-      const url = new URL(requestOrWallet.url)
-      walletAddress = url.searchParams.get('wallet_address')
-      
-      // If not in query params, try to get from body
-      if (!walletAddress) {
-        try {
-          const clonedRequest = requestOrWallet.clone()
-          const body = await clonedRequest.json().catch(() => ({}))
-          walletAddress = body.wallet_address || body.admin_wallet_address || null
-        } catch {
-          // Body might not be JSON or might be empty
-        }
-      }
-    } catch {
-      // If URL parsing fails, try to get from body
-      try {
-        const clonedRequest = requestOrWallet.clone()
-        const body = await clonedRequest.json().catch(() => ({}))
-        walletAddress = body.wallet_address || body.admin_wallet_address || null
-      } catch {
-        walletAddress = null
+
+  // If it's a NextRequest object, verify the signature
+  if (requestOrWallet && typeof requestOrWallet === 'object' && requestOrWallet.url) {
+    // This is a NextRequest - REQUIRE SIGNATURE VERIFICATION
+    const authResult = await requireWalletAuth(requestOrWallet, requireSignature)
+
+    if (!authResult.isValid) {
+      return {
+        isAuthorized: false,
+        isAdmin: false,
+        walletAddress: null,
+        error: authResult.error || 'Authentication failed - signature required'
       }
     }
+
+    walletAddress = authResult.walletAddress
+  } else if (typeof requestOrWallet === 'string') {
+    // Legacy: direct wallet address string (should migrate to signature verification)
+    walletAddress = requestOrWallet
   }
 
   if (!walletAddress) {
-    return { isAuthorized: false, isAdmin: false, walletAddress: null }
+    return { isAuthorized: false, isAdmin: false, walletAddress: null, error: 'Wallet address required' }
   }
 
   // Check if wallet is connected (any wallet = authorized)

@@ -1,29 +1,18 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
 import { useWallet } from '@/lib/wallet/compatibility'
 import {
   Rocket,
-  Zap,
-  Clock,
-  Users,
-  TrendingUp,
-  Search,
-  Filter,
-  Grid3x3,
-  List,
-  Sparkles,
-  ArrowRight,
   Plus,
   X,
   Image as ImageIcon,
   ChevronRight,
+  TrendingUp,
+  Users,
+  Flame,
 } from 'lucide-react'
 
 interface LaunchpadCollection {
@@ -57,6 +46,7 @@ export default function LaunchpadPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState<'all' | 'live' | 'upcoming' | 'ended'>('all')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   // Launch modal state
   const [showLaunchModal, setShowLaunchModal] = useState(false)
@@ -65,9 +55,71 @@ export default function LaunchpadPage() {
   const { isConnected, currentAddress } = useWallet()
   const router = useRouter()
 
+  // Compute filtered and separated collections
+  const filteredCollections = useMemo(() => {
+    return collections.filter((collection) => {
+      const matchesSearch =
+        collection.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (collection.description && collection.description.toLowerCase().includes(searchTerm.toLowerCase()))
+
+      if (!matchesSearch) return false
+
+      if (filterStatus === 'all') return true
+
+      const now = new Date()
+      const startTime = collection.start_time ? new Date(collection.start_time) : null
+      const endTime = collection.end_time ? new Date(collection.end_time) : null
+
+      if (filterStatus === 'live') {
+        return collection.is_live || (startTime && startTime <= now && (!endTime || endTime > now))
+      }
+
+      if (filterStatus === 'upcoming') {
+        return startTime && startTime > now
+      }
+
+      if (filterStatus === 'ended') {
+        return endTime && endTime < now
+      }
+
+      return true
+    })
+  }, [collections, searchTerm, filterStatus])
+
+  const activeCollections = useMemo(() => {
+    return filteredCollections.filter(c => {
+      const isSoldOut = c.minted_count >= c.total_supply
+      const now = new Date()
+      const endTime = c.end_time ? new Date(c.end_time) : null
+      const hasEnded = endTime && endTime < now
+      return !isSoldOut && !hasEnded
+    })
+  }, [filteredCollections])
+
+  const completedCollections = useMemo(() => {
+    return filteredCollections.filter(c => {
+      const isSoldOut = c.minted_count >= c.total_supply
+      const now = new Date()
+      const endTime = c.end_time ? new Date(c.end_time) : null
+      const hasEnded = endTime && endTime < now
+      return isSoldOut || hasEnded
+    })
+  }, [filteredCollections])
+
   useEffect(() => {
     loadCollections()
   }, [])
+
+  // Auto-rotate slideshow every 5 seconds
+  useEffect(() => {
+    if (activeCollections.length <= 1) return
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % activeCollections.length)
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [activeCollections.length])
 
   // Fetch user's collections when modal opens
   const loadUserCollections = useCallback(async () => {
@@ -126,34 +178,6 @@ export default function LaunchpadPage() {
     }
   }
 
-  const filteredCollections = collections.filter((collection) => {
-    const matchesSearch = 
-      collection.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (collection.description && collection.description.toLowerCase().includes(searchTerm.toLowerCase()))
-
-    if (!matchesSearch) return false
-
-    if (filterStatus === 'all') return true
-
-    const now = new Date()
-    const startTime = collection.start_time ? new Date(collection.start_time) : null
-    const endTime = collection.end_time ? new Date(collection.end_time) : null
-
-    if (filterStatus === 'live') {
-      return collection.is_live || (startTime && startTime <= now && (!endTime || endTime > now))
-    }
-    
-    if (filterStatus === 'upcoming') {
-      return startTime && startTime > now
-    }
-    
-    if (filterStatus === 'ended') {
-      return endTime && endTime < now
-    }
-
-    return true
-  })
-
   if (loading) {
     return (
       <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
@@ -169,7 +193,7 @@ export default function LaunchpadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white">
+    <div className="min-h-screen bg-gradient-to-b from-[#0a0a0f] via-[#050508] to-[#0a0a0f]">
       {/* Launch Collection Modal */}
       {showLaunchModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -290,267 +314,264 @@ export default function LaunchpadPage() {
         </div>
       )}
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-12">
-        {/* Featured Collection Hero */}
-        {filteredCollections.length > 0 && (
-          <div className="relative rounded-2xl overflow-hidden mb-12 cursor-pointer" onClick={() => router.push(`/launchpad/${filteredCollections[0].id}`)}>
-            <div className="relative aspect-[16/7]">
-              <img
-                src={filteredCollections[0].image_url}
-                alt={filteredCollections[0].name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#9945FF]/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#14F195]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+        </div>
 
-              <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-10">
-                <div className="flex items-center gap-3 mb-4">
-                  <Badge className="bg-[#22c55e] text-white border-none text-sm px-4 py-1">Featured</Badge>
-                  {filteredCollections[0].is_live && (
-                    <Badge className="bg-[var(--solana-purple)]/20 border-[var(--solana-purple)]/40 text-[var(--solana-purple)] animate-pulse text-sm px-4 py-1">LIVE</Badge>
-                  )}
+        <div className="relative max-w-7xl mx-auto px-6 py-16 sm:py-24">
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#9945FF]/10 border border-[#9945FF]/30 rounded-full mb-6">
+              <Flame className="w-4 h-4 text-[#14F195]" />
+              <span className="text-sm font-bold text-[#14F195]">LIVE MINTS</span>
+            </div>
+            <h1 className="text-5xl sm:text-7xl font-black text-white mb-6 leading-tight">
+              NFT <span className="bg-gradient-to-r from-[#9945FF] to-[#14F195] bg-clip-text text-transparent">Launchpad</span>
+            </h1>
+            <p className="text-xl text-[#B4B4C8] mb-8">
+              Discover and mint the latest Solana NFT collections
+            </p>
+
+            {/* Stats */}
+            <div className="flex items-center justify-center gap-8 mb-8">
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 text-3xl font-black text-white mb-1">
+                  <TrendingUp className="w-6 h-6 text-[#14F195]" />
+                  {filteredCollections.length}
                 </div>
-
-                <h1 className="text-4xl sm:text-5xl font-black text-white mb-3">{filteredCollections[0].name}</h1>
-                <p className="text-[#B4B4C8] text-base sm:text-lg mb-6 line-clamp-2 max-w-3xl">{filteredCollections[0].description}</p>
-
-                <div className="flex flex-wrap items-center gap-8 mb-6">
-                  <div>
-                    <p className="text-[#999] text-sm mb-1">Price</p>
-                    <p className="text-[#f7931a] text-2xl font-black">{filteredCollections[0].mint_price} SOL</p>
-                  </div>
-                  <div>
-                    <p className="text-[#999] text-sm mb-1">Minted</p>
-                    <p className="text-white text-xl font-bold">{filteredCollections[0].minted_count}</p>
-                  </div>
-                  <div>
-                    <p className="text-[#999] text-sm mb-1">Progress</p>
-                    <p className="text-white text-xl font-bold">{((filteredCollections[0].minted_count / filteredCollections[0].total_supply) * 100).toFixed(0)}%</p>
-                  </div>
+                <p className="text-sm text-[#B4B4C8]">Live Collections</p>
+              </div>
+              <div className="w-px h-12 bg-[#9945FF]/30" />
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 text-3xl font-black text-white mb-1">
+                  <Users className="w-6 h-6 text-[#9945FF]" />
+                  {filteredCollections.reduce((acc, c) => acc + c.minted_count, 0)}
                 </div>
-
-                <button className="px-8 py-3 bg-[#f7931a] hover:bg-[#e67010] text-white rounded-xl font-bold text-base transition-all">
-                  Mint Now
-                </button>
+                <p className="text-sm text-[#B4B4C8]">Total Mints</p>
               </div>
             </div>
-          </div>
-        )}
 
-        {/* Collections Table */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white">All Collections</h2>
             {isConnected && (
               <button
                 onClick={handleOpenLaunchModal}
-                className="px-5 py-2.5 bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-lg text-sm font-semibold transition-all flex items-center gap-2"
+                className="px-8 py-4 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:opacity-90 text-white rounded-xl font-bold text-lg transition-all flex items-center gap-2 mx-auto shadow-2xl shadow-[#9945FF]/30"
               >
-                <Plus className="h-4 w-4" />
-                Launch Collection
+                <Rocket className="w-5 h-5" />
+                Launch Your Collection
               </button>
             )}
           </div>
-
-          {/* Table Header */}
-          <div className="hidden md:grid md:grid-cols-12 gap-4 px-5 py-3 bg-[#1a1a1a] rounded-xl">
-            <div className="col-span-4 text-[#999] text-xs font-semibold uppercase tracking-wider">Collection</div>
-            <div className="col-span-2 text-[#999] text-xs font-semibold uppercase tracking-wider">Phase</div>
-            <div className="col-span-2 text-[#999] text-xs font-semibold uppercase tracking-wider">Price</div>
-            <div className="col-span-2 text-[#999] text-xs font-semibold uppercase tracking-wider">Progress</div>
-            <div className="col-span-2 text-[#999] text-xs font-semibold uppercase tracking-wider text-right">Action</div>
-          </div>
-
-          {/* Table Rows */}
-          {filteredCollections.slice(1).map((collection) => {
-            const progress = (collection.minted_count / collection.total_supply) * 100
-            return (
-              <div key={collection.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 p-5 bg-[#0a0a0f] rounded-xl border border-[#333] hover:border-[#f7931a]/50 transition-all">
-                {/* Collection */}
-                <div className="col-span-12 md:col-span-4 flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-black flex-shrink-0">
-                    <img src={collection.image_url} alt={collection.name} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="text-white font-bold text-base truncate">{collection.name}</h3>
-                    <p className="text-[#999] text-sm truncate">{collection.description}</p>
-                  </div>
-                </div>
-
-                {/* Phase */}
-                <div className="col-span-6 md:col-span-2 flex items-center">
-                  <span className="text-[var(--solana-purple)] text-sm font-semibold">Public</span>
-                </div>
-
-                {/* Price */}
-                <div className="col-span-6 md:col-span-2 flex items-center">
-                  <p className="text-[#f7931a] font-bold text-base">{collection.mint_price} SOL</p>
-                </div>
-
-                {/* Progress */}
-                <div className="col-span-12 md:col-span-2 flex items-center">
-                  <div className="w-full">
-                    <div className="h-2 bg-[#1a1a1a] rounded-full overflow-hidden mb-1.5">
-                      <div
-                        className="h-full bg-gradient-to-r from-[var(--solana-purple)] to-[var(--solana-green)] transition-all"
-                        style={{ width: `${progress}%` }}
-                      />
-                    </div>
-                    <p className="text-[#999] text-xs font-medium">{progress.toFixed(0)}%</p>
-                  </div>
-                </div>
-
-                {/* Action */}
-                <div className="col-span-12 md:col-span-2 flex items-center md:justify-end">
-                  <button
-                    onClick={() => router.push(`/launchpad/${collection.id}`)}
-                    className="px-5 py-2.5 bg-[#f7931a] hover:bg-[#e67010] text-white rounded-lg text-sm font-semibold transition-all w-full md:w-auto"
-                  >
-                    Mint Now
-                  </button>
-                </div>
-              </div>
-            )
-          })}
         </div>
       </div>
-    </div>
-  )
-}
 
-// Collection Card Component
-function CollectionCard({ 
-  collection, 
-  viewMode 
-}: { 
-  collection: LaunchpadCollection
-  viewMode: 'grid' | 'list'
-}) {
-  const progress = (collection.minted_count / collection.total_supply) * 100
-  const isLive = collection.is_live
-  const isSoldOut = collection.minted_count >= collection.total_supply
+      {/* Banner Slideshow */}
+      {activeCollections.length > 0 && (
+        <div className="relative mb-16">
+          <div className="max-w-[1600px] mx-auto px-6">
+            {/* Main Slideshow */}
+            <div className="relative h-[600px] rounded-3xl overflow-hidden border-2 border-[#9945FF]/30 shadow-2xl shadow-[#9945FF]/20">
+              {activeCollections.map((collection, index) => {
+                const progress = (collection.minted_count / collection.total_supply) * 100
+                const isActive = index === currentSlide
 
-  if (viewMode === 'list') {
-    return (
-      <Link href={`/launchpad/${collection.id}`}>
-        <Card className="hover:scale-[1.01] transition-all duration-300 cursor-pointer">
-          <CardContent className="p-6">
-            <div className="flex gap-6">
-              <div className="relative w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden border border-[var(--solana-purple)]/30">
-                <img 
-                  src={collection.image_url} 
-                  alt={collection.name}
-                  className="w-full h-full object-cover"
-                />
-                {isLive && !isSoldOut && (
-                  <div className="absolute top-2 right-2">
-                    <Badge className="bg-[var(--solana-green)]/20 border-[var(--solana-green)]/40 text-[var(--solana-green)] animate-pulse">
-                      LIVE
-                    </Badge>
-                  </div>
-                )}
-              </div>
+                return (
+                  <div
+                    key={collection.id}
+                    className={`absolute inset-0 transition-all duration-1000 ${
+                      isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+                    }`}
+                  >
+                    {/* Background Image */}
+                    <div className="absolute inset-0">
+                      <img
+                        src={collection.image_url}
+                        alt={collection.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent" />
+                    </div>
 
-              <div className="flex-1">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-1">{collection.name}</h3>
-                    <p className="text-[var(--text-secondary)] text-sm line-clamp-2">{collection.description}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-2xl font-black text-[var(--solana-green)]">{collection.mint_price} SOL</p>
-                    <p className="text-xs text-[var(--text-secondary)]">per NFT</p>
-                  </div>
-                </div>
+                    {/* Content */}
+                    <div className="relative h-full flex items-center">
+                      <div className="max-w-3xl px-12 sm:px-16">
+                        {/* Live Badge */}
+                        {collection.is_live && (
+                          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#14F195] text-black rounded-full font-bold text-sm mb-6 shadow-lg">
+                            <div className="w-2 h-2 bg-black rounded-full animate-pulse" />
+                            LIVE NOW
+                          </div>
+                        )}
 
-                <div className="space-y-3">
-                  <div className="flex items-center gap-4 text-sm">
-                    <span className="text-[var(--text-secondary)]">{collection.minted_count} / {collection.total_supply} minted</span>
-                    <div className="flex-1">
-                      <div className="h-2 bg-[#0f0f1e] border border-[var(--solana-purple)]/30 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-gradient-to-r from-[var(--solana-purple)] to-[var(--solana-green)] transition-all duration-500"
-                          style={{ width: `${progress}%` }}
-                        />
+                        {/* Title */}
+                        <h2 className="text-5xl sm:text-7xl font-black text-white mb-4 leading-tight">
+                          {collection.name}
+                        </h2>
+
+                        {/* Description */}
+                        <p className="text-xl text-[#B4B4C8] mb-8 line-clamp-2 max-w-2xl">
+                          {collection.description}
+                        </p>
+
+                        {/* Stats */}
+                        <div className="flex flex-wrap items-center gap-6 mb-8">
+                          <div>
+                            <p className="text-sm text-[#B4B4C8] mb-1">Mint Price</p>
+                            <p className="text-3xl font-black text-[#14F195]">{collection.mint_price} SOL</p>
+                          </div>
+                          <div className="w-px h-16 bg-white/20" />
+                          <div>
+                            <p className="text-sm text-[#B4B4C8] mb-1">Total Supply</p>
+                            <p className="text-3xl font-black text-white">{collection.total_supply}</p>
+                          </div>
+                          <div className="w-px h-16 bg-white/20" />
+                          <div>
+                            <p className="text-sm text-[#B4B4C8] mb-1">Remaining</p>
+                            <p className="text-3xl font-black text-white">{collection.total_supply - collection.minted_count}</p>
+                          </div>
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="mb-8 max-w-xl">
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm text-[#B4B4C8]">Minting Progress</p>
+                            <p className="text-sm font-bold text-white">{progress.toFixed(0)}%</p>
+                          </div>
+                          <div className="h-3 bg-black/50 backdrop-blur-sm rounded-full overflow-hidden border border-white/20">
+                            <div
+                              className="h-full bg-gradient-to-r from-[#9945FF] to-[#14F195] transition-all duration-500 shadow-lg"
+                              style={{ width: `${progress}%` }}
+                            />
+                          </div>
+                          <p className="text-sm text-[#B4B4C8] mt-2">{collection.minted_count} / {collection.total_supply} minted</p>
+                        </div>
+
+                        {/* CTA Button */}
+                        <button
+                          onClick={() => router.push(`/launchpad/${collection.id}`)}
+                          className="px-10 py-5 bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:opacity-90 text-white rounded-xl font-black text-xl transition-all flex items-center gap-3 shadow-2xl shadow-[#9945FF]/50 hover:scale-105 duration-300"
+                        >
+                          Mint Now
+                          <ChevronRight className="w-6 h-6" />
+                        </button>
                       </div>
                     </div>
-                    <span className="text-[var(--solana-purple)] font-bold">{progress.toFixed(1)}%</span>
                   </div>
+                )
+              })}
 
-                  <Button className="w-full">
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    {isSoldOut ? 'View Collection' : 'Mint Now'}
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
+              {/* Navigation Dots */}
+              {activeCollections.length > 1 && (
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-10">
+                  {activeCollections.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`transition-all duration-300 rounded-full ${
+                        index === currentSlide
+                          ? 'w-12 h-3 bg-gradient-to-r from-[#9945FF] to-[#14F195]'
+                          : 'w-3 h-3 bg-white/30 hover:bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Navigation Arrows */}
+              {activeCollections.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setCurrentSlide((prev) => (prev - 1 + activeCollections.length) % activeCollections.length)}
+                    className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center transition-all z-10"
+                  >
+                    <ChevronRight className="w-6 h-6 text-white rotate-180" />
+                  </button>
+                  <button
+                    onClick={() => setCurrentSlide((prev) => (prev + 1) % activeCollections.length)}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center transition-all z-10"
+                  >
+                    <ChevronRight className="w-6 h-6 text-white" />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Slideshow Counter */}
+            {activeCollections.length > 1 && (
+              <div className="text-center mt-6">
+                <p className="text-sm text-[#B4B4C8]">
+                  Showing {currentSlide + 1} of {activeCollections.length} active collections
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 pb-24">
+        {filteredCollections.length === 0 ? (
+          <div className="text-center py-24">
+            <div className="text-6xl mb-6">🚀</div>
+            <h2 className="text-2xl font-bold text-white mb-4">No Collections Available</h2>
+            <p className="text-[#B4B4C8]">Check back soon for new launches!</p>
+          </div>
+        ) : (
+          <>
+            {/* Completed Collections Section */}
+            {completedCollections.length > 0 && (
+              <div>
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-1 h-10 bg-gradient-to-b from-[#666] to-[#999] rounded-full" />
+                  <div>
+                    <h2 className="text-4xl font-black text-white">Completed Mints</h2>
+                    <p className="text-[#B4B4C8] mt-1">{completedCollections.length} successful {completedCollections.length === 1 ? 'launch' : 'launches'} on our platform</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {completedCollections.map((collection) => {
+                    const isSoldOut = collection.minted_count >= collection.total_supply
+                    return (
+                      <div
+                        key={collection.id}
+                        className="group bg-[#0f0f1e] rounded-xl overflow-hidden border border-[#333] hover:border-[#666] transition-all duration-300 cursor-pointer opacity-75 hover:opacity-100"
+                        onClick={() => router.push(`/launchpad/${collection.id}`)}
+                      >
+                        {/* Image */}
+                        <div className="relative aspect-square bg-gradient-to-br from-[#333]/20 to-[#666]/20">
+                          <img
+                            src={collection.image_url}
+                            alt={collection.name}
+                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                          />
+                          {/* Completed Badge */}
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                            <div className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full font-black text-xs text-black shadow-xl">
+                              {isSoldOut ? '✓ SOLD OUT' : '✓ COMPLETED'}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Info */}
+                        <div className="p-4">
+                          <h3 className="text-sm font-bold text-white mb-1 truncate">{collection.name}</h3>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-[#B4B4C8]">{collection.mint_price} SOL</span>
+                            <span className="text-white font-bold">{collection.minted_count}/{collection.total_supply}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </Link>
-    )
-  }
-
-  return (
-    <Link href={`/launchpad/${collection.id}`}>
-      <Card className="group hover:scale-[1.02] transition-all duration-300 cursor-pointer">
-        <CardContent className="p-0">
-          <div className="relative aspect-video rounded-t-2xl overflow-hidden border-b border-[var(--solana-purple)]/30">
-            <img
-              src={collection.image_url}
-              alt={collection.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            {isLive && !isSoldOut && (
-              <div className="absolute top-4 right-4">
-                <Badge className="bg-[var(--solana-green)]/20 border-[var(--solana-green)]/40 text-[var(--solana-green)] animate-pulse">
-                  LIVE
-                </Badge>
-              </div>
             )}
-            {isSoldOut && (
-              <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
-                <Badge className="bg-[var(--solana-cyan)]/20 border-[var(--solana-cyan)]/40 text-[var(--solana-cyan)] text-lg px-6 py-2">
-                  SOLD OUT
-                </Badge>
-              </div>
-            )}
-          </div>
-
-          <div className="p-4 space-y-3">
-            <div>
-              <h3 className="text-lg font-bold text-white mb-1 line-clamp-1">{collection.name}</h3>
-              <p className="text-[var(--text-secondary)] text-xs line-clamp-2">{collection.description}</p>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-[var(--text-secondary)]">Price</p>
-                <p className="text-xl font-black text-[var(--solana-green)]">{collection.mint_price} SOL</p>
-              </div>
-              <div className="text-right">
-                <p className="text-xs text-[var(--text-secondary)]">Minted</p>
-                <p className="text-sm font-bold text-white">{collection.minted_count} / {collection.total_supply}</p>
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="h-1.5 bg-[#0f0f1e] border border-[var(--solana-purple)]/30 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-[var(--solana-purple)] to-[var(--solana-green)] transition-all duration-500"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-              <p className="text-xs text-[var(--text-secondary)] text-right">{progress.toFixed(1)}%</p>
-            </div>
-
-            <Button className="w-full h-9 text-sm">
-              <Sparkles className="h-3.5 w-3.5 mr-1.5" />
-              {isSoldOut ? 'View Collection' : 'Mint Now'}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
+          </>
+        )}
+      </div>
+    </div>
   )
 }

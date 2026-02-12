@@ -3,6 +3,9 @@
  * Verifies that API requests are made by the wallet owner
  */
 
+import nacl from 'tweetnacl'
+import bs58 from 'bs58'
+
 const signatureCache = new Map<string, number>()
 const SIGNATURE_CACHE_TTL = 5 * 60 * 1000 // 5 minutes
 const SIGNATURE_EXPIRY = 5 * 60 * 1000 // 5 minutes
@@ -22,30 +25,53 @@ async function verifySolanaSignature(
   address: string
 ): Promise<boolean> {
   try {
+    // Validate message format
     const messagePattern = /^Verify wallet ownership for (.+) at (\d+)$/
     const match = message.match(messagePattern)
 
-    if (!match) return false
+    if (!match) {
+      console.error('Invalid message format')
+      return false
+    }
 
     const messageAddress = match[1]
     const timestamp = parseInt(match[2])
 
     // Verify address matches (Solana addresses are case-sensitive base58)
-    if (messageAddress !== address) return false
+    if (messageAddress !== address) {
+      console.error('Address mismatch in message')
+      return false
+    }
 
     // Check timestamp is recent
     const now = Date.now()
-    if (Math.abs(now - timestamp) > SIGNATURE_EXPIRY) return false
+    if (Math.abs(now - timestamp) > SIGNATURE_EXPIRY) {
+      console.error('Message timestamp expired')
+      return false
+    }
 
-    // For full cryptographic verification, use tweetnacl:
-    // import nacl from 'tweetnacl'
-    // import bs58 from 'bs58'
-    // const publicKeyBytes = bs58.decode(address)
-    // const messageBytes = new TextEncoder().encode(message)
-    // const signatureBytes = bs58.decode(signature)
-    // return nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes)
+    // CRYPTOGRAPHIC SIGNATURE VERIFICATION
+    // Decode the public key from base58
+    const publicKeyBytes = bs58.decode(address)
 
-    // For now, accept if format is valid (same approach as the original Bitcoin version)
+    // Encode the message to bytes
+    const messageBytes = new TextEncoder().encode(message)
+
+    // Decode the signature from base58
+    const signatureBytes = bs58.decode(signature)
+
+    // Verify the signature cryptographically
+    const isValidSignature = nacl.sign.detached.verify(
+      messageBytes,
+      signatureBytes,
+      publicKeyBytes
+    )
+
+    if (!isValidSignature) {
+      console.error('Invalid cryptographic signature')
+      return false
+    }
+
     return true
   } catch (error) {
     console.error('Error verifying Solana signature:', error)
