@@ -148,14 +148,19 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
       return true
     } catch (signError: any) {
       const errorMessage = signError?.message || String(signError)
-      const isUserRejection = 
-        signError?.code === 4001 || 
+      const isUserRejection =
+        signError?.code === 4001 ||
         errorMessage.toLowerCase().includes('user rejected') ||
         errorMessage.toLowerCase().includes('cancel') ||
         errorMessage.toLowerCase().includes('reject')
-      
+
+      // Only log actual errors, not user rejections
+      if (!isUserRejection) {
+        console.error('[Solana Wallet] Signature verification failed:', signError)
+      }
+
       const errorMsg = isUserRejection ? 'Signature request cancelled' : 'Signature verification failed'
-      
+
       isVerifyingRef.current = false
       setState(prev => ({
         ...prev,

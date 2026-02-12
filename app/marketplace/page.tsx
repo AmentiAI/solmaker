@@ -95,7 +95,34 @@ export default function MarketplacePage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* Coming Soon Overlay */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm pointer-events-auto">
+        <div className="glass-card border-2 border-[#9945FF]/50 rounded-3xl p-12 text-center max-w-2xl mx-4 shadow-2xl shadow-[#9945FF]/30">
+          <div className="relative">
+            {/* Animated glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#9945FF]/20 via-[#14F195]/20 to-[#9945FF]/20 rounded-3xl blur-2xl animate-pulse" />
+
+            {/* Content */}
+            <div className="relative z-10">
+              <div className="text-8xl mb-6 animate-bounce">🚀</div>
+              <h2 className="text-5xl sm:text-6xl font-black text-white mb-4 gradient-text-neon">
+                Coming Soon
+              </h2>
+              <p className="text-xl sm:text-2xl text-[#B4B4C8] font-semibold mb-8">
+                The marketplace is being prepared for launch. Check back soon!
+              </p>
+              <div className="inline-flex items-center gap-2 px-6 py-3 glass-card border-2 border-[#14F195]/40 rounded-full">
+                <div className="w-2 h-2 bg-[#14F195] rounded-full animate-pulse" />
+                <span className="text-sm font-black text-[#14F195]">LAUNCHING SOON</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content (visible but not interactable) */}
+      <div className="pointer-events-none opacity-40">
       {/* Revolutionary Hero Header - 2026 Design */}
       <div className="relative bg-gradient-to-br from-[#0a0a0f] via-[#12121a] to-[#0a0a0f] border-b-2 border-[#9945FF]/40 -mx-6 lg:-mx-12 px-6 lg:px-12 overflow-hidden">
         {/* Animated background */}
@@ -334,6 +361,7 @@ export default function MarketplacePage() {
             )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

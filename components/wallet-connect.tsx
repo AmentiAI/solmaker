@@ -176,8 +176,18 @@ export function WalletConnect() {
           if (verified) {
             toast.success('Wallet connected and verified!')
           }
-        } catch (error) {
-          console.error('Auto-verification error:', error)
+        } catch (error: any) {
+          // Don't log user rejections as errors
+          const errorMessage = error?.message || String(error)
+          const isUserRejection =
+            error?.code === 4001 ||
+            errorMessage.toLowerCase().includes('user rejected') ||
+            errorMessage.toLowerCase().includes('cancel') ||
+            errorMessage.toLowerCase().includes('reject')
+
+          if (!isUserRejection) {
+            console.error('Auto-verification error:', error)
+          }
         }
       }, 500)
       return () => clearTimeout(timeoutId)

@@ -18,6 +18,10 @@ interface Collection {
   is_owner?: boolean
   collaborator_role?: string
   status?: 'draft' | 'launchpad' | 'launchpad_live' | 'self_inscribe' | 'marketplace' | 'deleted'
+  banner_image_url?: string
+  mobile_image_url?: string
+  total_ordinals?: number
+  thumbnail_url?: string
 }
  
 export default function CollectionsPage() {
@@ -44,6 +48,7 @@ export default function CollectionsPage() {
     collectionName: '',
   })
   const [deleting, setDeleting] = useState(false)
+  const [thumbnails, setThumbnails] = useState<Record<string, string>>({})
 
   useEffect(() => {
     if (activeWalletConnected && activeWalletAddress) {
@@ -83,6 +88,9 @@ export default function CollectionsPage() {
         setOwnedCollections(ownedList)
         setCollabCollections(collabList)
         setCollections(allCollectionsList)
+
+        // Load thumbnails for all collections
+        loadThumbnails([...ownedList, ...collabList])
       } else if (activeWalletAddress !== walletRequested) {
         setCollections([])
         setOwnedCollections([])
@@ -93,6 +101,30 @@ export default function CollectionsPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const loadThumbnails = async (collections: Collection[]) => {
+    const thumbnailData: Record<string, string> = {}
+
+    // Fetch latest ordinal for each collection
+    await Promise.all(
+      collections.map(async (collection) => {
+        try {
+          const response = await fetch(`/api/collections/${collection.id}/ordinals?limit=1`)
+          if (response.ok) {
+            const data = await response.json()
+            const ordinals = data.ordinals || []
+            if (ordinals.length > 0 && ordinals[0].image_url) {
+              thumbnailData[collection.id] = ordinals[0].image_url
+            }
+          }
+        } catch (error) {
+          console.error(`Error loading thumbnail for collection ${collection.id}:`, error)
+        }
+      })
+    )
+
+    setThumbnails(thumbnailData)
   }
 
   const handleDeleteClick = (id: string, name: string) => {
@@ -306,15 +338,29 @@ export default function CollectionsPage() {
                   key={collection.id}
                   className="bg-[#121218] border-2 border-[#9945FF]/20 rounded-2xl overflow-hidden hover:border-[#9945FF]/40 transition-all duration-300 hover:scale-105 group"
                 >
-                  {/* Collection Header */}
-                  <div className="p-6 border-b border-[#9945FF]/20">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-bold text-white flex-1 pr-2">{collection.name}</h3>
-                      <span className={`px-3 py-1 text-xs font-bold rounded-full ${
-                        collection.status === 'draft' ? 'bg-[#71717A]/20 text-[#A1A1AA]' :
-                        collection.status === 'launchpad' || collection.status === 'launchpad_live' ? 'bg-[#9945FF]/20 text-[#9945FF]' :
-                        collection.status === 'marketplace' ? 'bg-[#14F195]/20 text-[#14F195]' :
-                        'bg-[#00D4FF]/20 text-[#00D4FF]'
+                  {/* Collection Image */}
+                  <div className="relative aspect-video bg-gradient-to-br from-[#9945FF]/20 to-[#14F195]/20 overflow-hidden">
+                    {thumbnails[collection.id] || collection.banner_image_url || collection.mobile_image_url ? (
+                      <img
+                        src={thumbnails[collection.id] || collection.banner_image_url || collection.mobile_image_url}
+                        alt={collection.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-6xl mb-2 opacity-50">🎨</div>
+                          <p className="text-[#A1A1AA] text-sm font-semibold">No Preview</p>
+                        </div>
+                      </div>
+                    )}
+                    {/* Status Badge Overlay */}
+                    <div className="absolute top-4 right-4">
+                      <span className={`px-3 py-1.5 text-xs font-bold rounded-full backdrop-blur-sm ${
+                        collection.status === 'draft' ? 'bg-[#71717A]/80 text-white' :
+                        collection.status === 'launchpad' || collection.status === 'launchpad_live' ? 'bg-[#9945FF]/80 text-white' :
+                        collection.status === 'marketplace' ? 'bg-[#14F195]/80 text-white' :
+                        'bg-[#00D4FF]/80 text-white'
                       }`}>
                         {collection.status === 'draft' && '📝 Draft'}
                         {(collection.status === 'launchpad' || collection.status === 'launchpad_live') && '🚀 Launchpad'}
@@ -322,6 +368,18 @@ export default function CollectionsPage() {
                         {collection.status === 'marketplace' && '💰 Market'}
                         {collection.status === 'deleted' && '🗑️ Deleted'}
                       </span>
+                    </div>
+                  </div>
+
+                  {/* Collection Header */}
+                  <div className="p-6 border-b border-[#9945FF]/20">
+                    <div className="mb-3">
+                      <h3 className="text-xl font-bold text-white mb-2">{collection.name}</h3>
+                      {collection.total_ordinals !== undefined && (
+                        <p className="text-sm text-[#9945FF] font-semibold">
+                          {collection.total_ordinals} {collection.total_ordinals === 1 ? 'Item' : 'Items'}
+                        </p>
+                      )}
                     </div>
                     {collection.description && (
                       <p className="text-sm text-[#A1A1AA] line-clamp-2">{collection.description}</p>
