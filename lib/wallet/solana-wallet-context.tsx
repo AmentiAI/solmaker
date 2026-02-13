@@ -11,6 +11,7 @@ interface SolanaWalletState {
   error: string | null
   isVerified: boolean
   isVerifying: boolean
+  verificationRejected: boolean
 }
 
 interface SolanaWalletContextType extends SolanaWalletState {
@@ -43,6 +44,7 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
     error: null,
     isVerified: false,
     isVerifying: false,
+    verificationRejected: false,
   })
 
   // Check if any Solana wallet is available
@@ -166,6 +168,7 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
         ...prev,
         isVerified: false,
         isVerifying: false,
+        verificationRejected: isUserRejection,
         error: errorMsg,
       }))
       return false
@@ -193,6 +196,7 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
           address,
           publicKey,
           isVerified: isVerifiedInStorage,
+          verificationRejected: false,
           error: null,
         }))
 
@@ -213,6 +217,7 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
           address: null,
           publicKey: null,
           isVerified: false,
+          verificationRejected: false,
         }))
       }
     }
@@ -305,6 +310,7 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
         error: null,
         isVerified: false,
         isVerifying: false,
+        verificationRejected: false,
       })
     } catch (error) {
       console.error('Error disconnecting wallet:', error)
@@ -401,6 +407,7 @@ export function useSolanaWallet() {
       error: null,
       isVerified: false,
       isVerifying: false,
+      verificationRejected: false,
       isPhantomInstalled: false,
       connect: async () => false,
       disconnect: async () => {},

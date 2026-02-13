@@ -85,7 +85,7 @@ export function SidebarNav() {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[var(--surface)] border border-[var(--solana-purple)]/30 rounded-xl text-white hover:bg-[var(--surface-elevated)] transition-colors"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0a0a0a] border border-[#D4AF37]/40 text-white hover:bg-[#1a1a1a] transition-colors"
       >
         {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
@@ -98,47 +98,45 @@ export function SidebarNav() {
         />
       )}
 
-      {/* Premium Sidebar with glass morphism */}
+      {/* Technical Sidebar - Matte Black */}
       <aside
         className={`
-          fixed top-0 left-0 h-screen w-80 glass-card border-r-2 border-[#9945FF]/30 z-40
+          fixed top-0 left-0 h-screen w-80 bg-[#0a0a0a] border-r border-[#D4AF37]/20 z-40
           flex flex-col overflow-visible
           transition-transform duration-300 ease-in-out
           ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        {/* Premium Logo with glow */}
-        <div className="p-8 border-b-2 border-[#9945FF]/30 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#9945FF]/5 to-[#14F195]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <Link href="/" className="flex items-center gap-4 relative z-10">
-            <div className="p-4 bg-gradient-to-br from-[#9945FF] via-[#DC1FFF] to-[#14F195] border-2 border-[#9945FF]/50 rounded-2xl cyber-glow group-hover:scale-110 transition-transform duration-300">
-              <Sparkles className="h-7 w-7 text-white" />
+        {/* Technical Logo */}
+        <div className="p-8 border-b border-[#D4AF37]/20 relative overflow-hidden">
+          <Link href="/" className="flex items-center gap-4 relative z-10 group">
+            <div className="p-3 bg-[#1a1a1a] border border-[#D4AF37] group-hover:bg-[#D4AF37]/10 transition-colors duration-200">
+              <Sparkles className="h-7 w-7 text-[#D4AF37]" />
             </div>
-            <span className="text-3xl font-black gradient-text-neon">
+            <span className="text-3xl font-black text-[#D4AF37] tracking-tight">
               SolMaker
             </span>
           </Link>
         </div>
 
-        {/* Premium Stats Section */}
+        {/* Technical Stats Section */}
         <div className="p-6 space-y-4 relative z-10">
           {/* Solana Price Display */}
           {solPrice !== null && (
-            <div className="glass-card border-2 border-[#9945FF]/40 rounded-xl p-5 relative overflow-hidden group hover:border-[#9945FF]/60 transition-all duration-300">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#9945FF]/10 to-transparent" />
+            <div className="bg-[#1a1a1a] border border-[#404040] p-4 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all duration-200">
               <div className="relative z-10 flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-[#9945FF] to-[#DC1FFF] rounded-xl cyber-glow flex items-center justify-center">
-                  <svg className="w-6 h-6" viewBox="0 0 397.7 311.7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7z" fill="white"/>
-                    <path d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8z" fill="white"/>
-                    <path d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="white"/>
+                <div className="p-2 bg-[#0a0a0a] border border-[#D4AF37]/40 flex items-center justify-center">
+                  <svg className="w-5 h-5" viewBox="0 0 397.7 311.7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7z" fill="#D4AF37"/>
+                    <path d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8z" fill="#D4AF37"/>
+                    <path d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="#D4AF37"/>
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-bold text-[#B4B4C8] uppercase tracking-wide mb-1">SOL Price</p>
+                  <p className="text-xs font-bold text-[#808080] uppercase tracking-wider mb-1">SOL/USD</p>
                   <div className="flex items-center gap-2">
-                    <p className="text-2xl font-black text-white">${solPrice.toFixed(2)}</p>
-                    <span className={`text-sm font-bold ${priceChange >= 0 ? 'text-[#14F195]' : 'text-red-500'}`}>
+                    <p className="text-xl font-bold text-white">${solPrice.toFixed(2)}</p>
+                    <span className={`text-xs font-bold ${priceChange >= 0 ? 'text-[#D4AF37]' : 'text-[#999]'}`}>
                       {priceChange >= 0 ? '+' : ''}{priceChange.toFixed(2)}%
                     </span>
                   </div>
@@ -148,96 +146,84 @@ export function SidebarNav() {
           )}
 
           {/* Wallet Connect */}
-          <div className="relative group z-[100]">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#9945FF]/5 to-[#14F195]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl pointer-events-none" />
-            <div className="relative">
-              <WalletConnect />
-            </div>
+          <div className="relative z-[100]">
+            <WalletConnect />
           </div>
         </div>
 
         {/* Credits Display - Separate Card Below Wallet */}
         {isConnected && credits !== null && (
           <div className="px-6 pb-6">
-            <div className="glass-card border-2 border-[#14F195]/40 rounded-xl p-5 relative overflow-hidden group hover:border-[#14F195]/60 transition-all duration-300">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#14F195]/10 to-transparent" />
+            <div className="bg-[#1a1a1a] border border-[#D4AF37] p-4 relative overflow-hidden group hover:border-[#D4AF37] transition-all duration-200">
               <div className="relative z-10 flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-[#14F195] to-[#10B981] rounded-xl">
-                  <Coins className="h-6 w-6 text-black" />
+                <div className="p-2 bg-[#0a0a0a] border border-[#D4AF37]/40">
+                  <Coins className="h-5 w-5 text-[#D4AF37]" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-bold text-[#B4B4C8] uppercase tracking-wide mb-1">Credits</p>
-                  <p className="text-2xl font-black text-[#14F195] drop-shadow-[0_0_10px_rgba(20,241,149,0.6)]">{credits.toLocaleString()}</p>
+                  <p className="text-xs font-bold text-[#808080] uppercase tracking-wider mb-1">Credits</p>
+                  <p className="text-xl font-bold text-[#D4AF37]">{credits.toLocaleString()}</p>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Premium Navigation with effects */}
-        <nav className="flex-1 overflow-y-auto px-6 pb-6 space-y-2 relative z-0">
-          <div className="mb-8 space-y-3">
+        {/* Technical Navigation */}
+        <nav className="flex-1 overflow-y-auto px-6 pb-6 space-y-1 relative z-0">
+          <div className="mb-8 space-y-1">
             {navigation.map((item) => {
               const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
               const Icon = item.icon
-              
+
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)}
                   className={`
-                    group flex items-center gap-4 px-5 py-4 rounded-xl transition-all duration-300 relative overflow-hidden text-base
+                    group flex items-center gap-3 px-4 py-3 transition-all duration-200 relative text-sm
                     ${isActive
-                      ? 'glass-card border-2 border-[#9945FF]/60 text-white shadow-lg shadow-[#9945FF]/20'
-                      : 'text-[#B4B4C8] hover:text-white hover:glass-card hover:border-2 hover:border-[#9945FF]/30'
+                      ? 'bg-[#1a1a1a] border-l-2 border-[#D4AF37] text-white'
+                      : 'text-[#808080] hover:text-white hover:bg-[#1a1a1a]/50 border-l-2 border-transparent hover:border-[#404040]'
                     }
                   `}
                 >
-                  {isActive && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#9945FF]/10 via-[#DC1FFF]/10 to-[#14F195]/10" />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
-                  <Icon className={`h-6 w-6 relative z-10 ${isActive ? 'text-[#9945FF]' : ''} group-hover:scale-110 transition-transform duration-300`} />
-                  <span className="font-bold relative z-10 text-base">{item.name}</span>
-                  {isActive && <ChevronRight className="h-5 w-5 ml-auto relative z-10 text-[#14F195]" />}
+                  <Icon className={`h-5 w-5 relative z-10 ${isActive ? 'text-[#D4AF37]' : ''} transition-colors duration-200`} />
+                  <span className="font-semibold relative z-10 text-sm uppercase tracking-wide">{item.name}</span>
+                  {isActive && <ChevronRight className="h-4 w-4 ml-auto relative z-10 text-[#D4AF37]" />}
                 </Link>
               )
             })}
           </div>
 
-          {/* Premium Tools Section */}
+          {/* Technical Tools Section */}
           <div>
-            <div className="px-5 py-4 mb-3">
-              <span className="text-sm font-black text-[#9945FF] uppercase tracking-wider flex items-center gap-2">
-                <span className="w-2 h-2 bg-[#9945FF] rounded-full animate-pulse" />
+            <div className="px-4 py-3 mb-1 border-t border-[#404040]/40">
+              <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider flex items-center gap-2">
+                <span className="w-1 h-1 bg-[#D4AF37]" />
                 Tools
               </span>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1">
               {tools.map((item) => {
                 const isActive = pathname === item.href
                 const Icon = item.icon
-                
+
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsMobileOpen(false)}
                     className={`
-                      group flex items-center gap-4 px-5 py-4 rounded-xl transition-all duration-300 relative overflow-hidden text-base
+                      group flex items-center gap-3 px-4 py-3 transition-all duration-200 relative text-sm
                       ${isActive
-                        ? 'glass-card border-2 border-[#14F195]/60 text-white shadow-lg shadow-[#14F195]/20'
-                        : 'text-[#B4B4C8] hover:text-white hover:glass-card hover:border-2 hover:border-[#14F195]/30'
+                        ? 'bg-[#1a1a1a] border-l-2 border-[#D4AF37] text-white'
+                        : 'text-[#808080] hover:text-white hover:bg-[#1a1a1a]/50 border-l-2 border-transparent hover:border-[#404040]'
                       }
                     `}
                   >
-                    {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#14F195]/10 to-[#10B981]/10" />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
-                    <Icon className={`h-6 w-6 relative z-10 ${isActive ? 'text-[#14F195]' : ''} group-hover:scale-110 transition-transform duration-300`} />
-                    <span className="font-bold relative z-10 text-base">{item.name}</span>
+                    <Icon className={`h-5 w-5 relative z-10 ${isActive ? 'text-[#D4AF37]' : ''} transition-colors duration-200`} />
+                    <span className="font-semibold relative z-10 text-sm uppercase tracking-wide">{item.name}</span>
                   </Link>
                 )
               })}
