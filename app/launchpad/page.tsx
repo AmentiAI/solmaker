@@ -194,6 +194,73 @@ export default function LaunchpadPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      {/* Top Ticker Bar */}
+      <div className="bg-[#1a1a1a] border-b border-[#D4AF37]/40 px-6 py-3 overflow-hidden">
+        <div className="flex items-center gap-8 animate-scroll">
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span className="w-1 h-1 bg-[#D4AF37]"></span>
+            <span className="text-xs text-[#808080] uppercase tracking-wider">
+              {activeCollections.length} Live Mints
+            </span>
+          </div>
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span className="w-1 h-1 bg-[#D4AF37]"></span>
+            <span className="text-xs text-[#808080] uppercase tracking-wider">
+              {filteredCollections.reduce((acc, c) => acc + c.minted_count, 0)} Total Mints
+            </span>
+          </div>
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span className="w-1 h-1 bg-[#D4AF37]"></span>
+            <span className="text-xs text-[#808080] uppercase tracking-wider">
+              {completedCollections.length} Completed Collections
+            </span>
+          </div>
+          {isConnected && (
+            <div className="flex items-center gap-2 whitespace-nowrap">
+              <span className="w-1 h-1 bg-[#D4AF37]"></span>
+              <button
+                onClick={handleOpenLaunchModal}
+                className="text-xs text-[#D4AF37] hover:text-white uppercase tracking-wider transition-colors"
+              >
+                Launch Your Collection →
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Search and Filter Bar */}
+      <div className="bg-[#0a0a0a] border-b border-[#404040]/40 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex items-center gap-4">
+          {/* Search */}
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="SEARCH COLLECTIONS..."
+              className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#404040] hover:border-[#D4AF37]/40 focus:border-[#D4AF37] text-white text-xs uppercase tracking-wider placeholder:text-[#808080] outline-none transition-colors"
+            />
+          </div>
+          {/* Filter Buttons */}
+          <div className="flex items-center gap-2">
+            {(['all', 'live', 'upcoming', 'ended'] as const).map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilterStatus(status)}
+                className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
+                  filterStatus === status
+                    ? 'bg-[#1a1a1a] border border-[#D4AF37] text-[#D4AF37]'
+                    : 'bg-[#1a1a1a] border border-[#404040] text-[#808080] hover:border-[#D4AF37]/40 hover:text-white'
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Launch Collection Modal */}
       {showLaunchModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -312,192 +379,96 @@ export default function LaunchpadPage() {
         </div>
       )}
 
-      {/* Hero Section */}
-      <div className="relative overflow-hidden border-b border-[#404040]/40">
-        <div className="relative max-w-7xl mx-auto px-6 py-16 sm:py-24">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a1a1a] border border-[#D4AF37]/40 mb-6">
-              <Flame className="w-4 h-4 text-[#D4AF37]" />
-              <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">LIVE MINTS</span>
-            </div>
-            <h1 className="text-5xl sm:text-7xl font-black text-white mb-6 leading-tight uppercase">
-              NFT <span className="text-[#D4AF37]">Launchpad</span>
-            </h1>
-            <p className="text-xl text-[#808080] mb-8">
-              Discover and mint the latest Solana NFT collections
-            </p>
-
-            {/* Stats */}
-            <div className="flex items-center justify-center gap-8 mb-8">
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 text-3xl font-black text-white mb-1">
-                  <TrendingUp className="w-6 h-6 text-[#D4AF37]" />
-                  {filteredCollections.length}
-                </div>
-                <p className="text-xs text-[#808080] uppercase tracking-wide">Live Collections</p>
-              </div>
-              <div className="w-px h-12 bg-[#404040]" />
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 text-3xl font-black text-white mb-1">
-                  <Users className="w-6 h-6 text-[#D4AF37]" />
-                  {filteredCollections.reduce((acc, c) => acc + c.minted_count, 0)}
-                </div>
-                <p className="text-xs text-[#808080] uppercase tracking-wide">Total Mints</p>
-              </div>
-            </div>
-
-            {isConnected && (
-              <button
-                onClick={handleOpenLaunchModal}
-                className="px-8 py-4 bg-[#1a1a1a] border border-[#D4AF37] hover:bg-[#D4AF37] hover:text-black text-white font-bold text-lg transition-all flex items-center gap-2 mx-auto uppercase tracking-wide"
-              >
-                <Rocket className="w-5 h-5" />
-                Launch Your Collection
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Banner Slideshow */}
+      {/* Featured Carousel Section */}
       {activeCollections.length > 0 && (
-        <div className="relative mb-16">
-          <div className="max-w-[1600px] mx-auto px-6 py-8">
-            {/* Main Slideshow */}
-            <div className="relative h-[600px] overflow-hidden border border-[#D4AF37]/40 shadow-2xl">
-              {activeCollections.map((collection, index) => {
-                const progress = (collection.minted_count / collection.total_supply) * 100
-                const isActive = index === currentSlide
+        <div className="relative border-b border-[#404040]/40">
+          <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="flex gap-6">
+              {/* Main Featured Image */}
+              <div className="flex-1 relative aspect-[16/9] bg-[#1a1a1a] border border-[#D4AF37]/40 overflow-hidden">
+                {activeCollections.map((collection, index) => {
+                  const progress = (collection.minted_count / collection.total_supply) * 100
+                  const isActive = index === currentSlide
 
-                return (
-                  <div
-                    key={collection.id}
-                    className={`absolute inset-0 transition-all duration-1000 ${
-                      isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-                    }`}
-                  >
-                    {/* Background Image */}
-                    <div className="absolute inset-0">
+                  return (
+                    <div
+                      key={collection.id}
+                      className={`absolute inset-0 transition-opacity duration-500 ${
+                        isActive ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    >
                       <img
                         src={collection.image_url}
                         alt={collection.name}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent" />
-                    </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
-                    {/* Content */}
-                    <div className="relative h-full flex items-center">
-                      <div className="max-w-3xl px-12 sm:px-16">
-                        {/* Live Badge */}
-                        {collection.is_live && (
-                          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#D4AF37] text-black font-bold text-sm mb-6 uppercase tracking-wider">
-                            <div className="w-1 h-1 bg-black animate-pulse" />
-                            LIVE NOW
-                          </div>
-                        )}
-
-                        {/* Title */}
-                        <h2 className="text-5xl sm:text-7xl font-black text-white mb-4 leading-tight">
-                          {collection.name}
-                        </h2>
-
-                        {/* Description */}
-                        <p className="text-xl text-[#808080] mb-8 line-clamp-2 max-w-2xl">
-                          {collection.description}
-                        </p>
-
-                        {/* Stats */}
-                        <div className="flex flex-wrap items-center gap-6 mb-8">
+                      {/* Content Overlay */}
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 className="text-2xl font-black text-white mb-2 uppercase">{collection.name}</h3>
+                        <div className="flex items-center gap-4 mb-3">
                           <div>
-                            <p className="text-xs text-[#808080] mb-1 uppercase tracking-wide">Mint Price</p>
-                            <p className="text-3xl font-black text-[#D4AF37]">{collection.mint_price} SOL</p>
+                            <p className="text-xs text-[#808080] uppercase">Price</p>
+                            <p className="text-lg font-bold text-[#D4AF37]">{collection.mint_price} SOL</p>
                           </div>
-                          <div className="w-px h-16 bg-[#404040]" />
+                          <div className="w-px h-8 bg-[#404040]" />
                           <div>
-                            <p className="text-xs text-[#808080] mb-1 uppercase tracking-wide">Total Supply</p>
-                            <p className="text-3xl font-black text-white">{collection.total_supply}</p>
-                          </div>
-                          <div className="w-px h-16 bg-[#404040]" />
-                          <div>
-                            <p className="text-xs text-[#808080] mb-1 uppercase tracking-wide">Remaining</p>
-                            <p className="text-3xl font-black text-white">{collection.total_supply - collection.minted_count}</p>
+                            <p className="text-xs text-[#808080] uppercase">Minted</p>
+                            <p className="text-lg font-bold text-white">{collection.minted_count}/{collection.total_supply}</p>
                           </div>
                         </div>
-
-                        {/* Progress Bar */}
-                        <div className="mb-8 max-w-xl">
-                          <div className="flex items-center justify-between mb-2">
-                            <p className="text-xs text-[#808080] uppercase tracking-wide">Minting Progress</p>
-                            <p className="text-xs font-bold text-white">{progress.toFixed(0)}%</p>
-                          </div>
-                          <div className="h-2 bg-black/50 backdrop-blur-sm overflow-hidden border border-[#404040]">
-                            <div
-                              className="h-full bg-[#D4AF37] transition-all duration-500"
-                              style={{ width: `${progress}%` }}
-                            />
-                          </div>
-                          <p className="text-xs text-[#808080] mt-2">{collection.minted_count} / {collection.total_supply} minted</p>
+                        <div className="h-1 bg-[#404040] mb-3">
+                          <div className="h-full bg-[#D4AF37]" style={{ width: `${progress}%` }} />
                         </div>
-
-                        {/* CTA Button */}
                         <button
                           onClick={() => router.push(`/launchpad/${collection.id}`)}
-                          className="px-10 py-5 bg-[#1a1a1a] border-2 border-[#D4AF37] hover:bg-[#D4AF37] hover:text-black text-white font-black text-xl transition-all flex items-center gap-3 uppercase tracking-wide"
+                          className="px-6 py-2 bg-[#1a1a1a] border border-[#D4AF37] hover:bg-[#D4AF37] hover:text-black text-white text-sm font-bold uppercase tracking-wider transition-all"
                         >
                           Mint Now
-                          <ChevronRight className="w-6 h-6" />
                         </button>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
-
-              {/* Navigation Dots */}
-              {activeCollections.length > 1 && (
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-10">
-                  {activeCollections.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`transition-all duration-300 ${
-                        index === currentSlide
-                          ? 'w-12 h-2 bg-[#D4AF37]'
-                          : 'w-2 h-2 bg-white/30 hover:bg-white/50'
-                      }`}
-                    />
-                  ))}
-                </div>
-              )}
-
-              {/* Navigation Arrows */}
-              {activeCollections.length > 1 && (
-                <>
-                  <button
-                    onClick={() => setCurrentSlide((prev) => (prev - 1 + activeCollections.length) % activeCollections.length)}
-                    className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-black/50 hover:bg-black/70 backdrop-blur-sm border border-[#D4AF37]/40 flex items-center justify-center transition-all z-10"
-                  >
-                    <ChevronRight className="w-6 h-6 text-[#D4AF37] rotate-180" />
-                  </button>
-                  <button
-                    onClick={() => setCurrentSlide((prev) => (prev + 1) % activeCollections.length)}
-                    className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-black/50 hover:bg-black/70 backdrop-blur-sm border border-[#D4AF37]/40 flex items-center justify-center transition-all z-10"
-                  >
-                    <ChevronRight className="w-6 h-6 text-[#D4AF37]" />
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Slideshow Counter */}
-            {activeCollections.length > 1 && (
-              <div className="text-center mt-6">
-                <p className="text-xs text-[#808080] uppercase tracking-wide">
-                  Showing {currentSlide + 1} of {activeCollections.length} active collections
-                </p>
+                  )
+                })}
               </div>
-            )}
+
+              {/* Thumbnail Sidebar */}
+              <div className="w-64 space-y-3 overflow-y-auto max-h-[600px]">
+                {activeCollections.map((collection, index) => {
+                  const progress = (collection.minted_count / collection.total_supply) * 100
+                  return (
+                    <button
+                      key={collection.id}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-full text-left transition-all ${
+                        index === currentSlide
+                          ? 'border-2 border-[#D4AF37]'
+                          : 'border border-[#404040] hover:border-[#D4AF37]/40'
+                      }`}
+                    >
+                      <div className="aspect-video relative overflow-hidden bg-[#1a1a1a]">
+                        <img
+                          src={collection.image_url}
+                          alt={collection.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-3 bg-[#1a1a1a]">
+                        <h4 className="text-xs font-bold text-white mb-1 truncate uppercase">{collection.name}</h4>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs text-[#D4AF37]">{collection.mint_price} SOL</span>
+                          <span className="text-xs text-[#808080]">{collection.minted_count}/{collection.total_supply}</span>
+                        </div>
+                        <div className="h-0.5 bg-[#404040]">
+                          <div className="h-full bg-[#D4AF37]" style={{ width: `${progress}%` }} />
+                        </div>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
           </div>
         </div>
       )}
