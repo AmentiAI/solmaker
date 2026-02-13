@@ -156,42 +156,37 @@ export function ProfileManager() {
 
   if (!activeWalletConnected || !activeWalletAddress) {
     return (
-      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
-        <p className="text-[#a8a8b8]">Please connect your wallet to create a profile</p>
+      <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 rounded-xl p-6">
+        <p className="text-[#808080]">Please connect your wallet to create a profile</p>
       </div>
     )
   }
 
   if (loading && !profile) {
     return (
-      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
+      <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 rounded-xl p-6">
         <div className="flex items-center gap-3">
-          <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#00d4ff] border-t-transparent"></div>
-          <p className="text-[#a8a8b8]">Loading profile...</p>
+          <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#D4AF37] border-t-transparent"></div>
+          <p className="text-[#808080]">Loading profile...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md p-6 shadow-xl relative overflow-hidden col-span-1 sm:col-span-2">
-      {/* Cosmic background effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-cyan-900/20 pointer-events-none"></div>
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[#00d4ff]/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
-      
+    <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 rounded-xl p-6 relative overflow-hidden col-span-1 sm:col-span-2">
       <div className="relative z-10">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-[#00d4ff] via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1">
+            <h2 className="text-2xl font-bold text-[#D4AF37] mb-1 uppercase tracking-wide">
               Account Information
             </h2>
-            <p className="text-white/70 text-sm">Manage your cosmic profile</p>
+            <p className="text-[#808080] text-sm">Manage your profile</p>
           </div>
           {!isEditing && (
             <button
               onClick={() => setIsEditing(true)}
-              className="px-4 py-2 bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] hover:from-[#9945FF] hover:to-[#DC1FFF] text-white rounded-lg font-semibold shadow-lg shadow-[#DC1FFF]/30 transition-all duration-200 text-sm whitespace-nowrap"
+              className="px-4 py-2 bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-[#0a0a0a] rounded-lg font-semibold transition-all duration-200 text-sm whitespace-nowrap uppercase tracking-wide"
             >
               {profile ? 'Edit Profile' : 'Create Profile'}
             </button>
@@ -199,19 +194,19 @@ export function ProfileManager() {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 text-[#EF4444] rounded-lg backdrop-blur-sm">
+          <div className="mb-4 p-3 bg-[#0a0a0a] border border-[#EF4444]/50 text-[#EF4444] rounded-lg">
             {error}
           </div>
         )}
 
         {saveError && (
-          <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#EF4444]/50 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 text-[#EF4444] rounded-lg backdrop-blur-sm">
+          <div className="mb-4 p-3 bg-[#0a0a0a] border border-[#EF4444]/50 text-[#EF4444] rounded-lg">
             {saveError}
           </div>
         )}
 
         {saveSuccess && (
-          <div className="mb-4 p-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/50 bg-[#00d4ff]/10 text-[#00d4ff] rounded-lg backdrop-blur-sm">
+          <div className="mb-4 p-3 bg-[#0a0a0a] border border-[#D4AF37]/50 text-[#D4AF37] rounded-lg">
             ✨ Profile saved successfully!
           </div>
         )}
@@ -237,9 +232,9 @@ export function ProfileManager() {
           }}
         >
               {/* Avatar First */}
-              <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-purple-500/30 rounded-xl p-6 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-sm">
-                <label className="block text-sm font-medium text-white mb-4">
-                  <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Avatar</span>
+              <div className="bg-[#0a0a0a] border border-[#D4AF37]/30 rounded-xl p-6">
+                <label className="block text-sm font-medium text-[#D4AF37] mb-4 uppercase tracking-wide">
+                  Avatar
                 </label>
                 <div className="flex items-center gap-6">
                   {/* Avatar Preview/Upload */}
