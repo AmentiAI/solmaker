@@ -5,10 +5,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { PageHeader } from '@/components/page-header'
-import { LaunchpadTicker } from './components/LaunchpadTicker'
-import { LaunchpadSearchBar } from './components/LaunchpadSearchBar'
-import { FeaturedCarousel } from './components/FeaturedCarousel'
-import { CompletedMintsGrid } from './components/CompletedMintsGrid'
+import { LaunchpadTicker } from './launchpad/components/LaunchpadTicker'
+import { LaunchpadSearchBar } from './launchpad/components/LaunchpadSearchBar'
+import { FeaturedCarousel } from './launchpad/components/FeaturedCarousel'
+import { CompletedMintsGrid } from './launchpad/components/CompletedMintsGrid'
 import {
   Rocket,
   Plus,
