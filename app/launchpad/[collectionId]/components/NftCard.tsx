@@ -47,13 +47,13 @@ export const NftCard = memo(function NftCard({
     <div
       onClick={handleClick}
       className={`
-        relative aspect-square rounded-lg overflow-hidden border-2 transition-all
+        relative aspect-square overflow-hidden border-2 transition-all
         ${canClick ? 'cursor-pointer' : 'cursor-not-allowed'}
         ${isSelected || isLockedByMe
-          ? 'border-[#9945FF] ring-2 ring-[#9945FF]/50'
+          ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/50'
           : canClick
-          ? 'border-[#9945FF]/30 hover:border-[#9945FF]/50 hover:ring-1 hover:ring-[#9945FF]/30'
-          : 'border-[#9945FF]/20 opacity-50'
+          ? 'border-[#D4AF37]/30 hover:border-[#D4AF37]/50 hover:ring-1 hover:ring-[#D4AF37]/30'
+          : 'border-[#404040]/20 opacity-50'
         }
         ${nft.is_minted || isLockedByOther ? 'opacity-60' : ''}
         ${isLocking ? 'pointer-events-none opacity-70' : ''}
@@ -65,7 +65,7 @@ export const NftCard = memo(function NftCard({
         className="w-full h-full object-cover"
         loading="lazy"
       />
-      
+
       {/* Overlay status - only show if minted or locked */}
       {(nft.is_minted || isLockedByOther || isLockedByMe || isSelected) && (
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
@@ -82,13 +82,13 @@ export const NftCard = memo(function NftCard({
           ) : (
             <div className="text-center">
               <div className="text-2xl mb-1">🔒</div>
-              <div className="text-sm font-semibold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">Locked</div>
+              <div className="text-sm font-semibold text-[#D4AF37]">Locked</div>
               {lockExpirySeconds !== null && lockExpirySeconds > 0 ? (
-                <div className="text-xs text-[#a8a8b8] mt-1">
+                <div className="text-xs text-[#808080] mt-1">
                   {lockExpirySeconds}s
                 </div>
               ) : lockExpirySeconds === null ? (
-                <div className="text-xs text-[#a8a8b8] mt-1">Loading...</div>
+                <div className="text-xs text-[#808080] mt-1">Loading...</div>
               ) : null}
             </div>
           )}
@@ -97,7 +97,7 @@ export const NftCard = memo(function NftCard({
 
       {/* NFT number badge */}
       {nft.ordinal_number && (
-        <div className="absolute top-2 left-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 text-white text-xs px-2 py-1 rounded">
+        <div className="absolute top-2 left-2 bg-[#1a1a1a] border border-[#D4AF37]/30 text-white text-xs px-2 py-1">
           #{nft.ordinal_number}
         </div>
       )}

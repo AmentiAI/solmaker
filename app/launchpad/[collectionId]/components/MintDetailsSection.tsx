@@ -74,7 +74,7 @@ export function MintDetailsSection({
     <div className="lg:col-span-7">
       {/* Preview Mode Banner */}
       {isPreview && !isLive && (
-        <div className="mb-4 p-4 bg-amber-500/20 border-2 border-amber-500 rounded-xl">
+        <div className="mb-4 p-4 bg-amber-500/20 border-2 border-amber-500">
           <div className="flex items-center gap-2 text-amber-400 font-bold">
             <span className="text-xl">⚠️</span>
             <span>Preview Mode</span>
@@ -86,21 +86,21 @@ export function MintDetailsSection({
       )}
 
       {/* Collection Name with About Dropdown */}
-      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl mb-4 overflow-hidden">
+      <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 mb-4 overflow-hidden">
         <div className="p-4 flex items-center justify-between">
-        <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">{collection.name}</h1>
+        <h1 className="text-3xl md:text-4xl font-black text-[#D4AF37]">{collection.name}</h1>
           {collection.description && (
             <button
               type="button"
               onClick={() => setAboutOpen(!aboutOpen)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-[#9945FF]/10 transition-all text-[#a8a8b8] hover:text-white border border-transparent hover:border-[#9945FF]/30"
+              className="flex items-center gap-2 px-3 py-1.5 hover:bg-[#D4AF37]/10 transition-all text-[#808080] hover:text-white border border-transparent hover:border-[#D4AF37]/30"
               aria-label={aboutOpen ? 'Hide about' : 'Show about'}
             >
               <span className="text-sm font-medium hidden sm:inline">About</span>
-              <svg 
-                className={`w-5 h-5 transition-transform duration-200 ${aboutOpen ? 'rotate-180' : ''}`} 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className={`w-5 h-5 transition-transform duration-200 ${aboutOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -110,29 +110,29 @@ export function MintDetailsSection({
         </div>
         {/* About Section Dropdown */}
         {collection.description && aboutOpen && (
-          <div className="px-4 pb-4 border-t border-[#9945FF]/20 pt-3">
-            <p className="text-[#a8a8b8] text-sm leading-relaxed whitespace-pre-wrap">{collection.description}</p>
+          <div className="px-4 pb-4 border-t border-[#D4AF37]/20 pt-3">
+            <p className="text-[#808080] text-sm leading-relaxed whitespace-pre-wrap">{collection.description}</p>
           </div>
         )}
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 mb-5">
-        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4">
-          <div className="text-xs text-[#a8a8b8] mb-1">Supply</div>
+        <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-4">
+          <div className="text-xs text-[#808080] mb-1">Supply</div>
           <div className="text-xl font-bold text-white">
             {(collection.max_supply ?? collection.total_supply).toLocaleString()}
           </div>
         </div>
-        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-xl p-4">
-          <div className="text-xs text-[#a8a8b8] mb-1">Total Minted</div>
-          <div className="text-xl font-bold text-green-400">
+        <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-4">
+          <div className="text-xs text-[#808080] mb-1">Total Minted</div>
+          <div className="text-xl font-bold text-[#D4AF37]">
             {collection.total_minted.toLocaleString()}
           </div>
         </div>
-        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-xl p-4">
-          <div className="text-xs text-[#a8a8b8] mb-1">Available</div>
-          <div className="text-xl font-bold text-cosmic-blue">
+        <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-4">
+          <div className="text-xs text-[#808080] mb-1">Available</div>
+          <div className="text-xl font-bold text-[#D4AF37]">
             {Math.max(0, (collection.max_supply ?? collection.total_supply) - collection.total_minted).toLocaleString()}
           </div>
         </div>
@@ -140,21 +140,21 @@ export function MintDetailsSection({
 
       {/* Active Phase */}
       {activePhase ? (
-        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-2xl p-6 mb-6">
+        <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <h2 className="text-xl font-bold text-white">{activePhase.phase_name}</h2>
               {isLive ? (
-                <span className="px-2 py-1 bg-gradient-to-r from-[#14F195] to-[#19FB9B] text-[#0a0a0f] text-xs font-bold rounded animate-pulse">
+                <span className="px-2 py-1 bg-[#D4AF37] text-black text-xs font-bold animate-pulse">
                   LIVE
                 </span>
               ) : (
-                <span className="px-2 py-1 bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] text-white text-xs font-bold rounded">
+                <span className="px-2 py-1 bg-[#404040] text-white text-xs font-bold">
                   PREVIEW
                 </span>
               )}
               {activePhase.whitelist_only && (
-                <span className="px-2 py-1 bg-gradient-to-r from-[#9945FF] to-[#7C3AED] text-white text-xs font-bold rounded">
+                <span className="px-2 py-1 bg-[#404040] text-white text-xs font-bold">
                   WL
                 </span>
               )}
@@ -168,25 +168,25 @@ export function MintDetailsSection({
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
             <div>
-              <span className="text-[#a8a8b8] text-xs block mb-1">Price</span>
-              <div className="text-[#9945FF] font-bold text-base">
+              <span className="text-[#808080] text-xs block mb-1">Price</span>
+              <div className="text-[#D4AF37] font-bold text-base">
                 {activePhase.mint_price_lamports === 0 ? 'Free' : formatLamports(activePhase.mint_price_lamports)}
               </div>
             </div>
             
             {activePhase.phase_allocation && (
               <div>
-                <span className="text-[#a8a8b8] text-xs block mb-1">Phase Minted</span>
+                <span className="text-[#808080] text-xs block mb-1">Phase Minted</span>
                 <div className="font-semibold text-white text-base">
                   {activePhase.phase_minted} / {activePhase.phase_allocation}
                 </div>
               </div>
             )}
-            
+
             {isConnected && (
               <div>
-                <span className="text-[#a8a8b8] text-xs block mb-1">Your Mints</span>
-                <div className="font-bold text-cosmic-blue text-base">
+                <span className="text-[#808080] text-xs block mb-1">Your Mints</span>
+                <div className="font-bold text-[#D4AF37] text-base">
                   {activePhase.whitelist_only && whitelistStatus?.is_whitelisted && whitelistStatus.allocation !== undefined
                     ? `${whitelistStatus.minted_count || 0} / ${whitelistStatus.allocation}`
                     : !activePhase.whitelist_only
@@ -233,7 +233,7 @@ export function MintDetailsSection({
 
           {/* Priority Fee Input */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-[#a8a8b8] mb-2">
+            <label className="block text-sm font-medium text-[#808080] mb-2">
               Priority Fee (lamports)
             </label>
             <input
@@ -245,7 +245,7 @@ export function MintDetailsSection({
               step="1000"
               min="0"
               disabled={minting || (isPreview && !isLive)}
-              className="w-full px-4 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF]/30 focus:border-[#9945FF]/50 placeholder:text-[#a8a8b8] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#D4AF37]/30 text-white focus:ring-2 focus:ring-[#D4AF37]/30 focus:border-[#D4AF37]/50 placeholder:text-[#808080] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             />
           </div>
 
@@ -261,13 +261,13 @@ export function MintDetailsSection({
                     onBlur={(e) => onQuantityBlur(parseInt(e.target.value))}
                     min="1"
                     max={MAX_PER_TRANSACTION}
-                    className="w-[60%] px-3 py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF]/30 focus:border-[#9945FF]/50 text-center font-semibold placeholder:text-[#a8a8b8] transition-all"
+                    className="w-[60%] px-3 py-4 bg-[#1a1a1a] border border-[#D4AF37]/30 text-white focus:ring-2 focus:ring-[#D4AF37]/30 focus:border-[#D4AF37]/50 text-center font-semibold placeholder:text-[#808080] transition-all"
                   />
                   <button
                     type="button"
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={onMaxClick}
-                    className="w-[40%] py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 hover:from-[#1a1a24] hover:to-[#202030] text-white text-sm font-semibold rounded-lg transition-all border border-[#9945FF]/30 hover:border-[#9945FF]/50"
+                    className="w-[40%] py-4 bg-[#1a1a1a] hover:bg-[#404040] text-white text-sm font-semibold transition-all border border-[#D4AF37]/30 hover:border-[#D4AF37]/50"
                   >
                     Max
                   </button>
@@ -288,19 +288,19 @@ export function MintDetailsSection({
                     (activePhase.whitelist_only && whitelistStatus?.remaining_allocation === 0) ||
                     (!activePhase.whitelist_only && userMintStatus?.remaining === 0)
                   }
-                  className="w-full py-4 bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] hover:from-[#DC1FFF] hover:to-[#9945FF] text-white font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#9945FF]/20 hover:shadow-[#9945FF]/40"
+                  className="w-full py-4 bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-black font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {!isLive ? 'Not Live Yet' : 
+                  {!isLive ? 'Not Live Yet' :
                    (collection.total_minted >= collection.total_supply) ? 'Sold Out' :
-                   minting ? mintStatus || 'Minting...' : 
-                   (client && !isLiveConnection) ? 'Reconnecting...' : 
+                   minting ? mintStatus || 'Minting...' :
+                   (client && !isLiveConnection) ? 'Reconnecting...' :
                    `Mint ${mintQuantity > 1 ? `${mintQuantity} ` : ''}Now`}
                 </button>
               </div>
             </div>
           ) : (
-            <div className="text-center py-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl border border-[#9945FF]/30">
-              <p className="text-[#a8a8b8] mb-3">Not connected</p>
+            <div className="text-center py-4 bg-[#1a1a1a] border border-[#D4AF37]/30">
+              <p className="text-[#808080] mb-3">Not connected</p>
             </div>
           )}
 
@@ -317,12 +317,12 @@ export function MintDetailsSection({
             const totalEstimate = totalMintPrice + totalPlatformFee + totalRent + networkFees
 
             return (
-              <div className="mt-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-xl">
-                <div className="text-xs text-[#a8a8b8] mb-2 font-semibold">Estimated Cost Breakdown</div>
+              <div className="mt-4 p-4 bg-[#1a1a1a] border border-[#D4AF37]/20">
+                <div className="text-xs text-[#808080] mb-2 font-semibold">Estimated Cost Breakdown</div>
                 <div className="space-y-1.5 text-sm">
                   {/* Mint Price - goes to creator */}
                   <div className="flex justify-between">
-                    <span className="text-[#a8a8b8]">Mint Price {mintQuantity > 1 ? `(${mintQuantity}x)` : ''}</span>
+                    <span className="text-[#808080]">Mint Price {mintQuantity > 1 ? `(${mintQuantity}x)` : ''}</span>
                     <span className="text-white font-medium">
                       {activePhase.mint_price_lamports === 0
                         ? 'Free'
@@ -332,18 +332,18 @@ export function MintDetailsSection({
                   {/* Platform Fee */}
                   {platformFeeLamports > 0 && (
                     <div className="flex justify-between">
-                      <span className="text-[#a8a8b8]">Platform Fee {mintQuantity > 1 ? `(${mintQuantity}x)` : ''}</span>
+                      <span className="text-[#808080]">Platform Fee {mintQuantity > 1 ? `(${mintQuantity}x)` : ''}</span>
                       <span className="text-white font-medium">{formatLamports(totalPlatformFee)}</span>
                     </div>
                   )}
                   {/* Rent + Network */}
                   <div className="flex justify-between">
-                    <span className="text-[#a8a8b8]">Rent + Network</span>
+                    <span className="text-[#808080]">Rent + Network</span>
                     <span className="text-white font-medium">~{formatLamports(totalRent + networkFees)}</span>
                   </div>
-                  <div className="border-t border-[#9945FF]/20 pt-2 mt-2 flex justify-between">
-                    <span className="text-[#a8a8b8] font-semibold">Estimated Total</span>
-                    <span className="bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent font-bold">~{formatLamports(totalEstimate)}</span>
+                  <div className="border-t border-[#D4AF37]/20 pt-2 mt-2 flex justify-between">
+                    <span className="text-[#808080] font-semibold">Estimated Total</span>
+                    <span className="text-[#D4AF37] font-bold">~{formatLamports(totalEstimate)}</span>
                   </div>
                 </div>
               </div>
@@ -352,13 +352,13 @@ export function MintDetailsSection({
 
           {/* Status Messages */}
           {mintStatus && (
-            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-[#14F195] text-sm">{mintStatus}</p>
+            <div className="mt-4 p-4 bg-blue-50 border border-blue-200">
+              <p className="text-[#D4AF37] text-sm">{mintStatus}</p>
             </div>
           )}
 
           {error && (
-            <div className="mt-4 p-4 bg-red-50 border-2 border-red-400 rounded-lg">
+            <div className="mt-4 p-4 bg-red-50 border-2 border-red-400">
               <p className="text-red-700 font-semibold text-sm leading-relaxed whitespace-pre-line">{error}</p>
             </div>
           )}
@@ -369,7 +369,7 @@ export function MintDetailsSection({
                 href={getSolscanUrl(txSignature, 'tx')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#9945FF] hover:text-[#DC1FFF] hover:underline text-sm transition-colors"
+                className="text-[#D4AF37] hover:text-[#D4AF37]/80 hover:underline text-sm transition-colors"
               >
                 View transaction on Solscan →
               </a>
@@ -380,7 +380,7 @@ export function MintDetailsSection({
 
       {/* No phases at all */}
       {(!collection?.phases || collection.phases.length === 0) && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mt-6">
+        <div className="bg-yellow-50 border border-yellow-200 p-6 mt-6">
           <p className="text-yellow-700 font-semibold">No mint phases configured</p>
           <p className="text-yellow-600 text-sm mt-2">The collection owner needs to set up mint phases</p>
         </div>

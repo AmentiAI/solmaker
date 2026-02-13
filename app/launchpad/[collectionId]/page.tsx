@@ -1319,15 +1319,15 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D11] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="text-center">
           <div className="relative w-20 h-20 mx-auto mb-6">
-            <div className="absolute inset-0 border-4 border-[#9945FF]/20 rounded-full" />
-            <div className="absolute inset-0 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
-            <div className="absolute inset-2 border-4 border-[#14F195]/20 rounded-full" />
-            <div className="absolute inset-2 border-4 border-[#14F195] border-b-transparent rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
+            <div className="absolute inset-0 border-4 border-[#D4AF37]/20 rounded-full" />
+            <div className="absolute inset-0 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
+            <div className="absolute inset-2 border-4 border-[#D4AF37]/30 rounded-full" />
+            <div className="absolute inset-2 border-4 border-[#D4AF37] border-b-transparent rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
           </div>
-          <p className="text-[#A1A1AA] text-lg font-medium">Loading collection...</p>
+          <p className="text-[#808080] text-lg font-medium">Loading collection...</p>
         </div>
       </div>
     )
@@ -1335,14 +1335,14 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
   if (!collection) {
     return (
-      <div className="min-h-screen bg-[#0D0D11] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="text-center px-6">
           <div className="text-6xl mb-6 opacity-50">📦</div>
           <h2 className="text-3xl font-bold text-white mb-4">Collection Not Found</h2>
-          <p className="text-[#A1A1AA] mb-8 text-lg">The collection you're looking for doesn't exist or has been removed.</p>
+          <p className="text-[#808080] mb-8 text-lg">The collection you're looking for doesn't exist or has been removed.</p>
           <Link
             href="/launchpad"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] hover:from-[#DC1FFF] hover:to-[#9945FF] text-white font-semibold rounded-xl shadow-lg shadow-[#9945FF]/30 hover:shadow-xl hover:shadow-[#9945FF]/40 transition-all duration-300 hover:scale-105"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-black font-semibold border border-[#D4AF37] hover:border-white transition-all duration-300 hover:scale-105"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -1355,7 +1355,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D11]">
+    <div className="min-h-screen bg-[#0a0a0a]">
       <div className="container mx-auto px-6 py-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Background audio */}
@@ -1421,7 +1421,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
               return (
                 <>
                   <div className="mb-8">
-                    <div className="w-full aspect-[16/8] rounded-2xl overflow-hidden bg-[#121218] border border-[#9945FF]/20 shadow-xl shadow-[#9945FF]/10">
+                    <div className="w-full aspect-[16/8] overflow-hidden bg-[#1a1a1a] border border-[#404040] shadow-lg">
                       {collection.banner_video_url ? (
                         <video
                           className="w-full h-full object-fill"
@@ -1439,32 +1439,32 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                           className="w-full h-full object-fill"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#4561ad]/20 to-[#e27d0f]/20 flex items-center justify-center">
+                        <div className="w-full h-full bg-[#1a1a1a] flex items-center justify-center">
                           <span className="text-9xl">🎨</span>
                         </div>
                       )}
                     </div>
                     {(collection.twitter_url || collection.discord_url || collection.telegram_url || collection.website_url) && (
-                      <div className="mt-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-5">
+                      <div className="mt-4 bg-[#1a1a1a] border border-[#404040] backdrop-blur-md p-5">
                         <div className="font-bold text-white mb-3">Links</div>
                         <div className="flex flex-wrap gap-3">
                           {collection.twitter_url && (
-                            <a href={collection.twitter_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white rounded-lg text-sm font-semibold transition-colors">
+                            <a href={collection.twitter_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white text-sm font-semibold transition-colors">
                               <span>🐦</span><span>Twitter</span>
                             </a>
                           )}
                           {collection.discord_url && (
-                            <a href={collection.discord_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] text-white rounded-lg text-sm font-semibold transition-colors">
+                            <a href={collection.discord_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] text-white text-sm font-semibold transition-colors">
                               <span>💬</span><span>Discord</span>
                             </a>
                           )}
                           {collection.telegram_url && (
-                            <a href={collection.telegram_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0088cc] hover:bg-[#0077b5] text-white rounded-lg text-sm font-semibold transition-colors">
+                            <a href={collection.telegram_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0088cc] hover:bg-[#0077b5] text-white text-sm font-semibold transition-colors">
                               <span>Telegram</span>
                             </a>
                           )}
                           {collection.website_url && (
-                            <a href={collection.website_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#202030] text-white rounded-lg text-sm font-semibold transition-all border border-[#9945FF]/30 hover:border-[#9945FF]/50">
+                            <a href={collection.website_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a1a1a] hover:bg-[#2a2a2a] text-white text-sm font-semibold transition-all border border-[#D4AF37] hover:border-white">
                               <span>🌐</span><span>Website</span>
                             </a>
                           )}
@@ -1551,7 +1551,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div className="lg:col-span-5">
                   <div className="lg:sticky lg:top-28">
-                    <div className="rounded-2xl overflow-hidden bg-[#121218] border-2 border-[#9945FF]/20 shadow-xl shadow-[#9945FF]/10 aspect-square hover:border-[#9945FF]/40 transition-all duration-300">
+                    <div className="overflow-hidden bg-[#1a1a1a] border-2 border-[#404040] shadow-lg aspect-square hover:border-[#D4AF37] transition-all duration-300">
                       {collection.banner_video_url ? (
                         <video
                           className="w-full h-full object-fill"
@@ -1569,32 +1569,32 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                           className="w-full h-full object-fill"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#4561ad]/20 to-[#e27d0f]/20 flex items-center justify-center">
+                        <div className="w-full h-full bg-[#1a1a1a] flex items-center justify-center">
                           <span className="text-9xl">🎨</span>
                         </div>
                       )}
                     </div>
                     {(collection.twitter_url || collection.discord_url || collection.telegram_url || collection.website_url) && (
-                      <div className="mt-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md rounded-xl p-5">
+                      <div className="mt-4 bg-[#1a1a1a] border border-[#404040] backdrop-blur-md p-5">
                         <div className="font-bold text-white mb-3">Links</div>
                         <div className="flex flex-wrap gap-3">
                           {collection.twitter_url && (
-                            <a href={collection.twitter_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white rounded-lg text-sm font-semibold transition-colors">
+                            <a href={collection.twitter_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white text-sm font-semibold transition-colors">
                               <span>🐦</span><span>Twitter</span>
                             </a>
                           )}
                           {collection.discord_url && (
-                            <a href={collection.discord_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] text-white rounded-lg text-sm font-semibold transition-colors">
+                            <a href={collection.discord_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] text-white text-sm font-semibold transition-colors">
                               <span>💬</span><span>Discord</span>
                             </a>
                           )}
                           {collection.telegram_url && (
-                            <a href={collection.telegram_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0088cc] hover:bg-[#0077b5] text-white rounded-lg text-sm font-semibold transition-colors">
+                            <a href={collection.telegram_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0088cc] hover:bg-[#0077b5] text-white text-sm font-semibold transition-colors">
                               <span>Telegram</span>
                             </a>
                           )}
                           {collection.website_url && (
-                            <a href={collection.website_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 hover:from-[#15152a] hover:to-[#202030] text-white rounded-lg text-sm font-semibold transition-all border border-[#9945FF]/30 hover:border-[#9945FF]/50">
+                            <a href={collection.website_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a1a1a] hover:bg-[#2a2a2a] text-white text-sm font-semibold transition-all border border-[#D4AF37] hover:border-white">
                               <span>🌐</span><span>Website</span>
                             </a>
                           )}

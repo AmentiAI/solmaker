@@ -60,15 +60,15 @@ export function CollectionImageDisplay({ collection, imageDimensions }: Collecti
 
   const SocialLinks = () => (
     (collection.twitter_url || collection.discord_url || collection.telegram_url || collection.website_url) ? (
-      <div className="mt-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-5">
-        <div className="font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent mb-3">Links</div>
+      <div className="mt-4 bg-[#1a1a1a] border border-[#D4AF37]/30 p-5">
+        <div className="font-bold text-[#D4AF37] mb-3">Links</div>
         <div className="flex flex-wrap gap-3">
           {collection.twitter_url && (
             <a
               href={collection.twitter_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white rounded-lg text-sm font-semibold transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white text-sm font-semibold transition-colors"
             >
               <span>🐦</span>
               <span>Twitter</span>
@@ -79,7 +79,7 @@ export function CollectionImageDisplay({ collection, imageDimensions }: Collecti
               href={collection.discord_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] text-white rounded-lg text-sm font-semibold transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] text-white text-sm font-semibold transition-colors"
             >
               <span>💬</span>
               <span>Discord</span>
@@ -90,7 +90,7 @@ export function CollectionImageDisplay({ collection, imageDimensions }: Collecti
               href={collection.telegram_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#0088cc] hover:bg-[#0077b5] text-white rounded-lg text-sm font-semibold transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#0088cc] hover:bg-[#0077b5] text-white text-sm font-semibold transition-colors"
             >
               <span>✈️</span>
               <span>Telegram</span>
@@ -101,7 +101,7 @@ export function CollectionImageDisplay({ collection, imageDimensions }: Collecti
               href={collection.website_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 hover:from-[#1a1a24] hover:to-[#202030] text-white rounded-lg text-sm font-semibold transition-all border border-[#9945FF]/30 hover:border-[#9945FF]/50"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a1a1a] hover:bg-[#404040] text-white text-sm font-semibold transition-all border border-[#D4AF37]/30 hover:border-[#D4AF37]/50"
             >
               <span>🌐</span>
               <span>Website</span>
@@ -114,17 +114,17 @@ export function CollectionImageDisplay({ collection, imageDimensions }: Collecti
 
   const AboutSection = () => (
     collection.description ? (
-      <div className="mt-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-xl">
+      <div className="mt-4 bg-[#1a1a1a] border border-[#D4AF37]/30">
         <button
           type="button"
           onClick={() => setAboutOpen(!aboutOpen)}
           className="w-full cursor-pointer select-none px-5 py-4 flex items-center justify-between text-left"
         >
           <span className="font-bold text-white">About</span>
-          <span className="text-sm text-[#a8a8b8]">{aboutOpen ? '▲ Collapse' : '▼ Expand'}</span>
+          <span className="text-sm text-[#808080]">{aboutOpen ? '▲ Collapse' : '▼ Expand'}</span>
         </button>
         {aboutOpen && (
-          <div className="px-5 pb-5 border-t border-[#00d4ff]/20 pt-4">
+          <div className="px-5 pb-5 border-t border-[#D4AF37]/20 pt-4">
             <p className="text-white text-sm leading-relaxed whitespace-pre-wrap">{collection.description}</p>
           </div>
         )}
@@ -136,7 +136,7 @@ export function CollectionImageDisplay({ collection, imageDimensions }: Collecti
   if (isWide) {
     return (
       <div className="mb-8">
-        <div className="w-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-xl" style={{ height: '500px' }}>
+        <div className="w-full overflow-hidden bg-gray-100 border border-gray-200" style={{ height: '500px' }}>
           {collection.banner_video_url ? (
             <video
               className="w-full h-full object-cover"
@@ -172,7 +172,7 @@ export function CollectionImageDisplay({ collection, imageDimensions }: Collecti
   return (
     <div className="lg:col-span-5">
       <div className="lg:sticky lg:top-28">
-        <div className={`rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-xl ${isTall ? 'aspect-[3/4] md:aspect-square' : 'aspect-square'}`}>
+        <div className={`overflow-hidden bg-gray-100 border border-gray-200 ${isTall ? 'aspect-[3/4] md:aspect-square' : 'aspect-square'}`}>
           <ImageContent />
         </div>
         <SocialLinks />

@@ -283,11 +283,11 @@ export function NftChoicesMint({
 
   if (loading && nfts.length === 0) {
     return (
-      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6">
+      <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-6">
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-[#a8a8b8]">Loading NFTs...</p>
+            <div className="w-16 h-16 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-[#808080]">Loading NFTs...</p>
           </div>
         </div>
       </div>
@@ -302,14 +302,14 @@ export function NftChoicesMint({
       : 'Phase not scheduled'
 
     return (
-      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6">
+      <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-6">
         <div className="text-center space-y-4">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent mb-2">Choose Your NFT</h2>
-          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 rounded-lg p-6">
-            <p className="text-[#a8a8b8] mb-2">Minting starts in:</p>
-            <p className="text-3xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">{countdownText}</p>
+          <h2 className="text-2xl font-bold text-[#D4AF37] mb-2">Choose Your NFT</h2>
+          <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-6">
+            <p className="text-[#808080] mb-2">Minting starts in:</p>
+            <p className="text-3xl font-bold text-[#D4AF37]">{countdownText}</p>
             {activePhase.mint_price_lamports > 0 && (
-              <p className="text-[#a8a8b8] mt-4">
+              <p className="text-[#808080] mt-4">
                 Price: {formatLamports(activePhase.mint_price_lamports)}
               </p>
             )}
@@ -325,35 +325,35 @@ export function NftChoicesMint({
   const available = Math.max(0, maxSupply - totalMinted)
 
   return (
-    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-6 space-y-6">
+    <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-6 space-y-6">
       {/* Supply Stats - matching MintDetailsSection */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4">
-          <div className="text-xs text-[#a8a8b8] mb-1">Supply</div>
+        <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-4">
+          <div className="text-xs text-[#808080] mb-1">Supply</div>
           <div className="text-xl font-bold text-white">
             {maxSupply.toLocaleString()}
           </div>
         </div>
-        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4">
-          <div className="text-xs text-[#a8a8b8] mb-1">Total Minted</div>
-          <div className="text-xl font-bold text-[#14F195]">
+        <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-4">
+          <div className="text-xs text-[#808080] mb-1">Total Minted</div>
+          <div className="text-xl font-bold text-[#D4AF37]">
             {totalMinted.toLocaleString()}
           </div>
         </div>
-        <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 rounded-xl p-4">
-          <div className="text-xs text-[#a8a8b8] mb-1">Available</div>
-          <div className="text-xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent">
+        <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-4">
+          <div className="text-xs text-[#808080] mb-1">Available</div>
+          <div className="text-xl font-bold text-[#D4AF37]">
             {available.toLocaleString()}
           </div>
         </div>
       </div>
 
       <div className="text-center">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent mb-2">Choose Your NFT</h2>
-        <p className="text-[#a8a8b8]">
+        <h2 className="text-2xl font-bold text-[#D4AF37] mb-2">Choose Your NFT</h2>
+        <p className="text-[#808080]">
           Browse and select the NFT you want to mint. Click on one to lock it for 2 minutes.
           {activePhase?.max_per_wallet === 1 && (
-            <span className="block mt-1 text-sm bg-gradient-to-r from-[#DC1FFF] to-[#9945FF] bg-clip-text text-transparent">1 per wallet</span>
+            <span className="block mt-1 text-sm text-[#D4AF37]">1 per wallet</span>
           )}
         </p>
       </div>
@@ -429,7 +429,7 @@ export function NftChoicesMint({
               step="1000"
               min="0"
               disabled={minting || (isPreview && !isLive)}
-              className="w-full px-4 py-3 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/30 text-white rounded-lg focus:ring-2 focus:ring-[#9945FF]/30 focus:border-[#9945FF]/50 placeholder:text-[#a8a8b8] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#D4AF37]/30 text-white focus:ring-2 focus:ring-[#D4AF37]/30 focus:border-[#D4AF37]/50 placeholder:text-[#808080] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             />
           </div>
 
@@ -450,17 +450,17 @@ export function NftChoicesMint({
             const totalEstimate = totalMintPrice + totalPlatformFee + totalRent + networkFees
 
             return (
-              <div className="mt-4 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#9945FF]/20 rounded-xl">
+              <div className="mt-4 p-4 bg-[#1a1a1a] border border-[#D4AF37]/20">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-[#a8a8b8] font-semibold">Estimated Cost Breakdown</span>
-                  <span className="text-xs bg-[#9945FF]/20 text-[#9945FF] px-2 py-0.5 rounded-full font-medium">
+                  <span className="text-xs text-[#808080] font-semibold">Estimated Cost Breakdown</span>
+                  <span className="text-xs bg-[#D4AF37]/20 text-[#D4AF37] px-2 py-0.5 font-medium">
                     {lockedCount} NFT{lockedCount > 1 ? 's' : ''} selected
                   </span>
                 </div>
                 <div className="space-y-1.5 text-sm">
                   {/* Mint Price - goes to creator */}
                   <div className="flex justify-between">
-                    <span className="text-[#a8a8b8]">
+                    <span className="text-[#808080]">
                       Mint Price {lockedCount > 1 ? `(${formatLamports(mintPricePerNft)} × ${lockedCount})` : ''}
                     </span>
                     <span className="text-white font-medium">
@@ -472,18 +472,18 @@ export function NftChoicesMint({
                   {/* Platform Fee */}
                   {platformFeeLamports > 0 && (
                     <div className="flex justify-between">
-                      <span className="text-[#a8a8b8]">Platform Fee {lockedCount > 1 ? `(${lockedCount}x)` : ''}</span>
+                      <span className="text-[#808080]">Platform Fee {lockedCount > 1 ? `(${lockedCount}x)` : ''}</span>
                       <span className="text-white font-medium">{formatLamports(totalPlatformFee)}</span>
                     </div>
                   )}
                   {/* Rent + Network */}
                   <div className="flex justify-between">
-                    <span className="text-[#a8a8b8]">Rent + Network</span>
+                    <span className="text-[#808080]">Rent + Network</span>
                     <span className="text-white font-medium">~{formatLamports(totalRent + networkFees)}</span>
                   </div>
-                  <div className="border-t border-[#9945FF]/20 pt-2 mt-2 flex justify-between">
-                    <span className="text-[#a8a8b8] font-semibold">Estimated Total</span>
-                    <span className="bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] bg-clip-text text-transparent font-bold">~{formatLamports(totalEstimate)}</span>
+                  <div className="border-t border-[#D4AF37]/20 pt-2 mt-2 flex justify-between">
+                    <span className="text-[#808080] font-semibold">Estimated Total</span>
+                    <span className="text-[#D4AF37] font-bold">~{formatLamports(totalEstimate)}</span>
                   </div>
                 </div>
               </div>
@@ -500,10 +500,10 @@ export function NftChoicesMint({
               myLockedNfts.some(o => o.locked_until && new Date(o.locked_until).getTime() <= Date.now()) ||
               (collection.total_minted >= collection.total_supply)
             }
-            className="w-full py-4 bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] hover:from-[#DC1FFF] hover:to-[#9945FF] text-white font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#9945FF]/20 hover:shadow-[#9945FF]/40"
+            className="w-full py-4 bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-black font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {collection.total_minted >= collection.total_supply ? 'Sold Out' : 
-             minting ? 'Minting...' : 
+            {collection.total_minted >= collection.total_supply ? 'Sold Out' :
+             minting ? 'Minting...' :
              lockedCount > 1 ? `Mint ${lockedCount} NFTs` : 'Mint Now'}
           </button>
           {/* Show earliest lock expiry */}
@@ -519,7 +519,7 @@ export function NftChoicesMint({
             const secondsLeft = Math.max(0, Math.floor((earliestExpiry - currentTime) / 1000))
             if (secondsLeft > 0) {
               return (
-                <p className="text-sm text-[#a8a8b8] mt-2 text-center">
+                <p className="text-sm text-[#808080] mt-2 text-center">
                   Lock{lockedCount > 1 ? 's expire' : ' expires'} in {secondsLeft} seconds
                 </p>
               )
