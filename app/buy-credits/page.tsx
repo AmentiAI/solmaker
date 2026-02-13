@@ -101,7 +101,7 @@ export default function BuyCreditsPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Header */}
       <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12 mb-12">
 
