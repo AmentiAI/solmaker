@@ -19,26 +19,26 @@
 /* REVOLUTIONARY SOLMAKER.FUN DESIGN SYSTEM */
 /* Ultra-Modern, Cutting-Edge, Jaw-Dropping Interface */
 :root {
-  /* Base Colors - Deep Space Theme */
-  --background: #050508;
+  /* Base Colors - Gold & Black Theme */
+  --background: #0a0a0a;
   --foreground: #ffffff;
-  --card: #0a0a0f;
+  --card: #1a1a1a;
   --card-foreground: #ffffff;
-  --popover: #0D0D11;
+  --popover: #1a1a1a;
   --popover-foreground: #ffffff;
-  --primary: #9945FF;
-  --primary-foreground: #ffffff;
-  --secondary: rgba(20, 241, 149, 0.15);
+  --primary: #D4AF37;
+  --primary-foreground: #0a0a0a;
+  --secondary: rgba(212, 175, 55, 0.15);
   --secondary-foreground: #ffffff;
-  --muted: rgba(153, 69, 255, 0.12);
-  --muted-foreground: #A1A1AA;
-  --accent: #14F195;
-  --accent-foreground: #0D0D11;
+  --muted: rgba(212, 175, 55, 0.12);
+  --muted-foreground: #808080;
+  --accent: #D4AF37;
+  --accent-foreground: #0a0a0a;
   --destructive: #EF4444;
   --destructive-foreground: #ffffff;
-  --border: rgba(153, 69, 255, 0.3);
-  --input: #0a0a0f;
-  --ring: #9945FF;
+  --border: rgba(212, 175, 55, 0.3);
+  --input: #1a1a1a;
+  --ring: #D4AF37;
   
   /* Chart Colors */
   --chart-1: #9945FF;
