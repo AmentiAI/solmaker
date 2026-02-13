@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { PageHeader } from '@/components/page-header'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { useCredits } from '@/lib/credits-context'
 import { ConfirmDialog } from '@/components/confirm-dialog'
@@ -217,21 +218,12 @@ export default function CollectionsPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Hero Header - NEW Professional */}
-      <div className="relative bg-[#1a1a1a] border-b border-[#404040]">
-        <div className="container mx-auto px-6 py-12">
-          <div className="max-w-4xl">
-            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 uppercase tracking-wide">
-              MY COLLECTIONS
-            </h1>
-            <p className="text-xl text-[#808080]">
-              Manage and organize your NFT collections
-            </p>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="Collections"
+        subtitle="Manage and organize your NFT collections"
+      />
 
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 lg:px-12 py-12">
         <div className="max-w-7xl mx-auto">
           {/* Create Collection CTA - NEW Professional Card */}
           <Link

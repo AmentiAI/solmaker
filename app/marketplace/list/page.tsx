@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { PageHeader } from '@/components/page-header'
 import { useSolanaWallet } from '@/lib/wallet/solana-wallet-context'
 import { toast } from 'sonner'
 import { Transaction, LAMPORTS_PER_SOL } from '@solana/web3.js'
@@ -153,17 +154,10 @@ export default function ListNftPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Hero Header */}
-      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] px-6 lg:px-12">
-        <div className="w-full py-8 lg:py-12 relative z-10">
-          <div className="flex flex-col gap-4">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-wide uppercase text-[#D4AF37]">List NFT</h1>
-            <p className="text-[#808080] text-base lg:text-lg font-medium">
-              {step === 1 ? 'Select an NFT to list on the marketplace' : 'Set your price and complete listing'}
-            </p>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="List NFT"
+        subtitle={step === 1 ? 'Select an NFT to list on the marketplace' : 'Set your price and complete listing'}
+      />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8 lg:py-12">
         {/* Step Indicator */}

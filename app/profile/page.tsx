@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { PageHeader } from '@/components/page-header'
 import { ProfileManager } from '@/components/profile-manager'
 import { ProfileCollections } from '@/components/profile-collections'
 import { ProfileCollabs } from '@/components/profile-collabs'
@@ -14,17 +15,10 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Hero Header */}
-      <div className="bg-[#0a0a0a] text-white border-b border-[#404040] px-6 lg:px-12">
-        <div className="w-full py-8 lg:py-12">
-          <div className="flex flex-col gap-4">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-wide uppercase text-[#D4AF37]">Profile</h1>
-            <p className="text-[#808080] text-base lg:text-lg font-medium">
-              Manage your profile, collections, and collaborations
-            </p>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="Profile"
+        subtitle="Manage your profile, collections, and collaborations"
+      />
 
       {/* Main Content */}
       <main className="w-full py-6 lg:py-12 px-6 lg:px-12">

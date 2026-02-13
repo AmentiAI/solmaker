@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
+import { PageHeader } from '@/components/page-header'
 import { CreditPurchase } from '@/components/credit-purchase'
 import { useCredits } from '@/lib/credits-context'
 import Link from 'next/link'
@@ -102,39 +103,27 @@ export default function BuyCreditsPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Hero Header */}
-      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] overflow-hidden px-6 lg:px-12 mb-12">
-
-        <div className="w-full py-12 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
-              <h1 className="text-5xl md:text-6xl font-extrabold tracking-wide text-[#D4AF37] mb-3 uppercase">
-                Buy Credits
-              </h1>
-              <p className="text-[#808080] text-lg font-medium">
-                Purchase credits to generate collections, traits, and more
-              </p>
-            </div>
-            {!loadingCredits && credits !== null && (
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-3 bg-[#1a1a1a] border-2 border-[#D4AF37] px-5 py-3">
-                  <span className="text-2xl">💰</span>
-                  <div>
-                    <div className="text-xs text-[#808080] font-medium uppercase tracking-wide">Balance</div>
-                    <div className="text-xl font-bold text-[#D4AF37]">
-                      {typeof credits === 'number'
-                        ? credits.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })
-                        : parseFloat(String(credits)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
-                    </div>
-                  </div>
+      <PageHeader
+        title="Buy Credits"
+        subtitle="Purchase credits to generate collections, traits, and more"
+        action={
+          !loadingCredits && credits !== null ? (
+            <div className="flex items-center gap-3 bg-[#1a1a1a] border-2 border-[#D4AF37] px-5 py-3">
+              <span className="text-2xl">💰</span>
+              <div>
+                <div className="text-xs text-[#808080] font-medium uppercase tracking-wide">Balance</div>
+                <div className="text-xl font-bold text-[#D4AF37]">
+                  {typeof credits === 'number'
+                    ? credits.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })
+                    : parseFloat(String(credits)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
                 </div>
               </div>
-            )}
-          </div>
-        </div>
-      </div>
+            </div>
+          ) : undefined
+        }
+      />
 
-      <div className="w-full py-12 bg-[#0a0a0a]">
+      <div className="w-full py-12 bg-[#0a0a0a] mt-12">
         <div className="max-w-5xl mx-auto space-y-8 px-6 lg:px-12">
 
           {/* Credit Purchase Component */}
