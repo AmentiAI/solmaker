@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { 
@@ -44,7 +44,7 @@ export function SidebarNav() {
   const [priceChange, setPriceChange] = useState<number>(0)
 
   // Fetch user credits
-  useEffect(() => {
+  const fetchCredits = useCallback(() => {
     if (isConnected && currentAddress) {
       fetch(`/api/credits?wallet_address=${encodeURIComponent(currentAddress)}`)
         .then(res => res.json())
@@ -58,6 +58,20 @@ export function SidebarNav() {
       setCredits(null)
     }
   }, [isConnected, currentAddress])
+
+  useEffect(() => {
+    fetchCredits()
+  }, [fetchCredits])
+
+  // Listen for credit refresh events
+  useEffect(() => {
+    const handleRefreshCredits = () => {
+      fetchCredits()
+    }
+
+    window.addEventListener('refreshCredits', handleRefreshCredits)
+    return () => window.removeEventListener('refreshCredits', handleRefreshCredits)
+  }, [fetchCredits])
 
   // Fetch Solana price
   useEffect(() => {

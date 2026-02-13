@@ -846,6 +846,8 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
       if (confirmData.confirmed) {
         setMintStatus('Successfully minted NFT!')
+        // Refresh credits display
+        window.dispatchEvent(new CustomEvent('refreshCredits'))
       } else {
         setMintStatus('Mint transaction sent! It may take a moment to confirm on-chain.')
       }
@@ -1057,6 +1059,8 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
       if (confirmData.confirmed) {
         setMintStatus(`Successfully minted ${mintQuantity} NFT${mintQuantity > 1 ? 's' : ''}!`)
+        // Refresh credits display
+        window.dispatchEvent(new CustomEvent('refreshCredits'))
       } else {
         // Even if not confirmed yet, the tx was sent - show optimistic success
         setMintStatus(`Mint transaction sent! It may take a moment to confirm on-chain.`)

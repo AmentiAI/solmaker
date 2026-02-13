@@ -665,7 +665,10 @@ export default function PromotionPage() {
       }
       
       console.log(`[Promotion] Job queued successfully:`, jobId)
-      
+
+      // Refresh credits display
+      window.dispatchEvent(new CustomEvent('refreshCredits'))
+
       setResultUrl(null)
       setActiveJobId(jobId)
       setTaskId(null) // Reset taskId for new job
