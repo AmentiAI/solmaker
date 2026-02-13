@@ -32,9 +32,9 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       {/* Left Sidebar */}
       <SidebarNav />
 
-      {/* Main Content Area - With padding */}
+      {/* Main Content Area - Full width */}
       <div className="flex-1 flex flex-col lg:ml-80 w-full">
-        <main className="flex-1 overflow-x-hidden w-full px-6 lg:px-12">
+        <main className="flex-1 overflow-x-hidden w-full">
           {children}
         </main>
         <GlobalFooter />

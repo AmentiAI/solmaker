@@ -103,7 +103,7 @@ export default function BuyCreditsPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Header */}
-      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12 mb-12">
+      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] overflow-hidden px-6 lg:px-12 mb-12">
 
         <div className="w-full py-12 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -134,7 +134,7 @@ export default function BuyCreditsPage() {
         </div>
       </div>
 
-      <div className="w-full py-12 bg-[#0a0a0a]">
+      <div className="w-full py-12 bg-[#0a0a0a] px-6 lg:px-12">
         <div className="max-w-5xl mx-auto space-y-8">
 
           {/* Credit Purchase Component */}
