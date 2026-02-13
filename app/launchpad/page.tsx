@@ -514,7 +514,7 @@ export default function LaunchpadPage() {
           <>
             {/* Completed Collections Section */}
             {completedCollections.length > 0 && (
-              <div>
+              <div className="pt-16">
                 <div className="flex items-center gap-3 mb-8">
                   <div className="w-1 h-10 bg-[#D4AF37]" />
                   <div>
