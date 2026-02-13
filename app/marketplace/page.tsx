@@ -96,25 +96,25 @@ export default function MarketplacePage() {
 
   return (
     <div className="min-h-screen relative bg-[#0a0a0a]">
-      {/* Revolutionary Hero Header - 2026 Design */}
-      <div className="relative bg-gradient-to-br from-[#0a0a0f] via-[#12121a] to-[#0a0a0f] border-b-2 border-[#9945FF]/40 -mx-6 lg:-mx-12 px-6 lg:px-12 overflow-hidden">
+      {/* Revolutionary Hero Header - Matte Black/Gold Design */}
+      <div className="relative bg-[#1a1a1a] border-b-2 border-[#D4AF37] -mx-6 lg:-mx-12 px-6 lg:px-12 overflow-hidden">
         {/* Animated background */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#9945FF]/20 rounded-full blur-[100px] animate-[particleFloat_20s_ease-in-out_infinite]" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#14F195]/15 rounded-full blur-[100px] animate-[particleFloat_25s_ease-in-out_infinite]" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/10 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#D4AF37]/5 blur-[100px]" />
         </div>
 
         <div className="w-full py-16 relative z-10">
           <div className="max-w-5xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 glass-card border-2 border-[#9945FF]/40 rounded-full mb-6">
-              <div className="w-2 h-2 bg-[#14F195] rounded-full animate-pulse ultra-glow-green" />
-              <span className="text-sm font-black text-[#14F195]">SOLANA NFT MARKETPLACE</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#0a0a0a] border-2 border-[#D4AF37] mb-6">
+              <div className="w-2 h-2 bg-[#D4AF37]" />
+              <span className="text-sm font-black text-[#D4AF37] tracking-wider uppercase">SOLANA NFT MARKETPLACE</span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-black text-white mb-6 leading-tight">
-              NFT <span className="gradient-text-neon">Marketplace</span>
+            <h1 className="text-6xl md:text-7xl font-black text-white mb-6 leading-tight uppercase tracking-wide">
+              NFT <span className="text-[#D4AF37]">Marketplace</span>
             </h1>
-            <p className="text-2xl text-[#B4B4C8] font-semibold max-w-2xl">
-              Discover, collect, and trade <span className="text-[#9945FF] font-black">revolutionary</span> Solana NFTs
+            <p className="text-2xl text-[#808080] font-semibold max-w-2xl">
+              Discover, collect, and trade <span className="text-[#D4AF37] font-black">premium</span> Solana NFTs
             </p>
           </div>
         </div>
@@ -122,17 +122,17 @@ export default function MarketplacePage() {
 
       <div className="w-full py-8">
         <div className="flex gap-8">
-          {/* Premium Left Sidebar Filters - 2026 Glass Morphism */}
+          {/* Premium Left Sidebar Filters - Matte Black/Gold */}
           <aside className="hidden lg:block w-72 flex-shrink-0">
             <div className="sticky top-24 space-y-6">
               {/* Premium Search */}
-              <div className="glass-card border-2 border-[#9945FF]/30 rounded-2xl p-6 hover:border-[#9945FF]/50 transition-all duration-300">
-                <h3 className="text-lg font-black text-white mb-4 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#9945FF] rounded-full animate-pulse" />
+              <div className="bg-[#1a1a1a] border-2 border-[#404040] p-6 hover:border-[#D4AF37] transition-all duration-300">
+                <h3 className="text-lg font-black text-white mb-4 flex items-center gap-2 uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 bg-[#D4AF37]" />
                   Search
                 </h3>
                 <div className="relative group">
-                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#B4B4C8] group-focus-within:text-[#9945FF] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#808080] group-focus-within:text-[#D4AF37] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                   <input
@@ -140,15 +140,15 @@ export default function MarketplacePage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search NFTs..."
-                    className="w-full pl-12 pr-4 py-3.5 glass-card border-2 border-[#9945FF]/20 focus:border-[#9945FF] focus:ring-4 focus:ring-[#9945FF]/20 text-white placeholder:text-[#71717A] rounded-xl transition-all duration-300 outline-none font-semibold"
+                    className="w-full pl-12 pr-4 py-3.5 bg-[#0a0a0a] border-2 border-[#404040] focus:border-[#D4AF37] text-white placeholder:text-[#808080] transition-all duration-300 outline-none font-semibold"
                   />
                 </div>
               </div>
 
               {/* Premium Price Range */}
-              <div className="glass-card border-2 border-[#14F195]/30 rounded-2xl p-6 hover:border-[#14F195]/50 transition-all duration-300">
-                <h3 className="text-lg font-black text-white mb-4 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#14F195] rounded-full animate-pulse" />
+              <div className="bg-[#1a1a1a] border-2 border-[#404040] p-6 hover:border-[#D4AF37] transition-all duration-300">
+                <h3 className="text-lg font-black text-white mb-4 flex items-center gap-2 uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 bg-[#D4AF37]" />
                   Price Range
                 </h3>
                 <div className="space-y-2">
@@ -161,13 +161,13 @@ export default function MarketplacePage() {
                     <button
                       key={option.value}
                       onClick={() => setPriceRange(option.value as any)}
-                      className={`group w-full px-4 py-3 rounded-xl text-left transition-all duration-300 relative overflow-hidden ${priceRange === option.value
-                          ? 'glass-card border-2 border-[#14F195]/60 text-white font-bold shadow-lg shadow-[#14F195]/20'
-                          : 'hover:glass-card hover:border-2 hover:border-[#14F195]/30 text-[#B4B4C8] hover:text-white font-semibold'
+                      className={`group w-full px-4 py-3 text-left transition-all duration-300 relative overflow-hidden ${priceRange === option.value
+                          ? 'bg-[#0a0a0a] border-2 border-[#D4AF37] text-white font-bold'
+                          : 'hover:bg-[#0a0a0a] hover:border-2 hover:border-[#404040] text-[#808080] hover:text-white font-semibold'
                         }`}
                     >
                       {priceRange === option.value && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#14F195]/10 to-[#10B981]/10" />
+                        <div className="absolute inset-0 bg-[#D4AF37]/10" />
                       )}
                       <span className="relative z-10">{option.label}</span>
                     </button>
@@ -176,9 +176,9 @@ export default function MarketplacePage() {
               </div>
 
               {/* Premium Sort */}
-              <div className="glass-card border-2 border-[#DC1FFF]/30 rounded-2xl p-6 hover:border-[#DC1FFF]/50 transition-all duration-300">
-                <h3 className="text-lg font-black text-white mb-4 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#DC1FFF] rounded-full animate-pulse" />
+              <div className="bg-[#1a1a1a] border-2 border-[#404040] p-6 hover:border-[#D4AF37] transition-all duration-300">
+                <h3 className="text-lg font-black text-white mb-4 flex items-center gap-2 uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 bg-[#D4AF37]" />
                   Sort By
                 </h3>
                 <div className="space-y-2">
@@ -190,13 +190,13 @@ export default function MarketplacePage() {
                     <button
                       key={option.value}
                       onClick={() => setSortBy(option.value as any)}
-                      className={`group w-full px-4 py-3 rounded-xl text-left transition-all duration-300 relative overflow-hidden ${sortBy === option.value
-                          ? 'glass-card border-2 border-[#DC1FFF]/60 text-white font-bold shadow-lg shadow-[#DC1FFF]/20'
-                          : 'hover:glass-card hover:border-2 hover:border-[#DC1FFF]/30 text-[#B4B4C8] hover:text-white font-semibold'
+                      className={`group w-full px-4 py-3 text-left transition-all duration-300 relative overflow-hidden ${sortBy === option.value
+                          ? 'bg-[#0a0a0a] border-2 border-[#D4AF37] text-white font-bold'
+                          : 'hover:bg-[#0a0a0a] hover:border-2 hover:border-[#404040] text-[#808080] hover:text-white font-semibold'
                         }`}
                     >
                       {sortBy === option.value && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#DC1FFF]/10 to-[#9945FF]/10" />
+                        <div className="absolute inset-0 bg-[#D4AF37]/10" />
                       )}
                       <span className="relative z-10">{option.label}</span>
                     </button>
@@ -213,7 +213,7 @@ export default function MarketplacePage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="px-4 py-2 bg-[#121218] border border-[#9945FF]/20 text-white rounded-xl"
+                className="px-4 py-2 bg-[#1a1a1a] border border-[#404040] text-white"
               >
                 <option value="recent">Recently Listed</option>
                 <option value="price_low">Price: Low to High</option>
@@ -222,7 +222,7 @@ export default function MarketplacePage() {
               <select
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value as any)}
-                className="px-4 py-2 bg-[#121218] border border-[#9945FF]/20 text-white rounded-xl"
+                className="px-4 py-2 bg-[#1a1a1a] border border-[#404040] text-white"
               >
                 <option value="all">All Prices</option>
                 <option value="under_1">Under 1 SOL</option>
@@ -237,14 +237,14 @@ export default function MarketplacePage() {
                 <h2 className="text-3xl font-black text-white">
                   {filteredListings.length}
                 </h2>
-                <span className="text-xl text-[#B4B4C8] font-semibold">
+                <span className="text-xl text-[#808080] font-semibold">
                   {filteredListings.length === 1 ? 'NFT' : 'NFTs'}
                 </span>
               </div>
               {isConnected && (
                 <Link
                   href="/marketplace/list"
-                  className="group px-8 py-4 bg-gradient-to-r from-[#9945FF] via-[#DC1FFF] to-[#9945FF] text-white font-black rounded-xl shadow-2xl shadow-[#9945FF]/50 transition-all duration-300 hover:scale-105 hover:shadow-[#9945FF]/70 relative overflow-hidden"
+                  className="group px-8 py-4 bg-[#1a1a1a] border border-[#D4AF37] text-white font-black tracking-wider uppercase transition-all duration-300 hover:bg-[#D4AF37] hover:text-black relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
                   <span className="relative z-10">List NFT</span>
