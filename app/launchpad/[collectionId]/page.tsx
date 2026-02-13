@@ -142,7 +142,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
     window.addEventListener('beforeunload', handleBeforeUnload)
 
-    if (pathname !== `/launchpad/${collectionId}`) {
+    if (pathname !== `/${collectionId}`) {
       isNavigatingRef.current = true
     } else {
       isNavigatingRef.current = false
@@ -318,7 +318,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
   // Initial load
   useEffect(() => {
-    if (pathname !== `/launchpad/${collectionId}`) {
+    if (pathname !== `/${collectionId}`) {
       return
     }
 
@@ -370,7 +370,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
   // Polling effect
   useEffect(() => {
-    if (pathname !== `/launchpad/${collectionId}`) {
+    if (pathname !== `/${collectionId}`) {
       return
     }
 
@@ -553,7 +553,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
       if (shouldAllowUpdates()) {
         const currentPath = window.location.pathname
-        if (currentPath !== `/launchpad/${collectionId}`) {
+        if (currentPath !== `/${collectionId}`) {
           return
         }
 
@@ -562,7 +562,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         }
 
         setTimeout(() => {
-          if (isNavigatingRef.current || window.location.pathname !== `/launchpad/${collectionId}`) {
+          if (isNavigatingRef.current || window.location.pathname !== `/${collectionId}`) {
             return
           }
 
@@ -1341,7 +1341,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
           <h2 className="text-3xl font-bold text-white mb-4">Collection Not Found</h2>
           <p className="text-[#808080] mb-8 text-lg">The collection you're looking for doesn't exist or has been removed.</p>
           <Link
-            href="/launchpad"
+            href="/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-black font-semibold border border-[#D4AF37] hover:border-white transition-all duration-300 hover:scale-105"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -105,7 +105,7 @@ export default function MyLaunchesPage() {
                             <Link href={`/collections/${c.id}/launch`}>Edit Mint Settings</Link>
                           </Button>
                           <Button asChild variant="outline" className="border-[#00E5FF]/30 text-white hover:border-[#00E5FF]/50">
-                            <Link href={`/launchpad/${c.id}`}>View Mint Page</Link>
+                            <Link href={`/${c.id}`}>View Mint Page</Link>
                           </Button>
                         </CardContent>
                       </Card>

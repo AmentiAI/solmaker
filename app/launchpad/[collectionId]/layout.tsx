@@ -48,7 +48,7 @@ export async function generateMetadata({
   const description = collection.description || `Mint ${collection.name} on OrdMaker.Fun Launchpad`
   const imageUrl = collection.banner_image_url || '/logo.png'
   const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ordmaker.fun'
-  const pageUrl = `${siteUrl}/launchpad/${collectionId}`
+  const pageUrl = `${siteUrl}/${collectionId}`
 
   return {
     title,

@@ -23,10 +23,9 @@ import { WalletConnect } from './wallet-connect'
 import { useWallet } from '@/lib/wallet/compatibility'
 
 const navigation = [
-  { name: 'Home', href: '/', icon: Home },
+  { name: 'Home', href: '/', icon: Rocket },
   { name: 'Marketplace', href: '/marketplace', icon: ShoppingBag },
   { name: 'Collections', href: '/collections', icon: Layers },
-  { name: 'Launchpad', href: '/launchpad', icon: Rocket },
   { name: 'Buy Credits', href: '/buy-credits', icon: CreditCard },
   { name: 'Profile', href: '/profile', icon: User },
 ]

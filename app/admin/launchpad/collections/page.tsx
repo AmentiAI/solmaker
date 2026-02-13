@@ -185,7 +185,7 @@ export default function AdminLaunchpadCollectionsPage() {
                               View Transactions
                             </Link>
                             <Link
-                              href={`/launchpad/${collection.id}`}
+                              href={`/${collection.id}`}
                               target="_blank"
                               className="px-3 py-1.5 text-xs font-medium bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#9945FF]/30 hover:border-[#9945FF]/50 text-white rounded transition-colors"
                             >
