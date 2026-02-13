@@ -388,6 +388,12 @@ export default function CollectionsPage() {
                     {collection.status !== 'deleted' && (
                       <>
                         <Link
+                          href={`/collections/${collection.id}/launch`}
+                          className="block w-full px-4 py-3 bg-[#0a0a0a] border-2 border-[#D4AF37] hover:bg-[#D4AF37] text-[#D4AF37] hover:text-black font-semibold uppercase tracking-wide text-center transition-all duration-300"
+                        >
+                          🚀 Launchpad Settings
+                        </Link>
+                        <Link
                           href={`/collections/${collection.id}/edit`}
                           className="block w-full px-4 py-3 bg-[#0a0a0a] border-2 border-[#404040] hover:border-[#D4AF37] text-white font-semibold uppercase tracking-wide text-center transition-all duration-300"
                         >
