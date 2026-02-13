@@ -96,31 +96,19 @@ export default function MarketplacePage() {
 
   return (
     <div className="min-h-screen relative bg-[#0a0a0a]">
-      {/* Revolutionary Hero Header - Matte Black/Gold Design */}
-      <div className="relative bg-[#1a1a1a] border-b-2 border-[#D4AF37] -mx-6 lg:-mx-12 px-6 lg:px-12 overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/10 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#D4AF37]/5 blur-[100px]" />
-        </div>
-
-        <div className="w-full py-16 relative z-10">
-          <div className="max-w-5xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#0a0a0a] border-2 border-[#D4AF37] mb-6">
-              <div className="w-2 h-2 bg-[#D4AF37]" />
-              <span className="text-sm font-black text-[#D4AF37] tracking-wider uppercase">SOLANA NFT MARKETPLACE</span>
-            </div>
-            <h1 className="text-6xl md:text-7xl font-black text-white mb-6 leading-tight uppercase tracking-wide">
-              NFT <span className="text-[#D4AF37]">Marketplace</span>
-            </h1>
-            <p className="text-2xl text-[#808080] font-semibold max-w-2xl">
-              Discover, collect, and trade <span className="text-[#D4AF37] font-black">premium</span> Solana NFTs
+      {/* Hero Header */}
+      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] px-6 lg:px-12">
+        <div className="w-full py-8 lg:py-12 relative z-10">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-wide uppercase text-[#D4AF37]">Marketplace</h1>
+            <p className="text-[#808080] text-base lg:text-lg font-medium">
+              Discover, collect, and trade premium Solana NFTs
             </p>
           </div>
         </div>
       </div>
 
-      <div className="w-full py-8">
+      <div className="w-full py-8 px-6 lg:px-12">
         <div className="flex gap-8">
           {/* Premium Left Sidebar Filters - Matte Black/Gold */}
           <aside className="hidden lg:block w-72 flex-shrink-0">
@@ -161,15 +149,12 @@ export default function MarketplacePage() {
                     <button
                       key={option.value}
                       onClick={() => setPriceRange(option.value as any)}
-                      className={`group w-full px-4 py-3 text-left transition-all duration-300 relative overflow-hidden ${priceRange === option.value
-                          ? 'bg-[#0a0a0a] border-2 border-[#D4AF37] text-white font-bold'
-                          : 'hover:bg-[#0a0a0a] hover:border-2 hover:border-[#404040] text-[#808080] hover:text-white font-semibold'
+                      className={`w-full px-4 py-3 text-left border-2 transition-colors ${priceRange === option.value
+                          ? 'bg-[#0a0a0a] border-[#D4AF37] text-white font-bold'
+                          : 'border-transparent hover:bg-[#0a0a0a] hover:border-[#404040] text-[#808080] hover:text-white font-semibold'
                         }`}
                     >
-                      {priceRange === option.value && (
-                        <div className="absolute inset-0 bg-[#D4AF37]/10" />
-                      )}
-                      <span className="relative z-10">{option.label}</span>
+                      {option.label}
                     </button>
                   ))}
                 </div>
@@ -190,12 +175,12 @@ export default function MarketplacePage() {
                     <button
                       key={option.value}
                       onClick={() => setSortBy(option.value as any)}
-                      className={`group w-full px-4 py-3 text-left transition-all duration-300 relative overflow-hidden ${sortBy === option.value
-                          ? 'bg-[#0a0a0a] border-2 border-[#D4AF37] text-white font-bold'
-                          : 'hover:bg-[#0a0a0a] hover:border-2 hover:border-[#404040] text-[#808080] hover:text-white font-semibold'
+                      className={`w-full px-4 py-3 text-left border-2 transition-colors ${sortBy === option.value
+                          ? 'bg-[#0a0a0a] border-[#D4AF37] text-white font-bold'
+                          : 'border-transparent hover:bg-[#0a0a0a] hover:border-[#404040] text-[#808080] hover:text-white font-semibold'
                         }`}
                     >
-                      {sortBy === option.value && (
+                      {option.label && (
                         <div className="absolute inset-0 bg-[#D4AF37]/10" />
                       )}
                       <span className="relative z-10">{option.label}</span>

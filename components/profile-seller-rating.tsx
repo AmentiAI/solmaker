@@ -78,7 +78,7 @@ export function ProfileSellerRating() {
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
+      <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 rounded-xl border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 border-2 border-[#00d4ff] border-t-transparent rounded-full animate-spin" />
           <span className="text-white/70">Loading seller rating...</span>
@@ -89,7 +89,7 @@ export function ProfileSellerRating() {
 
   if (error) {
     return (
-      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#EF4444]/50 rounded-xl p-6 shadow-lg">
+      <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 rounded-xl border-2 border-[#EF4444]/50 rounded-xl p-6 shadow-lg">
         <p className="text-[#EF4444]">Error loading rating: {error}</p>
       </div>
     )
@@ -97,7 +97,7 @@ export function ProfileSellerRating() {
 
   if (!stats || stats.total_reviews === 0) {
     return (
-      <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
+      <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 rounded-xl border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-white mb-1">Seller Rating</h3>
@@ -110,7 +110,7 @@ export function ProfileSellerRating() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
+    <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 rounded-xl border-2 border-[#00d4ff]/30 rounded-xl p-6 shadow-lg">
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-xl font-bold text-white mb-2">Seller Rating</h3>

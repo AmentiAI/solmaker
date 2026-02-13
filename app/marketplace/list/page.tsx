@@ -152,36 +152,38 @@ export default function ListNftPage() {
   const sellerReceives = parseFloat(price) - platformFee || 0
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-5xl font-black text-white mb-4">
-            List <span className="gradient-text-neon">NFT</span>
-          </h1>
-          <p className="text-xl text-[#B4B4C8]">
-            {step === 1 ? 'Select an NFT to list' : 'Set your price and list'}
-          </p>
+    <div className="min-h-screen bg-[#0a0a0a]">
+      {/* Hero Header */}
+      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] px-6 lg:px-12">
+        <div className="w-full py-8 lg:py-12 relative z-10">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-wide uppercase text-[#D4AF37]">List NFT</h1>
+            <p className="text-[#808080] text-base lg:text-lg font-medium">
+              {step === 1 ? 'Select an NFT to list on the marketplace' : 'Set your price and complete listing'}
+            </p>
+          </div>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8 lg:py-12">
         {/* Step Indicator */}
         <div className="flex items-center gap-4 mb-12">
           <div className={`flex items-center gap-3 ${step >= 1 ? 'opacity-100' : 'opacity-50'}`}>
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black ${
-              step >= 1 ? 'bg-[#9945FF] text-white' : 'bg-[#27272A] text-[#71717A]'
+            <div className={`w-10 h-10 border-2 flex items-center justify-center font-black ${
+              step >= 1 ? 'bg-[#D4AF37] border-[#D4AF37] text-[#0a0a0a]' : 'bg-transparent border-[#404040] text-[#808080]'
             }`}>
               1
             </div>
-            <span className="text-white font-bold">Select NFT</span>
+            <span className="text-white font-bold uppercase tracking-wide">Select NFT</span>
           </div>
-          <div className="flex-1 h-0.5 bg-[#27272A]" />
+          <div className="flex-1 h-0.5 bg-[#404040]" />
           <div className={`flex items-center gap-3 ${step >= 2 ? 'opacity-100' : 'opacity-50'}`}>
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black ${
-              step >= 2 ? 'bg-[#9945FF] text-white' : 'bg-[#27272A] text-[#71717A]'
+            <div className={`w-10 h-10 border-2 flex items-center justify-center font-black ${
+              step >= 2 ? 'bg-[#D4AF37] border-[#D4AF37] text-[#0a0a0a]' : 'bg-transparent border-[#404040] text-[#808080]'
             }`}>
               2
             </div>
-            <span className="text-white font-bold">Set Price</span>
+            <span className="text-white font-bold uppercase tracking-wide">Set Price</span>
           </div>
         </div>
 
@@ -189,11 +191,11 @@ export default function ListNftPage() {
         {step === 1 && (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-black text-white">Your NFTs</h2>
+              <h2 className="text-2xl font-black text-[#D4AF37] uppercase tracking-wide">Your NFTs</h2>
               <button
                 onClick={loadUserNfts}
                 disabled={loading}
-                className="px-4 py-2 bg-[#27272A] hover:bg-[#3F3F46] text-white rounded-lg transition-colors"
+                className="px-4 py-2 bg-[#1a1a1a] border border-[#D4AF37]/30 hover:border-[#D4AF37] text-white rounded-lg transition-colors uppercase tracking-wide font-semibold"
               >
                 {loading ? 'Loading...' : 'Refresh'}
               </button>
@@ -365,14 +367,14 @@ export default function ListNftPage() {
                   <button
                     onClick={() => setStep(1)}
                     disabled={listing}
-                    className="flex-1 px-6 py-4 bg-[#27272A] hover:bg-[#3F3F46] text-white font-bold rounded-xl transition-colors"
+                    className="flex-1 px-6 py-4 bg-[#1a1a1a] border border-[#D4AF37]/30 hover:border-[#D4AF37] text-white font-bold rounded-xl transition-colors"
                   >
                     Back
                   </button>
                   <button
                     onClick={handleCreateListing}
                     disabled={listing || !price || parseFloat(price) <= 0}
-                    className="flex-1 px-6 py-4 bg-gradient-to-r from-[#9945FF] to-[#DC1FFF] hover:from-[#A855F7] hover:to-[#E935FF] text-white font-black rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 px-6 py-4 bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-[#0a0a0a] font-black rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide"
                   >
                     {listing ? 'Listing...' : 'Create Listing'}
                   </button>
