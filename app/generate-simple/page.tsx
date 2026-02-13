@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAuthorized } from '@/lib/auth/access-control'
 import { estimateImageGenerationCost, buildFullPrompt, formatCost } from '@/lib/cost-estimation'
+import { PageHeader } from '@/components/page-header'
 
 interface SimpleImage {
   id: string

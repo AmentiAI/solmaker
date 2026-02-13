@@ -174,10 +174,7 @@ export default function MarketplacePage() {
                           : 'border-transparent hover:bg-[#0a0a0a] hover:border-[#404040] text-[#808080] hover:text-white font-semibold'
                         }`}
                     >
-                      {option.label && (
-                        <div className="absolute inset-0 bg-[#D4AF37]/10" />
-                      )}
-                      <span className="relative z-10">{option.label}</span>
+                      {option.label}
                     </button>
                   ))}
                 </div>
