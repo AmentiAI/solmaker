@@ -185,28 +185,28 @@ export default function CollectionsPage() {
 
   if (loading || loadingCredits) {
     return (
-      <div className="min-h-screen bg-[#0D0D11] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent animate-spin" />
       </div>
     )
   }
 
   if (isConnected && currentAddress && (credits === null || credits === 0)) {
     return (
-      <div className="min-h-screen bg-[#0D0D11] flex items-center justify-center p-6">
-        <div className="max-w-md bg-[#121218] border-2 border-[#9945FF]/30 rounded-2xl p-8 text-center">
-          <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-[#9945FF] to-[#DC1FFF] rounded-2xl flex items-center justify-center">
-            <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-6">
+        <div className="max-w-md bg-[#1a1a1a] border-2 border-[#D4AF37] p-8 text-center">
+          <div className="w-20 h-20 mx-auto mb-6 bg-[#0a0a0a] border-2 border-[#D4AF37] flex items-center justify-center">
+            <svg className="w-10 h-10 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold text-white mb-4">No Credits Available</h2>
-          <p className="text-[#A1A1AA] mb-6">
+          <h2 className="text-3xl font-bold text-white mb-4 uppercase tracking-wide">NO CREDITS AVAILABLE</h2>
+          <p className="text-[#808080] mb-6">
             You need credits to access the collection management page.
           </p>
           <Link
             href="/"
-            className="inline-block px-8 py-3 bg-gradient-to-r from-[#9945FF] to-[#A855F7] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300"
+            className="inline-block px-8 py-3 bg-[#0a0a0a] border-2 border-[#D4AF37] text-[#D4AF37] font-semibold uppercase tracking-wide hover:bg-[#D4AF37] hover:text-black transition-all duration-300"
           >
             Purchase Credits
           </Link>
@@ -216,15 +216,15 @@ export default function CollectionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D11]">
+    <div className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Header - NEW Professional */}
-      <div className="relative bg-gradient-to-br from-[#121218] to-[#1A1A22] border-b border-[#9945FF]/20">
+      <div className="relative bg-[#1a1a1a] border-b border-[#404040]">
         <div className="container mx-auto px-6 py-12">
           <div className="max-w-4xl">
-            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4">
-              My Collections
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 uppercase tracking-wide">
+              MY COLLECTIONS
             </h1>
-            <p className="text-xl text-[#A1A1AA]">
+            <p className="text-xl text-[#808080]">
               Manage and organize your NFT collections
             </p>
           </div>
@@ -238,21 +238,20 @@ export default function CollectionsPage() {
             href="/collections/create"
             className="block mb-12 group"
           >
-            <div className="relative overflow-hidden bg-gradient-to-r from-[#9945FF] to-[#14F195] rounded-2xl p-12 text-center transition-all duration-300 group-hover:scale-105 shadow-2xl shadow-[#9945FF]/30">
-              <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+            <div className="relative overflow-hidden bg-[#0a0a0a] border-2 border-[#D4AF37] p-12 text-center transition-all duration-300 group-hover:bg-[#D4AF37]">
               <div className="relative z-10">
                 <div className="text-6xl mb-4">✨</div>
-                <h2 className="text-3xl font-bold text-white mb-2">Create New Collection</h2>
-                <p className="text-xl text-white/90">Start building your NFT collection today</p>
+                <h2 className="text-3xl font-bold text-white mb-2 uppercase tracking-wide group-hover:text-black transition-colors duration-300">Create New Collection</h2>
+                <p className="text-xl text-[#808080] group-hover:text-black transition-colors duration-300">Start building your NFT collection today</p>
               </div>
             </div>
           </Link>
 
           {/* Search and Filter Bar - NEW Professional */}
-          <div className="bg-[#121218] border border-[#9945FF]/20 rounded-xl p-6 mb-8">
+          <div className="bg-[#1a1a1a] border border-[#404040] p-6 mb-8">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 relative">
-                <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#808080]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input
@@ -260,26 +259,26 @@ export default function CollectionsPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search collections..."
-                  className="w-full pl-12 pr-4 py-3 bg-[#1A1A22] border-2 border-[#9945FF]/20 focus:border-[#9945FF] focus:ring-4 focus:ring-[#9945FF]/20 text-white placeholder:text-[#71717A] rounded-xl transition-all duration-300 outline-none"
+                  className="w-full pl-12 pr-4 py-3 bg-[#0a0a0a] border-2 border-[#404040] focus:border-[#D4AF37] text-white placeholder:text-[#808080] transition-all duration-300 outline-none"
                 />
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => setActiveTab('collections')}
-                  className={`px-6 py-3 font-semibold rounded-xl transition-all duration-300 ${
+                  className={`px-6 py-3 font-semibold uppercase tracking-wide transition-all duration-300 ${
                     activeTab === 'collections'
-                      ? 'bg-gradient-to-r from-[#9945FF] to-[#A855F7] text-white shadow-lg shadow-[#9945FF]/30'
-                      : 'bg-[#1A1A22] text-[#A1A1AA] hover:text-white'
+                      ? 'bg-[#D4AF37] text-black'
+                      : 'bg-[#0a0a0a] border-2 border-[#404040] text-[#808080] hover:text-white hover:border-[#D4AF37]'
                   }`}
                 >
                   My Collections ({ownedCollections.length})
                 </button>
                 <button
                   onClick={() => setActiveTab('collabs')}
-                  className={`px-6 py-3 font-semibold rounded-xl transition-all duration-300 ${
+                  className={`px-6 py-3 font-semibold uppercase tracking-wide transition-all duration-300 ${
                     activeTab === 'collabs'
-                      ? 'bg-gradient-to-r from-[#9945FF] to-[#A855F7] text-white shadow-lg shadow-[#9945FF]/30'
-                      : 'bg-[#1A1A22] text-[#A1A1AA] hover:text-white'
+                      ? 'bg-[#D4AF37] text-black'
+                      : 'bg-[#0a0a0a] border-2 border-[#404040] text-[#808080] hover:text-white hover:border-[#D4AF37]'
                   }`}
                 >
                   Collaborations ({collabCollections.length})
@@ -301,10 +300,10 @@ export default function CollectionsPage() {
                   <button
                     key={filter.value}
                     onClick={() => setStatusFilter(filter.value as any)}
-                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all duration-300 ${
+                    className={`px-4 py-2 font-medium whitespace-nowrap uppercase tracking-wide transition-all duration-300 ${
                       statusFilter === filter.value
-                        ? 'bg-gradient-to-r from-[#9945FF]/20 to-[#14F195]/20 border border-[#9945FF]/30 text-white'
-                        : 'bg-[#1A1A22] text-[#A1A1AA] hover:text-white'
+                        ? 'bg-[#0a0a0a] border-2 border-[#D4AF37] text-[#D4AF37]'
+                        : 'bg-[#0a0a0a] border border-[#404040] text-[#808080] hover:text-white hover:border-[#D4AF37]'
                     }`}
                   >
                     {filter.label}
@@ -316,16 +315,16 @@ export default function CollectionsPage() {
 
           {/* Collections Grid - NEW Professional Cards */}
           {filteredCollections.length === 0 ? (
-            <div className="bg-[#121218] border border-[#9945FF]/20 rounded-2xl p-12 text-center">
+            <div className="bg-[#1a1a1a] border-2 border-[#404040] p-12 text-center">
               <div className="text-6xl mb-4">🎨</div>
-              <h2 className="text-2xl font-bold text-white mb-2">No Collections Found</h2>
-              <p className="text-[#A1A1AA] mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide">NO COLLECTIONS FOUND</h2>
+              <p className="text-[#808080] mb-6">
                 {searchQuery ? 'Try adjusting your search' : 'Create your first collection to get started'}
               </p>
               {!searchQuery && (
                 <Link
                   href="/collections/create"
-                  className="inline-block px-8 py-3 bg-gradient-to-r from-[#9945FF] to-[#A855F7] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300"
+                  className="inline-block px-8 py-3 bg-[#0a0a0a] border-2 border-[#D4AF37] text-[#D4AF37] font-semibold uppercase tracking-wide hover:bg-[#D4AF37] hover:text-black transition-all duration-300"
                 >
                   Create Collection
                 </Link>
@@ -336,10 +335,10 @@ export default function CollectionsPage() {
               {filteredCollections.map((collection) => (
                 <div
                   key={collection.id}
-                  className="bg-[#121218] border-2 border-[#9945FF]/20 rounded-2xl overflow-hidden hover:border-[#9945FF]/40 transition-all duration-300 hover:scale-105 group"
+                  className="bg-[#1a1a1a] border-2 border-[#404040] overflow-hidden hover:border-[#D4AF37] transition-all duration-300 group"
                 >
                   {/* Collection Image */}
-                  <div className="relative aspect-video bg-gradient-to-br from-[#9945FF]/20 to-[#14F195]/20 overflow-hidden">
+                  <div className="relative aspect-video bg-[#0a0a0a] overflow-hidden">
                     {thumbnails[collection.id] || collection.banner_image_url || collection.mobile_image_url ? (
                       <img
                         src={thumbnails[collection.id] || collection.banner_image_url || collection.mobile_image_url}
@@ -350,17 +349,17 @@ export default function CollectionsPage() {
                       <div className="w-full h-full flex items-center justify-center">
                         <div className="text-center">
                           <div className="text-6xl mb-2 opacity-50">🎨</div>
-                          <p className="text-[#A1A1AA] text-sm font-semibold">No Preview</p>
+                          <p className="text-[#808080] text-sm font-semibold uppercase tracking-wide">No Preview</p>
                         </div>
                       </div>
                     )}
                     {/* Status Badge Overlay */}
                     <div className="absolute top-4 right-4">
-                      <span className={`px-3 py-1.5 text-xs font-bold rounded-full backdrop-blur-sm ${
-                        collection.status === 'draft' ? 'bg-[#71717A]/80 text-white' :
-                        collection.status === 'launchpad' || collection.status === 'launchpad_live' ? 'bg-[#9945FF]/80 text-white' :
-                        collection.status === 'marketplace' ? 'bg-[#14F195]/80 text-white' :
-                        'bg-[#00D4FF]/80 text-white'
+                      <span className={`px-3 py-1.5 text-xs font-bold uppercase tracking-wide backdrop-blur-sm ${
+                        collection.status === 'draft' ? 'bg-[#808080]/80 text-white border border-white/20' :
+                        collection.status === 'launchpad' || collection.status === 'launchpad_live' ? 'bg-[#D4AF37]/80 text-black border border-black/20' :
+                        collection.status === 'marketplace' ? 'bg-[#D4AF37]/80 text-black border border-black/20' :
+                        'bg-[#D4AF37]/80 text-black border border-black/20'
                       }`}>
                         {collection.status === 'draft' && '📝 Draft'}
                         {(collection.status === 'launchpad' || collection.status === 'launchpad_live') && '🚀 Launchpad'}
@@ -372,17 +371,17 @@ export default function CollectionsPage() {
                   </div>
 
                   {/* Collection Header */}
-                  <div className="p-6 border-b border-[#9945FF]/20">
+                  <div className="p-6 border-b border-[#404040]">
                     <div className="mb-3">
-                      <h3 className="text-xl font-bold text-white mb-2">{collection.name}</h3>
+                      <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">{collection.name}</h3>
                       {collection.total_ordinals !== undefined && (
-                        <p className="text-sm text-[#9945FF] font-semibold">
+                        <p className="text-sm text-[#D4AF37] font-semibold uppercase tracking-wide">
                           {collection.total_ordinals} {collection.total_ordinals === 1 ? 'Item' : 'Items'}
                         </p>
                       )}
                     </div>
                     {collection.description && (
-                      <p className="text-sm text-[#A1A1AA] line-clamp-2">{collection.description}</p>
+                      <p className="text-sm text-[#808080] line-clamp-2">{collection.description}</p>
                     )}
                   </div>
 
@@ -390,7 +389,7 @@ export default function CollectionsPage() {
                   <div className="p-6 space-y-2">
                     <Link
                       href={`/collections/${collection.id}`}
-                      className="block w-full px-4 py-3 bg-gradient-to-r from-[#9945FF] to-[#A855F7] hover:from-[#7C3AED] hover:to-[#9945FF] text-white font-semibold rounded-xl text-center transition-all duration-300 hover:scale-105"
+                      className="block w-full px-4 py-3 bg-[#D4AF37] text-black font-semibold uppercase tracking-wide text-center transition-all duration-300 hover:bg-[#0a0a0a] hover:text-[#D4AF37] border-2 border-[#D4AF37]"
                     >
                       View Collection
                     </Link>
@@ -398,13 +397,13 @@ export default function CollectionsPage() {
                       <>
                         <Link
                           href={`/collections/${collection.id}/edit`}
-                          className="block w-full px-4 py-3 bg-[#1A1A22] border border-[#9945FF]/20 hover:border-[#9945FF]/40 text-white font-semibold rounded-xl text-center transition-all duration-300"
+                          className="block w-full px-4 py-3 bg-[#0a0a0a] border-2 border-[#404040] hover:border-[#D4AF37] text-white font-semibold uppercase tracking-wide text-center transition-all duration-300"
                         >
                           Edit Settings
                         </Link>
                         <button
                           onClick={() => handleDeleteClick(collection.id, collection.name)}
-                          className="w-full px-4 py-3 bg-[#1A1A22] border border-red-500/20 hover:border-red-500/40 text-[#EF4444] font-semibold rounded-xl transition-all duration-300"
+                          className="w-full px-4 py-3 bg-[#0a0a0a] border-2 border-red-500/40 hover:border-red-500 text-[#EF4444] font-semibold uppercase tracking-wide transition-all duration-300"
                         >
                           Delete
                         </button>
