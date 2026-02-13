@@ -28,13 +28,13 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   
   // New layout with left sidebar
   return (
-    <div className="flex min-h-screen overflow-x-hidden">
+    <div className="flex min-h-screen overflow-x-hidden bg-[#0a0a0a]">
       {/* Left Sidebar */}
       <SidebarNav />
-      
-      {/* Main Content Area - Full width with proper padding */}
+
+      {/* Main Content Area - Full width no padding */}
       <div className="flex-1 flex flex-col lg:ml-80 w-full">
-        <main className="flex-1 overflow-x-hidden w-full px-6 lg:px-12 py-6">
+        <main className="flex-1 overflow-x-hidden w-full">
           {children}
         </main>
         <GlobalFooter />
