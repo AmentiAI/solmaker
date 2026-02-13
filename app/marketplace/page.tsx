@@ -252,17 +252,17 @@ export default function MarketplacePage() {
               )}
             </div>
 
-            {/* Premium NFT Grid - Revolutionary Cards */}
+            {/* Premium NFT Grid - Matte Black/Gold Cards */}
             {loading ? (
               <div className="flex flex-col items-center justify-center py-32">
-                <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin cyber-glow mb-6" />
-                <p className="text-xl font-bold text-[#B4B4C8]">Loading NFTs...</p>
+                <div className="w-16 h-16 border-4 border-[#D4AF37] border-t-transparent animate-spin mb-6" />
+                <p className="text-xl font-bold text-[#808080]">Loading NFTs...</p>
               </div>
             ) : filteredListings.length === 0 ? (
-              <div className="glass-card border-2 border-[#9945FF]/40 rounded-3xl p-16 text-center">
-                <div className="text-8xl mb-6 animate-bounce">💎</div>
-                <h2 className="text-4xl font-black text-white mb-4">No NFTs Found</h2>
-                <p className="text-xl text-[#B4B4C8] font-semibold mb-8">
+              <div className="bg-[#1a1a1a] border-2 border-[#404040] p-16 text-center">
+                <div className="text-8xl mb-6">💎</div>
+                <h2 className="text-4xl font-black text-white mb-4 uppercase tracking-wide">No NFTs Found</h2>
+                <p className="text-xl text-[#808080] font-semibold mb-8">
                   Try adjusting your filters or search query
                 </p>
               </div>
@@ -274,9 +274,9 @@ export default function MarketplacePage() {
                     href={`/marketplace/nft/${listing.id}`}
                     className="group"
                   >
-                    <div className="glass-card-hover border-2 border-[#9945FF]/30 rounded-2xl overflow-hidden hover:border-[#9945FF] transition-all duration-500 transform-3d hover-lift">
+                    <div className="bg-[#1a1a1a] border-2 border-[#404040] overflow-hidden hover:border-[#D4AF37] transition-all duration-500">
                       {/* Premium Image with overlay */}
-                      <div className="aspect-square bg-gradient-to-br from-[#9945FF]/20 via-[#DC1FFF]/15 to-[#14F195]/20 relative overflow-hidden">
+                      <div className="aspect-square bg-[#0a0a0a] relative overflow-hidden">
                         {listing.image_url ? (
                           <img
                             src={listing.image_url}
@@ -291,24 +291,24 @@ export default function MarketplacePage() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                         {/* Premium badge */}
-                        <div className="absolute top-4 right-4 px-3 py-1.5 glass-card border border-[#14F195]/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                          <span className="text-xs font-black text-[#14F195]">VIEW</span>
+                        <div className="absolute top-4 right-4 px-3 py-1.5 bg-[#0a0a0a] border border-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                          <span className="text-xs font-black text-[#D4AF37] tracking-wider uppercase">VIEW</span>
                         </div>
                       </div>
 
                       {/* Premium Info */}
                       <div className="p-5 space-y-3 relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#9945FF]/5 to-[#14F195]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <h3 className="text-lg font-black text-white truncate relative z-10">
+                        <div className="absolute inset-0 bg-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <h3 className="text-lg font-black text-white truncate relative z-10 uppercase tracking-wide">
                           {listing.title || 'Solana NFT'}
                         </h3>
                         <div className="flex items-center justify-between relative z-10">
-                          <span className="text-sm font-bold text-[#B4B4C8]">Price</span>
+                          <span className="text-sm font-bold text-[#808080]">Price</span>
                           <div className="flex items-center gap-2">
-                            <span className="text-xl font-black text-[#14F195] drop-shadow-[0_0_10px_rgba(20,241,149,0.6)]">
+                            <span className="text-xl font-black text-[#D4AF37]">
                               {parseFloat(listing.price_sol).toFixed(2)}
                             </span>
-                            <span className="text-sm font-bold text-[#B4B4C8]">SOL</span>
+                            <span className="text-sm font-bold text-[#808080]">SOL</span>
                           </div>
                         </div>
                       </div>
@@ -321,13 +321,13 @@ export default function MarketplacePage() {
             {/* Pagination */}
             {filteredListings.length > 0 && (
               <div className="mt-12 flex items-center justify-center gap-2">
-                <button className="px-4 py-2 bg-[#121218] border border-[#9945FF]/20 text-white rounded-lg hover:border-[#9945FF]/40 transition-all">
+                <button className="px-4 py-2 bg-[#1a1a1a] border border-[#404040] text-white hover:border-[#D4AF37] transition-all">
                   Previous
                 </button>
-                <button className="px-4 py-2 bg-gradient-to-r from-[#9945FF] to-[#A855F7] text-white rounded-lg font-semibold">
+                <button className="px-4 py-2 bg-[#D4AF37] text-black font-semibold">
                   1
                 </button>
-                <button className="px-4 py-2 bg-[#121218] border border-[#9945FF]/20 text-white rounded-lg hover:border-[#9945FF]/40 transition-all">
+                <button className="px-4 py-2 bg-[#1a1a1a] border border-[#404040] text-white hover:border-[#D4AF37] transition-all">
                   Next
                 </button>
               </div>
