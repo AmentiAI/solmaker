@@ -77,7 +77,7 @@ export default function BuyCreditsPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="max-w-2xl mx-auto text-center px-6">
-          <div className="w-32 h-32 mx-auto mb-8 bg-[#1a1a1a] border-2 border-[#EF4444]/30 flex items-center justify-center">
+          <div className="w-32 h-32 mx-auto mb-8 bg-[#0a0a0a] border-2 border-[#D4AF37] flex items-center justify-center">
             <span className="text-6xl">⚠️</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-[#D4AF37] uppercase tracking-wide">
@@ -103,7 +103,7 @@ export default function BuyCreditsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Header */}
-      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12">
+      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12 mb-12">
 
         <div className="w-full py-12 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">

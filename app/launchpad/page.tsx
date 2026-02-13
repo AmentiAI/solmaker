@@ -197,7 +197,23 @@ export default function LaunchpadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen">
+      {/* Hero Header */}
+      <div className="relative bg-[#0a0a0a] text-white border-b border-[#404040] overflow-hidden -mx-6 lg:-mx-12 px-6 lg:px-12 mb-8">
+        <div className="w-full py-12 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+              <h1 className="text-5xl md:text-6xl font-extrabold tracking-wide text-[#D4AF37] mb-3 uppercase">
+                Launchpad
+              </h1>
+              <p className="text-[#808080] text-lg font-medium">
+                Discover and mint from the latest NFT collections on Solana
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Top Ticker Bar */}
       <LaunchpadTicker
         activeCollectionsCount={activeCollections.length}

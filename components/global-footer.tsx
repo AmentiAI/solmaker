@@ -6,7 +6,7 @@ export function GlobalFooter() {
   const enableRevenueShare = process.env.NEXT_PUBLIC_ENABLE_REVENUE_SHARE === 'true'
 
   return (
-    <footer className="bg-[#1a1a1a] text-[#808080] border-t border-[#D4AF37]/40 mt-auto">
+    <footer className="bg-[#0a0a0a] text-[#808080] border-t border-[#D4AF37]/20 mt-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand Section */}
