@@ -485,46 +485,51 @@ export default function LaunchpadPage() {
           <>
             {/* Completed Collections Section */}
             {completedCollections.length > 0 && (
-              <div className="pt-16">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-1 h-10 bg-[#D4AF37]" />
-                  <div>
-                    <h2 className="text-4xl font-black text-white uppercase">Completed Mints</h2>
-                    <p className="text-[#808080] mt-1 text-sm">{completedCollections.length} successful {completedCollections.length === 1 ? 'launch' : 'launches'} on our platform</p>
-                  </div>
+              <div className="pt-8">
+                <div className="flex items-center gap-3 mb-6 px-6">
+                  <div className="w-1 h-8 bg-[#D4AF37]" />
+                  <h2 className="text-2xl font-black text-white uppercase">Completed Mints</h2>
+                  <span className="text-xs text-[#808080] uppercase tracking-wider">
+                    {completedCollections.length} {completedCollections.length === 1 ? 'Collection' : 'Collections'}
+                  </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 px-6">
                   {completedCollections.map((collection) => {
                     const isSoldOut = collection.minted_count >= collection.total_supply
+                    const progress = (collection.minted_count / collection.total_supply) * 100
                     return (
                       <div
                         key={collection.id}
-                        className="group bg-[#1a1a1a] overflow-hidden border border-[#404040] hover:border-[#D4AF37] transition-all duration-300 cursor-pointer opacity-75 hover:opacity-100"
+                        className="group bg-[#1a1a1a] border border-[#404040] hover:border-[#D4AF37] transition-all cursor-pointer relative"
                         onClick={() => router.push(`/launchpad/${collection.id}`)}
                       >
+                        {/* Stats Overlay on Top */}
+                        <div className="absolute top-0 left-0 right-0 z-10 p-2 bg-gradient-to-b from-black/90 to-transparent">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs font-bold text-[#D4AF37]">{collection.mint_price} SOL</span>
+                            <span className="text-xs font-bold text-white">{collection.minted_count}/{collection.total_supply}</span>
+                          </div>
+                          <div className="h-0.5 bg-[#404040]">
+                            <div className="h-full bg-[#D4AF37]" style={{ width: `${progress}%` }} />
+                          </div>
+                        </div>
+
                         {/* Image */}
                         <div className="relative aspect-square bg-[#0a0a0a]">
                           <img
                             src={collection.image_url}
                             alt={collection.name}
-                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                            className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
                           />
-                          {/* Completed Badge */}
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                            <div className="px-4 py-2 bg-[#D4AF37] backdrop-blur-sm font-black text-xs text-black uppercase tracking-wider">
-                              {isSoldOut ? '✓ SOLD OUT' : '✓ COMPLETED'}
-                            </div>
-                          </div>
                         </div>
 
-                        {/* Info */}
-                        <div className="p-4">
-                          <h3 className="text-sm font-bold text-white mb-1 truncate uppercase">{collection.name}</h3>
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-[#808080]">{collection.mint_price} SOL</span>
-                            <span className="text-white font-bold">{collection.minted_count}/{collection.total_supply}</span>
-                          </div>
+                        {/* Title */}
+                        <div className="p-2 bg-[#1a1a1a] border-t border-[#404040]">
+                          <h3 className="text-xs font-bold text-white truncate uppercase">{collection.name}</h3>
+                          <p className="text-xs text-[#D4AF37] uppercase tracking-wider">
+                            {isSoldOut ? 'Sold Out' : 'Completed'}
+                          </p>
                         </div>
                       </div>
                     )
