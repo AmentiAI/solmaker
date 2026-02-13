@@ -153,7 +153,7 @@ export function SidebarNav() {
 
         {/* Credits Display - Separate Card Below Wallet */}
         {isConnected && credits !== null && (
-          <div className="px-6 pb-6">
+          <div className="px-6 pb-6 relative z-0">
             <div className="bg-[#1a1a1a] border border-[#D4AF37] p-4 relative overflow-hidden group hover:border-[#D4AF37] transition-all duration-200">
               <div className="relative z-10 flex items-center gap-4">
                 <div className="p-2 bg-[#0a0a0a] border border-[#D4AF37]/40">
