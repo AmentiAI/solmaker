@@ -134,8 +134,8 @@ export default function BuyCreditsPage() {
         </div>
       </div>
 
-      <div className="w-full py-12 bg-[#0a0a0a] px-6 lg:px-12">
-        <div className="max-w-5xl mx-auto space-y-8">
+      <div className="w-full py-12 bg-[#0a0a0a]">
+        <div className="max-w-5xl mx-auto space-y-8 px-6 lg:px-12">
 
           {/* Credit Purchase Component */}
           <CreditPurchase onPurchaseComplete={handlePurchaseComplete} />
