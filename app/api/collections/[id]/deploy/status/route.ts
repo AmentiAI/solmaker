@@ -19,14 +19,14 @@ export async function GET(
     const wallet_address = searchParams.get('wallet_address')
 
     const collections = await sql`
-      SELECT 
+      SELECT
         metadata_uploaded,
         collection_mint_address,
         candy_machine_address,
-        deployment_status
-      FROM collections 
+        deployment_status,
+        wallet_address
+      FROM collections
       WHERE id = ${collectionId}::uuid
-      ${wallet_address ? sql`AND wallet_address = ${wallet_address}` : sql``}
     ` as any[]
 
     if (!collections.length) {
@@ -34,6 +34,28 @@ export async function GET(
     }
 
     const collection = collections[0]
+
+    // If wallet address is provided, verify user is owner or collaborator
+    if (wallet_address) {
+      const isOwner = collection.wallet_address === wallet_address
+
+      let isCollaborator = false
+      if (!isOwner) {
+        const collaboratorResult = await sql`
+          SELECT role FROM collection_collaborators
+          WHERE collection_id = ${collectionId}::uuid
+            AND wallet_address = ${wallet_address.trim()}
+            AND status = 'accepted'
+            AND role IN ('owner', 'editor')
+        ` as any[]
+        isCollaborator = Array.isArray(collaboratorResult) && collaboratorResult.length > 0
+      }
+
+      // User must be owner or collaborator
+      if (!isOwner && !isCollaborator) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+      }
+    }
 
     return NextResponse.json({
       metadata_uploaded: !!collection.metadata_uploaded,

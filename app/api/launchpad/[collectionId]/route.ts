@@ -73,17 +73,37 @@ export async function GET(
       return NextResponse.json({ error: 'Collection not found' }, { status: 404 })
     }
 
-    // Check if collection is live - if not, return limited info
-    const cStatus = (collection as any)?.collection_status || 'draft'
+    // Check if user is owner or collaborator FIRST (before status checks)
+    const cAny = collection as any
+    const isOwner = walletAddress && cAny?.wallet_address === walletAddress
+
+    // Check if user is a collaborator with editor/owner role
+    let isCollaborator = false
+    if (walletAddress && !isOwner) {
+      const collaboratorResult = await sql`
+        SELECT role FROM collection_collaborators
+        WHERE collection_id = ${collectionId}
+          AND wallet_address = ${walletAddress.trim()}
+          AND status = 'accepted'
+          AND role IN ('owner', 'editor')
+      ` as any[]
+      isCollaborator = Array.isArray(collaboratorResult) && collaboratorResult.length > 0
+    }
+
+    // Owners and collaborators can access collections in any status
+    const hasEditAccess = isOwner || isCollaborator
+
+    // Check if collection is live - if not, return limited info (unless user has edit access)
+    const cStatus = cAny?.collection_status || 'draft'
     const isLive = cStatus === 'launchpad_live'
     const isLaunchpadReady = cStatus === 'launchpad' || cStatus === 'launchpad_live'
     const isSelfInscribe = cStatus === 'self_inscribe' || cStatus === 'draft'
     const isMarketplace = cStatus === 'marketplace'
-    
-    // Allow draft, self_inscribe, and marketplace collections
-    // Only block if it's not launchpad, launchpad_live, draft, self_inscribe, or marketplace
-    if (!isLaunchpadReady && !isSelfInscribe && !isMarketplace) {
-      return NextResponse.json({ 
+
+    // Allow draft, self_inscribe, and marketplace collections for public
+    // But allow owners/collaborators to access in any status
+    if (!hasEditAccess && !isLaunchpadReady && !isSelfInscribe && !isMarketplace) {
+      return NextResponse.json({
         error: 'Collection not available',
         message: 'This collection is not currently available on the launchpad.',
         collection_status: cStatus
@@ -136,22 +156,7 @@ export async function GET(
     `
     const whitelists = Array.isArray(whitelistsResult) ? whitelistsResult : []
 
-    // Check if user is owner
-    const cAny = collection as any
-    const isOwner = walletAddress && cAny?.wallet_address === walletAddress
-
-    // Check if user is a collaborator with editor/owner role
-    let isCollaborator = false
-    if (walletAddress && !isOwner) {
-      const collaboratorResult = await sql`
-        SELECT role FROM collection_collaborators
-        WHERE collection_id = ${collectionId}
-          AND wallet_address = ${walletAddress.trim()}
-          AND status = 'accepted'
-          AND role IN ('owner', 'editor')
-      ` as any[]
-      isCollaborator = Array.isArray(collaboratorResult) && collaboratorResult.length > 0
-    }
+    // Note: isOwner and isCollaborator were already checked earlier in the function
 
     // Get user's whitelist status if logged in
     let userWhitelistStatus = null

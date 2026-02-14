@@ -22,18 +22,36 @@ export async function POST(
     const body = await request.json()
     const { wallet_address } = body
 
-    // Verify collection
+    // Verify collection exists and user owns it or is a collaborator
     const collections = await sql`
-      SELECT * FROM collections 
-      WHERE id = ${collectionId}::uuid 
-      AND wallet_address = ${wallet_address}
+      SELECT * FROM collections
+      WHERE id = ${collectionId}::uuid
     ` as any[]
 
     if (!collections.length) {
-      return NextResponse.json({ error: 'Collection not found or unauthorized' }, { status: 404 })
+      return NextResponse.json({ error: 'Collection not found' }, { status: 404 })
     }
 
     const collection = collections[0]
+    const isOwner = collection.wallet_address === wallet_address
+
+    // Check if user is a collaborator with editor/owner role
+    let isCollaborator = false
+    if (!isOwner) {
+      const collaboratorResult = await sql`
+        SELECT role FROM collection_collaborators
+        WHERE collection_id = ${collectionId}::uuid
+          AND wallet_address = ${wallet_address.trim()}
+          AND status = 'accepted'
+          AND role IN ('owner', 'editor')
+      ` as any[]
+      isCollaborator = Array.isArray(collaboratorResult) && collaboratorResult.length > 0
+    }
+
+    // User must be owner or collaborator
+    if (!isOwner && !isCollaborator) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    }
 
     // Check metadata is uploaded
     if (!collection.metadata_uploaded) {
