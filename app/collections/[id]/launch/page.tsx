@@ -220,12 +220,12 @@ export default function CollectionLaunchPage() {
   const handleSaveSettings = async () => {
     const trimmedCreatorWallet = creatorRoyaltyWallet?.trim() || ''
     const trimmedBannerUrl = bannerUrl?.trim() || ''
-    
+
     if (!trimmedCreatorWallet) {
       toast.error('Validation Error', { description: 'Please enter a Creator Payment Wallet (Solana Address) before saving.' })
       return
     }
-    
+
     if (!trimmedBannerUrl) {
       toast.error('Validation Error', { description: 'Please upload a Banner Image before saving.' })
       return
@@ -238,12 +238,21 @@ export default function CollectionLaunchPage() {
       return
     }
 
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }
@@ -320,12 +329,21 @@ export default function CollectionLaunchPage() {
       }
     }
 
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }
@@ -404,12 +422,21 @@ export default function CollectionLaunchPage() {
       return
     }
 
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }
@@ -515,13 +542,22 @@ export default function CollectionLaunchPage() {
 
   const handleDeletePhase = async (phaseId: string) => {
     if (!currentAddress) return
-    
+
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }
@@ -596,12 +632,21 @@ export default function CollectionLaunchPage() {
   const handleDeleteWhitelist = async (whitelistId: string) => {
     if (!currentAddress) return
 
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }
@@ -639,13 +684,22 @@ export default function CollectionLaunchPage() {
       toast.error('Please connect your wallet')
       return
     }
-    
+
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }
@@ -682,13 +736,22 @@ export default function CollectionLaunchPage() {
       toast.error('Please connect your wallet')
       return
     }
-    
+
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }
@@ -701,7 +764,7 @@ export default function CollectionLaunchPage() {
           collection_status: 'launchpad',
         }),
       })
-      
+
       if (response.ok) {
         toast.success('Live mint ended. Collection is no longer visible on launchpad.')
         loadData()
@@ -763,12 +826,21 @@ export default function CollectionLaunchPage() {
       return
     }
 
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }
@@ -806,12 +878,21 @@ export default function CollectionLaunchPage() {
       return
     }
 
+    if (!signMessage) {
+      toast.error('Wallet signing not available', {
+        description: 'Please disconnect and reconnect your wallet, then try again.'
+      })
+      return
+    }
+
     setSaving(true)
     try {
       // Generate signed authentication
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
-        toast.error('Failed to sign request. Please ensure your wallet is connected.')
+        toast.error('Failed to sign request', {
+          description: 'Please ensure your wallet is unlocked and connected, then try again.'
+        })
         setSaving(false)
         return
       }

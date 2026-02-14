@@ -153,12 +153,11 @@ export async function POST(
 
     // Normalize wallet address (trim and ensure consistent format)
     const normalizedWalletAddress = targetWalletAddress.trim();
-    
+
     // Create collaborator entry with pending status
-    const collaboratorId = `collab-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    // Let database generate UUID automatically with DEFAULT gen_random_uuid()
     const result = await sql`
       INSERT INTO collection_collaborators (
-        id,
         collection_id,
         wallet_address,
         role,
@@ -166,7 +165,6 @@ export async function POST(
         status
       )
       VALUES (
-        ${collaboratorId},
         ${collectionId},
         ${normalizedWalletAddress},
         ${collaboratorRole},
@@ -175,15 +173,15 @@ export async function POST(
       )
       RETURNING id, collection_id, wallet_address, role, invited_by, status, created_at
     `;
-    
+
+    const collaborator = Array.isArray(result) ? result[0] : result;
+
     console.log('[Collaborators API] Created collaborator:', {
-      id: collaboratorId,
+      id: collaborator?.id,
       collection_id: collectionId,
       wallet_address: normalizedWalletAddress,
       role: collaboratorRole
     });
-
-    const collaborator = Array.isArray(result) ? result[0] : result;
 
     return NextResponse.json({ collaborator }, { status: 201 });
   } catch (error: any) {
