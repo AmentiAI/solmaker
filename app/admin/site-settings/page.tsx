@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 
 export default function SiteSettingsPage() {
   const { currentAddress } = useWallet()
@@ -13,7 +13,7 @@ export default function SiteSettingsPage() {
   const [success, setSuccess] = useState<string | null>(null)
 
   const activeWalletAddress = currentAddress
-  const authorized = activeWalletAddress ? isAdmin(activeWalletAddress) : false
+  const { isAdmin: authorized, loading: adminLoading } = useAdminCheck(activeWalletAddress || null)
 
   useEffect(() => {
     if (activeWalletAddress && authorized) {
@@ -78,10 +78,18 @@ export default function SiteSettingsPage() {
     }
   }
 
+  if (adminLoading) {
+    return (
+      <div className="p-8">
+        <div className="text-center text-[#b4b4c8]">Checking access...</div>
+      </div>
+    )
+  }
+
   if (!authorized) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-        <div className="flex items-center justify-center min-h-screen">
+      <div className="p-8">
+        <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] to-[#FFD60A] bg-clip-text text-transparent mb-4">Access Denied</h1>
             <p className="text-[#b4b4c8]">You must be an admin to access this page.</p>
