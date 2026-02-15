@@ -32,7 +32,7 @@ function utcToLocalDatetime(utcString: string): string {
 export default function CollectionLaunchPage() {
   const params = useParams()
   const router = useRouter()
-  const { currentAddress, isConnected, signMessage } = useWallet()
+  const { currentAddress, isConnected, signMessage, connect } = useWallet()
   const collectionId = params.id as string
 
   const [mounted, setMounted] = useState(false)
@@ -675,21 +675,35 @@ export default function CollectionLaunchPage() {
   }
 
   const handleLaunch = async () => {
-    if (!currentAddress) {
-      toast.error('Please connect your wallet')
-      return
-    }
-
-    if (!signMessage) {
-      toast.error('Wallet signing not available', {
-        description: 'Please disconnect and reconnect your wallet, then try again.'
-      })
+    if (!currentAddress || !isConnected) {
+      try {
+        await connect(null)
+      } catch {
+        // ignore connect errors
+      }
+      toast.error('Please connect your wallet first')
       return
     }
 
     try {
+      // If signMessage isn't available, try reconnecting to trigger wallet unlock
+      let signer = signMessage
+      if (!signer) {
+        try {
+          await connect(null)
+          // Small delay for adapter to update
+          await new Promise(r => setTimeout(r, 500))
+        } catch {
+          // ignore
+        }
+        toast.error('Wallet not ready', {
+          description: 'Please unlock your wallet and try again.'
+        })
+        return
+      }
+
       // No setState before wallet popup — re-renders kill the popup
-      const auth = await generateApiAuth(currentAddress, signMessage)
+      const auth = await generateApiAuth(currentAddress, signer)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'

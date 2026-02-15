@@ -53,7 +53,10 @@ export async function GET(
 
     const settingsMap: Record<string, string> = {}
     for (const s of networkSettings) {
-      const val = typeof s.setting_value === 'string' ? JSON.parse(s.setting_value) : s.setting_value
+      let val = s.setting_value
+      if (typeof val === 'string') {
+        try { val = JSON.parse(val) } catch { /* plain string, use as-is */ }
+      }
       settingsMap[s.setting_key] = val
     }
 
