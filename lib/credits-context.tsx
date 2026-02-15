@@ -5,7 +5,8 @@ import { createContext, useContext, useState, useCallback, useEffect, ReactNode 
 interface CreditsContextType {
   credits: number | null
   loading: boolean
-  loadCredits: (walletAddress: string) => Promise<void>
+  loadCredits: (walletAddress: string, force?: boolean) => Promise<void>
+  addCreditsLocally: (amount: number) => void
   clearCredits: () => void
 }
 
@@ -13,6 +14,7 @@ const CreditsContext = createContext<CreditsContextType>({
   credits: null,
   loading: false,
   loadCredits: async () => {},
+  addCreditsLocally: () => {},
   clearCredits: () => {},
 })
 
@@ -21,9 +23,9 @@ export function CreditsProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
   const [lastWallet, setLastWallet] = useState<string | null>(null)
 
-  const loadCredits = useCallback(async (walletAddress: string) => {
-    // Don't reload if already loaded for this wallet
-    if (lastWallet === walletAddress && credits !== null) {
+  const loadCredits = useCallback(async (walletAddress: string, force?: boolean) => {
+    // Don't reload if already loaded for this wallet (unless forced)
+    if (!force && lastWallet === walletAddress && credits !== null) {
       return
     }
 
@@ -45,6 +47,11 @@ export function CreditsProvider({ children }: { children: ReactNode }) {
     }
   }, [lastWallet, credits])
 
+  // Instantly update credit display without an API call
+  const addCreditsLocally = useCallback((amount: number) => {
+    setCredits(prev => (prev ?? 0) + amount)
+  }, [])
+
   const clearCredits = useCallback(() => {
     setCredits(null)
     setLastWallet(null)
@@ -65,7 +72,7 @@ export function CreditsProvider({ children }: { children: ReactNode }) {
   }, [lastWallet])
 
   return (
-    <CreditsContext.Provider value={{ credits, loading, loadCredits, clearCredits }}>
+    <CreditsContext.Provider value={{ credits, loading, loadCredits, addCreditsLocally, clearCredits }}>
       {children}
     </CreditsContext.Provider>
   )

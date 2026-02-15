@@ -10,7 +10,7 @@ import { CreditPurchaseModal } from '@/components/credit-purchase-modal'
 import { getSolscanUrl } from '@/lib/solscan'
 
 interface CreditPurchaseProps {
-  onPurchaseComplete?: () => void
+  onPurchaseComplete?: (creditsAwarded?: number) => void
 }
 
 interface HolderStatus {
@@ -268,7 +268,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
             setPaymentStatus(verifyData)
             if (verifyData.status === 'completed') {
               completed = true
-              onPurchaseComplete?.()
+              onPurchaseComplete?.(verifyData.creditsAwarded || paymentData.creditsAmount)
               break
             }
           }
@@ -335,7 +335,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
           const data = await response.json()
           setPaymentStatus(data)
           if (data.status === 'completed') {
-            onPurchaseComplete?.()
+            onPurchaseComplete?.(data.creditsAwarded || paymentInfo.creditsAmount)
             if (interval) clearInterval(interval)
             return
           }

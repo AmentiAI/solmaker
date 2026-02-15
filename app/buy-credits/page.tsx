@@ -9,7 +9,7 @@ import Link from 'next/link'
 
 export default function BuyCreditsPage() {
   const { isConnected, currentAddress } = useWallet()
-  const { credits, loading: loadingCredits, loadCredits } = useCredits()
+  const { credits, loading: loadingCredits, loadCredits, addCreditsLocally } = useCredits()
   const [showCreditPurchase, setShowCreditPurchase] = useState(true)
 
   // Determine active wallet (Bitcoin only)
@@ -40,10 +40,14 @@ export default function BuyCreditsPage() {
     }
   }, [activeWalletConnected, activeWalletAddress, loadCredits])
 
-  const handlePurchaseComplete = () => {
-    // Reload credits after purchase
+  const handlePurchaseComplete = (creditsAwarded?: number) => {
+    if (creditsAwarded && creditsAwarded > 0) {
+      // Instant local update — balance shows new total immediately
+      addCreditsLocally(creditsAwarded)
+    }
+    // Also fetch from server to confirm exact amount
     if (activeWalletAddress) {
-      loadCredits(activeWalletAddress)
+      loadCredits(activeWalletAddress, true)
     }
   }
 
