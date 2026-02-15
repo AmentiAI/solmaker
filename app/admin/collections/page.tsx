@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import Link from 'next/link'
 
 interface Collection {
@@ -44,7 +44,7 @@ interface Collection {
 export default function AdminCollectionsPage() {
   const router = useRouter()
   const { isConnected, currentAddress } = useWallet()
-  const isAdminUser = isAdmin(currentAddress)
+  const { isAdmin: isAdminUser } = useAdminCheck(currentAddress || null)
 
   const [collections, setCollections] = useState<Collection[]>([])
   const [loading, setLoading] = useState(true)

@@ -712,7 +712,7 @@ export default function CollectionLaunchPage() {
         toast.success(data.message || 'Collection launched!')
         setShowLaunchConfirm(false)
         loadData()
-        router.push(`/${collectionId}`)
+        router.push(`/launchpad/${collectionId}`)
       } else {
         const err = await response.json()
         toast.error('Error', { description: err.error || 'Failed to launch collection' })
@@ -980,7 +980,7 @@ export default function CollectionLaunchPage() {
               <Link href="/collections" className="px-6 py-3 bg-[#4561ad] hover:bg-[#3a5294] text-white rounded-lg font-semibold transition-colors">
                 Go to Collections
               </Link>
-              <Link href={`/${collectionId}`} className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#9945FF]/30">
+              <Link href={`/launchpad/${collectionId}`} className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-colors border border-[#9945FF]/30">
                 View on Launchpad
               </Link>
             </div>

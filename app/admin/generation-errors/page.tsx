@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import { WalletConnect } from '@/components/wallet-connect'
 
 interface GenerationError {
@@ -42,7 +42,7 @@ export default function AdminGenerationErrorsPage() {
   const [errorTypeFilter, setErrorTypeFilter] = useState<string>('all')
   const [expandedErrors, setExpandedErrors] = useState<Set<string>>(new Set())
 
-  const authorized = isAdmin(currentAddress || null)
+  const { isAdmin: authorized } = useAdminCheck(currentAddress || null)
 
   useEffect(() => {
     if (currentAddress && authorized) {

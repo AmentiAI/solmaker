@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import Link from 'next/link'
 
 interface CollectionStat {
@@ -23,7 +23,7 @@ interface CollectionStat {
 
 export default function AdminLaunchpadCollectionsPage() {
   const { isConnected, currentAddress } = useWallet()
-  const isAdminUser = isAdmin(currentAddress)
+  const { isAdmin: isAdminUser } = useAdminCheck(currentAddress || null)
 
   const [collections, setCollections] = useState<CollectionStat[]>([])
   const [loading, setLoading] = useState(true)

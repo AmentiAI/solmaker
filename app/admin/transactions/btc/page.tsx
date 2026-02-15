@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import { WalletConnect } from '@/components/wallet-connect'
 import Link from 'next/link'
 
@@ -39,7 +39,7 @@ export default function BitcoinTransactionsPage() {
   const [error, setError] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState(false)
 
-  const authorized = isAdmin(currentAddress || null)
+  const { isAdmin: authorized } = useAdminCheck(currentAddress || null)
 
   useEffect(() => {
     if (isConnected && authorized) {

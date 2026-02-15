@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import Link from 'next/link'
 
 interface OrdinalToken {
@@ -25,7 +25,7 @@ interface OrdinalToken {
 
 export default function MagicEdenCheckerPage() {
   const { isConnected, currentAddress } = useWallet()
-  const authorized = isAdmin(currentAddress || null)
+  const { isAdmin: authorized } = useAdminCheck(currentAddress || null)
 
   const [walletAddress, setWalletAddress] = useState('')
   const [collectionSlug, setCollectionSlug] = useState('ordmaker')

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import Link from 'next/link'
 
 interface PendingInscription {
@@ -29,7 +29,7 @@ interface PendingInscription {
 
 export default function AdminLaunchpadPendingRevealsPage() {
   const { isConnected, currentAddress } = useWallet()
-  const isAdminUser = isAdmin(currentAddress)
+  const { isAdmin: isAdminUser } = useAdminCheck(currentAddress || null)
 
   const [inscriptions, setInscriptions] = useState<PendingInscription[]>([])
   const [loading, setLoading] = useState(true)

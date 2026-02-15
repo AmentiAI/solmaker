@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import Link from 'next/link'
 
 interface Holder {
@@ -29,7 +29,7 @@ interface RevenueData {
 
 export default function AdminCommunityPayoutsPage() {
   const { isConnected, currentAddress } = useWallet()
-  const isAdminUser = isAdmin(currentAddress)
+  const { isAdmin: isAdminUser } = useAdminCheck(currentAddress || null)
 
   const [revenueData, setRevenueData] = useState<RevenueData | null>(null)
   const [loading, setLoading] = useState(true)

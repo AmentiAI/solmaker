@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import Link from 'next/link'
 import { toast } from 'sonner'
 
@@ -102,7 +102,7 @@ export default function MarketplaceAdminPage() {
   const [savingListing, setSavingListing] = useState(false)
   const [cancellingListing, setCancellingListing] = useState<string | null>(null)
 
-  const authorized = isAdmin(currentAddress || null)
+  const { isAdmin: authorized } = useAdminCheck(currentAddress || null)
 
   useEffect(() => {
     if (authorized && currentAddress) {

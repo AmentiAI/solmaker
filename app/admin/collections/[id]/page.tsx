@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import { toast } from 'sonner'
 
 interface Collection {
@@ -37,7 +37,7 @@ export default function AdminCollectionEditPage() {
   const params = useParams()
   const router = useRouter()
   const { isConnected, currentAddress } = useWallet()
-  const isAdminUser = isAdmin(currentAddress)
+  const { isAdmin: isAdminUser } = useAdminCheck(currentAddress || null)
   const collectionId = params.id as string
 
   const [collection, setCollection] = useState<Collection | null>(null)

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import Link from 'next/link'
 
 // This is the Launchpad Hub - comprehensive overview
@@ -50,7 +50,7 @@ interface RecentMint {
 
 export default function AdminLaunchpadHubPage() {
   const { isConnected, currentAddress } = useWallet()
-  const isAdminUser = isAdmin(currentAddress)
+  const { isAdmin: isAdminUser } = useAdminCheck(currentAddress || null)
 
   const [loading, setLoading] = useState(true)
   const [overallStats, setOverallStats] = useState<OverallStats | null>(null)
