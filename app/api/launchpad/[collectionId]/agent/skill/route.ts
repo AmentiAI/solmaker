@@ -42,8 +42,6 @@ export async function GET(
     const totalSupply = parseInt(collection.total_supply || '0', 10)
     const mintedCount = parseInt(collection.minted_count || '0', 10)
     const remaining = totalSupply - mintedCount
-    const platformFee = PLATFORM_FEES.MINT_FEE_SOL
-    const totalCost = mintPrice + platformFee
     const isLive = collection.collection_status === 'launchpad_live'
     const baseUrl = request.nextUrl.origin
 
@@ -60,6 +58,8 @@ export async function GET(
 
     const activePhase = phases.length ? phases[0] : null
     const mintPrice = activePhase?.mint_price ? parseFloat(String(activePhase.mint_price)) : 0
+    const platformFee = PLATFORM_FEES.MINT_FEE_SOL
+    const totalCost = mintPrice + platformFee
     const phaseSection = activePhase
       ? `
 ## Active Phase
