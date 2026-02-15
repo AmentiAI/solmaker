@@ -28,8 +28,8 @@ async function checkSolTransaction(txid: string): Promise<{
     const connection = await getConnectionAsync()
     const rpcUrl = connection.rpcEndpoint
 
-    // Check if transaction is finalized
-    const finalizedResponse = await fetch(rpcUrl, {
+    // Check if transaction is confirmed (confirmed = 66%+ validators, safe for credit awards)
+    const statusResponse = await fetch(rpcUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -41,12 +41,13 @@ async function checkSolTransaction(txid: string): Promise<{
       signal: AbortSignal.timeout(10000),
     })
 
-    let isFinalized = false
-    if (finalizedResponse.ok) {
-      const finalizedData = await finalizedResponse.json()
-      if (finalizedData.result?.value?.[0]) {
-        const status = finalizedData.result.value[0]
-        isFinalized = status?.confirmationStatus === 'finalized' && !status?.err
+    let isConfirmed = false
+    if (statusResponse.ok) {
+      const statusData = await statusResponse.json()
+      if (statusData.result?.value?.[0]) {
+        const status = statusData.result.value[0]
+        // Accept both 'confirmed' and 'finalized' — confirmed is sufficient for credit purchases
+        isConfirmed = (status?.confirmationStatus === 'confirmed' || status?.confirmationStatus === 'finalized') && !status?.err
       }
     }
 
@@ -73,7 +74,7 @@ async function checkSolTransaction(txid: string): Promise<{
       return { txid, confirmations: 0, confirmed: false }
     }
 
-    const confirmed = isFinalized && tx.meta?.err === null
+    const confirmed = isConfirmed && tx.meta?.err === null
 
     // Calculate amount sent to our address
     let amount = 0

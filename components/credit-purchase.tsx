@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { CREDIT_TIERS } from '@/lib/credits/constants'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { useWallet as useSolanaWalletAdapter } from '@solana/wallet-adapter-react'
@@ -78,7 +78,8 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
     }))
   }, [holderStatus?.isHolder])
   
-  const [purchasing, setPurchasing] = useState(false)
+  // useRef for double-click guard — NO re-render before wallet popup
+  const purchasingRef = useRef(false)
   const [paymentInfo, setPaymentInfo] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [checkingPayment, setCheckingPayment] = useState(false)
@@ -100,27 +101,32 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
   }, [])
 
   const handlePurchase = useCallback(async (tierIndex: number) => {
+    // Ref-based guard — no re-render, no visual disruption before wallet popup
+    if (purchasingRef.current) return
+    purchasingRef.current = true
+
     const tier = discountedTiers[tierIndex]
 
-    // Solana payment flow
+    // Validation — only setError if we need to bail (these are fast, synchronous-feeling)
     if (!isConnected || !currentAddress) {
       setError('Please connect your wallet first')
+      purchasingRef.current = false
       return
     }
 
     if (!walletSignTransaction) {
       setError('Wallet does not support signTransaction')
+      purchasingRef.current = false
       return
     }
 
-    setPurchasing(true)
+    // Clear previous error without triggering heavy re-render
     setError(null)
-    setSelectedTier(tierIndex)
 
     let paymentId: string | null = null
 
     try {
-      // Step 1: Get payment details from API
+      // Step 1: Get payment details from API (NO visual state changes yet)
       const response = await fetch('/api/credits/create-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -147,7 +153,7 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
 
       console.log(`[Credit Purchase] ${solAmount} SOL to ${paymentData.paymentAddress}`)
 
-      // Step 2: Build the transaction (NO setState calls from here until after wallet signs)
+      // Step 2: Build the transaction — ZERO setState from here until after wallet signs
       const { PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL, Connection } = await import('@solana/web3.js')
 
       const fromPubkey = new PublicKey(currentAddress)
@@ -167,14 +173,13 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
           rpcUrl = networkData.rpcUrl || rpcUrl
         }
       } catch {
-        // Fallback to env var
         rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || rpcUrl
       }
       const connection = new Connection(rpcUrl, 'confirmed')
 
       // Check balance before showing wallet popup — fail fast with a clear message
       const balance = await connection.getBalance(fromPubkey)
-      const estimatedFee = 10000 // ~0.00001 SOL for tx fee + priority fee
+      const estimatedFee = 10000
       const totalNeeded = lamports + estimatedFee
       if (balance < totalNeeded) {
         const balanceSol = (balance / LAMPORTS_PER_SOL).toFixed(4)
@@ -197,9 +202,22 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
 
       // CRITICAL: Zero setState calls before wallet popup.
       // React re-renders kill the Phantom popup / service worker.
-      const signed = await walletSignTransaction(transaction)
+      let signed
+      try {
+        signed = await walletSignTransaction(transaction)
+      } catch (signErr: any) {
+        // Detect locked wallet: Phantom throws generic "Unexpected error" when locked
+        // but does NOT include "cancel", "reject", or code 4001
+        const msg = signErr?.message || ''
+        const isUserCancel = msg.includes('cancel') || msg.includes('reject') || signErr?.code === 4001
+        if (!isUserCancel && msg) {
+          throw new Error('WALLET_LOCKED')
+        }
+        throw signErr
+      }
 
-      // After wallet signs, NOW we can update state
+      // After wallet signs — NOW we can update visual state
+      setSelectedTier(tierIndex)
       setCurrentPaymentId(paymentId)
       setPaymentInfo({ ...paymentData, solAmount })
 
@@ -221,32 +239,48 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
 
       console.log('[Credit Purchase] Transaction confirmed')
 
-      // Step 5: Verify payment with backend
-      const verifyResponse = await fetch('/api/credits/verify-payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          payment_id: paymentData.paymentId,
-          wallet_address: currentAddress,
-          txid: signature,
-        }),
-      })
-
-      if (verifyResponse.ok) {
-        const verifyData = await verifyResponse.json()
-        console.log('[Credit Purchase] Payment verified:', verifyData.status)
-        setPaymentStatus(verifyData)
-      } else {
-        console.warn('[Credit Purchase] Verification returned error (will retry via polling)')
-      }
-
+      // Show confirmed state immediately
       setPaymentInfo({ ...paymentData, txid: signature })
       setPaymentStatus({
         status: 'pending',
         confirmations: 1,
         txid: signature,
-        message: 'Transaction confirmed! Processing credit purchase...',
+        message: 'Transaction confirmed! Adding credits...',
       })
+
+      // Step 5: Verify payment with backend — retry up to 3 times inline for fast completion
+      let completed = false
+      for (let attempt = 0; attempt < 3 && !completed; attempt++) {
+        try {
+          const verifyResponse = await fetch('/api/credits/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              payment_id: paymentData.paymentId,
+              wallet_address: currentAddress,
+              txid: signature,
+            }),
+          })
+
+          if (verifyResponse.ok) {
+            const verifyData = await verifyResponse.json()
+            console.log(`[Credit Purchase] Verify attempt ${attempt + 1}:`, verifyData.status)
+            setPaymentStatus(verifyData)
+            if (verifyData.status === 'completed') {
+              completed = true
+              onPurchaseComplete?.()
+              break
+            }
+          }
+        } catch (verifyErr) {
+          console.warn(`[Credit Purchase] Verify attempt ${attempt + 1} failed:`, verifyErr)
+        }
+        // Wait 2 seconds before retrying
+        if (!completed && attempt < 2) {
+          await new Promise(r => setTimeout(r, 2000))
+        }
+      }
+      // If still not completed after retries, polling useEffect will pick it up
 
     } catch (err: any) {
       console.error('[Credit Purchase] Error:', err)
@@ -258,10 +292,11 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
       setPaymentInfo(null)
       setSelectedTier(null)
 
-      if (err.message?.includes('cancel') || err.message?.includes('reject') || err.code === 4001) {
+      if (err.message === 'WALLET_LOCKED') {
+        setError('Your wallet appears to be locked. Please unlock it (enter your password) and try again.')
+      } else if (err.message?.includes('cancel') || err.message?.includes('reject') || err.code === 4001) {
         setError('Transaction cancelled by user')
       } else if (err.message?.includes('insufficient lamports') || err.message?.includes('Insufficient balance')) {
-        // Parse the friendly version or extract from simulation error
         if (err.message?.includes('Insufficient balance')) {
           setError(err.message)
         } else {
@@ -272,35 +307,34 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
       } else {
         setError(err.message || 'Failed to create purchase')
       }
-      setPurchasing(false)
+    } finally {
+      purchasingRef.current = false
     }
   }, [isConnected, currentAddress, walletSignTransaction, discountedTiers, holderStatus?.isHolder, cancelPendingPayment])
 
-  // Check payment status periodically - only after transaction is signed (has txid)
+  // Fallback polling — only needed if inline retries didn't complete.
+  // Polls every 5 seconds for fast resolution.
   useEffect(() => {
-    // Only start polling if we have paymentInfo AND a txid (transaction has been signed)
     if (!paymentInfo || !currentAddress || !paymentInfo.txid) return
+    // Skip polling if already completed
+    if (paymentStatus?.status === 'completed') return
 
     let interval: NodeJS.Timeout | null = null
     let isChecking = false
 
     const checkPayment = async () => {
-      // Don't check if already checking
       if (isChecking) return
-      
       isChecking = true
       setCheckingPayment(true)
       try {
         const response = await fetch(
           `/api/credits/verify-payment?payment_id=${paymentInfo.paymentId}&wallet_address=${encodeURIComponent(currentAddress)}`,
-          { cache: 'no-store' } // Prevent caching
+          { cache: 'no-store' }
         )
         if (response.ok) {
           const data = await response.json()
           setPaymentStatus(data)
-          
           if (data.status === 'completed') {
-            // Payment confirmed, refresh credits and stop polling
             onPurchaseComplete?.()
             if (interval) clearInterval(interval)
             return
@@ -314,19 +348,13 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
       }
     }
 
-    // Wait 5 seconds after transaction is signed before first check (give it time to propagate)
-    const initialTimeout = setTimeout(() => {
-      checkPayment()
-      
-      // Then check every 30 seconds (instead of 1 minute to be more responsive)
-      interval = setInterval(checkPayment, 30000)
-    }, 5000)
+    // Poll every 5 seconds — tx is already confirmed, just waiting for backend to finalize
+    interval = setInterval(checkPayment, 5000)
 
     return () => {
-      clearTimeout(initialTimeout)
       if (interval) clearInterval(interval)
     }
-  }, [paymentInfo?.txid, paymentInfo?.paymentId, currentAddress, onPurchaseComplete])
+  }, [paymentInfo?.txid, paymentInfo?.paymentId, currentAddress, onPurchaseComplete, paymentStatus?.status])
 
   if (paymentInfo && paymentMethod === 'sol') {
     const isCompleted = paymentStatus?.status === 'completed'
@@ -389,53 +417,38 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
             </button>
           </div>
         ) : (
-          <>
-            {/* Transaction Status */}
-            {hasTxid ? (
-              <div className="bg-[#1a1a1a] border border-[#D4AF37]/40 rounded-lg p-4 space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="animate-pulse w-3 h-3 bg-[#D4AF37] rounded-full"></div>
-                  <p className="text-white font-bold">
-                    {hasConfirmations
-                      ? `✅ Transaction confirmed! Processing credits...`
-                      : '⏳ Transaction sent! Waiting for confirmation...'}
-                  </p>
-                </div>
-                <div className="bg-[#0a0a0a] border border-[#D4AF37]/30 rounded p-3 space-y-3">
-                  <div>
-                    <p className="text-sm text-white mb-1">Transaction Signature:</p>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-[#808080] font-mono text-sm break-all">{txid}</p>
-                      <button
-                        onClick={() => navigator.clipboard.writeText(txid)}
-                        className="text-xs text-[#D4AF37] hover:text-white px-2 py-1 border border-[#D4AF37]/50 rounded hover:bg-[#D4AF37]/10"
-                      >
-                        Copy
-                      </button>
-                    </div>
+          <div className="bg-[#1a1a1a] border border-[#D4AF37]/40 rounded-lg p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="animate-pulse w-3 h-3 bg-[#D4AF37] rounded-full"></div>
+              <p className="text-white font-bold">
+                Transaction confirmed! Adding credits...
+              </p>
+            </div>
+            {txid && (
+              <div className="bg-[#0a0a0a] border border-[#D4AF37]/30 rounded p-3 space-y-3">
+                <div>
+                  <p className="text-sm text-white mb-1">Transaction Signature:</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="text-[#808080] font-mono text-sm break-all">{txid}</p>
+                    <button
+                      onClick={() => navigator.clipboard.writeText(txid)}
+                      className="text-xs text-[#D4AF37] hover:text-white px-2 py-1 border border-[#D4AF37]/50 rounded hover:bg-[#D4AF37]/10"
+                    >
+                      Copy
+                    </button>
                   </div>
-                  <a
-                    href={getSolscanUrl(txid, 'tx')}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[#D4AF37] hover:text-white text-sm underline"
-                  >
-                    View on Solscan →
-                  </a>
                 </div>
-              </div>
-            ) : (
-              <div className="bg-[#0a0a0a] border border-[#D4AF37]/40 rounded-lg p-4 space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#00d4ff]"></div>
-                  <p className="text-white font-semibold">Sending transaction...</p>
-                </div>
-                <p className="text-white/70 text-sm">
-                  Your transaction is being sent to the Solana network. Please confirm in your wallet.
-                </p>
+                <a
+                  href={getSolscanUrl(txid, 'tx')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[#D4AF37] hover:text-white text-sm underline"
+                >
+                  View on Solscan →
+                </a>
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
     )
@@ -550,27 +563,15 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
 
             
               <button
-                onClick={() => !purchasing && handlePurchase(index)}
-                disabled={purchasing}
-                className={`w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 ${
-                  purchasing
-                    ? 'bg-[#1a1a1a] border border-[#D4AF37]/20 text-white/50 cursor-not-allowed'
-                    : 'bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-[#0a0a0a]'
-                }`}
+                onClick={() => handlePurchase(index)}
+                className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-[#0a0a0a]"
               >
-                {purchasing && selectedTier === index ? 'Processing...' : 'Buy Now'}
+                Buy Now
               </button>
             </div>
           )
         })}
       </div>
-
-      {purchasing && (
-        <div className="mt-4 text-center">
-          <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#D4AF37]"></div>
-          <p className="text-[#808080] text-sm mt-2">Creating payment...</p>
-        </div>
-      )}
 
       {/* Payment Modals */}
       {showModal && selectedTier !== null && (
