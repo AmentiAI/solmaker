@@ -22,7 +22,7 @@ export async function GET(
     const collections = await sql`
       SELECT
         c.id, c.name, c.description, c.mint_type, c.collection_status,
-        c.candy_machine_address, c.mint_price, c.launched_at,
+        c.candy_machine_address, c.launched_at,
         (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id) as total_supply,
         (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = c.id AND mint_status = 'confirmed') as minted_count
       FROM collections c
@@ -42,13 +42,12 @@ export async function GET(
     const totalSupply = parseInt(collection.total_supply || '0', 10)
     const mintedCount = parseInt(collection.minted_count || '0', 10)
     const remaining = totalSupply - mintedCount
-    const mintPrice = collection.mint_price ? parseFloat(String(collection.mint_price)) : 0
     const platformFee = PLATFORM_FEES.MINT_FEE_SOL
     const totalCost = mintPrice + platformFee
     const isLive = collection.collection_status === 'launchpad_live'
     const baseUrl = request.nextUrl.origin
 
-    // Get active phase info
+    // Get active phase info (mint price lives on phases, not collections)
     const phases = await sql`
       SELECT id, name, mint_price, start_time, end_time, phase_allocation, phase_minted
       FROM mint_phases
@@ -60,12 +59,13 @@ export async function GET(
     ` as any[]
 
     const activePhase = phases.length ? phases[0] : null
+    const mintPrice = activePhase?.mint_price ? parseFloat(String(activePhase.mint_price)) : 0
     const phaseSection = activePhase
       ? `
 ## Active Phase
 - **Name**: ${activePhase.name}
 - **Phase ID**: ${activePhase.id}
-- **Phase Price**: ${activePhase.mint_price ? parseFloat(String(activePhase.mint_price)) : mintPrice} SOL
+- **Phase Price**: ${mintPrice} SOL
 - **Ends**: ${activePhase.end_time ? new Date(activePhase.end_time).toISOString() : 'No end time'}
 `
       : ''

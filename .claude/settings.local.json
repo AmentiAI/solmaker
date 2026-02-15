@@ -20,7 +20,8 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:developer.chrome.com)",
       "WebFetch(domain:www.npmjs.com)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []
