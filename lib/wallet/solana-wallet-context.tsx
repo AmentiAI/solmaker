@@ -60,10 +60,18 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
   const prevAddressRef = useRef<string | null>(null)
   const prevConnectedRef = useRef<boolean>(false)
 
-  // Verify wallet with signature
+  // Keep a stable ref to signMessage so verifyWallet always uses the latest
+  // adapter reference (closures in useCallback capture stale values).
+  const signMessageRef = useRef(signMessage)
+  useEffect(() => { signMessageRef.current = signMessage }, [signMessage])
+
+  // Verify wallet with signature.
+  // Uses signMessageRef (not the closure value) so it always calls the latest
+  // adapter reference. Retries once after a short delay when the wallet appears
+  // locked (Phantom needs the user to enter their password first).
   const verifyWallet = useCallback(async (overridePublicKey?: PublicKey): Promise<boolean> => {
     const keyToUse = overridePublicKey || state.publicKey || publicKey
-    
+
     if (!keyToUse) {
       setState(prev => ({ ...prev, error: 'Wallet not connected. Please connect your wallet first.' }))
       return false
@@ -82,100 +90,126 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
 
     const address = keyToUse.toBase58()
 
-    // Get signMessage
-    let signMessageAvailable = signMessage
-    if (!signMessageAvailable && wallet.adapter && typeof (wallet.adapter as any).signMessage === 'function') {
-      signMessageAvailable = (wallet.adapter as any).signMessage.bind(wallet.adapter)
+    // Helper: get the latest signMessage function (ref-based, never stale)
+    const getSignMessage = () => {
+      if (signMessageRef.current) return signMessageRef.current
+      if (wallet?.adapter && typeof (wallet.adapter as any).signMessage === 'function') {
+        return (wallet.adapter as any).signMessage.bind(wallet.adapter)
+      }
+      return null
     }
 
-    // Wait for signMessage if needed
-    if (!signMessageAvailable) {
+    // Wait for signMessage to become available (wallet may still be initialising)
+    let signFn = getSignMessage()
+    if (!signFn) {
       for (let i = 0; i < 30; i++) {
         await new Promise(resolve => setTimeout(resolve, 100))
-        if (signMessage) {
-          signMessageAvailable = signMessage
-          break
-        }
-        if (wallet?.adapter && typeof (wallet.adapter as any).signMessage === 'function') {
-          signMessageAvailable = (wallet.adapter as any).signMessage.bind(wallet.adapter)
-          break
-        }
+        signFn = getSignMessage()
+        if (signFn) break
       }
     }
 
-    if (!signMessageAvailable) {
+    if (!signFn) {
       setState(prev => ({ ...prev, error: 'Wallet signMessage not available. Please ensure your wallet is unlocked and try again.' }))
       return false
     }
 
-    try {
-      // CRITICAL: Do NOT call setState before the wallet popup.
-      // React re-renders kill the popup ~50% of the time.
-      // Use ref only — state updates happen AFTER signing resolves.
-      isVerifyingRef.current = true
+    // CRITICAL: Do NOT call setState before the wallet popup.
+    // React re-renders kill the popup.
+    isVerifyingRef.current = true
 
-      const messageText = `Verify wallet: ${address}`
-      const message = new TextEncoder().encode(messageText)
-      
-      const signedMessage = await signMessageAvailable(message)
-      
-      const hasSignature = signedMessage && (
-        signedMessage instanceof Uint8Array ||
-        (typeof signedMessage === 'object' && 'signature' in signedMessage)
-      )
-      
-      if (!hasSignature) {
-        throw new Error('No signature received from wallet')
-      }
+    const messageText = `Verify wallet: ${address}`
+    const messageBytes = new TextEncoder().encode(messageText)
 
-      // Store verification
-      if (typeof window !== 'undefined' && address) {
-        sessionStorage.setItem(`sol_wallet_verified_${address}`, 'true')
-        sessionStorage.setItem(`wallet_type_${address}`, 'sol')
-      }
+    // Attempt signing with one automatic retry.
+    // First attempt may fail if the wallet is locked (Phantom shows its unlock
+    // dialog, which can cause the initial signMessage to reject). The retry
+    // gives the wallet time to finish unlocking.
+    const MAX_ATTEMPTS = 2
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      try {
+        // Always grab the latest signMessage ref in case the adapter refreshed
+        const currentSignFn = getSignMessage() || signFn
 
-      isVerifyingRef.current = false
-      setState(prev => ({
-        ...prev,
-        isVerified: true,
-        isVerifying: false,
-        error: null,
-      }))
+        const signedMessage = await currentSignFn(messageBytes)
 
-      // Dispatch event
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('solanaWalletConnected', { 
-          detail: { address, isVerified: true } 
+        const hasSignature = signedMessage && (
+          signedMessage instanceof Uint8Array ||
+          (typeof signedMessage === 'object' && 'signature' in signedMessage)
+        )
+
+        if (!hasSignature) {
+          throw new Error('No signature received from wallet')
+        }
+
+        // Store verification
+        if (typeof window !== 'undefined' && address) {
+          sessionStorage.setItem(`sol_wallet_verified_${address}`, 'true')
+          sessionStorage.setItem(`wallet_type_${address}`, 'sol')
+        }
+
+        isVerifyingRef.current = false
+        setState(prev => ({
+          ...prev,
+          isVerified: true,
+          isVerifying: false,
+          error: null,
         }))
-      }
 
-      return true
-    } catch (signError: any) {
-      const errorMessage = signError?.message || String(signError)
-      const isUserRejection =
-        signError?.code === 4001 ||
-        errorMessage.toLowerCase().includes('user rejected') ||
-        errorMessage.toLowerCase().includes('cancel') ||
-        errorMessage.toLowerCase().includes('reject')
+        // Dispatch event
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('solanaWalletConnected', {
+            detail: { address, isVerified: true }
+          }))
+        }
 
-      // Only log actual errors, not user rejections
-      if (!isUserRejection) {
+        return true
+      } catch (signError: any) {
+        const errorMessage = signError?.message || String(signError)
+        const isUserRejection =
+          signError?.code === 4001 ||
+          errorMessage.toLowerCase().includes('user rejected') ||
+          errorMessage.toLowerCase().includes('cancel') ||
+          errorMessage.toLowerCase().includes('reject')
+
+        // If user explicitly rejected, don't retry
+        if (isUserRejection) {
+          isVerifyingRef.current = false
+          setState(prev => ({
+            ...prev,
+            isVerified: false,
+            isVerifying: false,
+            verificationRejected: true,
+            error: 'Signature request cancelled',
+          }))
+          return false
+        }
+
+        // Non-rejection error (likely wallet locked / not ready)
+        if (attempt < MAX_ATTEMPTS) {
+          console.log(`[Solana Wallet] Sign attempt ${attempt} failed (${errorMessage}), retrying in 1s...`)
+          await new Promise(r => setTimeout(r, 1000))
+          continue
+        }
+
+        // Final attempt failed
         console.error('[Solana Wallet] Signature verification failed:', signError)
+        isVerifyingRef.current = false
+        setState(prev => ({
+          ...prev,
+          isVerified: false,
+          isVerifying: false,
+          verificationRejected: false,
+          error: 'Signature verification failed. Your wallet may be locked — please unlock it and try again.',
+        }))
+        return false
       }
-
-      const errorMsg = isUserRejection ? 'Signature request cancelled' : 'Signature verification failed'
-
-      isVerifyingRef.current = false
-      setState(prev => ({
-        ...prev,
-        isVerified: false,
-        isVerifying: false,
-        verificationRejected: isUserRejection,
-        error: errorMsg,
-      }))
-      return false
     }
-  }, [publicKey, state.publicKey, signMessage, wallet, connected])
+
+    // Should not reach here, but guard
+    isVerifyingRef.current = false
+    return false
+  }, [publicKey, state.publicKey, wallet, connected])
 
   // Sync wallet adapter state
   useEffect(() => {

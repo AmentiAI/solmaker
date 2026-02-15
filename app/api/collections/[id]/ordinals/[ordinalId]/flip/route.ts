@@ -83,8 +83,9 @@ export async function POST(
       try {
         updateResult = await sql`
           UPDATE generated_ordinals
-          SET 
+          SET
             image_url = ${flippedBlobResult.url},
+            thumbnail_url = NULL,
             compressed_image_url = NULL,
             compressed_size_kb = NULL,
             original_size_kb = ${flippedSizeKB}
@@ -100,8 +101,9 @@ export async function POST(
             // Try with compressed_size_kb
             updateResult = await sql`
               UPDATE generated_ordinals
-              SET 
+              SET
                 image_url = ${flippedBlobResult.url},
+                thumbnail_url = NULL,
                 compressed_image_url = NULL,
                 compressed_size_kb = NULL
               WHERE id = ${ordinalId}
@@ -112,8 +114,9 @@ export async function POST(
             // If compressed_size_kb doesn't exist either, just update image_url and clear compressed_image_url
             updateResult = await sql`
               UPDATE generated_ordinals
-              SET 
+              SET
                 image_url = ${flippedBlobResult.url},
+                thumbnail_url = NULL,
                 compressed_image_url = NULL
               WHERE id = ${ordinalId}
                 AND collection_id = ${collectionId}
