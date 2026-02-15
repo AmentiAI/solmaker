@@ -160,6 +160,17 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
 
       const rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
       const connection = new Connection(rpcUrl, 'confirmed')
+
+      // Check balance before showing wallet popup — fail fast with a clear message
+      const balance = await connection.getBalance(fromPubkey)
+      const estimatedFee = 10000 // ~0.00001 SOL for tx fee + priority fee
+      const totalNeeded = lamports + estimatedFee
+      if (balance < totalNeeded) {
+        const balanceSol = (balance / LAMPORTS_PER_SOL).toFixed(4)
+        const neededSol = (totalNeeded / LAMPORTS_PER_SOL).toFixed(4)
+        throw new Error(`Insufficient balance. You have ${balanceSol} SOL but need ${neededSol} SOL (${solAmount} SOL + fees).`)
+      }
+
       const { blockhash } = await connection.getLatestBlockhash('finalized')
 
       const transaction = new Transaction()
@@ -238,6 +249,15 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
 
       if (err.message?.includes('cancel') || err.message?.includes('reject') || err.code === 4001) {
         setError('Transaction cancelled by user')
+      } else if (err.message?.includes('insufficient lamports') || err.message?.includes('Insufficient balance')) {
+        // Parse the friendly version or extract from simulation error
+        if (err.message?.includes('Insufficient balance')) {
+          setError(err.message)
+        } else {
+          setError('Insufficient SOL balance. Please add more SOL to your wallet and try again.')
+        }
+      } else if (err.message?.includes('Simulation failed') || err.message?.includes('simulation failed')) {
+        setError('Transaction simulation failed. You may not have enough SOL to cover this purchase plus network fees.')
       } else {
         setError(err.message || 'Failed to create purchase')
       }
