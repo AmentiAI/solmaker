@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle2, Circle, Loader2, XCircle, Rocket, RefreshCw, Copy } from 'lucide-react'
@@ -31,6 +31,18 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
   const [loadingNetwork, setLoadingNetwork] = useState(true)
   const [deploymentResult, setDeploymentResult] = useState<DeploymentResult | null>(null)
   const [verifying, setVerifying] = useState(false)
+
+  // Stable refs for wallet functions — survive re-renders without going stale.
+  // The SolanaDeployment class captures these at construction time, so if
+  // React re-renders the component and useWallet() returns fresh references,
+  // the deployment still uses the latest via the ref.
+  const signTransactionRef = useRef(signTransaction)
+  const signAllTransactionsRef = useRef(signAllTransactions)
+  useEffect(() => { signTransactionRef.current = signTransaction }, [signTransaction])
+  useEffect(() => { signAllTransactionsRef.current = signAllTransactions }, [signAllTransactions])
+
+  // Ref-based guard against double invocation (setState is async, can't guard clicks)
+  const deployingRef = useRef(false)
 
   // Load network on mount
   useEffect(() => {
@@ -83,31 +95,45 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
   }
 
   const handleDeploy = async () => {
+    // Ref-based guard: prevents double invocation from rapid clicks
+    // (React state is async — isDeploying won't disable the button instantly)
+    if (deployingRef.current) return
+    deployingRef.current = true
+
     if (!connected || !publicKey) {
       setError('Please connect your wallet first')
+      deployingRef.current = false
       return
     }
 
     if (!signTransaction) {
       setError('Wallet does not support signing transactions')
+      deployingRef.current = false
       return
     }
 
-    // Batch all initial state updates together, then wait for React to flush
-    // before starting deploy (which opens wallet popups).
     setIsDeploying(true)
     setError(null)
     setDeploymentResult(null)
 
-    // Pass signTransaction + signAllTransactions from the wallet adapter.
-    // We use signTransaction + sendRawTransaction pattern instead of sendTransaction
-    // because it gives better error messages and avoids Phantom's internal RPC issues.
+    // Use refs for wallet functions so the deployment always calls the
+    // latest adapter reference, even if React re-renders this component.
     const deployment = new SolanaDeployment(
       collectionId,
       publicKey.toBase58(),
       {
-        signTransaction: (tx) => signTransaction(tx),
-        signAllTransactions: signAllTransactions || undefined,
+        signTransaction: (tx) => {
+          const fn = signTransactionRef.current
+          if (!fn) throw new Error('signTransaction became unavailable — wallet may have disconnected')
+          return fn(tx)
+        },
+        signAllTransactions: signAllTransactionsRef.current
+          ? (txs) => {
+              const fn = signAllTransactionsRef.current
+              if (!fn) throw new Error('signAllTransactions became unavailable')
+              return fn(txs)
+            }
+          : undefined,
       },
       (updatedSteps) => setSteps([...updatedSteps])
     )
@@ -115,11 +141,12 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
     setSteps([...deployment.steps])
 
     // Wait for React to flush the initial render before any wallet popups
-    await new Promise(r => setTimeout(r, 100))
+    await new Promise(r => setTimeout(r, 150))
 
     const result = await deployment.deploy()
 
     setIsDeploying(false)
+    deployingRef.current = false
 
     if (result.success) {
       const dbResult = await verifyDatabase()

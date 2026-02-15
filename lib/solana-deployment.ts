@@ -102,8 +102,10 @@ export class SolanaDeployment {
         await this.uploadMetadata()
       }
 
-      // Let React flush any pending re-renders before wallet popups start
-      await new Promise(r => setTimeout(r, 100))
+      // Let React flush any pending re-renders before wallet popups start.
+      // 250ms is generous — ensures the DOM is fully settled so the wallet
+      // popup isn't competing with a React reconciliation cycle.
+      await new Promise(r => setTimeout(r, 250))
 
       // Step 2: Create Core Collection (skip if already done)
       if (state.collection_mint_address) {
@@ -116,7 +118,7 @@ export class SolanaDeployment {
       }
 
       // Let React flush before next wallet popup
-      await new Promise(r => setTimeout(r, 100))
+      await new Promise(r => setTimeout(r, 250))
 
       // Step 3: Deploy Core Candy Machine (skip if already done)
       if (state.candy_machine_address) {
@@ -188,6 +190,9 @@ export class SolanaDeployment {
         transaction.sign([collectionSigner])
         console.log('[Deploy] Partial-signed with collection signer')
       }
+
+      // Ensure React is settled before opening wallet popup
+      await new Promise(r => setTimeout(r, 200))
 
       // Wallet signs — this opens the popup
       console.log('[Deploy] Requesting wallet approval for collection NFT...')
@@ -270,6 +275,9 @@ export class SolanaDeployment {
         console.log('[Deploy Phase 1] Partial-signed CM tx with candy machine signer')
       }
 
+      // Ensure React is settled before opening wallet popup
+      await new Promise(r => setTimeout(r, 200))
+
       // Wallet signs CM tx — POPUP 1
       console.log('[Deploy Phase 1] Requesting wallet approval for CM creation...')
       const signedCmTx = await this.wallet.signTransaction(cmTx)
@@ -298,6 +306,15 @@ export class SolanaDeployment {
 
       // ========== PHASE 2: Add Config Lines (fresh blockhash) ==========
       if (phase1Data.configLineBatches > 0) {
+        // Wait for the newly-created candy machine account to propagate across
+        // RPC nodes. Phantom uses its OWN RPC for transaction simulation — if
+        // it hasn't seen the CM account yet, config line txs will fail simulation.
+        this.updateStep('create_candy_machine', {
+          description: 'Waiting for on-chain confirmation to propagate...',
+        })
+        console.log('[Deploy Phase 2] Waiting 5s for CM account to propagate across RPCs...')
+        await new Promise(r => setTimeout(r, 5000))
+
         this.updateStep('create_candy_machine', {
           description: `Building ${phase1Data.configLineBatches} config line transactions...`,
         })
@@ -328,6 +345,9 @@ export class SolanaDeployment {
         // Each batch gets its own signAllTransactions popup.
         const SIGN_BATCH_SIZE = 6
         let signedConfigTxs: VersionedTransaction[] = []
+
+        // Ensure React is settled before opening wallet popup
+        await new Promise(r => setTimeout(r, 200))
 
         if (this.wallet.signAllTransactions && configTxs.length > 1) {
           for (let b = 0; b < configTxs.length; b += SIGN_BATCH_SIZE) {
