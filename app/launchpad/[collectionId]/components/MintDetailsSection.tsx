@@ -231,24 +231,6 @@ export function MintDetailsSection({
             </div>
           )}
 
-          {/* Priority Fee Input */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-[#808080] mb-2">
-              Priority Fee (lamports)
-            </label>
-            <input
-              type="number"
-              value={priorityFeeInput}
-              onChange={(e) => onPriorityFeeChange(e.target.value)}
-              onFocus={onPriorityFeeFocus}
-              onBlur={(e) => onPriorityFeeBlur(parseFloat(e.target.value))}
-              step="1000"
-              min="0"
-              disabled={minting || (isPreview && !isLive)}
-              className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#D4AF37]/30 text-white focus:ring-2 focus:ring-[#D4AF37]/30 focus:border-[#D4AF37]/50 placeholder:text-[#808080] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            />
-          </div>
-
           {/* Quantity and Mint Button */}
           {isConnected ? (
             <div className="flex gap-3 items-start">

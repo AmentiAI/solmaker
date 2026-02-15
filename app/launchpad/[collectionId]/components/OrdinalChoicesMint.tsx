@@ -415,24 +415,6 @@ export function NftChoicesMint({
       {/* Only show when user has locked NFTs (from DB) */}
       {lockedCount > 0 && isConnected && (
         <div className="pt-4 space-y-4">
-          {/* Priority Fee Input - matching MintDetailsSection position */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-white mb-2">
-              Priority Fee (lamports)
-            </label>
-            <input
-              type="number"
-              value={priorityFeeInput}
-              onChange={(e) => onPriorityFeeChange(e.target.value)}
-              onFocus={onPriorityFeeFocus}
-              onBlur={(e) => onPriorityFeeBlur(parseFloat(e.target.value))}
-              step="1000"
-              min="0"
-              disabled={minting || (isPreview && !isLive)}
-              className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#D4AF37]/30 text-white focus:ring-2 focus:ring-[#D4AF37]/30 focus:border-[#D4AF37]/50 placeholder:text-[#808080] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            />
-          </div>
-
           {/* Estimated Cost Breakdown - matching MintDetailsSection format */}
           {isConnected && (() => {
             if (!activePhase || lockedCount === 0) return null
