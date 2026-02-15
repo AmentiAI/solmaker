@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isAdmin, isAuthorized } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 import { sql } from '@/lib/database'
 
 // Ensure site_settings table exists
@@ -87,7 +87,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Admin access - get all settings
-    if (!isAdmin(walletAddress)) {
+    const auth = await checkAuthorizationServer(walletAddress, sql)
+    if (!auth.isAdmin) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
@@ -160,7 +161,11 @@ export async function PUT(request: NextRequest) {
     const body = await request.json()
     const { wallet_address, key, value } = body
 
-    if (!wallet_address || !isAdmin(wallet_address)) {
+    if (!wallet_address) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    }
+    const authPut = await checkAuthorizationServer(wallet_address, sql)
+    if (!authPut.isAdmin) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
