@@ -223,22 +223,20 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
     }
   }, [publicKey, connected, connecting])
 
-  // Connect to wallet
+  // Connect to wallet — just connects, does NOT auto-verify.
+  // Opening a signMessage popup right after a connect popup causes race conditions.
   const connect = useCallback(async () => {
     try {
       setState(prev => ({ ...prev, error: null }))
 
       if (wallet && publicKey) {
         const address = publicKey.toBase58()
-        const isVerifiedInStorage = typeof window !== 'undefined' 
-          ? sessionStorage.getItem(`sol_wallet_verified_${address}`) === 'true' 
+        const isVerifiedInStorage = typeof window !== 'undefined'
+          ? sessionStorage.getItem(`sol_wallet_verified_${address}`) === 'true'
           : false
-        
-        if (isVerifiedInStorage) {
-          setState(prev => ({ ...prev, isVerified: true, isVerifying: false }))
-          return true
-        }
-        return await verifyWallet()
+
+        setState(prev => ({ ...prev, isVerified: isVerifiedInStorage, isVerifying: false }))
+        return true
       }
 
       if (!adapterConnect) {
@@ -258,14 +256,14 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
       while (attempts < 50) {
         await new Promise(resolve => setTimeout(resolve, 100))
         attempts++
-        
+
         const currentPublicKey = publicKey || wallet?.adapter?.publicKey
         if (currentPublicKey) {
           const address = currentPublicKey.toBase58()
-          const isVerifiedInStorage = typeof window !== 'undefined' 
-            ? sessionStorage.getItem(`sol_wallet_verified_${address}`) === 'true' 
+          const isVerifiedInStorage = typeof window !== 'undefined'
+            ? sessionStorage.getItem(`sol_wallet_verified_${address}`) === 'true'
             : false
-          
+
           setState(prev => ({
             ...prev,
             isConnected: true,
@@ -274,11 +272,8 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
             isVerified: isVerifiedInStorage,
             error: null,
           }))
-          
-          if (isVerifiedInStorage) return true
-          
-          await new Promise(resolve => setTimeout(resolve, 500))
-          return await verifyWallet(currentPublicKey)
+
+          return true
         }
       }
 
@@ -288,18 +283,18 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
       setState(prev => ({ ...prev, error: error?.message || 'Failed to connect', isVerifying: false }))
       return false
     }
-  }, [wallet, publicKey, connected, signMessage, verifyWallet, adapterConnect])
+  }, [wallet, publicKey, connected, adapterConnect])
 
-  // Disconnect wallet
+  // Disconnect wallet — clear verification so user must re-verify on reconnect
   const disconnect = useCallback(async () => {
     try {
       const addressToClear = state.address || publicKey?.toBase58()
-      
+
       if (addressToClear && typeof window !== 'undefined') {
         sessionStorage.removeItem(`sol_wallet_verified_${addressToClear}`)
         sessionStorage.removeItem(`wallet_type_${addressToClear}`)
       }
-      
+
       isVerifyingRef.current = false
       await adapterDisconnect()
 

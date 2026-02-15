@@ -13,7 +13,7 @@ const nextConfig = {
     unoptimized: true,
   },
   transpilePackages: ['@omnisat/lasereyes', '@omnisat/lasereyes-core', '@omnisat/lasereyes-react'],
-  reactStrictMode: true,
+  reactStrictMode: false,
   webpack: (config, { isServer }) => {
     // Fix for LaserEyes and other packages that have module resolution issues
     if (!isServer) {

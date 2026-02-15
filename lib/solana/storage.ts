@@ -52,16 +52,20 @@ export async function uploadMetadata(
 /**
  * Upload to Vercel Blob storage
  * This is the quickest solution for MVP
+ *
+ * @param addRandomSuffix - Set false for deterministic paths (e.g., deployment metadata).
+ *   When false, uploading the same path overwrites the previous file.
  */
 async function uploadToVercelBlob(
   data: Buffer | Blob,
-  filename: string
+  filename: string,
+  addRandomSuffix: boolean = true
 ): Promise<UploadResult> {
   const blob = data instanceof Buffer ? new Blob([data]) : data
-  
+
   const result = await put(filename, blob, {
     access: 'public',
-    addRandomSuffix: true,
+    addRandomSuffix,
   })
 
   return {
@@ -99,7 +103,15 @@ export async function batchUploadMetadata(
 
 /**
  * Upload collection assets (images + metadata)
- * Returns URIs for Candy Machine config lines
+ * Returns URIs for Candy Machine config lines.
+ *
+ * When collectionId is provided, uses structured deterministic paths:
+ *   solmaker/{collectionId}/img/{nftNumber}.png
+ *   solmaker/{collectionId}/meta/{nftNumber}.json
+ *
+ * This makes metadata URIs share a long common prefix so the Candy Machine
+ * config line prefix optimization can pack many more lines per transaction
+ * (reduces from ~18 transactions to ~4 for 171 NFTs).
  */
 export async function uploadCollectionAssets(params: {
   nfts: Array<{
@@ -107,7 +119,9 @@ export async function uploadCollectionAssets(params: {
     name: string
     imageData: Buffer
     metadata: any
+    nftNumber?: number
   }>
+  collectionId?: string
   provider?: StorageProvider
 }): Promise<Array<{
   nftId: string
@@ -115,15 +129,29 @@ export async function uploadCollectionAssets(params: {
   metadataUri: string
 }>> {
   const provider = params.provider || 'vercel-blob'
+  const useStructuredPaths = !!params.collectionId
   const results = []
 
-  for (const nft of params.nfts) {
-    // Upload image
-    const imageResult = await uploadImage(
-      nft.imageData,
-      `${nft.id}.png`,
-      provider
-    )
+  for (let i = 0; i < params.nfts.length; i++) {
+    const nft = params.nfts[i]
+    const nftNumber = nft.nftNumber || (i + 1)
+
+    // Determine filenames
+    const imageFilename = useStructuredPaths
+      ? `solmaker/${params.collectionId}/img/${nftNumber}.png`
+      : `${nft.id}.png`
+    const metaFilename = useStructuredPaths
+      ? `solmaker/${params.collectionId}/meta/${nftNumber}`
+      : nft.id
+
+    // Upload image (structured = no random suffix for shorter metadata URIs)
+    let imageResult: UploadResult
+    if (provider === 'vercel-blob') {
+      const blob = nft.imageData instanceof Buffer ? new Blob([nft.imageData]) : nft.imageData
+      imageResult = await uploadToVercelBlob(blob, imageFilename, !useStructuredPaths)
+    } else {
+      imageResult = await uploadImage(nft.imageData, imageFilename, provider)
+    }
 
     // Update metadata with image URI
     const metadataWithImage = {
@@ -131,12 +159,16 @@ export async function uploadCollectionAssets(params: {
       image: imageResult.uri,
     }
 
-    // Upload metadata
-    const metadataResult = await uploadMetadata(
-      metadataWithImage,
-      nft.id,
-      provider
-    )
+    // Upload metadata (structured = no random suffix)
+    let metadataResult: UploadResult
+    if (provider === 'vercel-blob') {
+      const jsonString = JSON.stringify(metadataWithImage, null, 2)
+      const buffer = Buffer.from(jsonString, 'utf-8')
+      const blob = new Blob([buffer])
+      metadataResult = await uploadToVercelBlob(blob, `${metaFilename}.json`, !useStructuredPaths)
+    } else {
+      metadataResult = await uploadMetadata(metadataWithImage, metaFilename, provider)
+    }
 
     results.push({
       nftId: nft.id,

@@ -168,32 +168,13 @@ export function WalletConnect() {
     }
   }, [isConnected, activeAddress, profile, profileLoading, createAccountForWallet])
 
-  // Auto-verify after connection (but not if user rejected verification)
+  // Show toast when wallet connects (no auto-verify — opening a signMessage popup
+  // right after connect causes race conditions that kill the popup 50% of the time)
   useEffect(() => {
-    if (isConnected && activeAddress && !isVerified && !isVerifying && !verificationRejected) {
-      const timeoutId = setTimeout(async () => {
-        try {
-          const verified = await verifyWallet()
-          if (verified) {
-            toast.success('Wallet connected and verified!')
-          }
-        } catch (error: any) {
-          // Don't log user rejections as errors
-          const errorMessage = error?.message || String(error)
-          const isUserRejection =
-            error?.code === 4001 ||
-            errorMessage.toLowerCase().includes('user rejected') ||
-            errorMessage.toLowerCase().includes('cancel') ||
-            errorMessage.toLowerCase().includes('reject')
-
-          if (!isUserRejection) {
-            console.error('Auto-verification error:', error)
-          }
-        }
-      }, 500)
-      return () => clearTimeout(timeoutId)
+    if (isConnected && activeAddress) {
+      toast.success('Wallet connected!')
     }
-  }, [isConnected, activeAddress, isVerified, isVerifying, verificationRejected, verifyWallet])
+  }, [isConnected, activeAddress])
 
   const handleConnect = async () => {
     setIsConnecting(true)

@@ -143,13 +143,15 @@ export async function POST(
         name: `${collection.name} #${i + 1}`,
         imageData: imageBuffer,
         metadata,
+        nftNumber: i + 1,
       })
     }
 
-    // Upload all assets
+    // Upload all assets with structured paths for short metadata URIs
     console.log('📦 Uploading to storage...')
     const uploadResults = await uploadCollectionAssets({
       nfts: nftsToUpload,
+      collectionId,
       provider: 'vercel-blob',
     })
 

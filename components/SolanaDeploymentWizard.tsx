@@ -22,7 +22,7 @@ interface SolanaDeploymentWizardProps {
 }
 
 export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeploymentWizardProps) {
-  const { publicKey, connected, sendTransaction, signAllTransactions } = useWallet()
+  const { publicKey, connected, signTransaction, signAllTransactions } = useWallet()
   const { connection } = useConnection()
   const [steps, setSteps] = useState<DeploymentStep[]>([])
   const [isDeploying, setIsDeploying] = useState(false)
@@ -88,28 +88,34 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
       return
     }
 
-    if (!sendTransaction) {
-      setError('Wallet does not support sending transactions')
+    if (!signTransaction) {
+      setError('Wallet does not support signing transactions')
       return
     }
 
+    // Batch all initial state updates together, then wait for React to flush
+    // before starting deploy (which opens wallet popups).
     setIsDeploying(true)
     setError(null)
     setDeploymentResult(null)
 
-    // Pass the standard wallet adapter methods — sendTransaction handles
-    // signing + sending + wallet lifecycle for ALL wallets properly.
+    // Pass signTransaction + signAllTransactions from the wallet adapter.
+    // We use signTransaction + sendRawTransaction pattern instead of sendTransaction
+    // because it gives better error messages and avoids Phantom's internal RPC issues.
     const deployment = new SolanaDeployment(
       collectionId,
       publicKey.toBase58(),
       {
-        sendTransaction: (tx, conn, opts) => sendTransaction(tx, conn, opts),
+        signTransaction: (tx) => signTransaction(tx),
         signAllTransactions: signAllTransactions || undefined,
       },
-      (updatedSteps) => setSteps(updatedSteps)
+      (updatedSteps) => setSteps([...updatedSteps])
     )
 
-    setSteps(deployment.steps)
+    setSteps([...deployment.steps])
+
+    // Wait for React to flush the initial render before any wallet popups
+    await new Promise(r => setTimeout(r, 100))
 
     const result = await deployment.deploy()
 

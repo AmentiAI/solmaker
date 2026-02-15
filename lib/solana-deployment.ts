@@ -1,14 +1,15 @@
 /**
  * Frontend helper for Solana Core Candy Machine deployment.
  *
- * Uses the standard @solana/wallet-adapter pattern:
- * - sendTransaction(tx, connection, { signers }) for single transactions
- * - signAllTransactions + sendRawTransaction for batch config lines
+ * Uses signTransaction + sendRawTransaction pattern instead of sendTransaction.
+ * This gives us:
+ * - Better error messages (we see signing vs sending errors separately)
+ * - Control over which RPC we send to (avoids Phantom's internal RPC issues)
+ * - Ability to partial-sign with co-signers before wallet signing
  *
  * Keypairs that need to co-sign (collection signer, candy machine signer)
- * are generated server-side and returned to the frontend so we can pass
- * them as `signers` to the wallet adapter's sendTransaction method.
- * This lets the adapter handle wallet lifecycle properly for ALL wallets.
+ * are generated server-side and returned to the frontend. We partial-sign
+ * with them, then ask the wallet to sign, then we send ourselves.
  */
 
 import { VersionedTransaction, Connection, Keypair } from '@solana/web3.js'
@@ -21,16 +22,8 @@ export interface DeploymentStep {
   error?: string
 }
 
-/**
- * Matches what useWallet() provides — standard wallet adapter interface.
- * sendTransaction is the recommended way per Solana wallet adapter docs.
- */
 export interface WalletAdapter {
-  sendTransaction: (
-    transaction: VersionedTransaction,
-    connection: Connection,
-    options?: { signers?: Keypair[] }
-  ) => Promise<string>
+  signTransaction: <T extends VersionedTransaction>(transaction: T) => Promise<T>
   signAllTransactions?: <T extends VersionedTransaction>(transactions: T[]) => Promise<T[]>
 }
 
@@ -102,12 +95,15 @@ export class SolanaDeployment {
       const stateResponse = await fetch(`/api/collections/${this.collectionId}/deploy/status?wallet_address=${this.walletAddress}`)
       const state = stateResponse.ok ? await stateResponse.json() : {}
 
-      // Step 1: Upload Metadata (skip if already done)
+      // Step 1: Upload Metadata (no wallet popup, safe to update UI)
       if (state.metadata_uploaded) {
         this.updateStep('upload_metadata', { status: 'completed', description: 'Metadata already uploaded' })
       } else {
         await this.uploadMetadata()
       }
+
+      // Let React flush any pending re-renders before wallet popups start
+      await new Promise(r => setTimeout(r, 100))
 
       // Step 2: Create Core Collection (skip if already done)
       if (state.collection_mint_address) {
@@ -118,6 +114,9 @@ export class SolanaDeployment {
       } else {
         await this.createCollectionNFT()
       }
+
+      // Let React flush before next wallet popup
+      await new Promise(r => setTimeout(r, 100))
 
       // Step 3: Deploy Core Candy Machine (skip if already done)
       if (state.candy_machine_address) {
@@ -160,13 +159,18 @@ export class SolanaDeployment {
   }
 
   /**
-   * Create Collection NFT using sendTransaction (standard wallet adapter pattern).
-   * Server returns unsigned tx + collection signer secret key.
-   * We pass the signer to sendTransaction via the `signers` option.
+   * Create Collection NFT.
+   *
+   * Uses signTransaction + sendRawTransaction pattern:
+   * 1. Partial-sign with collection signer keypair
+   * 2. Wallet signs (one popup)
+   * 3. We send via our own RPC connection
+   *
+   * CRITICAL: ZERO updateStep calls until AFTER the wallet popup closes.
    */
   async createCollectionNFT() {
-    this.updateStep('create_collection_nft', { status: 'in_progress' })
     try {
+      console.log('[Deploy] Building collection NFT transaction...')
       const response = await fetch(`/api/collections/${this.collectionId}/deploy/create-collection-nft`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -178,26 +182,28 @@ export class SolanaDeployment {
       const connection = await getConnection()
       const transaction = VersionedTransaction.deserialize(Buffer.from(data.transaction, 'base64'))
 
-      // Reconstruct the collection signer keypair from the secret key returned by server
-      const collectionSigner = data.signerSecretKey
-        ? Keypair.fromSecretKey(Uint8Array.from(Buffer.from(data.signerSecretKey, 'base64')))
-        : undefined
+      // Partial-sign with collection signer keypair (co-signer)
+      if (data.signerSecretKey) {
+        const collectionSigner = Keypair.fromSecretKey(new Uint8Array(Buffer.from(data.signerSecretKey, 'base64')))
+        transaction.sign([collectionSigner])
+        console.log('[Deploy] Partial-signed with collection signer')
+      }
 
-      this.updateStep('create_collection_nft', {
-        description: 'Approve transaction in your wallet...',
+      // Wallet signs — this opens the popup
+      console.log('[Deploy] Requesting wallet approval for collection NFT...')
+      const signedTx = await this.wallet.signTransaction(transaction)
+
+      // Wallet popup closed — NOW safe to update UI
+      this.updateStep('create_collection_nft', { status: 'in_progress', description: 'Sending transaction...' })
+
+      // We send via our RPC (not the wallet's internal RPC)
+      const signature = await connection.sendRawTransaction(signedTx.serialize(), {
+        skipPreflight: false,
+        preflightCommitment: 'confirmed',
       })
+      console.log('[Deploy] Collection NFT tx sent:', signature)
 
-      // sendTransaction handles signing + sending + wallet lifecycle for ALL wallets
-      const signature = await this.wallet.sendTransaction(
-        transaction,
-        connection,
-        collectionSigner ? { signers: [collectionSigner] } : undefined
-      )
-
-      // Wait for confirmation
-      this.updateStep('create_collection_nft', {
-        description: 'Confirming on-chain...',
-      })
+      this.updateStep('create_collection_nft', { description: 'Confirming on-chain...' })
 
       const latestBlockhash = await connection.getLatestBlockhash()
       await connection.confirmTransaction({
@@ -206,7 +212,6 @@ export class SolanaDeployment {
         lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
       })
 
-      // Save to DB
       const confirmResponse = await fetch(`/api/collections/${this.collectionId}/deploy/create-collection-nft`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -231,124 +236,159 @@ export class SolanaDeployment {
   }
 
   /**
-   * Deploy Candy Machine.
+   * Deploy Candy Machine — TWO-PHASE approach.
    *
-   * Flow:
-   * 1. One API call builds ALL transactions (CM creation + config lines) — returns unsigned txs + CM signer key
-   * 2. CM creation: sendTransaction with CM signer (1 wallet popup, standard adapter flow)
-   * 3. Config lines: signAllTransactions (1 wallet popup) → blast-send via RPC
-   * 4. Save to DB
+   * Phase 1: Build CM creation tx (fresh blockhash) → sign → send → confirm
+   * Phase 2: Build config line txs (fresh blockhash) → sign all → send with rate limiting → confirm
    *
-   * Total: 2 wallet popups for the entire candy machine deployment.
+   * Each phase gets its own blockhash, preventing expiration.
+   *
+   * CRITICAL: ZERO updateStep calls until AFTER wallet popups close.
    */
   async deployCandyMachine() {
-    this.updateStep('create_candy_machine', { status: 'in_progress' })
-
     try {
-      // Step 1: Build ALL transactions
-      this.updateStep('create_candy_machine', { description: 'Building all transactions...' })
+      const connection = await getConnection()
 
-      const buildResponse = await fetch(`/api/collections/${this.collectionId}/deploy/create-candy-machine`, {
+      // ========== PHASE 1: Create Candy Machine ==========
+      console.log('[Deploy Phase 1] Building CM creation transaction...')
+      const phase1Response = await fetch(`/api/collections/${this.collectionId}/deploy/create-candy-machine`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wallet_address: this.walletAddress }),
+        body: JSON.stringify({ wallet_address: this.walletAddress, step: 'create' }),
       })
-      const buildData = await buildResponse.json()
-      if (!buildResponse.ok) throw new Error(buildData.error || 'Failed to build Candy Machine transactions')
+      const phase1Data = await phase1Response.json()
+      if (!phase1Response.ok) throw new Error(phase1Data.error || 'Failed to build Candy Machine transaction')
 
-      const { candyMachine: candyMachineAddress, transactions: txList } = buildData
-      console.log(`[Deploy] Built ${txList.length} transactions for CM ${candyMachineAddress}`)
+      const candyMachineAddress = phase1Data.candyMachine
+      console.log(`[Deploy Phase 1] CM address: ${candyMachineAddress}, config batches needed: ${phase1Data.configLineBatches}`)
 
-      const connection = await getConnection()
-      const signatures: string[] = []
+      // Deserialize and partial-sign CM tx
+      const cmTx = VersionedTransaction.deserialize(Buffer.from(phase1Data.transaction, 'base64'))
+      if (phase1Data.cmSignerSecretKey) {
+        const cmSigner = Keypair.fromSecretKey(new Uint8Array(Buffer.from(phase1Data.cmSignerSecretKey, 'base64')))
+        cmTx.sign([cmSigner])
+        console.log('[Deploy Phase 1] Partial-signed CM tx with candy machine signer')
+      }
 
-      // Step 2: Send CM creation (tx 0) using sendTransaction with CM signer
-      this.updateStep('create_candy_machine', {
-        description: 'Approve Candy Machine creation in your wallet...',
+      // Wallet signs CM tx — POPUP 1
+      console.log('[Deploy Phase 1] Requesting wallet approval for CM creation...')
+      const signedCmTx = await this.wallet.signTransaction(cmTx)
+
+      // Popup closed — safe to update UI
+      this.updateStep('create_candy_machine', { status: 'in_progress', description: 'Sending Candy Machine transaction...' })
+
+      // Send CM tx
+      const cmSig = await connection.sendRawTransaction(signedCmTx.serialize(), {
+        skipPreflight: false,
+        preflightCommitment: 'confirmed',
       })
+      console.log(`[Deploy Phase 1] CM tx sent: ${cmSig}`)
 
-      const cmTx = VersionedTransaction.deserialize(Buffer.from(txList[0].transaction, 'base64'))
-      const cmSigner = buildData.cmSignerSecretKey
-        ? Keypair.fromSecretKey(Uint8Array.from(Buffer.from(buildData.cmSignerSecretKey, 'base64')))
-        : undefined
+      this.updateStep('create_candy_machine', { description: 'Confirming Candy Machine on-chain...' })
 
-      const cmSig = await this.wallet.sendTransaction(
-        cmTx,
-        connection,
-        cmSigner ? { signers: [cmSigner] } : undefined
-      )
-
-      this.updateStep('create_candy_machine', { description: 'Confirming Candy Machine creation...' })
-      const latestBlockhash = await connection.getLatestBlockhash()
+      const cmBlockhash = await connection.getLatestBlockhash()
       await connection.confirmTransaction({
         signature: cmSig,
-        blockhash: latestBlockhash.blockhash,
-        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+        blockhash: cmBlockhash.blockhash,
+        lastValidBlockHeight: cmBlockhash.lastValidBlockHeight,
       })
-      signatures.push(cmSig)
-      console.log(`[Deploy] CM created: ${cmSig}`)
+      console.log(`[Deploy Phase 1] CM confirmed on-chain: ${cmSig}`)
 
-      // Step 3: Config line transactions — signAllTransactions + blast send
-      if (txList.length > 1) {
-        const configTxs = txList.slice(1).map((tx: any) =>
+      const signatures: string[] = [cmSig]
+
+      // ========== PHASE 2: Add Config Lines (fresh blockhash) ==========
+      if (phase1Data.configLineBatches > 0) {
+        this.updateStep('create_candy_machine', {
+          description: `Building ${phase1Data.configLineBatches} config line transactions...`,
+        })
+
+        console.log(`[Deploy Phase 2] Requesting config line txs with fresh blockhash...`)
+        const phase2Response = await fetch(`/api/collections/${this.collectionId}/deploy/create-candy-machine`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            wallet_address: this.walletAddress,
+            step: 'config_lines',
+            candy_machine_address: candyMachineAddress,
+          }),
+        })
+        const phase2Data = await phase2Response.json()
+        if (!phase2Response.ok) throw new Error(phase2Data.error || 'Failed to build config line transactions')
+
+        const txList = phase2Data.transactions
+        console.log(`[Deploy Phase 2] Built ${txList.length} config line txs with fresh blockhash`)
+
+        // Deserialize config line txs
+        const configTxs = txList.map((tx: any) =>
           VersionedTransaction.deserialize(Buffer.from(tx.transaction, 'base64'))
         )
 
-        this.updateStep('create_candy_machine', {
-          description: `Approve ${configTxs.length} config line transactions in your wallet...`,
-        })
+        // No updateStep before wallet popup!
+        // Sign config txs in batches to prevent Phantom timeout on large sets.
+        // Each batch gets its own signAllTransactions popup.
+        const SIGN_BATCH_SIZE = 6
+        let signedConfigTxs: VersionedTransaction[] = []
 
-        // Sign all config line txs at once (1 popup)
-        let signedConfigTxs: VersionedTransaction[]
         if (this.wallet.signAllTransactions && configTxs.length > 1) {
-          signedConfigTxs = await this.wallet.signAllTransactions(configTxs)
-        } else {
-          // Wallet doesn't support signAllTransactions — fall back to individual sendTransaction
-          for (let i = 0; i < configTxs.length; i++) {
-            this.updateStep('create_candy_machine', {
-              description: `Sending config line tx ${i + 1}/${configTxs.length}...`,
-            })
-            const sig = await this.wallet.sendTransaction(configTxs[i], connection)
-            signatures.push(sig)
+          for (let b = 0; b < configTxs.length; b += SIGN_BATCH_SIZE) {
+            const batch = configTxs.slice(b, b + SIGN_BATCH_SIZE)
+            console.log(`[Deploy Phase 2] Requesting wallet approval for config txs ${b + 1}-${b + batch.length} of ${configTxs.length}...`)
+            const signed = await this.wallet.signAllTransactions(batch)
+            signedConfigTxs.push(...signed)
           }
-          signedConfigTxs = [] // already sent
+        } else {
+          for (const tx of configTxs) {
+            signedConfigTxs.push(await this.wallet.signTransaction(tx))
+          }
         }
 
-        // Blast-send all signed config txs
-        if (signedConfigTxs.length > 0) {
-          this.updateStep('create_candy_machine', {
-            description: `Sending ${signedConfigTxs.length} config line transactions...`,
-          })
+        // Popup closed — safe to update UI
+        this.updateStep('create_candy_machine', {
+          description: `Sending ${signedConfigTxs.length} config line transactions...`,
+        })
 
-          const configSigs: string[] = []
-          for (let i = 0; i < signedConfigTxs.length; i++) {
-            const sig = await connection.sendRawTransaction(signedConfigTxs[i].serialize(), {
-              skipPreflight: false,
-              preflightCommitment: 'confirmed',
+        // Send config line txs with rate limiting
+        const BATCH_SIZE = 3
+        const DELAY_BETWEEN_BATCHES_MS = 1500
+        const configSigs: string[] = []
+
+        for (let i = 0; i < signedConfigTxs.length; i++) {
+          const sig = await connection.sendRawTransaction(signedConfigTxs[i].serialize(), {
+            skipPreflight: true,
+            preflightCommitment: 'confirmed',
+          })
+          configSigs.push(sig)
+          console.log(`[Deploy Phase 2] Sent config tx ${i + 1}/${signedConfigTxs.length}: ${sig}`)
+
+          if ((i + 1) % BATCH_SIZE === 0 && i < signedConfigTxs.length - 1) {
+            this.updateStep('create_candy_machine', {
+              description: `Sending config lines... ${i + 1}/${signedConfigTxs.length}`,
             })
-            configSigs.push(sig)
-            console.log(`[Deploy] Sent config tx ${i + 1}/${signedConfigTxs.length}: ${sig}`)
+            await new Promise(r => setTimeout(r, DELAY_BETWEEN_BATCHES_MS))
           }
+        }
 
-          // Confirm all
-          this.updateStep('create_candy_machine', {
-            description: `Confirming ${configSigs.length} config line transactions...`,
-          })
+        this.updateStep('create_candy_machine', {
+          description: `Confirming ${configSigs.length} config line transactions...`,
+        })
 
-          const confirmBlockhash = await connection.getLatestBlockhash()
-          for (const sig of configSigs) {
+        const confirmBlockhash = await connection.getLatestBlockhash()
+        for (const sig of configSigs) {
+          try {
             await connection.confirmTransaction({
               signature: sig,
               blockhash: confirmBlockhash.blockhash,
               lastValidBlockHeight: confirmBlockhash.lastValidBlockHeight,
             })
-            signatures.push(sig)
+          } catch (confirmErr: any) {
+            console.warn(`[Deploy Phase 2] Config tx confirm warning: ${confirmErr.message}`)
           }
-          console.log(`[Deploy] All ${configSigs.length} config line transactions confirmed`)
+          signatures.push(sig)
         }
+        console.log(`[Deploy Phase 2] All ${configSigs.length} config line transactions confirmed`)
       }
 
-      // Step 4: Save to database
+      // ========== Save to database ==========
       this.updateStep('create_candy_machine', { description: 'Saving deployment to database...' })
 
       const confirmResponse = await fetch(`/api/collections/${this.collectionId}/deploy/create-candy-machine`, {
@@ -396,16 +436,20 @@ export async function mintFromCandyMachine(
     const connection = await getConnection()
     const transaction = VersionedTransaction.deserialize(Buffer.from(buildData.transaction, 'base64'))
 
-    // Reconstruct the NFT mint signer if provided
-    const nftSigner = buildData.signerSecretKey
-      ? Keypair.fromSecretKey(Uint8Array.from(Buffer.from(buildData.signerSecretKey, 'base64')))
-      : undefined
+    // Partial-sign with NFT mint signer if provided
+    if (buildData.signerSecretKey) {
+      const nftSigner = Keypair.fromSecretKey(new Uint8Array(Buffer.from(buildData.signerSecretKey, 'base64')))
+      transaction.sign([nftSigner])
+    }
 
-    const signature = await wallet.sendTransaction(
-      transaction,
-      connection,
-      nftSigner ? { signers: [nftSigner] } : undefined
-    )
+    // Wallet signs
+    const signedTx = await wallet.signTransaction(transaction)
+
+    // We send via our RPC
+    const signature = await connection.sendRawTransaction(signedTx.serialize(), {
+      skipPreflight: false,
+      preflightCommitment: 'confirmed',
+    })
 
     // Confirm with backend
     const confirmResponse = await fetch(`/api/launchpad/${collectionId}/mint/confirm`, {
