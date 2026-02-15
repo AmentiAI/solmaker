@@ -1,16 +1,20 @@
 'use client'
 
 import React, { useState } from 'react'
+import type { Collection } from './types'
 
 interface AgentMintInfoProps {
   collectionId: string
   mintType: 'agent_only' | 'agent_and_human'
+  collection: Collection
 }
 
-export function AgentMintInfo({ collectionId, mintType }: AgentMintInfoProps) {
+export function AgentMintInfo({ collectionId, mintType, collection }: AgentMintInfoProps) {
   const [copied, setCopied] = useState(false)
 
   const skillUrl = `${window.location.origin}/api/launchpad/${collectionId}/agent/skill`
+  const maxSupply = collection.max_supply ?? collection.total_supply
+  const available = Math.max(0, maxSupply - collection.total_minted)
 
   const handleCopy = () => {
     navigator.clipboard.writeText(skillUrl)
@@ -25,6 +29,28 @@ export function AgentMintInfo({ collectionId, mintType }: AgentMintInfoProps) {
         <h3 className="text-lg font-bold text-white">
           {mintType === 'agent_only' ? 'Agent-Only Mint' : 'Agent Mint Available'}
         </h3>
+      </div>
+
+      {/* Supply Stats */}
+      <div className="grid grid-cols-3 gap-3 mb-5">
+        <div className="bg-[#0a0a12] border border-[#9945FF]/20 rounded-lg p-4">
+          <div className="text-xs text-[#a8a8b8]/60 mb-1">Supply</div>
+          <div className="text-xl font-bold text-white">
+            {maxSupply.toLocaleString()}
+          </div>
+        </div>
+        <div className="bg-[#0a0a12] border border-[#9945FF]/20 rounded-lg p-4">
+          <div className="text-xs text-[#a8a8b8]/60 mb-1">Minted</div>
+          <div className="text-xl font-bold text-[#9945FF]">
+            {collection.total_minted.toLocaleString()}
+          </div>
+        </div>
+        <div className="bg-[#0a0a12] border border-[#9945FF]/20 rounded-lg p-4">
+          <div className="text-xs text-[#a8a8b8]/60 mb-1">Available</div>
+          <div className="text-xl font-bold text-[#14F195]">
+            {available.toLocaleString()}
+          </div>
+        </div>
       </div>
 
       {mintType === 'agent_only' && (

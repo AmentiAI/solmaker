@@ -1480,7 +1480,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <div className="lg:col-span-12">
                       {collection.mint_type === 'agent_only' && (
-                        <AgentMintInfo collectionId={collectionId} mintType="agent_only" />
+                        <AgentMintInfo collectionId={collectionId} mintType="agent_only" collection={collection} />
                       )}
                       {collection.mint_type === 'agent_and_human' && (
                         <>
@@ -1515,7 +1515,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                             formatTimeUntil={formatTimeUntil}
                           />
                           <div className="mt-6">
-                            <AgentMintInfo collectionId={collectionId} mintType="agent_and_human" />
+                            <AgentMintInfo collectionId={collectionId} mintType="agent_and_human" collection={collection} />
                           </div>
                         </>
                       )}
@@ -1650,7 +1650,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                 </div>
                 <div className="lg:col-span-7">
                   {collection.mint_type === 'agent_only' && (
-                    <AgentMintInfo collectionId={collectionId} mintType="agent_only" />
+                    <AgentMintInfo collectionId={collectionId} mintType="agent_only" collection={collection} />
                   )}
                   {collection.mint_type === 'agent_and_human' && (
                     <>
@@ -1685,7 +1685,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                         formatTimeUntil={formatTimeUntil}
                       />
                       <div className="mt-6">
-                        <AgentMintInfo collectionId={collectionId} mintType="agent_and_human" />
+                        <AgentMintInfo collectionId={collectionId} mintType="agent_and_human" collection={collection} />
                       </div>
                     </>
                   )}

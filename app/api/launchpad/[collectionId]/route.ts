@@ -48,9 +48,19 @@ export async function GET(
       SELECT 
         c.*,
         (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id) as total_supply,
-        -- Use is_minted flag as source of truth (not transaction count)
-        (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id AND is_minted = true) as minted_count,
-        (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id AND is_minted = false) as available_count,
+        -- Use is_minted flag as base, but also count in-flight Solana mints
+        GREATEST(
+          (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id AND is_minted = true),
+          (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = c.id AND mint_status NOT IN ('failed', 'cancelled'))
+        ) as minted_count,
+        (
+          (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id)
+          -
+          GREATEST(
+            (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id AND is_minted = true),
+            (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = c.id AND mint_status NOT IN ('failed', 'cancelled'))
+          )
+        ) as available_count,
         (
           SELECT COALESCE(AVG(COALESCE(compressed_size_kb, 50)), 50)::numeric(10,2)
           FROM generated_ordinals 
@@ -110,37 +120,44 @@ export async function GET(
       }, { status: 404 })
     }
 
-    // Get phases with recalculated phase_minted from generated_ordinals.is_minted
-    // Count ordinals that are minted and belong to this phase (via ordinal_reservations or mint_inscriptions)
+    // Get phases with recalculated phase_minted from BTC + Solana systems
     const phasesResult = await sql`
-      SELECT 
+      SELECT
         mp.*,
         w.name as whitelist_name,
         w.entries_count as whitelist_entries,
-        COALESCE((
-          SELECT COUNT(DISTINCT go.id)
-          FROM generated_ordinals go
-          WHERE go.collection_id = ${collectionId}
-            AND go.is_minted = true
-            AND (
-              -- Check if ordinal was minted in this phase via reservation
-              EXISTS (
-                SELECT 1 FROM ordinal_reservations r
-                WHERE r.ordinal_id = go.id
-                  AND r.phase_id = mp.id
-                  AND r.status = 'completed'
+        (
+          COALESCE((
+            SELECT COUNT(DISTINCT go.id)
+            FROM generated_ordinals go
+            WHERE go.collection_id = ${collectionId}
+              AND go.is_minted = true
+              AND (
+                EXISTS (
+                  SELECT 1 FROM ordinal_reservations r
+                  WHERE r.ordinal_id = go.id
+                    AND r.phase_id = mp.id
+                    AND r.status = 'completed'
+                )
+                OR
+                EXISTS (
+                  SELECT 1 FROM mint_inscriptions mi
+                  WHERE mi.ordinal_id = go.id
+                    AND mi.phase_id = mp.id
+                    AND mi.is_test_mint = false
+                    AND mi.mint_status != 'failed'
+                )
               )
-              OR
-              -- Check if ordinal was minted in this phase via mint_inscription
-              EXISTS (
-                SELECT 1 FROM mint_inscriptions mi
-                WHERE mi.ordinal_id = go.id
-                  AND mi.phase_id = mp.id
-            AND mi.is_test_mint = false
-            AND mi.mint_status != 'failed'
-              )
-            )
-        ), 0) as phase_minted
+          ), 0)
+          +
+          COALESCE((
+            SELECT COUNT(*)
+            FROM solana_nft_mints snm
+            WHERE snm.collection_id = ${collectionId}::uuid
+              AND snm.phase_id = mp.id
+              AND snm.mint_status NOT IN ('failed', 'cancelled')
+          ), 0)
+        ) as phase_minted
       FROM mint_phases mp
       LEFT JOIN mint_phase_whitelists w ON mp.whitelist_id = w.id
       WHERE mp.collection_id = ${collectionId}

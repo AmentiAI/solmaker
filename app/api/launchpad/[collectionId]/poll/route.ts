@@ -35,16 +35,24 @@ export async function GET(
     const walletAddress = searchParams.get('wallet_address')
 
     // OPTIMIZATION: Single combined query for all counts (reduces round trips)
+    // For Solana collections, also count in-flight mints from solana_nft_mints
+    // to reflect pending mints before they're confirmed and is_minted is set
     const countsResult = await sql`
       SELECT
         (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId}) as total_supply,
-        -- Use is_minted flag as source of truth (not transaction count)
-        (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId} AND is_minted = true) as total_minted,
+        -- Use is_minted flag as base, but ALSO count in-flight Solana mints
+        -- (awaiting_signature, broadcasting, confirming) that haven't triggered is_minted yet
+        GREATEST(
+          (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId} AND is_minted = true),
+          (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status NOT IN ('failed', 'cancelled'))
+        ) as total_minted,
         (
-          SELECT COUNT(*)
-          FROM generated_ordinals
-          WHERE collection_id = ${collectionId}
-            AND is_minted = false
+          (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId})
+          -
+          GREATEST(
+            (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId} AND is_minted = true),
+            (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status NOT IN ('failed', 'cancelled'))
+          )
         ) as available_count,
         NOW() as current_time
     ` as any[]
@@ -61,29 +69,40 @@ export async function GET(
         mp.end_time,
         mp.mint_price_sats,
         mp.whitelist_only,
-        -- Use generated_ordinals.is_minted as source of truth (not mint_inscriptions)
-        COALESCE((
-          SELECT COUNT(DISTINCT go.id)
-          FROM generated_ordinals go
-          WHERE go.collection_id = ${collectionId}
-            AND go.is_minted = true
-            AND (
-              EXISTS (
-                SELECT 1 FROM ordinal_reservations r
-                WHERE r.ordinal_id = go.id
-                  AND r.phase_id = mp.id
-                  AND r.status = 'completed'
+        -- Count phase mints from BTC system (ordinal_reservations + mint_inscriptions)
+        -- AND Solana system (solana_nft_mints)
+        (
+          COALESCE((
+            SELECT COUNT(DISTINCT go.id)
+            FROM generated_ordinals go
+            WHERE go.collection_id = ${collectionId}
+              AND go.is_minted = true
+              AND (
+                EXISTS (
+                  SELECT 1 FROM ordinal_reservations r
+                  WHERE r.ordinal_id = go.id
+                    AND r.phase_id = mp.id
+                    AND r.status = 'completed'
+                )
+                OR
+                EXISTS (
+                  SELECT 1 FROM mint_inscriptions mi
+                  WHERE mi.ordinal_id = go.id
+                    AND mi.phase_id = mp.id
+                    AND mi.is_test_mint = false
+                    AND mi.mint_status != 'failed'
+                )
               )
-              OR
-              EXISTS (
-                SELECT 1 FROM mint_inscriptions mi
-                WHERE mi.ordinal_id = go.id
-                  AND mi.phase_id = mp.id
-            AND mi.is_test_mint = false
-            AND mi.mint_status != 'failed'
-              )
-            )
-        ), 0) as phase_minted,
+          ), 0)
+          +
+          COALESCE((
+            SELECT COUNT(*)
+            FROM solana_nft_mints snm
+            WHERE snm.collection_id = ${collectionId}::uuid
+              AND snm.phase_id = mp.id
+              AND snm.mint_status NOT IN ('failed', 'cancelled')
+          ), 0)
+        ) as phase_minted,
         mp.phase_allocation,
         mp.max_per_wallet,
         mp.is_active,

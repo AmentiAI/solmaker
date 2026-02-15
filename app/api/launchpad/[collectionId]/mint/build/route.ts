@@ -76,21 +76,35 @@ export async function POST(
       return NextResponse.json({ error: 'Minting has not started yet' }, { status: 400 })
     }
 
-    // Get mint price
+    // Expire stale awaiting_signature mints older than 5 minutes
+    // This prevents abandoned build requests from permanently consuming allocation
+    await sql`
+      UPDATE solana_nft_mints
+      SET mint_status = 'cancelled'
+      WHERE collection_id = ${collectionId}::uuid
+      AND mint_status = 'awaiting_signature'
+      AND created_at < NOW() - INTERVAL '5 minutes'
+    `
+
+    // Get mint price and phase details
     let mintPriceSol = 0
+    let activePhase: any = null
 
     if (phase_id) {
       const phases = await sql`
-        SELECT * FROM mint_phases 
+        SELECT id, phase_name, mint_price_sol, start_time, end_time,
+               phase_allocation, phase_minted, max_per_wallet,
+               whitelist_only, whitelist_id, is_completed
+        FROM mint_phases
         WHERE id = ${phase_id}::uuid
         AND collection_id = ${collectionId}::uuid
       ` as any[]
 
       if (phases.length) {
-        const phase = phases[0]
+        activePhase = phases[0]
         const now = new Date()
-        const startTime = new Date(phase.start_time)
-        const endTime = phase.end_time ? new Date(phase.end_time) : null
+        const startTime = new Date(activePhase.start_time)
+        const endTime = activePhase.end_time ? new Date(activePhase.end_time) : null
 
         if (now < startTime) {
           return NextResponse.json({ error: 'Phase has not started yet' }, { status: 400 })
@@ -98,37 +112,36 @@ export async function POST(
         if (endTime && now > endTime) {
           return NextResponse.json({ error: 'Phase has ended' }, { status: 400 })
         }
+        if (activePhase.is_completed) {
+          return NextResponse.json({ error: 'Phase is completed' }, { status: 400 })
+        }
 
-        mintPriceSol = phase.mint_price
-          ? parseFloat(String(phase.mint_price))
+        mintPriceSol = activePhase.mint_price_sol
+          ? parseFloat(String(activePhase.mint_price_sol))
           : 0
       }
-    } else {
-      mintPriceSol = collection.mint_price
-        ? parseFloat(String(collection.mint_price))
-        : 0
     }
 
     const platformFeeSol = PLATFORM_FEES.MINT_FEE_SOL
     const mintPriceLamports = Math.floor(mintPriceSol * LAMPORTS_PER_SOL)
 
-    // Check supply
+    // Check supply — count ALL non-failed/non-cancelled mints to prevent race conditions
     const supplyResult = await sql`
-      SELECT COUNT(*) as count 
-      FROM generated_ordinals 
+      SELECT COUNT(*) as count
+      FROM generated_ordinals
       WHERE collection_id = ${collectionId}::uuid
     ` as any[]
     const totalSupply = parseInt(supplyResult[0]?.count || '0', 10)
 
     const minted = await sql`
-      SELECT COUNT(*) as count 
-      FROM solana_nft_mints 
-      WHERE collection_id = ${collectionId}::uuid 
-      AND mint_status = 'confirmed'
+      SELECT COUNT(*) as count
+      FROM solana_nft_mints
+      WHERE collection_id = ${collectionId}::uuid
+      AND mint_status NOT IN ('failed', 'cancelled')
     ` as any[]
     const mintedCount = parseInt(minted[0]?.count || '0', 10)
 
-    console.log(`[Build Mint] Supply check: ${mintedCount}/${totalSupply} minted`)
+    console.log(`[Build Mint] Supply check: ${mintedCount}/${totalSupply} (including in-flight)`)
 
     if (totalSupply > 0 && mintedCount >= totalSupply) {
       return NextResponse.json({
@@ -136,6 +149,53 @@ export async function POST(
         minted: mintedCount,
         totalSupply,
       }, { status: 400 })
+    }
+
+    // Phase allocation check — count mints for this phase (including in-flight)
+    if (activePhase && activePhase.phase_allocation) {
+      const phaseAllocation = parseInt(String(activePhase.phase_allocation), 10)
+      const phaseMintedResult = await sql`
+        SELECT COUNT(*) as count
+        FROM solana_nft_mints
+        WHERE collection_id = ${collectionId}::uuid
+        AND phase_id = ${phase_id}::uuid
+        AND mint_status NOT IN ('failed', 'cancelled')
+      ` as any[]
+      const phaseMinted = parseInt(phaseMintedResult[0]?.count || '0', 10)
+
+      console.log(`[Build Mint] Phase allocation check: ${phaseMinted}/${phaseAllocation}`)
+
+      if (phaseMinted >= phaseAllocation) {
+        return NextResponse.json({
+          error: 'Phase allocation exhausted',
+          phase_minted: phaseMinted,
+          phase_allocation: phaseAllocation,
+        }, { status: 400 })
+      }
+    }
+
+    // Per-wallet limit check — count this wallet's mints for this phase (including in-flight)
+    if (activePhase && activePhase.max_per_wallet) {
+      const maxPerWallet = parseInt(String(activePhase.max_per_wallet), 10)
+      const walletMintedResult = await sql`
+        SELECT COUNT(*) as count
+        FROM solana_nft_mints
+        WHERE collection_id = ${collectionId}::uuid
+        AND minter_wallet = ${wallet_address}
+        AND phase_id = ${phase_id}::uuid
+        AND mint_status NOT IN ('failed', 'cancelled')
+      ` as any[]
+      const walletMinted = parseInt(walletMintedResult[0]?.count || '0', 10)
+
+      console.log(`[Build Mint] Per-wallet limit check: ${walletMinted}/${maxPerWallet} for ${wallet_address}`)
+
+      if (walletMinted >= maxPerWallet) {
+        return NextResponse.json({
+          error: `Wallet mint limit reached. You have ${walletMinted} mint(s) and the maximum is ${maxPerWallet} per wallet.`,
+          wallet_minted: walletMinted,
+          max_per_wallet: maxPerWallet,
+        }, { status: 400 })
+      }
     }
 
     // Create mint session
