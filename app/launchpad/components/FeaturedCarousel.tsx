@@ -68,7 +68,7 @@ export function FeaturedCarousel({
                       <div className="h-full bg-[#D4AF37]" style={{ width: `${progress}%` }} />
                     </div>
                     <button
-                      onClick={() => router.push(`/${collection.id}`)}
+                      onClick={() => router.push(`/launchpad/${collection.id}`)}
                       className="px-6 py-2 bg-[#1a1a1a] border border-[#D4AF37] hover:bg-[#D4AF37] hover:text-black text-white text-sm font-bold uppercase tracking-wider transition-all"
                     >
                       Mint Now

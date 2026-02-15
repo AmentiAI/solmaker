@@ -142,7 +142,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
     window.addEventListener('beforeunload', handleBeforeUnload)
 
-    if (pathname !== `/${collectionId}`) {
+    if (pathname !== `/launchpad/${collectionId}`) {
       isNavigatingRef.current = true
     } else {
       isNavigatingRef.current = false
@@ -318,7 +318,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
   // Initial load
   useEffect(() => {
-    if (pathname !== `/${collectionId}`) {
+    if (pathname !== `/launchpad/${collectionId}`) {
       return
     }
 
@@ -370,7 +370,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
   // Polling effect
   useEffect(() => {
-    if (pathname !== `/${collectionId}`) {
+    if (pathname !== `/launchpad/${collectionId}`) {
       return
     }
 
@@ -553,7 +553,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
 
       if (shouldAllowUpdates()) {
         const currentPath = window.location.pathname
-        if (currentPath !== `/${collectionId}`) {
+        if (currentPath !== `/launchpad/${collectionId}`) {
           return
         }
 
@@ -562,7 +562,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         }
 
         setTimeout(() => {
-          if (isNavigatingRef.current || window.location.pathname !== `/${collectionId}`) {
+          if (isNavigatingRef.current || window.location.pathname !== `/launchpad/${collectionId}`) {
             return
           }
 

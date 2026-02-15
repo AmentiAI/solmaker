@@ -38,7 +38,7 @@ export function CompletedMintsGrid({ collections }: CompletedMintsGridProps) {
             <div
               key={collection.id}
               className="group bg-[#1a1a1a] border border-[#404040] hover:border-[#D4AF37] transition-all cursor-pointer relative"
-              onClick={() => router.push(`/${collection.id}`)}
+              onClick={() => router.push(`/launchpad/${collection.id}`)}
             >
               {/* Stats Overlay on Top */}
               <div className="absolute top-0 left-0 right-0 z-10 p-2 bg-gradient-to-b from-black/90 to-transparent">
