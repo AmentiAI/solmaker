@@ -66,6 +66,7 @@ async function uploadToVercelBlob(
   const result = await put(filename, blob, {
     access: 'public',
     addRandomSuffix,
+    allowOverwrite: true,
   })
 
   return {
