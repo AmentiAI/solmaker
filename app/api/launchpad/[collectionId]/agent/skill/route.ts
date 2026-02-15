@@ -45,6 +45,27 @@ export async function GET(
     const isLive = collection.collection_status === 'launchpad_live'
     const baseUrl = request.nextUrl.origin
 
+    // Load network settings from site_settings
+    const networkSettings = await sql`
+      SELECT setting_key, setting_value FROM site_settings
+      WHERE setting_key IN ('solana_network', 'solana_rpc_devnet', 'solana_rpc_mainnet')
+    ` as any[]
+
+    const settingsMap: Record<string, string> = {}
+    for (const s of networkSettings) {
+      const val = typeof s.setting_value === 'string' ? JSON.parse(s.setting_value) : s.setting_value
+      settingsMap[s.setting_key] = val
+    }
+
+    const solanaNetwork = settingsMap['solana_network'] || 'devnet'
+    const rpcUrl = solanaNetwork === 'mainnet-beta'
+      ? (settingsMap['solana_rpc_mainnet'] || 'https://api.mainnet-beta.solana.com')
+      : (settingsMap['solana_rpc_devnet'] || 'https://api.devnet.solana.com')
+    const explorerBase = solanaNetwork === 'mainnet-beta'
+      ? 'https://explorer.solana.com'
+      : 'https://explorer.solana.com'
+    const explorerSuffix = solanaNetwork === 'mainnet-beta' ? '' : '?cluster=devnet'
+
     // Get active phase info (mint price lives on phases, not collections)
     const phases = await sql`
       SELECT id, name, mint_price_sol, start_time, end_time, phase_allocation, phase_minted
@@ -82,6 +103,8 @@ remaining: ${remaining}
 mint_price_sol: ${mintPrice}
 platform_fee_sol: ${platformFee}
 total_cost_sol: ${totalCost}
+network: ${solanaNetwork}
+rpc_url: ${rpcUrl}
 ---
 
 # ${collection.name || 'Untitled Collection'} — Agent Mint Instructions
@@ -92,7 +115,8 @@ ${collection.description || ''}
 - **Status**: ${isLive ? 'LIVE — Ready to mint' : `NOT LIVE (${collection.collection_status})`}
 - **Supply**: ${mintedCount} / ${totalSupply} minted (${remaining} remaining)
 - **Mint Price**: ${mintPrice} SOL + ${platformFee} SOL platform fee = **${totalCost} SOL total**
-- **Network**: Solana ${process.env.NEXT_PUBLIC_SOLANA_NETWORK || 'devnet'}
+- **Network**: Solana \`${solanaNetwork}\`
+- **RPC**: \`${rpcUrl}\`
 ${phaseSection}
 ## How to Mint
 
@@ -152,9 +176,10 @@ const tx = VersionedTransaction.deserialize(Buffer.from(transaction, 'base64'));
 const keypair = Keypair.fromSecretKey(bs58.decode('YOUR_PRIVATE_KEY'));
 tx.sign([keypair]);
 
-const connection = new Connection('${process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.devnet.solana.com'}');
+const connection = new Connection('${rpcUrl}');
 const sig = await connection.sendRawTransaction(tx.serialize());
 console.log('Mint tx:', sig);
+// Explorer: ${explorerBase}/tx/' + sig + '${explorerSuffix}
 \`\`\`
 
 ### Step 4: Confirm
@@ -165,12 +190,17 @@ Poll for transaction confirmation:
 curl "${baseUrl}/api/launchpad/${collectionId}/poll?wallet_address=YOUR_WALLET_ADDRESS"
 \`\`\`
 
+Or check the explorer directly:
+\`${explorerBase}/tx/YOUR_TX_SIGNATURE${explorerSuffix}\`
+
 ## Notes
+- **Network**: This collection is on Solana \`${solanaNetwork}\`${solanaNetwork === 'devnet' ? ' — you can get free SOL from [sol-faucet.com](https://sol-faucet.com)' : ''}
 - Challenge expires in **60 seconds** — get a new one if it expires
 - Each challenge is bound to your wallet address and this collection
 - You must have at least **${totalCost} SOL** in your wallet to mint
 - The transaction is partially signed by the server (NFT mint keypair + agent co-signer)
 - You only need to add your wallet signature
+- RPC endpoint: \`${rpcUrl}\`
 `
 
     return new Response(markdown, {
