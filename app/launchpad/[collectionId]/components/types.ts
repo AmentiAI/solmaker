@@ -32,7 +32,8 @@ export interface Collection {
   telegram_url?: string
   website_url?: string
   avg_ordinal_size_kb?: number // Average ordinal file size for cost estimation
-  mint_type?: 'hidden' | 'choices' // Mint type: hidden (random) or choices (paginated selection)
+  mint_type?: 'hidden' | 'choices' | 'agent_only' | 'agent_and_human'
+  agent_signer_pubkey?: string | null
 }
 
 export interface WhitelistStatus {

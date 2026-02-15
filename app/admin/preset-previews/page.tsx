@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
 import { WalletConnect } from '@/components/wallet-connect'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import { POSITION_PRESETS } from '@/app/components/WireframeEditor'
 
 interface PresetPreview {
@@ -148,12 +147,9 @@ export default function AdminPresetPreviewsPage() {
 
   if (!isConnected) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-        <AdminSidebar />
-        <div className="flex-1 ml-64 p-8">
-          <div className="max-w-7xl mx-auto">
-            <WalletConnect />
-          </div>
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <WalletConnect />
         </div>
       </div>
     )
@@ -161,14 +157,11 @@ export default function AdminPresetPreviewsPage() {
 
   if (!authorized) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-        <AdminSidebar />
-        <div className="flex-1 ml-64 p-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-[#EF4444]/20/50 rounded-lg p-6 text-center">
-              <h2 className="text-2xl font-bold text-red-200 mb-2">Access Denied</h2>
-              <p className="text-red-300">You do not have admin access to this page.</p>
-            </div>
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 border border-[#EF4444]/20/50 rounded-lg p-6 text-center">
+            <h2 className="text-2xl font-bold text-red-200 mb-2">Access Denied</h2>
+            <p className="text-red-300">You do not have admin access to this page.</p>
           </div>
         </div>
       </div>
@@ -176,10 +169,7 @@ export default function AdminPresetPreviewsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-      <AdminSidebar />
-
-      <div className="flex-1 ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent mb-2">
@@ -362,7 +352,6 @@ export default function AdminPresetPreviewsPage() {
             </div>
           )}
         </div>
-      </div>
     </div>
   )
 }

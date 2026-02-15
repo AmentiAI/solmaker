@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import Link from 'next/link'
 
 interface Collection {
@@ -151,10 +150,7 @@ export default function AdminCollectionsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0a0e27]">
-      <AdminSidebar />
-      
-      <div className="flex-1 ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-[1800px] mx-auto">
           {/* Header */}
           <div className="mb-6">
@@ -432,7 +428,6 @@ export default function AdminCollectionsPage() {
             )}
           </div>
         </div>
-      </div>
 
     </div>
   )

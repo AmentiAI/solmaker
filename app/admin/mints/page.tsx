@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
 import { WalletConnect } from '@/components/wallet-connect'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import Link from 'next/link'
 
 // Type definitions
@@ -646,10 +645,7 @@ export default function AdminMintsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-      <AdminSidebar />
-      <div className="ml-64">
-        <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-6 py-8">
           <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8">
@@ -1886,8 +1882,6 @@ export default function AdminMintsPage() {
             </>
           )}
           </div>
-        </div>
-      </div>
     </div>
   )
 }

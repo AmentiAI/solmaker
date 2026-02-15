@@ -15,6 +15,7 @@ import { NftChoicesMint } from './components/NftChoicesMint'
 import { PhaseList } from './components/PhaseList'
 import { HistoryModal } from './components/HistoryModal'
 import { TopBar } from './components/TopBar'
+import { AgentMintInfo } from './components/AgentMintInfo'
 import type { Phase, Collection, WhitelistStatus, UserMintStatus } from './components/types'
 
 export default function CollectionMintPage({ params }: { params: Promise<{ collectionId: string }> }) {
@@ -1478,6 +1479,46 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <div className="lg:col-span-12">
+                      {collection.mint_type === 'agent_only' && (
+                        <AgentMintInfo collectionId={collectionId} mintType="agent_only" />
+                      )}
+                      {collection.mint_type === 'agent_and_human' && (
+                        <>
+                          <MintDetailsSection
+                            collection={collection}
+                            activePhase={activePhase ?? null}
+                            isConnected={isConnected}
+                            currentAddress={currentAddress ?? undefined}
+                            whitelistStatus={whitelistStatus}
+                            userMintStatus={userMintStatus}
+                            client={null}
+                            isLiveConnection={isConnected}
+                            isLive={isLive}
+                            isPreview={isPreview}
+                            countdown={countdown}
+                            priorityFee={priorityFee}
+                            priorityFeeInput={priorityFeeInput}
+                            mintQuantity={mintQuantity}
+                            mintQuantityInput={mintQuantityInput}
+                            minting={minting}
+                            mintStatus={mintStatus}
+                            error={error}
+                            txSignature={txSignature}
+                            onPriorityFeeChange={handlePriorityFeeChange}
+                            onPriorityFeeFocus={handlePriorityFeeFocus}
+                            onPriorityFeeBlur={handlePriorityFeeBlur}
+                            onQuantityChange={handleQuantityChange}
+                            onQuantityBlur={handleQuantityBlur}
+                            onMaxClick={handleMaxClick}
+                            onMint={handleMint}
+                            formatLamports={formatLamports}
+                            formatTimeUntil={formatTimeUntil}
+                          />
+                          <div className="mt-6">
+                            <AgentMintInfo collectionId={collectionId} mintType="agent_and_human" />
+                          </div>
+                        </>
+                      )}
                       {collection.mint_type === 'choices' && (
                         <NftChoicesMint
                           collection={collection}
@@ -1499,7 +1540,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                           minting={minting}
                         />
                       )}
-                      {collection.mint_type !== 'choices' && (
+                      {(collection.mint_type === 'hidden' || !collection.mint_type) && (
                         <MintDetailsSection
                           collection={collection}
                           activePhase={activePhase ?? null}
@@ -1608,6 +1649,46 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                   </div>
                 </div>
                 <div className="lg:col-span-7">
+                  {collection.mint_type === 'agent_only' && (
+                    <AgentMintInfo collectionId={collectionId} mintType="agent_only" />
+                  )}
+                  {collection.mint_type === 'agent_and_human' && (
+                    <>
+                      <MintDetailsSection
+                        collection={collection}
+                        activePhase={activePhase ?? null}
+                        isConnected={isConnected}
+                        currentAddress={currentAddress ?? undefined}
+                        whitelistStatus={whitelistStatus}
+                        userMintStatus={userMintStatus}
+                        client={null}
+                        isLiveConnection={isConnected}
+                        isLive={isLive}
+                        isPreview={isPreview}
+                        countdown={countdown}
+                        priorityFee={priorityFee}
+                        priorityFeeInput={priorityFeeInput}
+                        mintQuantity={mintQuantity}
+                        mintQuantityInput={mintQuantityInput}
+                        minting={minting}
+                        mintStatus={mintStatus}
+                        error={error}
+                        txSignature={txSignature}
+                        onPriorityFeeChange={handlePriorityFeeChange}
+                        onPriorityFeeFocus={handlePriorityFeeFocus}
+                        onPriorityFeeBlur={handlePriorityFeeBlur}
+                        onQuantityChange={handleQuantityChange}
+                        onQuantityBlur={handleQuantityBlur}
+                        onMaxClick={handleMaxClick}
+                        onMint={handleMint}
+                        formatLamports={formatLamports}
+                        formatTimeUntil={formatTimeUntil}
+                      />
+                      <div className="mt-6">
+                        <AgentMintInfo collectionId={collectionId} mintType="agent_and_human" />
+                      </div>
+                    </>
+                  )}
                   {collection.mint_type === 'choices' && (
                     <NftChoicesMint
                       collection={collection}
@@ -1629,7 +1710,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                       minting={minting}
                     />
                   )}
-                  {collection.mint_type !== 'choices' && (
+                  {(collection.mint_type === 'hidden' || !collection.mint_type) && (
                     <MintDetailsSection
                       collection={collection}
                       activePhase={activePhase ?? null}
@@ -1661,7 +1742,6 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
                       formatTimeUntil={formatTimeUntil}
                     />
                   )}
-
 
                   <PhaseList
                     collection={collection}

@@ -176,6 +176,7 @@ export async function buildCandyMachineMint(
     creatorWallet: string
     platformFeeSol: number
     platformWallet: string
+    agentSigner?: KeypairSigner
   }
 ): Promise<{
   builder: TransactionBuilder
@@ -205,6 +206,12 @@ export async function buildCandyMachineMint(
   if (params.platformFeeSol > 0) {
     mintArgs.solFixedFee = some({
       destination: publicKey(params.platformWallet),
+    })
+  }
+
+  if (params.agentSigner) {
+    mintArgs.thirdPartySigner = some({
+      signer: params.agentSigner,
     })
   }
 

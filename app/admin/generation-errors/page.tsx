@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
 import { WalletConnect } from '@/components/wallet-connect'
-import { AdminSidebar } from '@/components/admin-sidebar'
 
 interface GenerationError {
   id: string
@@ -140,10 +139,8 @@ export default function AdminGenerationErrorsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
+    <div className="p-8 pt-32">
       <WalletConnect />
-      <AdminSidebar />
-      <div className="ml-64 p-8 pt-32">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent mb-2">Generation Errors</h1>
@@ -314,7 +311,6 @@ export default function AdminGenerationErrorsPage() {
             </div>
           )}
         </div>
-      </div>
     </div>
   )
 }

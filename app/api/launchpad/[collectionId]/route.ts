@@ -296,6 +296,8 @@ export async function GET(
       collection_mint_address: cAny?.collection_mint_address || null,
       deployment_status: cAny?.deployment_status || null,
       metadata_uploaded: cAny?.metadata_uploaded || false,
+      // Agent mint fields
+      agent_signer_pubkey: cAny?.agent_signer_pubkey || null,
       // Platform fee info (from env)
       platform_fee_sol: getPlatformFeeSol(),
       platform_wallet: getPlatformWalletAddress(),

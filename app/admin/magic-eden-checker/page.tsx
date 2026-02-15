@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
 import Link from 'next/link'
@@ -144,9 +143,7 @@ export default function MagicEdenCheckerPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]">
-      <AdminSidebar />
-      <div className="flex-1 ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-white mb-2">Magic Eden Wallet Checker</h1>
           <p className="text-[#a8a8b8] mb-8">Check if a wallet holds ordinals from a specific collection</p>
@@ -304,7 +301,6 @@ export default function MagicEdenCheckerPage() {
             </div>
           )}
         </div>
-      </div>
     </div>
   )
 }

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { AdminSidebar } from '@/components/admin-sidebar'
 
 interface WalletInfo {
   p2wpkh: { address: string; path: string; pubKeyHex: string; pubKeyLength: number }
@@ -100,9 +99,7 @@ export default function PayoutTestingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-      <AdminSidebar />
-      <div className="ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
@@ -369,7 +366,6 @@ export default function PayoutTestingPage() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   )
 }

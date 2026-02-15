@@ -28,8 +28,8 @@ interface CollectionSettingsStepProps {
   capSupply: number | null
   setCapSupply: (value: number | null) => void
   totalSupply: number
-  mintType: 'hidden' | 'choices'
-  setMintType: (value: 'hidden' | 'choices') => void
+  mintType: 'hidden' | 'choices' | 'agent_only' | 'agent_and_human'
+  setMintType: (value: 'hidden' | 'choices' | 'agent_only' | 'agent_and_human') => void
   uploadingBanner: boolean
   uploadingMobile: boolean
   uploadingAudio: boolean
@@ -401,7 +401,7 @@ export function CollectionSettingsStep({
               name="mintType"
               value="hidden"
               checked={mintType === 'hidden'}
-              onChange={(e) => setMintType(e.target.value as 'hidden' | 'choices')}
+              onChange={(e) => setMintType(e.target.value as typeof mintType)}
               className="w-4 h-4 text-[#00d4ff]"
             />
             <div className="flex-1">
@@ -415,12 +415,40 @@ export function CollectionSettingsStep({
               name="mintType"
               value="choices"
               checked={mintType === 'choices'}
-              onChange={(e) => setMintType(e.target.value as 'hidden' | 'choices')}
+              onChange={(e) => setMintType(e.target.value as typeof mintType)}
               className="w-4 h-4 text-[#00d4ff]"
             />
             <div className="flex-1">
               <div className="font-semibold text-white">🎯 Choose Your NFT</div>
               <div className="text-sm text-[#a8a8b8]/80">Paginated browsing - users select specific NFTs to mint</div>
+            </div>
+          </label>
+          <label className="flex items-center gap-3 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg cursor-pointer hover:border-[#00d4ff]/50 transition-colors">
+            <input
+              type="radio"
+              name="mintType"
+              value="agent_only"
+              checked={mintType === 'agent_only'}
+              onChange={(e) => setMintType(e.target.value as typeof mintType)}
+              className="w-4 h-4 text-[#00d4ff]"
+            />
+            <div className="flex-1">
+              <div className="font-semibold text-white">🤖 Agent Only</div>
+              <div className="text-sm text-[#a8a8b8]/80">Only AI agents can mint via API — no manual mint button</div>
+            </div>
+          </label>
+          <label className="flex items-center gap-3 p-4 bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-[#00d4ff]/30 rounded-lg cursor-pointer hover:border-[#00d4ff]/50 transition-colors">
+            <input
+              type="radio"
+              name="mintType"
+              value="agent_and_human"
+              checked={mintType === 'agent_and_human'}
+              onChange={(e) => setMintType(e.target.value as typeof mintType)}
+              className="w-4 h-4 text-[#00d4ff]"
+            />
+            <div className="flex-1">
+              <div className="font-semibold text-white">🤖+👤 Agent + Human</div>
+              <div className="text-sm text-[#a8a8b8]/80">Both AI agents and humans can mint — agents use API, humans use the mint button</div>
             </div>
           </label>
         </div>

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import Link from 'next/link'
 
 interface PendingInscription {
@@ -204,13 +203,10 @@ export default function AdminLaunchpadPendingRevealsPage() {
 
   if (!isConnected) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-        <AdminSidebar />
-        <div className="flex-1 ml-64 p-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
-              <p className="text-[#b4b4c8]">Please connect your wallet</p>
-            </div>
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#b4b4c8]">Please connect your wallet</p>
           </div>
         </div>
       </div>
@@ -219,13 +215,10 @@ export default function AdminLaunchpadPendingRevealsPage() {
 
   if (!isAdminUser) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-        <AdminSidebar />
-        <div className="flex-1 ml-64 p-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
-              <p className="text-[#EF4444] font-semibold">Unauthorized. Admin access only.</p>
-            </div>
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-gradient-to-br from-[#0f0f1e]/90 to-[#15152a]/90 border border-[#00E5FF]/20 rounded-lg shadow p-6 text-center">
+            <p className="text-[#EF4444] font-semibold">Unauthorized. Admin access only.</p>
           </div>
         </div>
       </div>
@@ -233,10 +226,7 @@ export default function AdminLaunchpadPendingRevealsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-      <AdminSidebar />
-      
-      <div className="flex-1 ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -384,7 +374,6 @@ export default function AdminLaunchpadPendingRevealsPage() {
           </div>
         )}
         </div>
-      </div>
     </div>
   )
 }

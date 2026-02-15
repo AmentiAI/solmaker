@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import Link from 'next/link'
 import { toast } from 'sonner'
 
@@ -377,10 +376,7 @@ export default function MarketplaceAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a] text-white">
-      <AdminSidebar />
-      <div className="ml-64">
-        <div className="p-6">
+    <div className="p-6 text-white">
           <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -987,8 +983,6 @@ export default function MarketplaceAdminPage() {
           </div>
         )}
           </div>
-        </div>
-      </div>
     </div>
   )
 }

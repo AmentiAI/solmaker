@@ -52,7 +52,7 @@ export default function CollectionLaunchPage() {
   const [extendLastPhase, setExtendLastPhase] = useState(false)
   const [creatorRoyaltyWallet, setCreatorRoyaltyWallet] = useState('')
   const [capSupply, setCapSupply] = useState<number | null>(null)
-  const [mintType, setMintType] = useState<'hidden' | 'choices'>('hidden')
+  const [mintType, setMintType] = useState<'hidden' | 'choices' | 'agent_only' | 'agent_and_human'>('hidden')
   
   // Social links
   const [twitterUrl, setTwitterUrl] = useState('')

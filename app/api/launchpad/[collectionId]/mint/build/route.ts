@@ -5,6 +5,8 @@ import { buildCandyMachineMint } from '@/lib/solana/candy-machine'
 import { LAMPORTS_PER_SOL, Connection, VersionedTransaction } from '@solana/web3.js'
 import { getPlatformWalletAddress, PLATFORM_FEES } from '@/lib/solana/platform-wallet'
 import { getConnectionAsync } from '@/lib/solana/connection'
+import { getAgentSignerKeypair, verifyAgentChallenge } from '@/lib/solana/agent-signer'
+import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters'
 
 /**
  * POST /api/launchpad/[collectionId]/mint/build
@@ -26,7 +28,7 @@ export async function POST(
   try {
     const { collectionId } = await params
     const body = await request.json()
-    const { wallet_address, phase_id, quantity = 1 } = body
+    const { wallet_address, phase_id, quantity = 1, agent_challenge, agent_timestamp } = body
 
     if (!wallet_address) {
       return NextResponse.json({ error: 'wallet_address required' }, { status: 400 })
@@ -53,6 +55,21 @@ export async function POST(
     }
 
     const collection = collections[0]
+
+    // Agent mint: verify challenge if required
+    const isAgentMintType = collection.mint_type === 'agent_only' || collection.mint_type === 'agent_and_human'
+    if (isAgentMintType) {
+      if (collection.mint_type === 'agent_only' && (!agent_challenge || !agent_timestamp)) {
+        return NextResponse.json({ error: 'agent_challenge and agent_timestamp required for agent-only mint' }, { status: 400 })
+      }
+      if (agent_challenge && agent_timestamp) {
+        const challengeResult = verifyAgentChallenge(wallet_address, collectionId, agent_challenge, agent_timestamp)
+        if (!challengeResult.valid) {
+          return NextResponse.json({ error: challengeResult.error }, { status: 403 })
+        }
+        console.log(`[Build Mint] Agent challenge verified for ${wallet_address}`)
+      }
+    }
 
     // Check if minting has started
     if (!collection.launched_at || new Date(collection.launched_at) > new Date()) {
@@ -139,12 +156,25 @@ export async function POST(
     const umi = await createUmiInstanceAsync()
 
     // Set the minter (user) as identity with noop signer - they sign on frontend
-    const { createNoopSigner, signerIdentity, publicKey: umiPublicKey } = await import('@metaplex-foundation/umi')
+    const { createNoopSigner, signerIdentity, publicKey: umiPublicKey, createSignerFromKeypair } = await import('@metaplex-foundation/umi')
     const minterSigner = createNoopSigner(umiPublicKey(wallet_address))
     umi.use(signerIdentity(minterSigner))
 
-    // Build mint transaction - NO platform wallet signing needed!
-    // Guards handle everything on-chain
+    // Create agent signer if this is an agent mint collection
+    let agentSignerUmi: any = undefined
+    if (isAgentMintType) {
+      try {
+        const agentKeypair = getAgentSignerKeypair()
+        const umiKeypair = umi.eddsa.createKeypairFromSecretKey(agentKeypair.secretKey)
+        agentSignerUmi = createSignerFromKeypair(umi, umiKeypair)
+        console.log(`[Build Mint] Agent signer: ${agentSignerUmi.publicKey.toString()}`)
+      } catch (err: any) {
+        console.error('[Build Mint] Failed to create agent signer:', err.message)
+        return NextResponse.json({ error: 'Agent signer not configured on server' }, { status: 500 })
+      }
+    }
+
+    // Build mint transaction
     const { builder, nftMint, nftMintSigner } = await buildCandyMachineMint(umi, {
       candyMachineAddress: collection.candy_machine_address,
       collectionMint: collection.collection_mint_address,
@@ -153,13 +183,19 @@ export async function POST(
       creatorWallet: collection.wallet_address,
       platformFeeSol,
       platformWallet: platformWalletAddress,
+      agentSigner: agentSignerUmi,
     })
 
-    // Build the transaction, partially sign with nftMint keypair only
-    // (The user adds their signature on the frontend)
+    // Build the transaction, partially sign with nftMint keypair
+    // and optionally with agent signer (for agent mint collections)
     const built = await builder.buildWithLatestBlockhash(umi)
-    const partiallySignedTx = await nftMintSigner.signTransaction(built)
-    const serialized = Buffer.from(umi.transactions.serialize(partiallySignedTx)).toString('base64')
+    let partiallySignedTx = await nftMintSigner.signTransaction(built)
+    if (agentSignerUmi) {
+      partiallySignedTx = await agentSignerUmi.signTransaction(partiallySignedTx)
+      console.log('[Build Mint] Transaction co-signed with agent signer')
+    }
+    const web3JsTx = toWeb3JsTransaction(partiallySignedTx)
+    const serialized = Buffer.from(web3JsTx.serialize()).toString('base64')
 
     console.log(`[Build Mint] Transaction built. NFT mint: ${nftMint.toString()}`)
     console.log(`[Build Mint] Mint price: ${mintPriceSol} SOL, Platform fee: ${platformFeeSol} SOL`)

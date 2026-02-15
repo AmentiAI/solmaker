@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
-import { AdminSidebar } from '@/components/admin-sidebar'
 
 export default function SiteSettingsPage() {
   const { currentAddress } = useWallet()
@@ -98,9 +97,7 @@ export default function SiteSettingsPage() {
   const solanaRpcDevnet = settings.find((s: any) => s.key === 'solana_rpc_devnet')?.value ?? 'https://api.devnet.solana.com'
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-      <AdminSidebar />
-      <div className="ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-[#00E5FF] via-[#FFD60A] to-[#00E5FF] bg-clip-text text-transparent mb-2">Site Settings</h1>
           <p className="text-[#b4b4c8] mb-8">Manage site-wide configuration settings</p>
@@ -245,7 +242,6 @@ export default function SiteSettingsPage() {
             </div>
           )}
         </div>
-      </div>
     </div>
   )
 }

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import { toast } from 'sonner'
 
 interface Collection {
@@ -229,14 +228,11 @@ export default function AdminCollectionEditPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-[#0a0e27]">
-        <AdminSidebar />
-        <div className="flex-1 ml-64 p-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center py-12">
-              <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-white/70">Loading collection...</p>
-            </div>
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center py-12">
+            <div className="w-16 h-16 border-4 border-[#9945FF] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-white/70">Loading collection...</p>
           </div>
         </div>
       </div>
@@ -245,19 +241,16 @@ export default function AdminCollectionEditPage() {
 
   if (error && !collection) {
     return (
-      <div className="flex min-h-screen bg-[#0a0e27]">
-        <AdminSidebar />
-        <div className="flex-1 ml-64 p-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-red-500/50 rounded-lg shadow p-6">
-              <p className="text-[#EF4444]">Error: {error}</p>
-              <button
-                onClick={() => router.push('/admin/collections')}
-                className="mt-4 px-4 py-2 btn-cosmic text-white rounded"
-              >
-                Back to Collections
-              </button>
-            </div>
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 rounded-2xl border border-[#9945FF]/20 backdrop-blur-md border border-red-500/50 rounded-lg shadow p-6">
+            <p className="text-[#EF4444]">Error: {error}</p>
+            <button
+              onClick={() => router.push('/admin/collections')}
+              className="mt-4 px-4 py-2 btn-cosmic text-white rounded"
+            >
+              Back to Collections
+            </button>
           </div>
         </div>
       </div>
@@ -265,9 +258,7 @@ export default function AdminCollectionEditPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0a0e27]">
-      <AdminSidebar />
-      <div className="flex-1 ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between">
@@ -651,7 +642,6 @@ export default function AdminCollectionEditPage() {
             )}
           </div>
         </div>
-      </div>
     </div>
   )
 }

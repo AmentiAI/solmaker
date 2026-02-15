@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { isAdmin } from '@/lib/auth/access-control'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import Link from 'next/link'
 
 interface Transaction {
@@ -674,10 +673,7 @@ export default function AdminLaunchpadTransactionsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#050510] via-[#0f0f1e] to-[#15152a]">
-      <AdminSidebar />
-      
-      <div className="flex-1 ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-[1800px] mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -1210,7 +1206,6 @@ export default function AdminLaunchpadTransactionsPage() {
           </div>
         )}
         </div>
-      </div>
     </div>
   )
 }

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useWallet } from '@/lib/wallet/compatibility'
 import { useAdminCheck } from '@/lib/auth/use-admin-check'
 import { WalletConnect } from '@/components/wallet-connect'
-import { AdminSidebar } from '@/components/admin-sidebar'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
@@ -556,10 +555,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24]">
-      <AdminSidebar />
-      
-      <div className="flex-1 ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-7xl mx-auto">
           {/* OpenAI Balance - Prominent Display */}
           <div className="mb-8">
@@ -1614,7 +1610,6 @@ export default function AdminPage() {
             )}
           </div>
         )}
-      </div>
     </div>
   )
 }

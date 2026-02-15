@@ -12,6 +12,7 @@ import {
 } from '@metaplex-foundation/umi'
 import { create } from '@metaplex-foundation/mpl-core-candy-machine'
 import { getPlatformWalletAddress, PLATFORM_FEES } from '@/lib/solana/platform-wallet'
+import { getAgentSignerPublicKey } from '@/lib/solana/agent-signer'
 import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters'
 
 /**
@@ -114,6 +115,26 @@ export async function POST(
           lamports: sol(platformFeeSol),
           destination: publicKey(platformWalletAddress),
         })
+      }
+
+      // Agent mint modes: add thirdPartySigner guard so agents must go through our API
+      if (collection.mint_type === 'agent_only' || collection.mint_type === 'agent_and_human') {
+        try {
+          const agentSignerPubkey = getAgentSignerPublicKey()
+          guards.thirdPartySigner = some({
+            signerKey: publicKey(agentSignerPubkey),
+          })
+          console.log(`[CM TX] Adding thirdPartySigner guard: ${agentSignerPubkey}`)
+
+          // Save the agent signer pubkey to the collection
+          await sql`
+            UPDATE collections SET agent_signer_pubkey = ${agentSignerPubkey}
+            WHERE id = ${collectionId}::uuid
+          `
+        } catch (err: any) {
+          console.error('[CM TX] Failed to set up agent signer:', err.message)
+          return NextResponse.json({ error: 'AGENT_SIGNER_SECRET not configured on server' }, { status: 500 })
+        }
       }
 
       transactionBuilder = await create(umi, {
