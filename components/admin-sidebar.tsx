@@ -4,21 +4,21 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useWallet } from '@/lib/wallet/compatibility'
-import { isAdmin } from '@/lib/auth/access-control'
+import { useAdminCheck } from '@/lib/auth/use-admin-check'
 
 export function AdminSidebar() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { currentAddress } = useWallet()
-  const authorized = isAdmin(currentAddress || null)
-  
+  const { isAdmin: authorized, loading } = useAdminCheck(currentAddress || null)
+
   // Check if revenue share is enabled
   const enableRevenueShare = process.env.NEXT_PUBLIC_ENABLE_REVENUE_SHARE === 'true'
-  
+
   // State to track which categories are expanded
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
 
-  if (!authorized) return null
+  if (loading || !authorized) return null
 
   const isActive = (path: string, tab?: string) => {
     if (path === '/admin') {
