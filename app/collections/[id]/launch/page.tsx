@@ -245,17 +245,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const response = await fetch(`/api/launchpad/${collectionId}`, {
         method: 'PATCH',
@@ -336,17 +335,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const isEditing = editingPhaseId !== null
       const url = `/api/launchpad/${collectionId}/phases`
@@ -429,17 +427,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const url = `/api/launchpad/${collectionId}/whitelists`
       const method = isEditing ? 'PATCH' : 'POST'
@@ -550,17 +547,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const params = new URLSearchParams({
         wallet_address: auth.wallet_address,
@@ -639,17 +635,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const params = new URLSearchParams({
         wallet_address: auth.wallet_address,
@@ -692,17 +687,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const response = await fetch(`/api/launchpad/${collectionId}`, {
         method: 'POST',
@@ -744,17 +738,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const response = await fetch(`/api/launchpad/${collectionId}`, {
         method: 'PATCH',
@@ -833,17 +826,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const response = await fetch(`/api/launchpad/${collectionId}`, {
         method: 'PATCH',
@@ -885,17 +877,16 @@ export default function CollectionLaunchPage() {
       return
     }
 
-    setSaving(true)
     try {
-      // Generate signed authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to sign request', {
           description: 'Please ensure your wallet is unlocked and connected, then try again.'
         })
-        setSaving(false)
         return
       }
+      setSaving(true)
 
       const response = await fetch(`/api/launchpad/${collectionId}`, {
         method: 'PATCH',

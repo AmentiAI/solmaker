@@ -106,8 +106,8 @@ export default function ListNftPage() {
       const transactionBuffer = Buffer.from(data.transaction, 'base64')
       const transaction = Transaction.from(transactionBuffer)
 
-      toast.info('Please sign the transaction to transfer your NFT to escrow')
       const signedTx = await signTransaction(transaction)
+      toast.info('Signed! Broadcasting transaction...')
 
       // Step 3: Broadcast transaction
       const { Connection } = await import('@solana/web3.js')

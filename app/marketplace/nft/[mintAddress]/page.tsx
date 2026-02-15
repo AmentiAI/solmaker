@@ -103,8 +103,8 @@ export default function NftDetailPage() {
         ? `${listing.price_sol} SOL + ${tokenAccountCost.toFixed(4)} SOL (token account creation)`
         : `${listing.price_sol} SOL`
       
-      toast.info(`Please sign to purchase for ${costMessage}`)
       const signedTx = await signTransaction(transaction)
+      toast.info(`Signed! Sending ${costMessage}...`)
 
       // Step 3: Broadcast payment
       const { getConnection } = await import('@/lib/solana/connection')

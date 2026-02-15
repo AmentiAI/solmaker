@@ -109,9 +109,11 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      setState(prev => ({ ...prev, isVerifying: true, error: null }))
+      // CRITICAL: Do NOT call setState before the wallet popup.
+      // React re-renders kill the popup ~50% of the time.
+      // Use ref only — state updates happen AFTER signing resolves.
       isVerifyingRef.current = true
-      
+
       const messageText = `Verify wallet: ${address}`
       const message = new TextEncoder().encode(messageText)
       

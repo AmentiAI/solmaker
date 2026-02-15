@@ -93,15 +93,14 @@ export function CreditTransfer() {
       return
     }
 
-    setTransferring(true)
     try {
-      // Generate wallet signature for authentication
+      // No setState before wallet popup — re-renders kill the popup
       const auth = await generateApiAuth(currentAddress, signMessage)
       if (!auth) {
         toast.error('Failed to generate signature. Please try again.')
-        setTransferring(false)
         return
       }
+      setTransferring(true)
 
       const response = await fetch('/api/credits/transfer', {
         method: 'POST',

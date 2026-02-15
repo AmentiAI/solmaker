@@ -994,13 +994,13 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
       // Step 3: Sign and send transaction
       // Use signTransaction + sendRawTransaction instead of sendTransaction
       // to avoid the wallet's internal RPC which may fail with partially-signed txs
-      setMintStatus('Please approve the transaction in your wallet...')
-
+      // No setState before wallet popup — re-renders kill the popup
       if (!signTransaction) {
         throw new Error('Wallet does not support signTransaction')
       }
 
       const signed = await signTransaction(tx)
+      setMintStatus('Transaction signed, sending...')
       const rawTx = signed.serialize()
 
       // Use our own RPC connection (not wallet adapter's) to avoid blockhash mismatch
