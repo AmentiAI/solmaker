@@ -18,8 +18,6 @@ export function AdminSidebar() {
   // State to track which categories are expanded
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
 
-  if (loading || !authorized) return null
-
   const isActive = (path: string, tab?: string) => {
     if (path === '/admin') {
       if (tab) {
@@ -109,6 +107,8 @@ export function AdminSidebar() {
       setExpandedCategories(prev => new Set([...prev, activeCategory.category]))
     }
   }, [pathname, searchParams])
+
+  if (loading || !authorized) return null
 
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => {
