@@ -70,23 +70,13 @@ export function NftChoicesMint({
   const [currentPage, setCurrentPage] = useState(1)
   const [pageInput, setPageInput] = useState('1')
   const [loading, setLoading] = useState(true)
-  const [isLocking, setIsLocking] = useState(false) // Only for preventing double-clicks during API call
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const isMountedRef = useRef(true)
-  const [currentTime, setCurrentTime] = useState(Date.now()) // Force re-render for countdown timers
 
-  // DERIVED FROM DATABASE - find ALL NFTs I have locked
-  const myLockedNfts = useMemo(() => {
-    if (!currentAddress) return []
-    return nfts.filter(o => o.is_locked && o.locked_by === currentAddress)
-  }, [nfts, currentAddress])
-  
-  // For backward compatibility - get the first locked NFT
-  const myLockedNft = myLockedNfts.length > 0 ? myLockedNfts[0] : null
-  
-  // Total locked count
-  const lockedCount = myLockedNfts.length
+  const selectedCount = selectedIds.size
+  const maxSelectable = activePhase?.max_per_wallet ?? 1
 
-  // Load NFTs from database - this is the source of truth
+  // Load NFTs from database
   const loadNfts = useCallback(async (page: number) => {
     if (!collectionId || !isMountedRef.current) return
 
@@ -113,120 +103,25 @@ export function NftChoicesMint({
     }
   }, [collectionId])
 
-  // Unlock an NFT (cancel reservation) - then reload from DB
-  const handleUnlock = useCallback(async (nft: Nft) => {
-    if (!isConnected || !currentAddress || minting || isLocking) return
-    if (!nft.is_locked || nft.locked_by !== currentAddress) return
-
-    setIsLocking(true)
-    try {
-      const response = await fetch(
-        `/api/launchpad/${collectionId}/reserve?wallet_address=${encodeURIComponent(currentAddress)}&ordinal_id=${nft.id}`,
-        { method: 'DELETE' }
-      )
-
-      if (!response.ok) {
-        const err = await response.json()
-        throw new Error(err.error || 'Failed to unlock NFT')
-      }
-
-      // Reload from DB - this is the source of truth
-      await loadNfts(currentPage)
-    } catch (error: any) {
-      console.error('Error unlocking NFT:', error)
-      alert(error.message || 'Failed to unlock NFT')
-    } finally {
-      if (isMountedRef.current) {
-        setIsLocking(false)
-      }
-    }
-  }, [isConnected, currentAddress, collectionId, minting, isLocking, currentPage, loadNfts])
-
-  // Lock an NFT when clicked - then reload from DB
-  const handleNftClick = useCallback(async (nft: Nft) => {
-    if (!isConnected || !currentAddress || minting || isLocking) return
+  // Toggle NFT selection (local state only — no server locking)
+  const handleNftClick = useCallback((nft: Nft) => {
+    if (!isConnected || !currentAddress || minting) return
     if (nft.is_minted) return
 
-    setIsLocking(true)
-
-    try {
-      // If already locked by me, unlock it
-      if (nft.is_locked && nft.locked_by === currentAddress) {
-        // Call unlock directly without setIsLocking (already set above)
-        const response = await fetch(
-          `/api/launchpad/${collectionId}/reserve?wallet_address=${encodeURIComponent(currentAddress)}&ordinal_id=${nft.id}`,
-          { method: 'DELETE' }
-        )
-        if (!response.ok) {
-          const err = await response.json()
-          throw new Error(err.error || 'Failed to unlock NFT')
+    setSelectedIds(prev => {
+      const next = new Set(prev)
+      if (next.has(nft.id)) {
+        next.delete(nft.id)
+      } else {
+        if (next.size >= maxSelectable) {
+          // At limit — don't add more
+          return prev
         }
-        // Reload from DB
-        await loadNfts(currentPage)
-        return
+        next.add(nft.id)
       }
-
-      // If locked by someone else, can't click
-      if (nft.is_locked && nft.locked_by !== currentAddress) {
-        return
-      }
-
-      // Check max_per_wallet - can't lock more than allowed (check from DB state)
-      if (activePhase?.max_per_wallet && lockedCount >= activePhase.max_per_wallet) {
-        alert(`You can only lock ${activePhase.max_per_wallet} NFT(s) at a time for this phase`)
-        return
-      }
-
-      const response = await fetch(`/api/launchpad/${collectionId}/reserve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          wallet_address: currentAddress,
-          phase_id: activePhase?.id || null,
-          quantity: 1,
-          ordinal_id: nft.id, // For choices mint, specify the NFT
-        }),
-      })
-
-      if (!response.ok) {
-        const err = await response.json()
-        throw new Error(err.error || 'Failed to lock NFT')
-      }
-
-      // Reload from DB - this is the source of truth
-      await loadNfts(currentPage)
-    } catch (error: any) {
-      console.error('Error locking NFT:', error)
-      alert(error.message || 'Failed to lock NFT')
-    } finally {
-      if (isMountedRef.current) {
-        setIsLocking(false)
-      }
-    }
-  }, [isConnected, currentAddress, collectionId, activePhase, minting, isLocking, currentPage, loadNfts, lockedCount])
-
-  // Check if any of my locks expired and reload - driven by database
-  useEffect(() => {
-    if (myLockedNfts.length === 0) return
-
-    const checkExpiry = () => {
-      if (!isMountedRef.current) return
-      // Check if any lock has expired
-      const now = Date.now()
-      const hasExpired = myLockedNfts.some(o => {
-        if (!o.locked_until) return false
-        return new Date(o.locked_until).getTime() <= now
-      })
-      if (hasExpired) {
-        // At least one lock expired, reload from DB
-        loadNfts(currentPage)
-      }
-    }
-
-    // Check every 2 seconds
-    const interval = setInterval(checkExpiry, 2000)
-    return () => clearInterval(interval)
-  }, [myLockedNfts, currentPage, loadNfts])
+      return next
+    })
+  }, [isConnected, currentAddress, minting, maxSelectable])
 
   // Load NFTs when page changes
   useEffect(() => {
@@ -234,17 +129,6 @@ export function NftChoicesMint({
       loadNfts(currentPage)
     }
   }, [currentPage, loadNfts])
-
-  // Update current time every second to refresh countdown timers
-  useEffect(() => {
-    const timeInterval = setInterval(() => {
-      if (isMountedRef.current) {
-        setCurrentTime(Date.now())
-      }
-    }, 1000)
-
-    return () => clearInterval(timeInterval)
-  }, [])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -257,7 +141,6 @@ export function NftChoicesMint({
   const handlePageChange = useCallback((newPage: number) => {
     if (pagination && newPage >= 1 && newPage <= pagination.total_pages) {
       setCurrentPage(newPage)
-      // No local state to clear - everything is DB-driven
     }
   }, [pagination])
 
@@ -297,7 +180,7 @@ export function NftChoicesMint({
   // Show countdown if phase hasn't started
   if (!isPhaseActive && activePhase) {
     const phaseStartTime = activePhase.start_time
-    const countdownText = phaseStartTime 
+    const countdownText = phaseStartTime
       ? (countdown[activePhase.id] || formatTimeUntil(phaseStartTime))
       : 'Phase not scheduled'
 
@@ -326,7 +209,7 @@ export function NftChoicesMint({
 
   return (
     <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-6 space-y-6">
-      {/* Supply Stats - matching MintDetailsSection */}
+      {/* Supply Stats */}
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-[#1a1a1a] border border-[#D4AF37]/30 p-4">
           <div className="text-xs text-[#808080] mb-1">Supply</div>
@@ -349,9 +232,9 @@ export function NftChoicesMint({
       </div>
 
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-[#D4AF37] mb-2">Choose Your NFT</h2>
+        <h2 className="text-2xl font-bold text-[#D4AF37] mb-2">Browse Collection</h2>
         <p className="text-[#808080]">
-          Browse and select the NFT you want to mint. Click on one to lock it for 2 minutes.
+          Preview the NFTs in this collection. The Candy Machine assigns NFTs sequentially on mint.
           {activePhase?.max_per_wallet === 1 && (
             <span className="block mt-1 text-sm text-[#D4AF37]">1 per wallet</span>
           )}
@@ -370,30 +253,19 @@ export function NftChoicesMint({
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {nfts.map((nft) => {
-          // All state derived from database (nfts array)
-          const isLockedByMe = nft.is_locked && nft.locked_by === currentAddress
-          const isLockedByOther = nft.is_locked && nft.locked_by !== currentAddress
-          const canClick = !nft.is_minted && isConnected && (isLockedByMe || !nft.is_locked) && !isLocking
-          
-          // Calculate lock expiry seconds from DB data
-          let nftLockExpirySeconds: number | null = null
-          if (isLockedByMe && nft.locked_until) {
-            const expiryTime = new Date(nft.locked_until).getTime()
-            if (expiryTime > currentTime) {
-              nftLockExpirySeconds = Math.max(0, Math.floor((expiryTime - currentTime) / 1000))
-            }
-          }
+          const isSelected = selectedIds.has(nft.id)
+          const canClick = !nft.is_minted && isConnected && !minting
 
           return (
             <NftCard
               key={nft.id}
               nft={nft}
-              isSelected={isLockedByMe} // Selected = locked by me (from DB)
-              isLockedByMe={isLockedByMe}
-              isLockedByOther={isLockedByOther}
+              isSelected={isSelected}
+              isLockedByMe={isSelected}
+              isLockedByOther={false}
               canClick={canClick}
-              lockExpirySeconds={nftLockExpirySeconds}
-              isLocking={isLocking}
+              lockExpirySeconds={null}
+              isLocking={false}
               onClick={handleNftClick}
               currentAddress={currentAddress}
             />
@@ -411,57 +283,41 @@ export function NftChoicesMint({
         onPageInputSubmit={handlePageInputSubmit}
       />
 
-      {/* Network Fee, Cost Breakdown, and Mint Button - matching MintDetailsSection layout */}
-      {/* Only show when user has locked NFTs (from DB) */}
-      {lockedCount > 0 && isConnected && (
+      {/* Mint button — shown when connected */}
+      {isConnected && (
         <div className="pt-4 space-y-4">
-          {/* Estimated Cost Breakdown - matching MintDetailsSection format */}
-          {isConnected && (() => {
-            if (!activePhase || lockedCount === 0) return null
+          {(() => {
+            if (!activePhase) return null
 
-            // Solana cost calculation
             const platformFeeSol = parseFloat(process.env.NEXT_PUBLIC_SOLANA_PLATFORM_FEE_SOL || '0.01')
             const platformFeeLamports = Math.floor(platformFeeSol * 1_000_000_000)
-            const rentPerNft = 2_039_280 // ~0.00204 SOL rent for Core Asset account
-            const networkFees = (priorityFee + 5000) * lockedCount
+            const rentPerNft = 2_039_280
+            const networkFees = (priorityFee + 5000)
 
             const mintPricePerNft = activePhase.mint_price_lamports || 0
-            const totalMintPrice = mintPricePerNft * lockedCount
-            const totalPlatformFee = platformFeeLamports * lockedCount
-            const totalRent = rentPerNft * lockedCount
-            const totalEstimate = totalMintPrice + totalPlatformFee + totalRent + networkFees
+            const totalEstimate = mintPricePerNft + platformFeeLamports + rentPerNft + networkFees
 
             return (
               <div className="mt-4 p-4 bg-[#1a1a1a] border border-[#D4AF37]/20">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-[#808080] font-semibold">Estimated Cost Breakdown</span>
-                  <span className="text-xs bg-[#D4AF37]/20 text-[#D4AF37] px-2 py-0.5 font-medium">
-                    {lockedCount} NFT{lockedCount > 1 ? 's' : ''} selected
-                  </span>
+                  <span className="text-xs text-[#808080] font-semibold">Estimated Cost</span>
                 </div>
                 <div className="space-y-1.5 text-sm">
-                  {/* Mint Price - goes to creator */}
                   <div className="flex justify-between">
-                    <span className="text-[#808080]">
-                      Mint Price {lockedCount > 1 ? `(${formatLamports(mintPricePerNft)} × ${lockedCount})` : ''}
-                    </span>
+                    <span className="text-[#808080]">Mint Price</span>
                     <span className="text-white font-medium">
-                      {totalMintPrice === 0
-                        ? 'Free'
-                        : formatLamports(totalMintPrice)}
+                      {mintPricePerNft === 0 ? 'Free' : formatLamports(mintPricePerNft)}
                     </span>
                   </div>
-                  {/* Platform Fee */}
                   {platformFeeLamports > 0 && (
                     <div className="flex justify-between">
-                      <span className="text-[#808080]">Platform Fee {lockedCount > 1 ? `(${lockedCount}x)` : ''}</span>
-                      <span className="text-white font-medium">{formatLamports(totalPlatformFee)}</span>
+                      <span className="text-[#808080]">Platform Fee</span>
+                      <span className="text-white font-medium">{formatLamports(platformFeeLamports)}</span>
                     </div>
                   )}
-                  {/* Rent + Network */}
                   <div className="flex justify-between">
                     <span className="text-[#808080]">Rent + Network</span>
-                    <span className="text-white font-medium">~{formatLamports(totalRent + networkFees)}</span>
+                    <span className="text-white font-medium">~{formatLamports(rentPerNft + networkFees)}</span>
                   </div>
                   <div className="border-t border-[#D4AF37]/20 pt-2 mt-2 flex justify-between">
                     <span className="text-[#808080] font-semibold">Estimated Total</span>
@@ -472,42 +328,18 @@ export function NftChoicesMint({
             )
           })()}
 
-          {/* Mint Button - matching MintDetailsSection style */}
           <button
             onMouseDown={(e) => e.preventDefault()}
-            onClick={() => onMint(myLockedNfts.map(o => o.id))}
+            onClick={() => onMint(Array.from(selectedIds))}
             disabled={
               minting ||
-              lockedCount === 0 ||
-              myLockedNfts.some(o => o.locked_until && new Date(o.locked_until).getTime() <= Date.now()) ||
               (collection.total_minted >= collection.total_supply)
             }
             className="w-full py-4 bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-black font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {collection.total_minted >= collection.total_supply ? 'Sold Out' :
-             minting ? 'Minting...' :
-             lockedCount > 1 ? `Mint ${lockedCount} NFTs` : 'Mint Now'}
+             minting ? 'Minting...' : 'Mint Now'}
           </button>
-          {/* Show earliest lock expiry */}
-          {myLockedNfts.length > 0 && (() => {
-            // Find the earliest expiry time among all locked NFTs
-            const earliestExpiry = myLockedNfts
-              .filter(o => o.locked_until)
-              .map(o => new Date(o.locked_until!).getTime())
-              .sort((a, b) => a - b)[0]
-            
-            if (!earliestExpiry) return null
-            
-            const secondsLeft = Math.max(0, Math.floor((earliestExpiry - currentTime) / 1000))
-            if (secondsLeft > 0) {
-              return (
-                <p className="text-sm text-[#808080] mt-2 text-center">
-                  Lock{lockedCount > 1 ? 's expire' : ' expires'} in {secondsLeft} seconds
-                </p>
-              )
-            }
-            return null
-          })()}
         </div>
       )}
     </div>
@@ -516,4 +348,3 @@ export function NftChoicesMint({
 
 /** @deprecated Use NftChoicesMint instead */
 export const OrdinalChoicesMint = NftChoicesMint
-

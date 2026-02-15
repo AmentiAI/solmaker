@@ -120,44 +120,13 @@ export async function GET(
       }, { status: 404 })
     }
 
-    // Get phases with recalculated phase_minted from BTC + Solana systems
+    // Get phases — phase_minted is the atomic counter on the row
     const phasesResult = await sql`
       SELECT
         mp.*,
         w.name as whitelist_name,
         w.entries_count as whitelist_entries,
-        (
-          COALESCE((
-            SELECT COUNT(DISTINCT go.id)
-            FROM generated_ordinals go
-            WHERE go.collection_id = ${collectionId}
-              AND go.is_minted = true
-              AND (
-                EXISTS (
-                  SELECT 1 FROM ordinal_reservations r
-                  WHERE r.ordinal_id = go.id
-                    AND r.phase_id = mp.id
-                    AND r.status = 'completed'
-                )
-                OR
-                EXISTS (
-                  SELECT 1 FROM mint_inscriptions mi
-                  WHERE mi.ordinal_id = go.id
-                    AND mi.phase_id = mp.id
-                    AND mi.is_test_mint = false
-                    AND mi.mint_status != 'failed'
-                )
-              )
-          ), 0)
-          +
-          COALESCE((
-            SELECT COUNT(*)
-            FROM solana_nft_mints snm
-            WHERE snm.collection_id = ${collectionId}::uuid
-              AND snm.phase_id = mp.id
-              AND snm.mint_status NOT IN ('failed', 'cancelled')
-          ), 0)
-        ) as phase_minted
+        COALESCE(mp.phase_minted, 0) as phase_minted
       FROM mint_phases mp
       LEFT JOIN mint_phase_whitelists w ON mp.whitelist_id = w.id
       WHERE mp.collection_id = ${collectionId}

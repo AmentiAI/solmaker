@@ -42,29 +42,14 @@ export async function calculateWhitelistRemaining(
 
   if (!entry) return null
 
-  // Count actual mints from BOTH systems (BTC mint_nfts + Solana solana_nft_mints)
-  // Excludes failed/expired/cancelled mints
+  // Count mints from solana_nft_mints (excludes failed/cancelled)
   const mintCountResult = await sql`
-    SELECT (
-      COALESCE((
-        SELECT COUNT(DISTINCT mn.id)
-        FROM mint_nfts mn
-        WHERE mn.wallet_address = ${walletAddress}
-          AND mn.collection_id = ${collectionId}
-          AND mn.phase_id = ${phaseId}
-          AND mn.tx_signature IS NOT NULL
-          AND mn.mint_status NOT IN ('failed', 'expired')
-      ), 0)
-      +
-      COALESCE((
-        SELECT COUNT(DISTINCT snm.id)
-        FROM solana_nft_mints snm
-        WHERE snm.minter_wallet = ${walletAddress}
-          AND snm.collection_id = ${collectionId}::uuid
-          AND snm.phase_id = ${phaseId}::uuid
-          AND snm.mint_status NOT IN ('failed', 'cancelled')
-      ), 0)
-    ) as count
+    SELECT COUNT(*) as count
+    FROM solana_nft_mints
+    WHERE minter_wallet = ${walletAddress}
+      AND collection_id = ${collectionId}::uuid
+      AND phase_id = ${phaseId}::uuid
+      AND mint_status NOT IN ('failed', 'cancelled')
   ` as any[]
 
   const mintedCount = parseInt(mintCountResult?.[0]?.count || '0', 10)
@@ -102,29 +87,14 @@ export async function calculatePublicPhaseRemaining(
 ): Promise<RemainingMintsResult | null> {
   if (!sql) return null
 
-  // Count actual mints from BOTH systems (BTC mint_nfts + Solana solana_nft_mints)
-  // Excludes failed/expired/cancelled mints
+  // Count mints from solana_nft_mints (excludes failed/cancelled)
   const mintCountResult = await sql`
-    SELECT (
-      COALESCE((
-        SELECT COUNT(DISTINCT mn.id)
-        FROM mint_nfts mn
-        WHERE mn.wallet_address = ${walletAddress}
-          AND mn.collection_id = ${collectionId}
-          AND mn.phase_id = ${phaseId}
-          AND mn.tx_signature IS NOT NULL
-          AND mn.mint_status NOT IN ('failed', 'expired')
-      ), 0)
-      +
-      COALESCE((
-        SELECT COUNT(DISTINCT snm.id)
-        FROM solana_nft_mints snm
-        WHERE snm.minter_wallet = ${walletAddress}
-          AND snm.collection_id = ${collectionId}::uuid
-          AND snm.phase_id = ${phaseId}::uuid
-          AND snm.mint_status NOT IN ('failed', 'cancelled')
-      ), 0)
-    ) as count
+    SELECT COUNT(*) as count
+    FROM solana_nft_mints
+    WHERE minter_wallet = ${walletAddress}
+      AND collection_id = ${collectionId}::uuid
+      AND phase_id = ${phaseId}::uuid
+      AND mint_status NOT IN ('failed', 'cancelled')
   ` as any[]
 
   const mintedCount = parseInt(mintCountResult?.[0]?.count || '0', 10)

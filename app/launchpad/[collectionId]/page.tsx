@@ -941,31 +941,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
     setTxSignature('')
 
     try {
-      // Step 1: Reserve ordinals
-      setMintStatus(`Reserving ${mintQuantity} NFT${mintQuantity > 1 ? 's' : ''}...`)
-
-      const reserveRes = await fetch(`/api/launchpad/${collectionId}/reserve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          wallet_address: currentAddress,
-          phase_id: activePhase.id,
-          quantity: mintQuantity,
-        }),
-      })
-
-      if (!reserveRes.ok) {
-        const errData = await reserveRes.json()
-        throw new Error(errData.error || 'Failed to reserve NFTs')
-      }
-
-      const reserveData = await reserveRes.json()
-      const reservedNfts = mintQuantity === 1
-        ? [reserveData.ordinal]
-        : reserveData.ordinals
-      const reservedNftIds = reservedNfts.map((o: any) => o.id)
-
-      // Step 2: Build Solana mint transaction
+      // Build Solana mint transaction (server handles phase/wallet limits atomically)
       setMintStatus('Building mint transaction...')
       const buildRes = await fetch(`/api/launchpad/${collectionId}/mint/build`, {
         method: 'POST',
@@ -974,7 +950,6 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
           wallet_address: currentAddress,
           phase_id: activePhase.id,
           quantity: mintQuantity,
-          ordinal_ids: reservedNftIds,
         }),
       })
 
@@ -988,11 +963,11 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
         throw new Error('No transaction returned from server')
       }
 
-      // Decode transaction for debug
+      // Decode transaction
       const txBytes = Buffer.from(buildData.transaction, 'base64')
       const tx = VersionedTransaction.deserialize(txBytes)
-      
-      // Step 3: Sign and send transaction
+
+      // Sign and send transaction
       // Use signTransaction + sendRawTransaction instead of sendTransaction
       // to avoid the wallet's internal RPC which may fail with partially-signed txs
       // No setState before wallet popup — re-renders kill the popup
@@ -1018,7 +993,7 @@ export default function CollectionMintPage({ params }: { params: Promise<{ colle
       setTxSignature(signature)
       setMintStatus('Transaction sent! Confirming...')
 
-      // Step 4: Confirm with backend
+      // Confirm with backend
       const confirmRes = await fetch(`/api/launchpad/${collectionId}/mint/confirm`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

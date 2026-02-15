@@ -59,50 +59,16 @@ export async function GET(
     const counts = countsResult?.[0] || {}
     const currentTime = counts.current_time || new Date().toISOString()
 
-    // OPTIMIZATION: Optimized active phase query with proper index usage
-    // Uses idx_mint_phases_active_collection index
+    // Active phase query — phase_minted is the atomic counter on the row
     const activePhaseResult = await sql`
-      SELECT 
+      SELECT
         mp.id,
         mp.phase_name,
         mp.start_time,
         mp.end_time,
         mp.mint_price_sats,
         mp.whitelist_only,
-        -- Count phase mints from BTC system (ordinal_reservations + mint_inscriptions)
-        -- AND Solana system (solana_nft_mints)
-        (
-          COALESCE((
-            SELECT COUNT(DISTINCT go.id)
-            FROM generated_ordinals go
-            WHERE go.collection_id = ${collectionId}
-              AND go.is_minted = true
-              AND (
-                EXISTS (
-                  SELECT 1 FROM ordinal_reservations r
-                  WHERE r.ordinal_id = go.id
-                    AND r.phase_id = mp.id
-                    AND r.status = 'completed'
-                )
-                OR
-                EXISTS (
-                  SELECT 1 FROM mint_inscriptions mi
-                  WHERE mi.ordinal_id = go.id
-                    AND mi.phase_id = mp.id
-                    AND mi.is_test_mint = false
-                    AND mi.mint_status != 'failed'
-                )
-              )
-          ), 0)
-          +
-          COALESCE((
-            SELECT COUNT(*)
-            FROM solana_nft_mints snm
-            WHERE snm.collection_id = ${collectionId}::uuid
-              AND snm.phase_id = mp.id
-              AND snm.mint_status NOT IN ('failed', 'cancelled')
-          ), 0)
-        ) as phase_minted,
+        COALESCE(mp.phase_minted, 0) as phase_minted,
         mp.phase_allocation,
         mp.max_per_wallet,
         mp.is_active,

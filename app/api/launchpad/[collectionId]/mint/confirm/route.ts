@@ -80,6 +80,15 @@ export async function POST(
               SET mint_status = 'failed'
               WHERE id = ${mint.id}::uuid
             `
+            // Decrement phase_minted counter — slot is released back to the pool
+            if (mint.phase_id) {
+              await sql`
+                UPDATE mint_phases
+                SET phase_minted = GREATEST(0, COALESCE(phase_minted, 0) - 1)
+                WHERE id = ${mint.phase_id}::uuid
+              `
+              console.log(`[Confirm Mint] Decremented phase_minted for phase ${mint.phase_id}`)
+            }
             return NextResponse.json({
               success: false,
               confirmed: false,
@@ -228,6 +237,31 @@ export async function GET(
         const connection = await getConnectionAsync()
         const result = await connection.getSignatureStatus(mint.mint_tx_signature, { searchTransactionHistory: true })
         const status = result?.value
+
+        if (status && status.err) {
+          // Failed on-chain — mark failed and release phase slot
+          await sql`
+            UPDATE solana_nft_mints SET mint_status = 'failed'
+            WHERE id = ${mint.id}::uuid
+          `
+          if (mint.phase_id) {
+            await sql`
+              UPDATE mint_phases
+              SET phase_minted = GREATEST(0, COALESCE(phase_minted, 0) - 1)
+              WHERE id = ${mint.phase_id}::uuid
+            `
+          }
+          return NextResponse.json({
+            success: true,
+            mint: {
+              nftMint: mint.nft_mint_address,
+              signature: mint.mint_tx_signature,
+              status: 'failed',
+              confirmed: false,
+              error: status.err,
+            },
+          })
+        }
 
         if (status && !status.err && (status.confirmationStatus === 'confirmed' || status.confirmationStatus === 'finalized')) {
           // Confirmed on-chain! Update DB
