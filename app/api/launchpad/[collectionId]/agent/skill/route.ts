@@ -47,7 +47,7 @@ export async function GET(
 
     // Get active phase info (mint price lives on phases, not collections)
     const phases = await sql`
-      SELECT id, name, mint_price, start_time, end_time, phase_allocation, phase_minted
+      SELECT id, name, mint_price_sol, start_time, end_time, phase_allocation, phase_minted
       FROM mint_phases
       WHERE collection_id = ${collectionId}::uuid
         AND start_time <= NOW()
@@ -57,7 +57,7 @@ export async function GET(
     ` as any[]
 
     const activePhase = phases.length ? phases[0] : null
-    const mintPrice = activePhase?.mint_price ? parseFloat(String(activePhase.mint_price)) : 0
+    const mintPrice = activePhase?.mint_price_sol ? parseFloat(String(activePhase.mint_price_sol)) : 0
     const platformFee = PLATFORM_FEES.MINT_FEE_SOL
     const totalCost = mintPrice + platformFee
     const phaseSection = activePhase
