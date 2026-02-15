@@ -3,6 +3,7 @@ import { CREDIT_TIERS } from '@/lib/credits/constants';
 import { sql } from '@/lib/database';
 import { checkHolderStatus } from '@/lib/holder-check';
 import { getPlatformWalletAddress } from '@/lib/solana/platform-wallet';
+import { getClusterAsync } from '@/lib/solana/connection';
 
 // Payment addresses
 const BTC_PAYMENT_ADDRESS = process.env.FEE_WALLET || 'bc1p693zz6n9cvmsewemg4j0pmvfvs4th3ft9c74afrc90l6sah300uqt99vee' // Legacy Bitcoin
@@ -175,9 +176,9 @@ export async function POST(request: NextRequest) {
         ethAmount: cryptoAmount,
       };
     } else if (payment_type === 'sol') {
-      // Solana payment
+      // Solana payment — store actual cluster (devnet/mainnet-beta) not just "solana"
       paymentAddress = getSolPaymentAddress();
-      network = 'solana';
+      network = await getClusterAsync();
 
       // Fetch SOL/USD rate
       let solRate = await fetchExchangeRate('solana');

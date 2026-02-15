@@ -158,7 +158,18 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
         throw new Error('Invalid transaction amount')
       }
 
-      const rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+      // Fetch active RPC from site settings (respects devnet/mainnet switch)
+      let rpcUrl = 'https://api.devnet.solana.com'
+      try {
+        const networkRes = await fetch('/api/solana/network')
+        if (networkRes.ok) {
+          const networkData = await networkRes.json()
+          rpcUrl = networkData.rpcUrl || rpcUrl
+        }
+      } catch {
+        // Fallback to env var
+        rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || rpcUrl
+      }
       const connection = new Connection(rpcUrl, 'confirmed')
 
       // Check balance before showing wallet popup — fail fast with a clear message

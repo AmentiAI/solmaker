@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { addCredits } from '@/lib/credits/credits'
 import { sql } from '@/lib/database'
 import { getPlatformWalletAddress } from '@/lib/solana/platform-wallet'
+import { getConnectionAsync } from '@/lib/solana/connection'
 
 // Get Solana payment address (may be null during build)
 function getSolPaymentAddress(): string {
@@ -13,7 +14,8 @@ function getSolPaymentAddress(): string {
 }
 
 /**
- * Check Solana transaction using RPC - requires on-chain finality
+ * Check Solana transaction using RPC - requires on-chain finality.
+ * Uses getConnectionAsync() which reads the active network from site_settings.
  */
 async function checkSolTransaction(txid: string): Promise<{
   txid: string
@@ -23,7 +25,8 @@ async function checkSolTransaction(txid: string): Promise<{
   blockHeight?: number
 } | null> {
   try {
-    const rpcUrl = process.env.SOLANA_RPC_URL || process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+    const connection = await getConnectionAsync()
+    const rpcUrl = connection.rpcEndpoint
 
     // Check if transaction is finalized
     const finalizedResponse = await fetch(rpcUrl, {
