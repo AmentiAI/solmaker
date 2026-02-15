@@ -1,19 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
 import { createUmiInstanceAsync } from '@/lib/solana/umi-config'
-import { deployCandyMachineWithMetadata, estimateCandyMachineCost } from '@/lib/solana/candy-machine'
-import { publicKey } from '@metaplex-foundation/umi'
+import { addCandyMachineConfigLines, estimateCandyMachineCost } from '@/lib/solana/candy-machine'
+import {
+  publicKey,
+  createNoopSigner,
+  signerIdentity,
+  generateSigner,
+  some,
+  sol,
+} from '@metaplex-foundation/umi'
+import { create } from '@metaplex-foundation/mpl-core-candy-machine'
 import { getPlatformWalletAddress, PLATFORM_FEES } from '@/lib/solana/platform-wallet'
+import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters'
 
 /**
  * POST /api/collections/[id]/deploy/create-candy-machine
- * Step 3: Deploy Core Candy Machine with Candy Guard.
+ * Build ALL candy machine transactions at once:
+ *   - Transaction 0: Create Candy Machine + Candy Guard
+ *   - Transactions 1..N: Add config lines (dynamically sized batches)
  *
- * Guards enforce:
- * - solPayment → mint price paid to creator wallet
- * - solFixedFee → platform fee paid to platform wallet
- *
- * No setMintAuthority transaction needed! Guards handle everything on-chain.
+ * Returns all serialized transactions for a single signAllTransactions call.
+ * This avoids Phantom's MV3 service worker going idle between individual signs.
  */
 export async function POST(
   request: NextRequest,
@@ -102,66 +110,118 @@ export async function POST(
     const platformFeeSol = PLATFORM_FEES.MINT_FEE_SOL
 
     const costEstimate = estimateCandyMachineCost(metadataUris.length)
-    console.log(`🏗️ Deploying Core Candy Machine for ${metadataUris.length} NFTs...`)
-    console.log(`💰 Estimated cost: ${costEstimate.totalCost.toFixed(4)} SOL`)
-    console.log(`🎯 Mint price: ${mintPriceSol} SOL → creator (${wallet_address.substring(0, 8)}...)`)
-    console.log(`🏦 Platform fee: ${platformFeeSol} SOL → platform (${platformWalletAddress.substring(0, 8)}...)`)
+    console.log(`[CM Deploy] Building ALL transactions for ${metadataUris.length} NFTs...`)
+    console.log(`[CM Deploy] Mint price: ${mintPriceSol} SOL, Platform fee: ${platformFeeSol} SOL`)
 
-    const configLines = metadataUris.map(m => ({
+    const configLines = metadataUris.map((m: any) => ({
       name: m.nft_name || `NFT #${m.nft_number}`,
       uri: m.metadata_uri,
     }))
 
     // Create Umi instance (respects database network settings)
     const umi = await createUmiInstanceAsync()
+    umi.use(signerIdentity(createNoopSigner(publicKey(wallet_address))))
 
-    // Set noop signer for the user (they will sign on frontend)
-    const { createNoopSigner, signerIdentity } = await import('@metaplex-foundation/umi')
-    const tempSigner = createNoopSigner(publicKey(wallet_address))
-    umi.use(signerIdentity(tempSigner))
+    // ===== Transaction 0: Create Candy Machine + Candy Guard =====
+    const candyMachineSigner = generateSigner(umi)
+    const candyMachineAddress = candyMachineSigner.publicKey.toString()
 
-    // Build Core Candy Machine + Candy Guard with guards
-    const config = {
-      collectionMint: collection.collection_mint_address,
-      collectionUpdateAuthority: wallet_address,
-      itemsAvailable: metadataUris.length,
-      mintPriceSol,
-      creatorWallet: wallet_address,
-      platformFeeSol,
-      platformWallet: platformWalletAddress,
+    const guards: any = {}
+    if (mintPriceSol > 0) {
+      guards.solPayment = some({
+        lamports: sol(mintPriceSol),
+        destination: publicKey(wallet_address),
+      })
+    }
+    if (platformFeeSol > 0) {
+      guards.solFixedFee = some({
+        lamports: sol(platformFeeSol),
+        destination: publicKey(platformWalletAddress),
+      })
     }
 
-    const { candyMachine, candyMachineSigner, transactions } =
-      await deployCandyMachineWithMetadata(umi, config, configLines)
+    const createCmBuilder = await create(umi, {
+      candyMachine: candyMachineSigner,
+      collection: publicKey(collection.collection_mint_address),
+      collectionUpdateAuthority: createNoopSigner(publicKey(wallet_address)),
+      itemsAvailable: metadataUris.length,
+      isMutable: true,
+      configLineSettings: some({
+        prefixName: '',
+        nameLength: 32,
+        prefixUri: '',
+        uriLength: 200,
+        isSequential: false,
+      }),
+      guards,
+    })
 
-    // Serialize transactions for frontend
-    const serializedTxs = await Promise.all(
-      transactions.map(async (tx, index) => {
-        const built = await tx.buildWithLatestBlockhash(umi)
-        let finalTx = built
+    // ===== Transactions 1..N: Add config lines with dynamic batch sizing =====
+    // Solana transactions are limited to 1232 bytes. Each config line adds
+    // name + uri bytes to the instruction data.
+    const TX_OVERHEAD = 400 // conservative overhead (accounts, signatures, blockhash, etc.)
+    const MAX_TX_SIZE = 1232
+    const availableBytes = MAX_TX_SIZE - TX_OVERHEAD
 
-        if (index === 0) {
-          // Create CM + Guard transaction: partially sign with candy machine keypair
-          finalTx = await candyMachineSigner.signTransaction(built)
-        }
-        // Config line transactions: only user signature needed
+    const configLineBatches: { lines: typeof configLines; startIndex: number }[] = []
+    let currentStart = 0
 
-        let description: string
-        if (index === 0) {
-          description = 'Create Candy Machine + Guard'
-        } else {
-          const batchStart = (index - 1) * 10
-          const batchEnd = Math.min(batchStart + 10, configLines.length)
-          description = `Add config lines ${batchStart + 1}-${batchEnd}`
-        }
-
-        return {
-          index,
-          transaction: Buffer.from(umi.transactions.serialize(finalTx)).toString('base64'),
-          description,
-        }
+    while (currentStart < configLines.length) {
+      let batchBytes = 0
+      let batchCount = 0
+      for (let i = currentStart; i < configLines.length; i++) {
+        const line = configLines[i]
+        const lineBytes = Buffer.byteLength(line.name, 'utf8') + Buffer.byteLength(line.uri, 'utf8') + 4
+        if (batchBytes + lineBytes > availableBytes && batchCount > 0) break
+        batchBytes += lineBytes
+        batchCount++
+      }
+      configLineBatches.push({
+        lines: configLines.slice(currentStart, currentStart + batchCount),
+        startIndex: currentStart,
       })
+      currentStart += batchCount
+    }
+
+    console.log(`[CM Deploy] Will build ${1 + configLineBatches.length} transactions (1 create + ${configLineBatches.length} config line batches)`)
+
+    // Build config line TransactionBuilders
+    const configLineBuilders = await Promise.all(
+      configLineBatches.map(batch =>
+        addCandyMachineConfigLines(umi, candyMachineAddress, batch.lines, batch.startIndex)
+      )
     )
+
+    // ===== Serialize ALL transactions =====
+    // Build all with the same latest blockhash for consistency.
+    // All transactions share one blockhash window (~60-90s).
+    const allBuilders = [createCmBuilder, ...configLineBuilders]
+    const serializedTxs: { index: number; transaction: string; description: string }[] = []
+
+    for (let i = 0; i < allBuilders.length; i++) {
+      const built = await allBuilders[i].buildWithLatestBlockhash(umi)
+
+      // Do NOT partially sign here — frontend will pass the CM keypair as a
+      // `signer` to sendTransaction, which lets the wallet adapter handle it properly.
+      const web3JsTx = toWeb3JsTransaction(built)
+      const serializedBytes = web3JsTx.serialize()
+
+      let description: string
+      if (i === 0) {
+        description = 'Create Candy Machine + Guard'
+      } else {
+        const batch = configLineBatches[i - 1]
+        description = `Add config lines ${batch.startIndex + 1}-${batch.startIndex + batch.lines.length}`
+      }
+
+      console.log(`[CM Deploy] TX ${i}: ${description} (${serializedBytes.length} bytes)`)
+
+      serializedTxs.push({
+        index: i,
+        transaction: Buffer.from(serializedBytes).toString('base64'),
+        description,
+      })
+    }
 
     // Log deployment
     await sql`
@@ -172,7 +232,7 @@ export async function POST(
         'create_candy_machine',
         'pending',
         ${JSON.stringify({
-          candyMachine: candyMachine.toString(),
+          candyMachine: candyMachineAddress,
           type: 'core',
           mintPriceSol,
           platformFeeSol,
@@ -184,10 +244,16 @@ export async function POST(
       )
     `
 
+    // Export the CM signer's secret key so the frontend can reconstruct it
+    // and pass it to sendTransaction({ signers: [keypair] }) for tx 0
+    const cmSignerSecretKey = Buffer.from(candyMachineSigner.secretKey).toString('base64')
+
     return NextResponse.json({
       success: true,
-      candyMachine: candyMachine.toString(),
+      candyMachine: candyMachineAddress,
+      cmSignerSecretKey,
       transactions: serializedTxs,
+      totalItems: configLines.length,
       estimatedCost: costEstimate,
       guards: {
         solPayment: mintPriceSol > 0 ? { amountSol: mintPriceSol, destination: wallet_address } : null,

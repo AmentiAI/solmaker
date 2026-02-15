@@ -18,6 +18,7 @@ import {
   signerIdentity,
 } from '@metaplex-foundation/umi'
 import { createUmiInstanceAsync } from './umi-config'
+import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters'
 
 export interface CreateCollectionParams {
   name: string
@@ -31,8 +32,8 @@ export interface CreateCollectionParams {
 
 export interface CollectionNftResult {
   collectionMint: string
-  transaction: string // Serialized transaction for user to sign
-  signer: any
+  transaction: string // Serialized UNSIGNED transaction — frontend signs via sendTransaction
+  signerSecretKey: string // Base64-encoded secret key — frontend passes as signer to sendTransaction
 }
 
 /**
@@ -91,19 +92,22 @@ export async function buildCollectionNftTransaction(
 
   const { builder, collectionMint, collectionMintSigner } = await createCollectionNFT(umi, params)
 
-  // Build the transaction, then partially sign with the collection keypair
+  // Build the transaction WITHOUT partial signing.
+  // The frontend will pass the collection signer as a `signer` to sendTransaction,
+  // which lets the wallet adapter handle signing properly for ALL wallets.
   const built = await builder.buildWithLatestBlockhash(umi)
-  const transaction = await collectionMintSigner.signTransaction(built)
 
-  const serialized = Buffer.from(umi.transactions.serialize(transaction)).toString('base64')
+  const web3JsTx = toWeb3JsTransaction(built)
+  const serialized = Buffer.from(web3JsTx.serialize()).toString('base64')
+
+  // Export the collection signer's secret key so the frontend can reconstruct it
+  // and pass it to sendTransaction({ signers: [keypair] })
+  const signerSecretKey = Buffer.from(collectionMintSigner.secretKey).toString('base64')
 
   return {
     collectionMint: collectionMint.toString(),
     transaction: serialized,
-    signer: {
-      publicKey: collectionMint.toString(),
-      secretKey: null,
-    },
+    signerSecretKey,
   }
 }
 

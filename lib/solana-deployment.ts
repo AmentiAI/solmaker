@@ -1,13 +1,17 @@
 /**
  * Frontend helper for Solana Core Candy Machine deployment.
  *
- * Key changes from legacy:
- * - No setMintAuthority step needed
- * - Creates Core Assets (not SPL tokens)
- * - Guards enforce fees on-chain
+ * Uses the standard @solana/wallet-adapter pattern:
+ * - sendTransaction(tx, connection, { signers }) for single transactions
+ * - signAllTransactions + sendRawTransaction for batch config lines
+ *
+ * Keypairs that need to co-sign (collection signer, candy machine signer)
+ * are generated server-side and returned to the frontend so we can pass
+ * them as `signers` to the wallet adapter's sendTransaction method.
+ * This lets the adapter handle wallet lifecycle properly for ALL wallets.
  */
 
-import { VersionedTransaction, Connection } from '@solana/web3.js'
+import { VersionedTransaction, Connection, Keypair } from '@solana/web3.js'
 
 export interface DeploymentStep {
   id: string
@@ -17,21 +21,41 @@ export interface DeploymentStep {
   error?: string
 }
 
-export interface WalletSigner {
-  signTransaction: <T extends VersionedTransaction>(transaction: T) => Promise<T>
+/**
+ * Matches what useWallet() provides — standard wallet adapter interface.
+ * sendTransaction is the recommended way per Solana wallet adapter docs.
+ */
+export interface WalletAdapter {
+  sendTransaction: (
+    transaction: VersionedTransaction,
+    connection: Connection,
+    options?: { signers?: Keypair[] }
+  ) => Promise<string>
+  signAllTransactions?: <T extends VersionedTransaction>(transactions: T[]) => Promise<T[]>
+}
+
+async function getConnection(): Promise<Connection> {
+  try {
+    const res = await fetch('/api/solana/network')
+    const data = await res.json()
+    const rpcUrl = data.rpcUrl || 'https://api.devnet.solana.com'
+    return new Connection(rpcUrl, 'confirmed')
+  } catch {
+    return new Connection('https://api.devnet.solana.com', 'confirmed')
+  }
 }
 
 export class SolanaDeployment {
   collectionId: string
   walletAddress: string
-  wallet: WalletSigner
+  wallet: WalletAdapter
   steps: DeploymentStep[]
   onUpdate: (steps: DeploymentStep[]) => void
 
   constructor(
     collectionId: string,
     walletAddress: string,
-    wallet: WalletSigner,
+    wallet: WalletAdapter,
     onUpdate: (steps: DeploymentStep[]) => void
   ) {
     this.collectionId = collectionId
@@ -75,7 +99,6 @@ export class SolanaDeployment {
 
   async deploy() {
     try {
-      // Check current deployment state to skip completed steps
       const stateResponse = await fetch(`/api/collections/${this.collectionId}/deploy/status?wallet_address=${this.walletAddress}`)
       const state = stateResponse.ok ? await stateResponse.json() : {}
 
@@ -106,9 +129,7 @@ export class SolanaDeployment {
         await this.deployCandyMachine()
       }
 
-      // Complete
       this.updateStep('complete', { status: 'completed' })
-
       return { success: true }
     } catch (error: any) {
       console.error('Deployment failed:', error)
@@ -118,79 +139,74 @@ export class SolanaDeployment {
 
   async uploadMetadata() {
     this.updateStep('upload_metadata', { status: 'in_progress' })
-
     try {
       const response = await fetch(`/api/collections/${this.collectionId}/deploy/upload-metadata`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ wallet_address: this.walletAddress }),
       })
-
       const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to upload metadata')
-      }
+      if (!response.ok) throw new Error(data.error || 'Failed to upload metadata')
 
       this.updateStep('upload_metadata', {
         status: 'completed',
         description: `Uploaded ${data.count} NFTs successfully`
       })
-
       return data
     } catch (error: any) {
-      this.updateStep('upload_metadata', {
-        status: 'failed',
-        error: error.message
-      })
+      this.updateStep('upload_metadata', { status: 'failed', error: error.message })
       throw error
     }
   }
 
   /**
-   * Sign a partially-signed transaction and send it via RPC
+   * Create Collection NFT using sendTransaction (standard wallet adapter pattern).
+   * Server returns unsigned tx + collection signer secret key.
+   * We pass the signer to sendTransaction via the `signers` option.
    */
-  async signAndSend(serializedTx: string): Promise<string> {
-    const transaction = VersionedTransaction.deserialize(Buffer.from(serializedTx, 'base64'))
-
-    const signed = await this.wallet.signTransaction(transaction)
-
-    const networkResponse = await fetch('/api/solana/network')
-    const networkData = await networkResponse.json()
-    const rpcUrl = networkData.rpcUrl || 'https://api.devnet.solana.com'
-
-    const connection = new Connection(rpcUrl, 'confirmed')
-    const signature = await connection.sendRawTransaction(signed.serialize(), {
-      skipPreflight: false,
-      preflightCommitment: 'confirmed',
-    })
-
-    const confirmation = await connection.confirmTransaction(signature, 'confirmed')
-    if (confirmation.value.err) {
-      throw new Error(`Transaction failed: ${JSON.stringify(confirmation.value.err)}`)
-    }
-
-    return signature
-  }
-
   async createCollectionNFT() {
     this.updateStep('create_collection_nft', { status: 'in_progress' })
-
     try {
       const response = await fetch(`/api/collections/${this.collectionId}/deploy/create-collection-nft`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ wallet_address: this.walletAddress }),
       })
-
       const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Failed to create collection transaction')
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to create collection transaction')
-      }
+      const connection = await getConnection()
+      const transaction = VersionedTransaction.deserialize(Buffer.from(data.transaction, 'base64'))
 
-      const signature = await this.signAndSend(data.transaction)
+      // Reconstruct the collection signer keypair from the secret key returned by server
+      const collectionSigner = data.signerSecretKey
+        ? Keypair.fromSecretKey(Uint8Array.from(Buffer.from(data.signerSecretKey, 'base64')))
+        : undefined
 
+      this.updateStep('create_collection_nft', {
+        description: 'Approve transaction in your wallet...',
+      })
+
+      // sendTransaction handles signing + sending + wallet lifecycle for ALL wallets
+      const signature = await this.wallet.sendTransaction(
+        transaction,
+        connection,
+        collectionSigner ? { signers: [collectionSigner] } : undefined
+      )
+
+      // Wait for confirmation
+      this.updateStep('create_collection_nft', {
+        description: 'Confirming on-chain...',
+      })
+
+      const latestBlockhash = await connection.getLatestBlockhash()
+      await connection.confirmTransaction({
+        signature,
+        blockhash: latestBlockhash.blockhash,
+        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+      })
+
+      // Save to DB
       const confirmResponse = await fetch(`/api/collections/${this.collectionId}/deploy/create-collection-nft`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -200,94 +216,160 @@ export class SolanaDeployment {
           wallet_address: this.walletAddress,
         }),
       })
-
       const confirmData = await confirmResponse.json()
-      console.log('[SolanaDeployment] Collection confirm response:', JSON.stringify(confirmData, null, 2))
-
-      if (!confirmResponse.ok) {
-        throw new Error(confirmData.error || 'Failed to confirm collection')
-      }
+      if (!confirmResponse.ok) throw new Error(confirmData.error || 'Failed to confirm collection')
 
       this.updateStep('create_collection_nft', {
         status: 'completed',
         description: `Collection created: ${data.collectionMint.substring(0, 8)}...`
       })
-
       return confirmData
     } catch (error: any) {
-      this.updateStep('create_collection_nft', {
-        status: 'failed',
-        error: error.message
-      })
+      this.updateStep('create_collection_nft', { status: 'failed', error: error.message })
       throw error
     }
   }
 
+  /**
+   * Deploy Candy Machine.
+   *
+   * Flow:
+   * 1. One API call builds ALL transactions (CM creation + config lines) — returns unsigned txs + CM signer key
+   * 2. CM creation: sendTransaction with CM signer (1 wallet popup, standard adapter flow)
+   * 3. Config lines: signAllTransactions (1 wallet popup) → blast-send via RPC
+   * 4. Save to DB
+   *
+   * Total: 2 wallet popups for the entire candy machine deployment.
+   */
   async deployCandyMachine() {
     this.updateStep('create_candy_machine', { status: 'in_progress' })
 
     try {
-      const response = await fetch(`/api/collections/${this.collectionId}/deploy/create-candy-machine`, {
+      // Step 1: Build ALL transactions
+      this.updateStep('create_candy_machine', { description: 'Building all transactions...' })
+
+      const buildResponse = await fetch(`/api/collections/${this.collectionId}/deploy/create-candy-machine`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ wallet_address: this.walletAddress }),
       })
+      const buildData = await buildResponse.json()
+      if (!buildResponse.ok) throw new Error(buildData.error || 'Failed to build Candy Machine transactions')
 
-      const data = await response.json()
+      const { candyMachine: candyMachineAddress, transactions: txList } = buildData
+      console.log(`[Deploy] Built ${txList.length} transactions for CM ${candyMachineAddress}`)
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to create Candy Machine transactions')
-      }
-
+      const connection = await getConnection()
       const signatures: string[] = []
 
-      for (let i = 0; i < data.transactions.length; i++) {
-        const txData = data.transactions[i]
+      // Step 2: Send CM creation (tx 0) using sendTransaction with CM signer
+      this.updateStep('create_candy_machine', {
+        description: 'Approve Candy Machine creation in your wallet...',
+      })
+
+      const cmTx = VersionedTransaction.deserialize(Buffer.from(txList[0].transaction, 'base64'))
+      const cmSigner = buildData.cmSignerSecretKey
+        ? Keypair.fromSecretKey(Uint8Array.from(Buffer.from(buildData.cmSignerSecretKey, 'base64')))
+        : undefined
+
+      const cmSig = await this.wallet.sendTransaction(
+        cmTx,
+        connection,
+        cmSigner ? { signers: [cmSigner] } : undefined
+      )
+
+      this.updateStep('create_candy_machine', { description: 'Confirming Candy Machine creation...' })
+      const latestBlockhash = await connection.getLatestBlockhash()
+      await connection.confirmTransaction({
+        signature: cmSig,
+        blockhash: latestBlockhash.blockhash,
+        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+      })
+      signatures.push(cmSig)
+      console.log(`[Deploy] CM created: ${cmSig}`)
+
+      // Step 3: Config line transactions — signAllTransactions + blast send
+      if (txList.length > 1) {
+        const configTxs = txList.slice(1).map((tx: any) =>
+          VersionedTransaction.deserialize(Buffer.from(tx.transaction, 'base64'))
+        )
 
         this.updateStep('create_candy_machine', {
-          description: `Signing transaction ${i + 1} of ${data.transactions.length}: ${txData.description}`
+          description: `Approve ${configTxs.length} config line transactions in your wallet...`,
         })
 
-        const signature = await this.signAndSend(txData.transaction)
-        signatures.push(signature)
+        // Sign all config line txs at once (1 popup)
+        let signedConfigTxs: VersionedTransaction[]
+        if (this.wallet.signAllTransactions && configTxs.length > 1) {
+          signedConfigTxs = await this.wallet.signAllTransactions(configTxs)
+        } else {
+          // Wallet doesn't support signAllTransactions — fall back to individual sendTransaction
+          for (let i = 0; i < configTxs.length; i++) {
+            this.updateStep('create_candy_machine', {
+              description: `Sending config line tx ${i + 1}/${configTxs.length}...`,
+            })
+            const sig = await this.wallet.sendTransaction(configTxs[i], connection)
+            signatures.push(sig)
+          }
+          signedConfigTxs = [] // already sent
+        }
 
-        if (i < data.transactions.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 2000))
+        // Blast-send all signed config txs
+        if (signedConfigTxs.length > 0) {
+          this.updateStep('create_candy_machine', {
+            description: `Sending ${signedConfigTxs.length} config line transactions...`,
+          })
+
+          const configSigs: string[] = []
+          for (let i = 0; i < signedConfigTxs.length; i++) {
+            const sig = await connection.sendRawTransaction(signedConfigTxs[i].serialize(), {
+              skipPreflight: false,
+              preflightCommitment: 'confirmed',
+            })
+            configSigs.push(sig)
+            console.log(`[Deploy] Sent config tx ${i + 1}/${signedConfigTxs.length}: ${sig}`)
+          }
+
+          // Confirm all
+          this.updateStep('create_candy_machine', {
+            description: `Confirming ${configSigs.length} config line transactions...`,
+          })
+
+          const confirmBlockhash = await connection.getLatestBlockhash()
+          for (const sig of configSigs) {
+            await connection.confirmTransaction({
+              signature: sig,
+              blockhash: confirmBlockhash.blockhash,
+              lastValidBlockHeight: confirmBlockhash.lastValidBlockHeight,
+            })
+            signatures.push(sig)
+          }
+          console.log(`[Deploy] All ${configSigs.length} config line transactions confirmed`)
         }
       }
+
+      // Step 4: Save to database
+      this.updateStep('create_candy_machine', { description: 'Saving deployment to database...' })
 
       const confirmResponse = await fetch(`/api/collections/${this.collectionId}/deploy/create-candy-machine`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          candy_machine_address: data.candyMachine,
+          candy_machine_address: candyMachineAddress,
           tx_signatures: signatures,
           wallet_address: this.walletAddress,
         }),
       })
-
       const confirmData = await confirmResponse.json()
-      console.log('[SolanaDeployment] Candy Machine confirm response:', JSON.stringify(confirmData, null, 2))
-
-      if (!confirmResponse.ok) {
-        throw new Error(confirmData.error || 'Failed to confirm Candy Machine')
-      }
-
-      if (confirmData.dbVerification) {
-        console.log('[SolanaDeployment] DB Verification:', JSON.stringify(confirmData.dbVerification, null, 2))
-      }
+      if (!confirmResponse.ok) throw new Error(confirmData.error || 'Failed to confirm Candy Machine')
 
       this.updateStep('create_candy_machine', {
         status: 'completed',
-        description: `Candy Machine deployed: ${data.candyMachine.substring(0, 8)}...`
+        description: `Candy Machine deployed: ${candyMachineAddress?.substring(0, 8)}...`
       })
-
       return confirmData
     } catch (error: any) {
-      this.updateStep('create_candy_machine', {
-        status: 'failed',
-        error: error.message
-      })
+      this.updateStep('create_candy_machine', { status: 'failed', error: error.message })
       throw error
     }
   }
@@ -299,40 +381,31 @@ export class SolanaDeployment {
 export async function mintFromCandyMachine(
   collectionId: string,
   walletAddress: string,
-  wallet: WalletSigner,
+  wallet: WalletAdapter,
   phaseId?: string
 ): Promise<{ success: boolean; nftMint?: string; signature?: string; error?: string }> {
   try {
     const buildResponse = await fetch(`/api/launchpad/${collectionId}/mint/build`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        wallet_address: walletAddress,
-        phase_id: phaseId,
-      }),
+      body: JSON.stringify({ wallet_address: walletAddress, phase_id: phaseId }),
     })
-
     const buildData = await buildResponse.json()
+    if (!buildResponse.ok) throw new Error(buildData.error || 'Failed to build mint transaction')
 
-    if (!buildResponse.ok) {
-      throw new Error(buildData.error || 'Failed to build mint transaction')
-    }
-
-    // Deserialize the partially-signed transaction (only nftMint keypair signed)
+    const connection = await getConnection()
     const transaction = VersionedTransaction.deserialize(Buffer.from(buildData.transaction, 'base64'))
 
-    // User signs the transaction (as payer)
-    const signed = await wallet.signTransaction(transaction)
+    // Reconstruct the NFT mint signer if provided
+    const nftSigner = buildData.signerSecretKey
+      ? Keypair.fromSecretKey(Uint8Array.from(Buffer.from(buildData.signerSecretKey, 'base64')))
+      : undefined
 
-    const networkResponse = await fetch('/api/solana/network')
-    const networkData = await networkResponse.json()
-    const rpcUrl = networkData.rpcUrl || 'https://api.devnet.solana.com'
-
-    const connection = new Connection(rpcUrl, 'confirmed')
-    const signature = await connection.sendRawTransaction(signed.serialize(), {
-      skipPreflight: false,
-      preflightCommitment: 'confirmed',
-    })
+    const signature = await wallet.sendTransaction(
+      transaction,
+      connection,
+      nftSigner ? { signers: [nftSigner] } : undefined
+    )
 
     // Confirm with backend
     const confirmResponse = await fetch(`/api/launchpad/${collectionId}/mint/confirm`, {
@@ -344,23 +417,12 @@ export async function mintFromCandyMachine(
         wallet_address: walletAddress,
       }),
     })
-
     const confirmData = await confirmResponse.json()
+    if (!confirmResponse.ok) throw new Error(confirmData.error || 'Failed to confirm mint')
 
-    if (!confirmResponse.ok) {
-      throw new Error(confirmData.error || 'Failed to confirm mint')
-    }
-
-    return {
-      success: true,
-      nftMint: buildData.nftMint,
-      signature,
-    }
+    return { success: true, nftMint: buildData.nftMint, signature }
   } catch (error: any) {
-    return {
-      success: false,
-      error: error.message,
-    }
+    return { success: false, error: error.message }
   }
 }
 
@@ -374,20 +436,9 @@ export async function checkMintStatus(
   try {
     const response = await fetch(`/api/launchpad/${collectionId}/mint/confirm?signature=${signature}`)
     const data = await response.json()
-
-    if (!response.ok) {
-      throw new Error(data.error || 'Failed to check mint status')
-    }
-
-    return {
-      confirmed: data.mint.confirmed,
-      status: data.mint.status,
-    }
+    if (!response.ok) throw new Error(data.error || 'Failed to check mint status')
+    return { confirmed: data.mint.confirmed, status: data.mint.status }
   } catch (error: any) {
-    return {
-      confirmed: false,
-      status: 'unknown',
-      error: error.message,
-    }
+    return { confirmed: false, status: 'unknown', error: error.message }
   }
 }

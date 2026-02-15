@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle2, Circle, Loader2, XCircle, Rocket, RefreshCw, Copy } from 'lucide-react'
 import { SolanaDeployment, DeploymentStep } from '@/lib/solana-deployment'
 import { useWallet } from '@solana/wallet-adapter-react'
+import { useConnection } from '@solana/wallet-adapter-react'
 
 interface DeploymentResult {
   candyMachineAddress: string | null
@@ -21,7 +22,8 @@ interface SolanaDeploymentWizardProps {
 }
 
 export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeploymentWizardProps) {
-  const { publicKey, connected, signTransaction } = useWallet()
+  const { publicKey, connected, sendTransaction, signAllTransactions } = useWallet()
+  const { connection } = useConnection()
   const [steps, setSteps] = useState<DeploymentStep[]>([])
   const [isDeploying, setIsDeploying] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -31,7 +33,7 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
   const [verifying, setVerifying] = useState(false)
 
   // Load network on mount
-  useState(() => {
+  useEffect(() => {
     async function loadNetwork() {
       try {
         const response = await fetch('/api/solana/network')
@@ -46,7 +48,7 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
       }
     }
     loadNetwork()
-  })
+  }, [])
 
   const verifyDatabase = async (): Promise<DeploymentResult> => {
     setVerifying(true)
@@ -54,7 +56,7 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
       const response = await fetch(`/api/collections/${collectionId}/deploy/status?wallet_address=${publicKey?.toBase58()}`)
       const data = await response.json()
       console.log('[DeploymentWizard] DB verification response:', JSON.stringify(data, null, 2))
-      
+
       const result: DeploymentResult = {
         candyMachineAddress: data.candy_machine_address || null,
         collectionMintAddress: data.collection_mint_address || null,
@@ -86,8 +88,8 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
       return
     }
 
-    if (!signTransaction) {
-      setError('Wallet does not support transaction signing')
+    if (!sendTransaction) {
+      setError('Wallet does not support sending transactions')
       return
     }
 
@@ -95,10 +97,15 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
     setError(null)
     setDeploymentResult(null)
 
+    // Pass the standard wallet adapter methods — sendTransaction handles
+    // signing + sending + wallet lifecycle for ALL wallets properly.
     const deployment = new SolanaDeployment(
       collectionId,
       publicKey.toBase58(),
-      { signTransaction: signTransaction as any },
+      {
+        sendTransaction: (tx, conn, opts) => sendTransaction(tx, conn, opts),
+        signAllTransactions: signAllTransactions || undefined,
+      },
       (updatedSteps) => setSteps(updatedSteps)
     )
 
@@ -109,10 +116,9 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
     setIsDeploying(false)
 
     if (result.success) {
-      // Don't reload immediately - verify the DB was updated and show results
       const dbResult = await verifyDatabase()
       console.log('[DeploymentWizard] Post-deploy DB check:', JSON.stringify(dbResult, null, 2))
-      
+
       if (!dbResult.dbVerified) {
         setError('WARNING: Deployment succeeded on-chain but database may not have saved. Check the details below. You may need to reload the page and try again.')
       }
@@ -149,7 +155,7 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
             <div className="flex items-center gap-2 text-sm">
               <span className="text-white/70">Network:</span>
               <span className={`font-semibold ${network === 'mainnet-beta' ? 'text-green-400' : 'text-blue-400'}`}>
-                {network === 'mainnet-beta' ? '🚀 Mainnet (Production)' : '🧪 Devnet (Testing)'}
+                {network === 'mainnet-beta' ? 'Mainnet (Production)' : 'Devnet (Testing)'}
               </span>
             </div>
           </div>
@@ -194,7 +200,7 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
         {deploymentResult && (
           <div className={`p-4 rounded-lg border ${deploymentResult.dbVerified ? 'bg-green-900/20 border-green-500/50' : 'bg-yellow-900/20 border-yellow-500/50'}`}>
             <h4 className={`font-bold text-sm mb-3 ${deploymentResult.dbVerified ? 'text-green-400' : 'text-yellow-400'}`}>
-              {deploymentResult.dbVerified ? '✅ Deployment Verified in Database' : '⚠️ Database Verification'}
+              {deploymentResult.dbVerified ? 'Deployment Verified in Database' : 'Database Verification'}
             </h4>
             <div className="space-y-2 text-sm font-mono">
               <div className="flex justify-between items-center">
@@ -216,7 +222,7 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
                     {deploymentResult.collectionMintAddress || 'NOT SAVED'}
                   </span>
                   {deploymentResult.collectionMintAddress && (
-                    <button 
+                    <button
                       onClick={() => navigator.clipboard.writeText(deploymentResult.collectionMintAddress!)}
                       className="text-white/30 hover:text-white/70 flex-shrink-0"
                     >
@@ -232,7 +238,7 @@ export function SolanaDeploymentWizard({ collectionId, onComplete }: SolanaDeplo
                     {deploymentResult.candyMachineAddress || 'NOT SAVED'}
                   </span>
                   {deploymentResult.candyMachineAddress && (
-                    <button 
+                    <button
                       onClick={() => navigator.clipboard.writeText(deploymentResult.candyMachineAddress!)}
                       className="text-white/30 hover:text-white/70 flex-shrink-0"
                     >

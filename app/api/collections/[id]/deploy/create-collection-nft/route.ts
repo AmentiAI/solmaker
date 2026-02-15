@@ -133,6 +133,7 @@ export async function POST(
       success: true,
       collectionMint: result.collectionMint,
       transaction: result.transaction,
+      signerSecretKey: result.signerSecretKey,
       message: 'Sign this transaction in your wallet to create the collection NFT',
     })
 

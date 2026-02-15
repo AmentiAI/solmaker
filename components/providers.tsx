@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
-import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { clusterApiUrl } from '@solana/web3.js'
 import { SolanaWalletProvider } from '@/lib/wallet/solana-wallet-context'
 import { ProfileProvider } from '@/lib/profile/useProfile'
@@ -16,8 +16,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl('mainnet-beta')
   }, [])
 
+  // Phantom auto-registers as a Standard Wallet — no explicit adapter needed.
+  // Adding PhantomWalletAdapter causes duplicate connections and signing failures.
   const wallets = useMemo(() => [
-    new PhantomWalletAdapter(),
     new SolflareWalletAdapter(),
   ], [])
 

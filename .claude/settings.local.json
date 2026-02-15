@@ -10,7 +10,16 @@
       "Bash(wc:*)",
       "Bash(node scripts/run-marketplace-migration.js:*)",
       "Bash(node scripts/run-ordinal-marketplace-migration.js:*)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "WebSearch",
+      "WebFetch(domain:developers.metaplex.com)",
+      "Bash(node -e:*)",
+      "Bash(node scripts/reset-deployment.js:*)",
+      "WebFetch(domain:docs.phantom.com)",
+      "WebFetch(domain:solana.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:developer.chrome.com)",
+      "WebFetch(domain:www.npmjs.com)"
     ],
     "deny": [],
     "ask": []
