@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { CREDIT_TIERS } from '@/lib/credits/constants'
 import { useWallet } from '@/lib/wallet/compatibility'
+import { useWallet as useSolanaWalletAdapter } from '@solana/wallet-adapter-react'
 import { useCreditCosts, formatCreditCost } from '@/lib/credits/use-credit-costs'
 import { PaymentMethod } from '@/components/payment-method-selector'
 import { CreditPurchaseModal } from '@/components/credit-purchase-modal'
@@ -21,6 +22,7 @@ interface HolderStatus {
 
 export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
   const { isConnected, currentAddress, paymentAddress, paymentPublicKey, publicKey, client } = useWallet()
+  const { signTransaction: walletSignTransaction } = useSolanaWalletAdapter()
   const { costs: creditCosts } = useCreditCosts()
   const [selectedTier, setSelectedTier] = useState<number | null>(null)
   const [showModal, setShowModal] = useState(false)
@@ -99,19 +101,26 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
 
   const handlePurchase = useCallback(async (tierIndex: number) => {
     const tier = discountedTiers[tierIndex]
-    const finalPrice = holderStatus?.isHolder ? tier.discountedPrice : tier.totalPrice
-    
+
     // Solana payment flow
     if (!isConnected || !currentAddress) {
       setError('Please connect your wallet first')
       return
     }
 
+    if (!walletSignTransaction) {
+      setError('Wallet does not support signTransaction')
+      return
+    }
+
     setPurchasing(true)
     setError(null)
+    setSelectedTier(tierIndex)
+
+    let paymentId: string | null = null
 
     try {
-      // Step 1: Get payment details from API for Solana
+      // Step 1: Get payment details from API
       const response = await fetch('/api/credits/create-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -119,184 +128,122 @@ export function CreditPurchase({ onPurchaseComplete }: CreditPurchaseProps) {
           wallet_address: currentAddress,
           tier_index: tierIndex,
           payment_type: 'sol',
-          holder_discount: holderStatus?.isHolder ? 50 : 0, // Pass discount percentage
+          holder_discount: holderStatus?.isHolder ? 50 : 0,
         }),
       })
 
       if (!response.ok) {
         const errorData = await response.json()
-        setError(errorData.error || 'Failed to create payment')
-        setPurchasing(false)
-        return
+        throw new Error(errorData.error || 'Failed to create payment')
       }
 
       const paymentData = await response.json()
-      const paymentId = paymentData.paymentId
-      setCurrentPaymentId(paymentId)
-      setSelectedTier(tierIndex)
+      paymentId = paymentData.paymentId
 
-      // Helper to cancel payment and set error
-      const cancelAndError = async (errorMsg: string) => {
-        if (paymentId && currentAddress) {
-          await cancelPendingPayment(paymentId, currentAddress)
-        }
-        setCurrentPaymentId(null)
-        setError(errorMsg)
-        setPurchasing(false)
-      }
-
-      // Step 2: Get Solana transaction details
       const solAmount = paymentData.solAmount
       if (!solAmount || solAmount <= 0) {
-        await cancelAndError('Invalid payment amount received from server')
-        return
+        throw new Error('Invalid payment amount received from server')
       }
 
-      console.log(`💰 Solana Payment: ${solAmount} SOL to ${paymentData.paymentAddress}`)
+      console.log(`[Credit Purchase] ${solAmount} SOL to ${paymentData.paymentAddress}`)
 
-      setPaymentInfo({
-        ...paymentData,
-        solAmount,
+      // Step 2: Build the transaction (NO setState calls from here until after wallet signs)
+      const { PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL, Connection } = await import('@solana/web3.js')
+
+      const fromPubkey = new PublicKey(currentAddress)
+      const toPubkey = new PublicKey(paymentData.paymentAddress)
+      const lamports = Math.floor(solAmount * LAMPORTS_PER_SOL)
+
+      if (lamports <= 0) {
+        throw new Error('Invalid transaction amount')
+      }
+
+      const rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
+      const connection = new Connection(rpcUrl, 'confirmed')
+      const { blockhash } = await connection.getLatestBlockhash('finalized')
+
+      const transaction = new Transaction()
+      transaction.recentBlockhash = blockhash
+      transaction.feePayer = fromPubkey
+      transaction.add(
+        SystemProgram.transfer({
+          fromPubkey,
+          toPubkey,
+          lamports,
+        })
+      )
+
+      // CRITICAL: Zero setState calls before wallet popup.
+      // React re-renders kill the Phantom popup / service worker.
+      const signed = await walletSignTransaction(transaction)
+
+      // After wallet signs, NOW we can update state
+      setCurrentPaymentId(paymentId)
+      setPaymentInfo({ ...paymentData, solAmount })
+
+      // Step 3: Send raw transaction via our own RPC (not wallet's internal RPC)
+      const rawTx = signed.serialize()
+      const signature = await connection.sendRawTransaction(rawTx, {
+        skipPreflight: false,
+        preflightCommitment: 'confirmed',
       })
 
-      // Step 3: Send Solana transaction
-      try {
-        console.log('🔐 Sending Solana transaction...')
-        
-        // Import Solana wallet hook to get sendTransaction
-        const { useSolanaWallet } = await import('@/lib/wallet/solana-wallet-context')
-        
-        // We need to get the Solana wallet context
-        // Since we're in a callback, we can't use the hook directly
-        // Instead, we'll use the window.solana API
-        if (typeof window === 'undefined' || !window.solana) {
-          throw new Error('Solana wallet not available')
-        }
+      console.log('[Credit Purchase] Transaction sent:', signature)
 
-        // Import Solana web3.js
-        const { PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL, Connection } = await import('@solana/web3.js')
-        
-        // Get wallet from window
-        const solanaWallet = window.solana
-        
-        // Check if wallet is connected
-        if (!solanaWallet.isConnected) {
-          throw new Error('Solana wallet not connected')
-        }
+      // Step 4: Wait for confirmation
+      const confirmation = await connection.confirmTransaction(signature, 'confirmed')
 
-        // Get public key
-        const fromPubkey = new PublicKey(currentAddress)
-        const toPubkey = new PublicKey(paymentData.paymentAddress)
-        const lamports = Math.floor(solAmount * LAMPORTS_PER_SOL)
-
-        if (lamports <= 0) {
-          throw new Error('Invalid transaction amount')
-        }
-
-        // Create connection to Solana mainnet using Helius RPC
-        const rpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com'
-        console.log('🌐 Connecting to Solana RPC:', rpcUrl.split('?')[0]) // Log without API key
-        
-        const connection = new Connection(
-          rpcUrl,
-          'confirmed'
-        )
-
-        // Get recent blockhash
-        const { blockhash } = await connection.getLatestBlockhash('finalized')
-        
-        // Create transaction
-        const transaction = new Transaction()
-        transaction.recentBlockhash = blockhash
-        transaction.feePayer = fromPubkey
-        transaction.add(
-          SystemProgram.transfer({
-            fromPubkey,
-            toPubkey,
-            lamports,
-          })
-        )
-
-        // Sign and send transaction
-        const { signature } = await solanaWallet.signAndSendTransaction(transaction)
-
-        if (!signature || typeof signature !== 'string') {
-          throw new Error('Invalid transaction signature')
-        }
-
-        console.log('✅ Transaction sent, signature:', signature)
-
-        // Step 4: Wait for transaction confirmation
-        console.log('⏳ Waiting for transaction confirmation...')
-        const confirmation = await connection.confirmTransaction(signature, 'confirmed')
-        
-        if (confirmation.value.err) {
-          throw new Error(`Transaction failed: ${JSON.stringify(confirmation.value.err)}`)
-        }
-
-        console.log('✅ Transaction confirmed!')
-
-        // Step 5: Save signature and verify payment
-        const verifyResponse = await fetch('/api/credits/verify-payment', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            payment_id: paymentData.paymentId,
-            wallet_address: currentAddress,
-            txid: signature,
-          }),
-        })
-
-        if (!verifyResponse.ok) {
-          const errorData = await verifyResponse.json().catch(() => ({}))
-          console.warn('⚠️ Payment verification returned error (non-critical, will retry):', errorData.error || verifyResponse.statusText)
-          // Don't throw - the polling will retry
-        } else {
-          const verifyData = await verifyResponse.json()
-          console.log('✅ Payment verified, status:', verifyData.status)
-          // Update payment status immediately
-          setPaymentStatus(verifyData)
-        }
-
-        setPaymentInfo({
-          ...paymentData,
-          txid: signature,
-        })
-        
-        // Set initial status showing transaction is confirmed
-        setPaymentStatus({
-          status: 'pending',
-          confirmations: 1,
-          txid: signature,
-          message: 'Transaction confirmed! Processing credit purchase...',
-        })
-      } catch (txError: any) {
-        console.error('Error sending Solana transaction:', txError)
-        // Cancel the pending payment since user cancelled or transaction failed
-        if (paymentId && currentAddress) {
-          await cancelPendingPayment(paymentId, currentAddress)
-        }
-        setCurrentPaymentId(null)
-        if (txError.message?.includes('cancel') || txError.message?.includes('reject') || txError.code === 4001) {
-          setError('Transaction cancelled by user')
-        } else {
-          setError(`Failed to send transaction: ${txError.message || 'Unknown error'}`)
-        }
-        setPaymentInfo(null)
-        setSelectedTier(null)
-        setPurchasing(false)
+      if (confirmation.value.err) {
+        throw new Error(`Transaction failed: ${JSON.stringify(confirmation.value.err)}`)
       }
+
+      console.log('[Credit Purchase] Transaction confirmed')
+
+      // Step 5: Verify payment with backend
+      const verifyResponse = await fetch('/api/credits/verify-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          payment_id: paymentData.paymentId,
+          wallet_address: currentAddress,
+          txid: signature,
+        }),
+      })
+
+      if (verifyResponse.ok) {
+        const verifyData = await verifyResponse.json()
+        console.log('[Credit Purchase] Payment verified:', verifyData.status)
+        setPaymentStatus(verifyData)
+      } else {
+        console.warn('[Credit Purchase] Verification returned error (will retry via polling)')
+      }
+
+      setPaymentInfo({ ...paymentData, txid: signature })
+      setPaymentStatus({
+        status: 'pending',
+        confirmations: 1,
+        txid: signature,
+        message: 'Transaction confirmed! Processing credit purchase...',
+      })
+
     } catch (err: any) {
-      // Cancel any pending payment if there's a general error
-      if (currentPaymentId && currentAddress) {
-        await cancelPendingPayment(currentPaymentId, currentAddress)
+      console.error('[Credit Purchase] Error:', err)
+      // Cancel the pending payment
+      if (paymentId && currentAddress) {
+        await cancelPendingPayment(paymentId, currentAddress)
       }
       setCurrentPaymentId(null)
-      setError(err.message || 'Failed to create purchase')
-      console.error('Purchase error:', err)
+      setPaymentInfo(null)
+      setSelectedTier(null)
+
+      if (err.message?.includes('cancel') || err.message?.includes('reject') || err.code === 4001) {
+        setError('Transaction cancelled by user')
+      } else {
+        setError(err.message || 'Failed to create purchase')
+      }
       setPurchasing(false)
     }
-  }, [isConnected, currentAddress, paymentAddress, client, discountedTiers, holderStatus?.isHolder, paymentMethod])
+  }, [isConnected, currentAddress, walletSignTransaction, discountedTiers, holderStatus?.isHolder, cancelPendingPayment])
 
   // Check payment status periodically - only after transaction is signed (has txid)
   useEffect(() => {
