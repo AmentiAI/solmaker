@@ -6,7 +6,7 @@ import { useWallet } from '@/lib/wallet/compatibility'
 import Link from 'next/link'
 
 export function ProfileManager() {
-  const { isConnected, currentAddress, paymentAddress } = useWallet()
+  const { isConnected, currentAddress } = useWallet()
   const { profile, loading, error, updateProfile } = useProfile()
   
   // Determine active wallet (Bitcoin only)
@@ -453,81 +453,35 @@ export function ProfileManager() {
             </div>
           ) : null}
           
-          {/* Wallet Addresses Section */}
+          {/* Wallet Address Section */}
           {activeWalletConnected && activeWalletAddress && (
             <div className="bg-gradient-to-br from-cyan-900/10 to-blue-900/10 rounded-xl p-4 border border-cyan-500/20">
               <h3 className="text-base font-semibold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-3">
-                🌌 Wallet Addresses
+                Wallet Address
               </h3>
-              <div className="space-y-3">
-                  {/* Wallet Address */}
-                  <div className="p-3 bg-black/20 rounded-lg border border-cyan-500/20">
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs text-cyan-400/80 mb-1 font-medium">Wallet Address</p>
-                        <p className="text-white font-mono text-xs break-all">{currentAddress || 'Not connected'}</p>
-                      </div>
-                      <div className="ml-2">
-                        {profile && profile.walletAddress === currentAddress ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-semibold border border-green-500/30">
-                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                            Saved
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-[#FBBF24] rounded text-xs font-semibold border border-yellow-500/30">
-                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
-                            Not Saved
-                          </span>
-                        )}
-                      </div>
-                    </div>
+              <div className="p-3 bg-black/20 rounded-lg border border-cyan-500/20">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-mono text-xs break-all">{currentAddress || 'Not connected'}</p>
                   </div>
-
-                  {/* Payment Address */}
-                  <div className="p-3 bg-black/20 rounded-lg border border-cyan-500/20">
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs text-cyan-400/80 mb-1 font-medium">Payment Address</p>
-                        {paymentAddress ? (
-                          <p className="text-white font-mono text-xs break-all">{paymentAddress}</p>
-                        ) : (
-                          <p className="text-white/50 italic text-xs">Not available</p>
-                        )}
-                      </div>
-                      <div className="ml-2">
-                        {paymentAddress && profile && profile.paymentAddress === paymentAddress ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-semibold border border-green-500/30">
-                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                            Saved
-                          </span>
-                        ) : paymentAddress && profile && profile.paymentAddress !== paymentAddress ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-[#FBBF24] rounded text-xs font-semibold border border-yellow-500/30">
-                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
-                            Different
-                          </span>
-                        ) : paymentAddress ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-[#FBBF24] rounded text-xs font-semibold border border-yellow-500/30">
-                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
-                            Not Saved
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-500/20 text-[#a8a8b8] rounded text-xs font-semibold border border-[#9945FF]/40/30">
-                            N/A
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                  <div className="ml-2">
+                    {profile && profile.walletAddress === currentAddress ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-semibold border border-green-500/30">
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        Saved
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-[#FBBF24] rounded text-xs font-semibold border border-yellow-500/30">
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                        Not Saved
+                      </span>
+                    )}
                   </div>
+                </div>
               </div>
             </div>
           )}

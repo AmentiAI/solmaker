@@ -4,7 +4,7 @@ import { checkAuthorizationServer } from '@/lib/auth/access-control'
 
 /**
  * GET /api/admin/launchpad/completed-collections
- * Returns collections with recent mint activity (actually minted, not just completed phases)
+ * Returns collections with recent Solana mint activity
  */
 export async function GET(request: NextRequest) {
   if (!sql) {
@@ -17,9 +17,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
-    // Get collections that have actual mints, ordered by most recent mint activity
     const completedCollections = await sql`
-      SELECT 
+      SELECT
         c.id,
         c.name,
         c.description,
@@ -31,24 +30,21 @@ export async function GET(request: NextRequest) {
         c.collection_status,
         (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id) as total_supply,
         (
-          SELECT COUNT(*) 
-          FROM mint_inscriptions 
-          WHERE collection_id = c.id 
-            AND commit_tx_id IS NOT NULL
-            AND LENGTH(TRIM(commit_tx_id)) > 0
-            AND is_test_mint = false
+          SELECT COUNT(*)
+          FROM solana_nft_mints
+          WHERE collection_id = c.id
+            AND mint_status = 'confirmed'
         ) as minted_count,
         (
-          SELECT COUNT(*) 
-          FROM mint_inscriptions 
-          WHERE collection_id = c.id 
-            AND is_test_mint = true
-        ) as test_mint_count,
+          SELECT COUNT(*)
+          FROM solana_nft_mints
+          WHERE collection_id = c.id
+            AND mint_status IN ('pending', 'building', 'awaiting_signature', 'broadcasting', 'confirming')
+        ) as pending_count,
         (
-          SELECT MAX(created_at) 
-          FROM mint_inscriptions 
-          WHERE collection_id = c.id 
-            AND is_test_mint = false
+          SELECT MAX(created_at)
+          FROM solana_nft_mints
+          WHERE collection_id = c.id
         ) as last_mint_at,
         (SELECT json_agg(json_build_object(
           'id', mp.id,
@@ -56,22 +52,18 @@ export async function GET(request: NextRequest) {
           'start_time', mp.start_time,
           'end_time', mp.end_time,
           'is_completed', mp.is_completed,
-          'phase_allocation', mp.phase_allocation
+          'phase_allocation', mp.phase_allocation,
+          'phase_minted', mp.phase_minted
         ) ORDER BY mp.phase_order) FROM mint_phases mp WHERE mp.collection_id = c.id) as phases
       FROM collections c
       WHERE EXISTS (
-        -- Has at least one real mint (not test)
-        SELECT 1 FROM mint_inscriptions mi
-        WHERE mi.collection_id = c.id 
-          AND mi.commit_tx_id IS NOT NULL
-          AND LENGTH(TRIM(mi.commit_tx_id)) > 0
-          AND mi.is_test_mint = false
+        SELECT 1 FROM solana_nft_mints sm
+        WHERE sm.collection_id = c.id
       )
       ORDER BY (
-        SELECT MAX(created_at) 
-        FROM mint_inscriptions 
-        WHERE collection_id = c.id 
-          AND is_test_mint = false
+        SELECT MAX(created_at)
+        FROM solana_nft_mints
+        WHERE collection_id = c.id
       ) DESC NULLS LAST
       LIMIT 100
     ` as any[]
@@ -89,4 +81,3 @@ export async function GET(request: NextRequest) {
     )
   }
 }
-
