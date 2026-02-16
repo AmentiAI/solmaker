@@ -210,7 +210,7 @@ export default function CollectionDetailsPage() {
     )
   }
 
-  const isBlocked = (collection.collection_status === 'launchpad' || collection.collection_status === 'marketplace') && !isUserAdmin
+  const isBlocked = (collection.collection_status === 'launchpad' || collection.collection_status === 'marketplace') && !isUserAdmin && !hasAccess
   
   if (isBlocked) {
     const statusText = collection.collection_status === 'launchpad' ? 'launchpad' : 'marketplace'
