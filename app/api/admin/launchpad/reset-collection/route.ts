@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const authResult = await checkAuthorizationServer(request)
+    const authResult = await checkAuthorizationServer(request, sql)
     if (!authResult.isAuthorized || !authResult.isAdmin) {
       return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
