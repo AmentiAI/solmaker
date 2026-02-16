@@ -25,138 +25,154 @@ export async function POST() {
       LIMIT 100
     ` as any[]
 
-    if (!pendingMints.length) {
-      return NextResponse.json({ 
-        success: true, 
-        message: 'No pending mints to check',
-        checked: 0,
-      })
-    }
-
-    console.log(`📋 Checking ${pendingMints.length} pending mints...`)
-
-    const connection = await getConnectionAsync()
     let confirmed = 0
     let failed = 0
     let stillPending = 0
 
-    for (const mint of pendingMints) {
-      try {
-        // Check transaction status
-        const txStatus = await connection.getSignatureStatus(mint.mint_tx_signature)
+    // Check active confirming/broadcasting mints
+    if (pendingMints.length > 0) {
+      console.log(`📋 Checking ${pendingMints.length} pending mints...`)
 
-        if (!txStatus || !txStatus.value) {
-          // Transaction not found yet, still pending
-          stillPending++
-          continue
-        }
+      const connection = await getConnectionAsync()
 
-        if (txStatus.value.confirmationStatus === 'confirmed' || 
-            txStatus.value.confirmationStatus === 'finalized') {
-          // Transaction confirmed!
-          
-          if (txStatus.value.err) {
-            // Transaction failed
-            await sql`
-              UPDATE solana_nft_mints
-              SET 
-                mint_status = 'failed',
-                error_message = ${JSON.stringify(txStatus.value.err)},
-                updated_at = NOW()
-              WHERE id = ${mint.id}::uuid
-            `
+      for (const mint of pendingMints) {
+        try {
+          // Check transaction status
+          const txStatus = await connection.getSignatureStatus(mint.mint_tx_signature)
 
-            if (mint.session_id) {
-              await sql`
-                UPDATE mint_sessions
-                SET status = 'failed'
-                WHERE id = ${mint.session_id}::uuid
-              `
-            }
-
-            failed++
-            console.log(`❌ Mint failed: ${mint.nft_mint_address}`)
-          } else {
-            // Transaction succeeded!
-            await sql`
-              UPDATE solana_nft_mints
-              SET 
-                mint_status = 'confirmed',
-                confirmed_at = NOW(),
-                updated_at = NOW()
-              WHERE id = ${mint.id}::uuid
-            `
-
-            if (mint.session_id) {
-              await sql`
-                UPDATE mint_sessions
-                SET status = 'completed'
-                WHERE id = ${mint.session_id}::uuid
-              `
-            }
-
-            // Mark ordinal as minted
-            if (mint.ordinal_id) {
-              await sql`
-                UPDATE generated_ordinals
-                SET is_minted = true
-                WHERE id = ${mint.ordinal_id}::uuid
-              `
-            }
-
-            confirmed++
-            console.log(`✅ Mint confirmed: ${mint.nft_mint_address}`)
+          if (!txStatus || !txStatus.value) {
+            // Transaction not found yet, still pending
+            stillPending++
+            continue
           }
-        } else {
-          // Still processing
-          stillPending++
-        }
 
-      } catch (error: any) {
-        console.error(`Error checking mint ${mint.id}:`, error.message)
-        
-        // If mint is older than 5 minutes and we can't check it, mark as failed
-        const ageMinutes = (Date.now() - new Date(mint.created_at).getTime()) / 1000 / 60
-        if (ageMinutes > 5) {
-          await sql`
-            UPDATE solana_nft_mints
-            SET 
-              mint_status = 'failed',
-              error_message = 'Transaction not found after 5 minutes',
-              updated_at = NOW()
-            WHERE id = ${mint.id}::uuid
-          `
-          failed++
+          if (txStatus.value.confirmationStatus === 'confirmed' ||
+              txStatus.value.confirmationStatus === 'finalized') {
+            // Transaction confirmed!
+
+            if (txStatus.value.err) {
+              // Transaction failed
+              await sql`
+                UPDATE solana_nft_mints
+                SET
+                  mint_status = 'failed',
+                  error_message = ${JSON.stringify(txStatus.value.err)},
+                  updated_at = NOW()
+                WHERE id = ${mint.id}::uuid
+              `
+
+              if (mint.session_id) {
+                await sql`
+                  UPDATE mint_sessions
+                  SET status = 'failed'
+                  WHERE id = ${mint.session_id}::uuid
+                `
+              }
+
+              failed++
+              console.log(`❌ Mint failed: ${mint.nft_mint_address}`)
+            } else {
+              // Transaction succeeded!
+              await sql`
+                UPDATE solana_nft_mints
+                SET
+                  mint_status = 'confirmed',
+                  confirmed_at = NOW(),
+                  updated_at = NOW()
+                WHERE id = ${mint.id}::uuid
+              `
+
+              if (mint.session_id) {
+                await sql`
+                  UPDATE mint_sessions
+                  SET status = 'completed'
+                  WHERE id = ${mint.session_id}::uuid
+                `
+              }
+
+              // Mark ordinal as minted
+              if (mint.ordinal_id) {
+                await sql`
+                  UPDATE generated_ordinals
+                  SET is_minted = true
+                  WHERE id = ${mint.ordinal_id}::uuid
+                `
+              }
+
+              confirmed++
+              console.log(`✅ Mint confirmed: ${mint.nft_mint_address}`)
+            }
+          } else {
+            // Still processing
+            stillPending++
+          }
+
+        } catch (error: any) {
+          console.error(`Error checking mint ${mint.id}:`, error.message)
+
+          // If mint is older than 5 minutes and we can't check it, mark as failed
+          const ageMinutes = (Date.now() - new Date(mint.created_at).getTime()) / 1000 / 60
+          if (ageMinutes > 5) {
+            await sql`
+              UPDATE solana_nft_mints
+              SET
+                mint_status = 'failed',
+                error_message = 'Transaction not found after 5 minutes',
+                updated_at = NOW()
+              WHERE id = ${mint.id}::uuid
+            `
+            failed++
+          }
         }
       }
     }
 
-    // Check for stuck mints (older than 10 minutes and still pending)
+    // Always check for stuck mints (older than 10 minutes and still in a non-terminal state)
+    // This runs regardless of whether there are active pending mints above
     const stuckMints = await sql`
-      SELECT * FROM solana_nft_mints
-      WHERE mint_status IN ('confirming', 'broadcasting', 'awaiting_signature')
+      SELECT id, mint_status, session_id, ordinal_id, phase_id FROM solana_nft_mints
+      WHERE mint_status IN ('pending', 'building', 'confirming', 'broadcasting', 'awaiting_signature')
       AND created_at < NOW() - INTERVAL '10 minutes'
       LIMIT 50
     ` as any[]
 
     if (stuckMints.length > 0) {
-      console.log(`⚠️ Found ${stuckMints.length} stuck mints`)
-      
+      console.log(`⚠️ Found ${stuckMints.length} stuck mints, marking as cancelled`)
+
       for (const stuckMint of stuckMints) {
         await sql`
           UPDATE solana_nft_mints
-          SET 
-            mint_status = 'failed',
-            error_message = 'Transaction timeout - no confirmation after 10 minutes',
+          SET
+            mint_status = 'cancelled',
+            error_message = ${'Transaction timeout - no confirmation after 10 minutes (status was: ' + stuckMint.mint_status + ')'},
             updated_at = NOW()
           WHERE id = ${stuckMint.id}::uuid
         `
+
+        // Release the ordinal so it can be minted again
+        if (stuckMint.ordinal_id) {
+          await sql`
+            UPDATE generated_ordinals
+            SET is_minted = false
+            WHERE id = ${stuckMint.ordinal_id}::uuid
+              AND is_minted = true
+          `
+        }
+
+        // Decrement phase_minted so the slot is freed
+        if (stuckMint.phase_id) {
+          await sql`
+            UPDATE mint_phases
+            SET phase_minted = GREATEST(0, COALESCE(phase_minted, 0) - 1)
+            WHERE id = ${stuckMint.phase_id}::uuid
+          `
+        }
       }
-      
+
       failed += stuckMints.length
     }
 
-    console.log(`✅ Monitor complete: ${confirmed} confirmed, ${failed} failed, ${stillPending} still pending`)
+    console.log(`✅ Monitor complete: ${confirmed} confirmed, ${failed} failed/cancelled, ${stillPending} still pending, ${stuckMints.length} stuck cleaned up`)
 
     return NextResponse.json({
       success: true,
