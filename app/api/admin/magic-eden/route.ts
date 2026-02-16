@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
+import { sql } from '@/lib/database'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)

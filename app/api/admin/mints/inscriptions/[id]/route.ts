@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 
 /**
  * GET /api/admin/mints/inscriptions/[id] - Get specific inscription details
@@ -18,8 +18,12 @@ export async function GET(
     const { searchParams } = new URL(request.url)
     const adminWallet = searchParams.get('wallet_address')
 
-    if (!adminWallet || !isAdmin(adminWallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!adminWallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(adminWallet, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     // Get full inscription details
@@ -90,8 +94,12 @@ export async function PATCH(
     const body = await request.json()
     const { admin_wallet, action, ...updates } = body
 
-    if (!admin_wallet || !isAuthorized(admin_wallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!admin_wallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const patchAuthResult = await checkAuthorizationServer(admin_wallet, sql)
+    if (!patchAuthResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     // Get current inscription

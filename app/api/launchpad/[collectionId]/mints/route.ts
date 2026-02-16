@@ -25,11 +25,10 @@ export async function GET(
     const { searchParams } = new URL(request.url)
     const format = searchParams.get('format') || 'json' // 'json' or 'csv'
 
-    // Get all successfully minted ordinals
-    // Use generated_ordinals.is_minted = true as source of truth
-    // Join to get the successful mint record for additional data (minter, phase, etc.)
+    // Get all confirmed mints from solana_nft_mints (source of truth)
+    // Join to generated_ordinals for image/trait data and mint_phases for phase name
     const mints = await sql`
-      SELECT 
+      SELECT
         go.id as ordinal_id,
         go.ordinal_number,
         go.traits,
@@ -37,72 +36,51 @@ export async function GET(
         go.rarity_score,
         go.rarity_tier,
         go.inscription_id,
-        go.minter_address,
-        go.mint_tx_id,
-        go.minted_at,
-        mi.minter_wallet,
-        mi.receiving_wallet,
-        mi.commit_tx_id,
-        mi.reveal_tx_id,
-        mi.mint_status,
-        mi.fee_rate,
-        mi.mint_price_paid,
-        mi.commit_broadcast_at,
-        mi.reveal_broadcast_at,
-        mi.completed_at,
-        mi.created_at as mint_created_at,
+        sm.minter_wallet,
+        sm.nft_mint_address,
+        sm.mint_tx_signature,
+        sm.mint_status,
+        sm.mint_price_lamports,
+        sm.platform_fee_lamports,
+        sm.total_paid_lamports,
+        sm.confirmed_at,
+        sm.created_at as mint_created_at,
         mp.phase_name
-      FROM generated_ordinals go
-      LEFT JOIN LATERAL (
-        SELECT * FROM mint_inscriptions mi2
-        WHERE mi2.ordinal_id = go.id
-          AND mi2.is_test_mint = false
-          AND mi2.mint_status NOT IN ('failed', 'expired')
-        ORDER BY mi2.completed_at DESC NULLS LAST, mi2.created_at DESC
-        LIMIT 1
-      ) mi ON true
-      LEFT JOIN mint_phases mp ON mi.phase_id = mp.id
-      WHERE go.collection_id = ${collectionId}
-        AND go.is_minted = true
-      ORDER BY 
-        COALESCE(go.minted_at, mi.completed_at, mi.created_at) ASC
+      FROM solana_nft_mints sm
+      JOIN generated_ordinals go ON sm.ordinal_id = go.id
+      LEFT JOIN mint_phases mp ON sm.phase_id = mp.id
+      WHERE sm.collection_id = ${collectionId}::uuid
+        AND sm.mint_status = 'confirmed'
+      ORDER BY sm.confirmed_at ASC NULLS LAST, sm.created_at ASC
     ` as any[]
 
-    // Get summary stats - use generated_ordinals.is_minted as source of truth
-    // Based on test scripts: check-minted-count.js and investigate-mint-discrepancy.js
+    // Get summary stats from solana_nft_mints (source of truth)
     const stats = await sql`
-      SELECT 
+      SELECT
         (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId}) as total_supply,
-        (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId} AND is_minted = true) as completed,
-        (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId} AND is_minted = false) as available,
-        (SELECT COUNT(DISTINCT minter_address) FROM generated_ordinals WHERE collection_id = ${collectionId} AND is_minted = true AND minter_address IS NOT NULL) as unique_minters
+        (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status = 'confirmed') as completed,
+        (
+          (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId})
+          -
+          (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status NOT IN ('failed', 'cancelled'))
+        ) as available,
+        (SELECT COUNT(DISTINCT minter_wallet) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status = 'confirmed') as unique_minters
     ` as any[]
-    
-    // Get pending count - DISTINCT ordinal_ids where is_minted=false but has active mint attempt
+
+    // Get in-flight count (pending, awaiting_signature, broadcasting, confirming)
     const pendingResult = await sql`
-      SELECT COUNT(DISTINCT mi.ordinal_id) as count
-      FROM mint_inscriptions mi
-      JOIN generated_ordinals go ON mi.ordinal_id = go.id
-      WHERE mi.collection_id = ${collectionId} 
-        AND mi.is_test_mint = false 
-        AND go.is_minted = false
-        AND mi.mint_status IN ('pending', 'commit_broadcast', 'commit_confirmed', 'reveal_broadcast')
+      SELECT COUNT(*) as count
+      FROM solana_nft_mints
+      WHERE collection_id = ${collectionId}::uuid
+        AND mint_status NOT IN ('confirmed', 'failed', 'cancelled')
     ` as any[]
-    
-    // Get failed count - ordinals that ONLY have failed/expired mints (no successful or pending)
+
+    // Get failed count
     const failedResult = await sql`
-      SELECT COUNT(DISTINCT ordinal_id) as count
-      FROM mint_inscriptions mi
-      WHERE mi.collection_id = ${collectionId}
-        AND mi.is_test_mint = false
-        AND mi.mint_status IN ('failed', 'expired')
-        AND mi.ordinal_id NOT IN (
-          SELECT DISTINCT ordinal_id FROM mint_inscriptions 
-          WHERE collection_id = ${collectionId}
-            AND is_test_mint = false
-            AND mint_status NOT IN ('failed', 'expired')
-            AND ordinal_id IS NOT NULL
-        )
+      SELECT COUNT(*) as count
+      FROM solana_nft_mints
+      WHERE collection_id = ${collectionId}::uuid
+        AND mint_status = 'failed'
     ` as any[]
 
     const summary = stats[0] || { total_supply: 0, completed: 0, available: 0, unique_minters: 0 }
@@ -114,35 +92,31 @@ export async function GET(
       // Generate CSV
       const headers = [
         'ordinal_number',
-        'inscription_id', 
         'minter_wallet',
-        'receiving_wallet',
-        'commit_tx_id',
-        'reveal_tx_id',
+        'nft_mint_address',
+        'mint_tx_signature',
         'mint_status',
         'phase_name',
-        'fee_rate',
-        'mint_price_paid',
-        'completed_at',
+        'mint_price_lamports',
+        'platform_fee_lamports',
+        'confirmed_at',
         'traits',
         'rarity_score',
         'rarity_tier',
       ]
-      
+
       const csvRows = [headers.join(',')]
       for (const mint of mints) {
         const row = [
           mint.ordinal_number || '',
-          mint.inscription_id || '',
           mint.minter_wallet || '',
-          mint.receiving_wallet || '',
-          mint.commit_tx_id || '',
-          mint.reveal_tx_id || '',
+          mint.nft_mint_address || '',
+          mint.mint_tx_signature || '',
           mint.mint_status || '',
           mint.phase_name || '',
-          mint.fee_rate || '',
-          mint.mint_price_paid || '',
-          mint.completed_at || '',
+          mint.mint_price_lamports || '',
+          mint.platform_fee_lamports || '',
+          mint.confirmed_at || '',
           mint.traits ? JSON.stringify(mint.traits).replace(/,/g, ';') : '',
           mint.rarity_score || '',
           mint.rarity_tier || '',
@@ -162,14 +136,13 @@ export async function GET(
       success: true,
       summary: {
         total_supply: parseInt(summary.total_supply) || 0,
-        total_minted: completedCount, // is_minted = true from generated_ordinals
+        total_minted: completedCount,
         available: parseInt(summary.available) || 0,
         unique_minters: parseInt(summary.unique_minters) || 0,
-        // Detailed mint stats for UI (using generated_ordinals.is_minted as source of truth)
-        total_mints: completedCount + pendingCount, // completed + in-progress (can never exceed total_supply)
-        completed: completedCount, // is_minted = true
-        failed: failedCount, // unique ordinals with ONLY failed/expired mints
-        pending_reveal: pendingCount, // unique ordinals in progress (is_minted=false but has active mint)
+        total_mints: completedCount + pendingCount,
+        completed: completedCount,
+        failed: failedCount,
+        in_flight: pendingCount,
       },
       mints: mints || [],
     })

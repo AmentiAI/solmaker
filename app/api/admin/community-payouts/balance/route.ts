@@ -6,7 +6,8 @@ import * as ecc from '@bitcoinerlab/secp256k1'
 import { ECPairFactory } from 'ecpair'
 import { fetchUtxos, filterAndSortUtxos, convertSandshrewToMempoolFormat } from '@/lib/utxo-fetcher'
 import { getBitcoinNetwork } from '@/lib/bitcoin-utils'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
+import { sql } from '@/lib/database'
 
 // Initialize ECC library
 bitcoin.initEccLib(ecc)
@@ -52,8 +53,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const walletAddress = searchParams.get('wallet_address')
 
-    if (!walletAddress || !isAdmin(walletAddress)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!walletAddress) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(walletAddress, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     // Check for PHRASE environment variable

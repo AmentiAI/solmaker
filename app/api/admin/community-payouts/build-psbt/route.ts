@@ -9,7 +9,7 @@ import { fetchUtxos, filterAndSortUtxos, convertSandshrewToMempoolFormat } from 
 import { getAddressType, getBitcoinNetwork } from '@/lib/bitcoin-utils'
 import { addInputSigningInfo } from '@/lib/bitcoin-utils'
 import { sql } from '@/lib/database'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 
 // Initialize ECC library
 bitcoin.initEccLib(ecc)
@@ -139,8 +139,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { wallet_address, holders, total_revenue_sats, payout_amount_sats, should_broadcast } = body
 
-    if (!wallet_address || !isAdmin(wallet_address)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!wallet_address) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(wallet_address, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     if (!Array.isArray(holders) || holders.length === 0) {

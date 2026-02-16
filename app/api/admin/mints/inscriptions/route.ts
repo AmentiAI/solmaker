@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 
 /**
  * GET /api/admin/mints/inscriptions - List all inscriptions with filters
@@ -22,8 +22,12 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50')
     const offset = parseInt(searchParams.get('offset') || '0')
 
-    if (!adminWallet || !isAdmin(adminWallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!adminWallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(adminWallet, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     // Build query with filters

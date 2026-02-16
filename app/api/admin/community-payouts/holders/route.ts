@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
+import { sql } from '@/lib/database'
 
 const ORDMAKER_COLLECTION = 'ordmaker' // Collection symbol on Magic Eden
 
@@ -13,8 +14,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { wallet_address } = body
 
-    if (!wallet_address || !isAdmin(wallet_address)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!wallet_address) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(wallet_address, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     const apiKey = process.env.MAGIC_EDEN_API_KEY
@@ -172,8 +177,12 @@ export async function PUT(request: NextRequest) {
     const body = await request.json()
     const { wallet_address, holders } = body
 
-    if (!wallet_address || !isAdmin(wallet_address)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!wallet_address) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const putAuthResult = await checkAuthorizationServer(wallet_address, sql)
+    if (!putAuthResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     if (!Array.isArray(holders) || holders.length === 0) {

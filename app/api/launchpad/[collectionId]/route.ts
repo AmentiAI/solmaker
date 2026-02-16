@@ -42,24 +42,17 @@ export async function GET(
     const walletAddress = searchParams.get('wallet_address')
 
     // Get collection details including marketplace info
-    // For launchpad mints, count from mint_inscriptions where commit_tx_id IS NOT NULL AND commit_tx_id != ''
-    // For self-inscribed mints, count from generated_ordinals where is_minted = true
+    // minted_count: confirmed mints from solana_nft_mints
+    // available_count: total_supply - in_flight (not failed/cancelled)
     const collectionResult = await sql`
       SELECT 
         c.*,
         (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id) as total_supply,
-        -- Use is_minted flag as base, but also count in-flight Solana mints
-        GREATEST(
-          (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id AND is_minted = true),
-          (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = c.id AND mint_status NOT IN ('failed', 'cancelled'))
-        ) as minted_count,
+        (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = c.id AND mint_status = 'confirmed') as minted_count,
         (
           (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id)
           -
-          GREATEST(
-            (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id AND is_minted = true),
-            (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = c.id AND mint_status NOT IN ('failed', 'cancelled'))
-          )
+          (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = c.id AND mint_status NOT IN ('failed', 'cancelled'))
         ) as available_count,
         (
           SELECT COALESCE(AVG(COALESCE(compressed_size_kb, 50)), 50)::numeric(10,2)

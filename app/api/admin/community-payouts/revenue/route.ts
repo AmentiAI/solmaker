@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 
 const TOTAL_SUPPLY = 168 // Total supply of ordmaker collection
 
@@ -23,8 +23,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const adminWallet = searchParams.get('wallet_address')
 
-    if (!adminWallet || !isAdmin(adminWallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!adminWallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(adminWallet, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     // Get the last payout timestamp

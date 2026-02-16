@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 import sharp from 'sharp'
 import * as bitcoin from 'bitcoinjs-lib'
 import * as ecc from '@bitcoinerlab/secp256k1'
@@ -51,8 +51,12 @@ export async function POST(request: NextRequest) {
       has_payment_pubkey: !!payment_pubkey,
     })
 
-    if (!admin_wallet || !isAdmin(admin_wallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!admin_wallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(admin_wallet, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     if (!ordinal_id && !collection_id) {
@@ -495,8 +499,12 @@ export async function GET(request: NextRequest) {
     const adminWallet = searchParams.get('wallet_address')
     const testMintId = searchParams.get('test_mint_id')
 
-    if (!adminWallet || !isAuthorized(adminWallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!adminWallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const getAuthResult = await checkAuthorizationServer(adminWallet, sql)
+    if (!getAuthResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     if (testMintId) {

@@ -35,24 +35,15 @@ export async function GET(
     const walletAddress = searchParams.get('wallet_address')
 
     // OPTIMIZATION: Single combined query for all counts (reduces round trips)
-    // For Solana collections, also count in-flight mints from solana_nft_mints
-    // to reflect pending mints before they're confirmed and is_minted is set
+    // total_minted = confirmed mints, available = total_supply - in_flight
     const countsResult = await sql`
       SELECT
         (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId}) as total_supply,
-        -- Use is_minted flag as base, but ALSO count in-flight Solana mints
-        -- (awaiting_signature, broadcasting, confirming) that haven't triggered is_minted yet
-        GREATEST(
-          (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId} AND is_minted = true),
-          (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status NOT IN ('failed', 'cancelled'))
-        ) as total_minted,
+        (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status = 'confirmed') as total_minted,
         (
           (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId})
           -
-          GREATEST(
-            (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = ${collectionId} AND is_minted = true),
-            (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status NOT IN ('failed', 'cancelled'))
-          )
+          (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = ${collectionId}::uuid AND mint_status NOT IN ('failed', 'cancelled'))
         ) as available_count,
         NOW() as current_time
     ` as any[]

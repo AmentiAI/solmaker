@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 import { sql } from '@/lib/database';
 
 // Ensure hidden_from_homepage column exists for both tables
@@ -46,8 +46,12 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50')
     const offset = (page - 1) * limit
 
-    if (!walletAddress || !isAdmin(walletAddress)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!walletAddress) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(walletAddress, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     await ensureColumnsExist()
@@ -202,8 +206,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { wallet_address, ordinal_ids, collection_ids, hidden, ticker_enabled } = body
 
-    if (!wallet_address || !isAuthorized(wallet_address)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!wallet_address) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const postAuthResult = await checkAuthorizationServer(wallet_address, sql)
+    if (!postAuthResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     const hasHidden = typeof hidden === 'boolean'

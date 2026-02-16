@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 
 /**
  * GET /api/admin/mints/launchable-collections - Get ALL collections for admin management
@@ -15,8 +15,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const adminWallet = searchParams.get('wallet_address')
 
-    if (!adminWallet || !isAdmin(adminWallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!adminWallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(adminWallet, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     // Get ALL collections with their ordinal counts - no restrictions
@@ -39,7 +43,7 @@ export async function GET(request: NextRequest) {
         c.created_at,
         c.updated_at,
         (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id) as total_ordinals,
-        (SELECT COUNT(*) FROM generated_ordinals WHERE collection_id = c.id AND is_minted = true) as minted_ordinals,
+        (SELECT COUNT(*) FROM solana_nft_mints WHERE collection_id = c.id AND mint_status = 'confirmed') as minted_ordinals,
         (SELECT COUNT(*) FROM mint_phases WHERE collection_id = c.id) as phase_count,
         (SELECT COUNT(*) FROM mint_phases WHERE collection_id = c.id AND is_active = true) as active_phase_count
       FROM collections c
@@ -103,8 +107,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { admin_wallet, collection_id, action } = body
 
-    if (!admin_wallet || !isAuthorized(admin_wallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!admin_wallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const postAuthResult = await checkAuthorizationServer(admin_wallet, sql)
+    if (!postAuthResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     if (!collection_id) {

@@ -58,15 +58,8 @@ export async function GET(
         c.created_at,
         c.updated_at,
         (SELECT COUNT(*)::int FROM generated_ordinals WHERE collection_id = c.id) as total_ordinals,
-        (SELECT COUNT(*)::int FROM generated_ordinals WHERE collection_id = c.id AND is_minted = true) as minted_ordinals,
-        (
-          SELECT COUNT(*)::int 
-          FROM mint_inscriptions 
-          WHERE collection_id = c.id 
-            AND commit_tx_id IS NOT NULL
-            AND LENGTH(TRIM(commit_tx_id)) > 0
-            AND is_test_mint = false
-        ) as minted_count,
+        (SELECT COUNT(*)::int FROM solana_nft_mints WHERE collection_id = c.id AND mint_status = 'confirmed') as minted_ordinals,
+        (SELECT COUNT(*)::int FROM solana_nft_mints WHERE collection_id = c.id AND mint_status = 'confirmed') as minted_count,
         (SELECT COUNT(*)::int FROM mint_phases WHERE collection_id = c.id) as phase_count,
         (SELECT COUNT(*)::int FROM layers WHERE collection_id = c.id) as layer_count
       FROM collections c
@@ -103,28 +96,7 @@ export async function GET(
         mp.is_completed,
         mp.created_at,
         mp.updated_at,
-        (
-          SELECT COUNT(*)::int 
-          FROM generated_ordinals go
-          WHERE go.collection_id = mp.collection_id
-            AND go.is_minted = true
-            AND (
-              EXISTS (
-                SELECT 1 FROM mint_inscriptions mi
-                WHERE mi.ordinal_id = go.id
-                  AND mi.phase_id = mp.id
-                  AND mi.is_test_mint = false
-                  AND mi.mint_status != 'failed'
-              )
-              OR
-              EXISTS (
-                SELECT 1 FROM ordinal_reservations r
-                WHERE r.ordinal_id = go.id
-                  AND r.phase_id = mp.id
-                  AND r.status = 'completed'
-              )
-            )
-        ) as phase_minted
+        COALESCE(mp.phase_minted, 0)::int as phase_minted
       FROM mint_phases mp
       WHERE mp.collection_id = ${id}
       ORDER BY mp.created_at ASC
