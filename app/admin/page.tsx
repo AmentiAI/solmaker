@@ -104,13 +104,6 @@ export default function AdminPage() {
   const [editOptIn, setEditOptIn] = useState<boolean>(false)
   const [savingProfile, setSavingProfile] = useState<string | null>(null)
   const [wipingTransactions, setWipingTransactions] = useState(false)
-  const [openaiBalance, setOpenaiBalance] = useState<{
-    balance: number | null
-    total_used: number | null
-    current_month_usage: number | null
-    subscription: { plan: string; hard_limit: number } | null
-  } | null>(null)
-  const [openaiLoading, setOpenaiLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 25
   const [optInFilter, setOptInFilter] = useState<'all' | 'opted-in' | 'not-opted-in'>('all')
@@ -143,26 +136,9 @@ export default function AdminPage() {
     if (isConnected && authorized) {
       loadTransactions()
       loadUsers()
-      loadOpenaiBalance()
       trackVisit()
     }
   }, [isConnected, authorized, currentAddress])
-
-  const loadOpenaiBalance = async () => {
-    if (!currentAddress) return
-    setOpenaiLoading(true)
-    try {
-      const response = await fetch(`/api/admin/openai-balance?wallet_address=${encodeURIComponent(currentAddress)}`)
-      if (response.ok) {
-        const data = await response.json()
-        setOpenaiBalance(data)
-      }
-    } catch (err) {
-      console.error('Failed to load OpenAI balance:', err)
-    } finally {
-      setOpenaiLoading(false)
-    }
-  }
 
   const trackVisit = async () => {
     if (!currentAddress) return
@@ -262,7 +238,7 @@ export default function AdminPage() {
 
   const handleRefresh = async () => {
     setRefreshing(true)
-    await Promise.all([loadTransactions(), loadUsers(), loadOpenaiBalance()])
+    await Promise.all([loadTransactions(), loadUsers()])
     setRefreshing(false)
   }
 
@@ -491,57 +467,6 @@ export default function AdminPage() {
   return (
     <div className="p-8">
         <div className="max-w-7xl mx-auto">
-          {/* OpenAI Balance - Prominent Display */}
-          <div className="mb-8">
-            <div className="bg-gradient-to-br from-[#14141e]/90 to-[#1a1a24]/90 border border-[#14F195]/30 rounded-2xl p-6 shadow-xl shadow-[#14F195]/10 backdrop-blur-md">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-[#14F195]/20 rounded-xl flex items-center justify-center">
-                    <span className="text-3xl">🤖</span>
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-[#14F195] uppercase tracking-wide mb-1">OpenAI API Balance</div>
-                    {openaiLoading ? (
-                      <div className="text-2xl font-bold text-[#a8a8b8]">Loading...</div>
-                    ) : openaiBalance?.balance !== null && openaiBalance?.balance !== undefined ? (
-                      <div className="text-4xl font-black text-[#14F195]">${openaiBalance.balance.toFixed(2)}</div>
-                    ) : openaiBalance?.subscription?.hard_limit ? (
-                      <div className="text-4xl font-black text-[#14F195]">
-                        ${((openaiBalance.subscription.hard_limit || 0) - (openaiBalance.current_month_usage || 0)).toFixed(2)}
-                        <span className="text-lg text-[#a8a8b8] font-normal ml-2">remaining</span>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="text-lg font-medium text-[#a8a8b8]">Check balance manually</div>
-                        <div className="text-xs text-[#a8a8b8]/80 mt-1">(API billing endpoints require dashboard access)</div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="text-right">
-                  {openaiBalance?.current_month_usage !== null && openaiBalance?.current_month_usage !== undefined && (
-                    <div className="text-sm text-[#a8a8b8]">
-                      This month: <span className="text-white font-semibold">${openaiBalance.current_month_usage.toFixed(2)}</span> used
-                    </div>
-                  )}
-                  {openaiBalance?.subscription?.plan && (
-                    <div className="text-xs text-[#a8a8b8]/80 mt-1">
-                      Plan: {openaiBalance.subscription.plan}
-                    </div>
-                  )}
-                  <a 
-                    href="https://platform.openai.com/settings/organization/billing/overview" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-block mt-2 text-sm text-[#14F195] hover:text-[#14F195] underline"
-                  >
-                    View on OpenAI →
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Header */}
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
