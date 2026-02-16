@@ -110,12 +110,10 @@ export async function POST(
           destination: publicKey(wallet_address),
         })
       }
-      if (platformFeeSol > 0) {
-        guards.solFixedFee = some({
-          lamports: sol(platformFeeSol),
-          destination: publicKey(platformWalletAddress),
-        })
-      }
+      // Platform fee is NOT enforced via solFixedFee guard.
+      // Instead it's enforced as an explicit SOL transfer in the mint transaction,
+      // which the server co-signs (thirdPartySigner). This is more reliable because
+      // older CMs may not have the guard, and the server always controls the tx.
 
       // thirdPartySigner guard on ALL collections — forces every mint through our API.
       // Without this, anyone who knows the CM address can mint directly on-chain,

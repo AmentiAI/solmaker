@@ -179,12 +179,9 @@ export async function POST(
           destination: publicKey(wallet_address),
         })
       }
-      if (platformFeeSol > 0) {
-        guards.solFixedFee = some({
-          lamports: sol(platformFeeSol),
-          destination: publicKey(platformWalletAddress),
-        })
-      }
+      // Platform fee is NOT enforced via solFixedFee guard.
+      // Instead it's enforced as an explicit SOL transfer in the mint transaction,
+      // co-signed by the server (thirdPartySigner). More reliable for all CMs.
 
       const createCmBuilder = await create(umi, {
         candyMachine: candyMachineSigner,
@@ -242,7 +239,7 @@ export async function POST(
         estimatedCost: costEstimate,
         guards: {
           solPayment: mintPriceSol > 0 ? { amountSol: mintPriceSol, destination: wallet_address } : null,
-          solFixedFee: platformFeeSol > 0 ? { amountSol: platformFeeSol, destination: platformWalletAddress } : null,
+          platformFee: platformFeeSol > 0 ? { amountSol: platformFeeSol, destination: platformWalletAddress, method: 'explicit_transfer' } : null,
         },
         message: 'Sign 1 transaction to create Candy Machine',
       })

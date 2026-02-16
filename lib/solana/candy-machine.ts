@@ -4,7 +4,8 @@
  *
  * Key differences from legacy:
  * - Creates Core Assets (not SPL tokens) - much cheaper & simpler
- * - Guards are built-in: solPayment (creator price), solFixedFee (platform fee)
+ * - Guards: solPayment (creator price), thirdPartySigner (server co-sign)
+ * - Platform fee: explicit SOL transfer in tx (not guard-based)
  * - No setMintAuthority needed - guards handle everything on-chain
  * - Minting uses mintV1 (through Candy Guard) with guard args
  */
@@ -64,7 +65,8 @@ export interface CandyMachineConfig {
  * Create a Core Candy Machine with a Candy Guard in one step.
  * Guards enforce:
  * - solPayment: mint price paid to the creator
- * - solFixedFee: platform fee paid to the platform wallet
+ * - thirdPartySigner: server co-signature required
+ * Platform fee: enforced as explicit SOL transfer in the mint transaction.
  *
  * No setMintAuthority needed! Guards handle everything on-chain.
  */
@@ -100,17 +102,12 @@ export async function createCandyMachine(
     })
   }
 
-  // solFixedFee guard: platform fee goes to the platform wallet
-  if (config.platformFeeSol > 0) {
-    guards.solFixedFee = some({
-      lamports: sol(config.platformFeeSol),
-      destination: publicKey(config.platformWallet),
-    })
-  }
+  // Platform fee is NOT a guard — it's enforced via an explicit SOL transfer
+  // in the mint transaction, co-signed by the server (thirdPartySigner).
 
   console.log('[Core CM] Creating with guards:', {
     solPayment: config.mintPriceSol > 0 ? `${config.mintPriceSol} SOL → ${config.creatorWallet.substring(0, 8)}...` : 'none',
-    solFixedFee: config.platformFeeSol > 0 ? `${config.platformFeeSol} SOL → ${config.platformWallet.substring(0, 8)}...` : 'none',
+    platformFee: config.platformFeeSol > 0 ? `${config.platformFeeSol} SOL → ${config.platformWallet.substring(0, 8)}... (via explicit transfer)` : 'none',
   })
 
   // create() builds both the Candy Machine AND the Candy Guard in one transaction
@@ -159,12 +156,14 @@ export async function addCandyMachineConfigLines(
  * Build a mint transaction from Core Candy Machine.
  * Uses mintV1 which goes through the Candy Guard and enforces all guards.
  *
- * IMPORTANT: No platform wallet signing needed!
- * The guards handle payment enforcement on-chain:
- * - solPayment → minter pays creator automatically
- * - solFixedFee → minter pays platform fee automatically
+ * Platform fee enforcement:
+ * - solPayment → guard-based, minter pays creator automatically
+ * - Platform fee → explicit SOL transfer instruction appended to the transaction
+ *   (NOT relying on solFixedFee guard, which may be absent on older CMs)
+ * - thirdPartySigner → ensures every mint goes through our server
  *
- * The minter just needs to sign the transaction.
+ * Since thirdPartySigner is on ALL collections, the server controls what
+ * transaction gets built. The manual transfer cannot be bypassed.
  */
 export async function buildCandyMachineMint(
   umi: Umi,
@@ -203,11 +202,10 @@ export async function buildCandyMachineMint(
     })
   }
 
-  if (params.platformFeeSol > 0) {
-    mintArgs.solFixedFee = some({
-      destination: publicKey(params.platformWallet),
-    })
-  }
+  // NOTE: We do NOT pass solFixedFee in mintArgs. Older CMs don't have the guard
+  // (it gets silently ignored), and we enforce the platform fee via an explicit
+  // SOL transfer instruction appended below. This is secure because thirdPartySigner
+  // ensures every mint goes through our server — we control the transaction.
 
   if (params.agentSigner) {
     mintArgs.thirdPartySigner = some({
@@ -216,12 +214,28 @@ export async function buildCandyMachineMint(
   }
 
   // mintV1 goes through the Candy Guard → enforces guards → mints Core Asset
-  const builder = mintV1(umi, {
+  let builder = mintV1(umi, {
     candyMachine: candyMachineData.publicKey,
     asset: nftMint,
     collection: publicKey(params.collectionMint),
     mintArgs,
   })
+
+  // Append explicit platform fee transfer — NOT guard-dependent.
+  // The minter's wallet sends platformFeeSol to the platform wallet.
+  // This instruction is part of the same atomic transaction that the server
+  // co-signs, so it cannot be removed or bypassed by the client.
+  if (params.platformFeeSol > 0) {
+    const { transferSol } = await import('@metaplex-foundation/mpl-toolbox')
+    builder = builder.add(
+      transferSol(umi, {
+        source: createNoopSigner(publicKey(params.minterPublicKey)),
+        destination: publicKey(params.platformWallet),
+        amount: sol(params.platformFeeSol),
+      })
+    )
+    console.log(`[Core CM Mint] Platform fee: ${params.platformFeeSol} SOL → ${params.platformWallet.substring(0, 8)}...`)
+  }
 
   return {
     builder,
