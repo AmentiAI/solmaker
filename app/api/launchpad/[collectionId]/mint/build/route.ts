@@ -303,7 +303,7 @@ export async function POST(
       collectionMint: collection.collection_mint_address,
       minterPublicKey: wallet_address,
       mintPriceSol,
-      creatorWallet: collection.wallet_address,
+      creatorWallet: collection.creator_royalty_wallet || collection.wallet_address,
       platformFeeSol,
       platformWallet: platformWalletAddress,
       agentSigner: serverSignerUmi,

@@ -344,6 +344,9 @@ export function CollectionSettingsStep({
         <label className="block text-sm font-medium text-white/70 mb-2">
           Creator Payment Wallet (Solana Address) *
         </label>
+        <p className="text-xs text-white/40 mb-2">
+          Mint payments go to this address. Defaults to your connected wallet.
+        </p>
         <input
           type="text"
           value={creatorRoyaltyWallet}

@@ -121,7 +121,7 @@ export default function CollectionLaunchPage() {
         setAudioUrl(collData.collection?.audio_url || '')
         setVideoUrl(collData.collection?.video_url || '')
         setExtendLastPhase(collData.collection?.extend_last_phase || false)
-        setCreatorRoyaltyWallet(collData.collection?.creator_royalty_wallet || '')
+        setCreatorRoyaltyWallet(collData.collection?.creator_royalty_wallet || currentAddress || '')
         setTwitterUrl(collData.collection?.twitter_url || '')
         setDiscordUrl(collData.collection?.discord_url || '')
         setTelegramUrl(collData.collection?.telegram_url || '')

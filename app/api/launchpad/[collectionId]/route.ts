@@ -384,23 +384,27 @@ export async function POST(
       }
 
       // Set collection_status to launchpad_live and launch_status to active
+      // Clear mint_ended_at so the collection isn't treated as completed
       await sql`
-        UPDATE collections SET 
+        UPDATE collections SET
           collection_status = 'launchpad_live',
           launch_status = 'active',
           launched_at = COALESCE(launched_at, NOW()),
+          mint_ended_at = NULL,
           updated_at = NOW()
         WHERE id = ${collectionId}
       `
 
-      // Reset all phases to is_completed = false when launching
+      // Reset all phases: clear is_completed, end_time (was set when mint ended), and mark active
       await sql`
         UPDATE mint_phases SET
           is_completed = false,
+          end_time = NULL,
+          is_active = true,
           updated_at = NOW()
         WHERE collection_id = ${collectionId}
       `
-      console.log(`[Launchpad POST] Reset is_completed = false for all phases in collection ${collectionId}`)
+      console.log(`[Launchpad POST] Reset phases (is_completed, end_time, is_active) for collection ${collectionId}`)
 
       return NextResponse.json({ 
         success: true, 
