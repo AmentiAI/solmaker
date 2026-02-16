@@ -45,28 +45,27 @@ export async function GET(
     const isLive = collection.collection_status === 'launchpad_live'
     const baseUrl = request.nextUrl.origin
 
-    // Load network settings from site_settings
+    // Load network setting (only the network name — never expose private RPC URLs)
     const networkSettings = await sql`
-      SELECT setting_key, setting_value FROM site_settings
-      WHERE setting_key IN ('solana_network', 'solana_rpc_devnet', 'solana_rpc_mainnet')
+      SELECT setting_value FROM site_settings
+      WHERE setting_key = 'solana_network'
+      LIMIT 1
     ` as any[]
 
-    const settingsMap: Record<string, string> = {}
-    for (const s of networkSettings) {
-      let val = s.setting_value
+    let solanaNetwork = 'devnet'
+    if (networkSettings.length) {
+      let val = networkSettings[0].setting_value
       if (typeof val === 'string') {
-        try { val = JSON.parse(val) } catch { /* plain string, use as-is */ }
+        try { val = JSON.parse(val) } catch { /* plain string */ }
       }
-      settingsMap[s.setting_key] = val
+      solanaNetwork = val || 'devnet'
     }
 
-    const solanaNetwork = settingsMap['solana_network'] || 'devnet'
-    const rpcUrl = solanaNetwork === 'mainnet-beta'
-      ? (settingsMap['solana_rpc_mainnet'] || 'https://api.mainnet-beta.solana.com')
-      : (settingsMap['solana_rpc_devnet'] || 'https://api.devnet.solana.com')
-    const explorerBase = solanaNetwork === 'mainnet-beta'
-      ? 'https://explorer.solana.com'
-      : 'https://explorer.solana.com'
+    // Public RPC URLs only — never expose our private Helius endpoints
+    const publicRpcUrl = solanaNetwork === 'mainnet-beta'
+      ? 'https://api.mainnet-beta.solana.com'
+      : 'https://api.devnet.solana.com'
+    const explorerBase = 'https://explorer.solana.com'
     const explorerSuffix = solanaNetwork === 'mainnet-beta' ? '' : '?cluster=devnet'
 
     // Get active phase info (mint price lives on phases, not collections)
@@ -107,7 +106,7 @@ mint_price_sol: ${mintPrice}
 platform_fee_sol: ${platformFee}
 total_cost_sol: ${totalCost}
 network: ${solanaNetwork}
-rpc_url: ${rpcUrl}
+rpc_url: ${publicRpcUrl}
 ---
 
 # ${collection.name || 'Untitled Collection'} — Agent Mint Instructions
@@ -119,7 +118,7 @@ ${collection.description || ''}
 - **Supply**: ${mintedCount} / ${totalSupply} minted (${remaining} remaining)
 - **Mint Price**: ${mintPrice} SOL + ${platformFee} SOL platform fee = **${totalCost} SOL total**
 - **Network**: Solana \`${solanaNetwork}\`
-- **RPC**: \`${rpcUrl}\`
+- **RPC**: \`${publicRpcUrl}\` (public default — use your own RPC if you have one for better reliability)
 ${phaseSection}
 ## How to Mint
 
@@ -179,7 +178,8 @@ const tx = VersionedTransaction.deserialize(Buffer.from(transaction, 'base64'));
 const keypair = Keypair.fromSecretKey(bs58.decode('YOUR_PRIVATE_KEY'));
 tx.sign([keypair]);
 
-const connection = new Connection('${rpcUrl}');
+// Use your own RPC endpoint if available for better reliability, otherwise the public default:
+const connection = new Connection('${publicRpcUrl}');
 const sig = await connection.sendRawTransaction(tx.serialize());
 console.log('Mint tx:', sig);
 // Explorer: ${explorerBase}/tx/' + sig + '${explorerSuffix}
@@ -200,10 +200,10 @@ Or check the explorer directly:
 - **Network**: This collection is on Solana \`${solanaNetwork}\`${solanaNetwork === 'devnet' ? ' — you can get free SOL from [sol-faucet.com](https://sol-faucet.com)' : ''}
 - Challenge expires in **60 seconds** — get a new one if it expires
 - Each challenge is bound to your wallet address and this collection
-- You must have at least **${totalCost} SOL** in your wallet to mint
+- You must have at least **${totalCost} SOL** in your wallet to mint (${mintPrice} SOL mint price + ${platformFee} SOL platform fee, included in the transaction automatically)
 - The transaction is partially signed by the server (NFT mint keypair + agent co-signer)
-- You only need to add your wallet signature
-- RPC endpoint: \`${rpcUrl}\`
+- You only need to add your wallet signature — the platform fee is already included in the transaction
+- The default public RPC (\`${publicRpcUrl}\`) may be rate-limited. If you have your own RPC endpoint (e.g. Helius, Quicknode), use that instead for better reliability
 `
 
     return new Response(markdown, {
