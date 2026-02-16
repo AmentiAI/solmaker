@@ -151,6 +151,7 @@ export async function GET(request: NextRequest) {
 
     const collectionStatsWithRevenue = (collectionStats || []).map((stat: any) => ({
       ...stat,
+      total_supply: parseInt(stat.total_supply || '0', 10),
       total_mints: parseInt(stat.total_mints || '0', 10),
       confirmed_mints: parseInt(stat.confirmed_mints || '0', 10),
       failed_mints: parseInt(stat.failed_mints || '0', 10),
