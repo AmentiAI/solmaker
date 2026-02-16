@@ -272,7 +272,7 @@ export default function AdminLaunchpadTransactionsPage() {
 
   if (!isConnected || !isAdminUser) {
     return (
-      <div className="min-h-screen bg-[#050510] p-8">
+      <div className="p-8">
         <div className="max-w-7xl mx-auto">
           <div className="bg-[#0f0f1e] border border-[#00E5FF]/20 rounded-lg p-6 text-center">
             <p className="text-[#b4b4c8]">{!isConnected ? 'Please connect your wallet' : 'Admin access only'}</p>

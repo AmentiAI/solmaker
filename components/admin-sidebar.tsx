@@ -21,10 +21,20 @@ export function AdminSidebar() {
   const isActive = (path: string, tab?: string) => {
     if (path === '/admin') {
       if (tab) {
-        // For items with tabs, check if path matches and tab query param matches
         return pathname === '/admin' && searchParams?.get('tab') === tab
       }
-      // For dashboard without tab, check if path matches and no tab param
+      return pathname === '/admin' && !searchParams?.get('tab')
+    }
+    // Exact match for leaf pages to avoid double-highlighting parent paths
+    return pathname === path
+  }
+
+  // For category expansion, use startsWith so parent categories expand for child pages
+  const isInCategory = (path: string, tab?: string) => {
+    if (path === '/admin') {
+      if (tab) {
+        return pathname === '/admin' && searchParams?.get('tab') === tab
+      }
       return pathname === '/admin' && !searchParams?.get('tab')
     }
     return pathname?.startsWith(path)
@@ -99,16 +109,29 @@ export function AdminSidebar() {
     const activeCategory = navItems.find(category =>
       category.items.some(item => {
         const itemTab = 'tab' in item ? item.tab : undefined
-        return isActive(item.path, itemTab)
+        return isInCategory(item.path, itemTab)
       })
     )
-    
+
     if (activeCategory) {
       setExpandedCategories(prev => new Set([...prev, activeCategory.category]))
     }
   }, [pathname, searchParams])
 
-  if (loading || !authorized) return null
+  if (loading) {
+    return (
+      <div className="w-64 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-r border-gray-800 min-h-screen p-4 pt-6 fixed left-0 top-0 overflow-y-auto z-50">
+        <div className="mb-6">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Admin Panel
+          </h1>
+          <p className="text-xs text-[#a8a8b8]/80 mt-1">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!authorized) return null
 
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => {
@@ -123,7 +146,7 @@ export function AdminSidebar() {
   }
 
   return (
-    <div className="w-64 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-r border-gray-800 min-h-screen p-4 pt-[130px] fixed left-0 top-0 overflow-y-auto z-50">
+    <div className="w-64 bg-gradient-to-br from-[#0a0a0f] via-[#14141e] to-[#1a1a24] border-r border-gray-800 min-h-screen p-4 pt-6 fixed left-0 top-0 overflow-y-auto z-50">
       <div className="mb-6">
         <Link href="/admin" className="block">
           <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -138,7 +161,7 @@ export function AdminSidebar() {
           const isExpanded = expandedCategories.has(category.category)
           const hasActiveItem = category.items.some(item => {
             const itemTab = 'tab' in item ? item.tab : undefined
-            return isActive(item.path, itemTab)
+            return isInCategory(item.path, itemTab)
           })
           
           return (
