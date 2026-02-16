@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/database'
-import { isAdmin } from '@/lib/auth/access-control'
+import { checkAuthorizationServer } from '@/lib/auth/access-control'
 
 /**
  * GET /api/admin/launchpad/transactions - Get all Solana launchpad mint transactions
@@ -20,8 +20,12 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '100')
     const offset = parseInt(searchParams.get('offset') || '0')
 
-    if (!adminWallet || !isAdmin(adminWallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!adminWallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(adminWallet, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     // Build dynamic WHERE conditions
@@ -239,8 +243,12 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json()
     const { wallet_address, transaction_id, updates } = body
 
-    if (!wallet_address || !isAdmin(wallet_address)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!wallet_address) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(wallet_address, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     if (!transaction_id) {
@@ -319,8 +327,12 @@ export async function DELETE(request: NextRequest) {
     const adminWallet = searchParams.get('wallet_address')
     const transactionId = searchParams.get('transaction_id')
 
-    if (!adminWallet || !isAdmin(adminWallet)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    if (!adminWallet) {
+      return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+    }
+    const authResult = await checkAuthorizationServer(adminWallet, sql)
+    if (!authResult.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
     }
 
     if (!transactionId) {
