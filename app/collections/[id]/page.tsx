@@ -228,7 +228,7 @@ export default function CollectionDetailsPage() {
                   Go to Collections
                 </Link>
                 {collection.collection_status === 'launchpad' && (
-                <Link href={`/${collection.id}`} className="px-6 py-3 bg-[#D4AF37] hover:bg-[#D4AF37] text-white rounded-lg font-semibold transition-colors shadow-lg shadow-[#D4AF37]/20">
+                <Link href={`/launchpad/${collection.id}`} className="px-6 py-3 bg-[#D4AF37] hover:bg-[#D4AF37] text-white rounded-lg font-semibold transition-colors shadow-lg shadow-[#D4AF37]/20">
                     View on Launchpad
                   </Link>
                 )}
