@@ -11,8 +11,12 @@ export async function GET(request: NextRequest) {
   const limit = searchParams.get('limit') || '100' // Max allowed is 100
 
   // Admin check
-  if (!walletAddress || !isAdmin(walletAddress)) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+  if (!walletAddress) {
+    return NextResponse.json({ error: 'Wallet address required' }, { status: 401 })
+  }
+  const authResult = await checkAuthorizationServer(walletAddress, sql)
+  if (!authResult.isAdmin) {
+    return NextResponse.json({ error: 'Unauthorized. Admin access only.' }, { status: 403 })
   }
 
   if (!ownerAddress) {
