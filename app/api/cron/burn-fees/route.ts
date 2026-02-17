@@ -16,15 +16,7 @@ export const maxDuration = 15;
 export async function GET(req: NextRequest) { return handleFeeSnapshot(req); }
 export async function POST(req: NextRequest) { return handleFeeSnapshot(req); }
 
-async function handleFeeSnapshot(req: NextRequest) {
-  const authHeader = req.headers.get('authorization');
-  const isAuthed = authHeader === `Bearer ${process.env.CRON_SECRET}`
-    || !!req.headers.get('x-vercel-cron')
-    || req.nextUrl.searchParams.get('secret') === process.env.CRON_SECRET
-    || process.env.NODE_ENV === 'development';
-  if (!isAuthed) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+async function handleFeeSnapshot(_req: NextRequest) {
 
   const connection = new Connection(process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com');
   const creator = new PublicKey(DEV_WALLET_PUBKEY);

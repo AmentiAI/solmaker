@@ -94,15 +94,7 @@ export async function GET(req: NextRequest) { return handleBurnCycle(req); }
 export async function POST(req: NextRequest) { return handleBurnCycle(req); }
 
 async function handleBurnCycle(req: NextRequest) {
-  // Auth
-  const authHeader = req.headers.get('authorization');
-  const isAuthed = authHeader === `Bearer ${process.env.CRON_SECRET}`
-    || !!req.headers.get('x-vercel-cron')
-    || req.nextUrl.searchParams.get('secret') === process.env.CRON_SECRET
-    || process.env.NODE_ENV === 'development';
-  if (!isAuthed) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  // No auth required — these are public burn operations
 
   const connection = new Connection(process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com');
 
