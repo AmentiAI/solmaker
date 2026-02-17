@@ -21,7 +21,10 @@
       "WebFetch(domain:developer.chrome.com)",
       "WebFetch(domain:www.npmjs.com)",
       "Bash(ls:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "WebFetch(domain:pump.fun)",
+      "WebFetch(domain:deepwiki.com)",
+      "WebFetch(domain:www.quicknode.com)"
     ],
     "deny": [],
     "ask": []
