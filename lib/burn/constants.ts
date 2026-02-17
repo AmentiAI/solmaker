@@ -1,7 +1,9 @@
 // ── Our Wallet & Token ──
 // Fill these in here — env vars override if set, otherwise these are used
 export const DEV_WALLET_PUBKEY = '4frNov27GnPN5trDVjewWcDJNxM9FtUEg7t5SMCpv8Uz';
-export const DEV_WALLET_SECRET = 'vEXjZqVKqoadSty6QiQvqvUKVSPCbv4moUQZ8A9cCmpyZdoGUfQQmzTb1Q7cgX5s56ScKm4dipAKs1LjaYc5ifU';
+// NEVER put private keys in this file — it gets bundled into client JS
+// Set BURN_DEV_WALLET_SECRET in env vars only (Vercel dashboard / .env.local)
+export const DEV_WALLET_SECRET = '';
 export const BURN_TOKEN_MINT = 'ZvWoit87dm2k5ESa6AFWS4dFkhe3Pg6DRdrFHh8pump';
 
 // ── PumpFun Programs ──

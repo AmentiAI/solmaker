@@ -11,11 +11,7 @@
     {
       "path": "/api/cron/burn-fees",
       "schedule": "*/1 * * * *"
-    },
-    {
-      "path": "/api/cron/burn-cycle",
-      "schedule": "*/5 * * * *"
-    }
+    } 
   ],
   "headers": [
     {
