@@ -14,8 +14,12 @@ export const PUMPFUN_TOKEN_DECIMALS = 6;
 export const PUMPPORTAL_TRADE_LOCAL = 'https://pumpportal.fun/api/trade-local';
 export const PUMPPORTAL_WS = 'wss://pumpportal.fun/api/data';
 
+// ── Burn address (tokens sent here are permanently irrecoverable) ──
+// Standard Solana burn address — no private key exists for this
+export const DEAD_WALLET = '1nc1nerator11111111111111111111111111111111';
+
 // ── Thresholds ──
-export const MIN_SOL_TO_BUY = 0.001;
+export const MIN_SOL_TO_BUY = 0.0001;
 export const BUY_SLIPPAGE = 15;
-export const PRIORITY_FEE = 0.0001;
-export const TX_FEE_RESERVE = 0.001;
+export const PRIORITY_FEE = 0;          // no priority fee needed
+export const TX_FEE_RESERVE = 0.00002;  // just the base tx fee (~5000 lamports per tx)

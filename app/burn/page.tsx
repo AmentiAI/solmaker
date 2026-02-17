@@ -165,7 +165,7 @@ export default function BurnPage() {
           className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: 'url(/firehippo.png)' }}
         />
-        <div className="fixed inset-0 bg-black/60 z-0" />
+        <div className="fixed inset-0 bg-black/75 z-0" />
         <FireParticles />
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 py-8">
@@ -247,22 +247,22 @@ export default function BurnPage() {
           {/* Stats */}
           {stats && (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
-              <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4">
+              <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-4">
                 <p className="text-[11px] text-zinc-500 uppercase tracking-wider mb-1">Total Burned</p>
                 <p className="text-2xl font-bold font-mono text-orange-400">{formatNumber(Number(stats.total_tokens_burned))}</p>
                 <p className="text-[11px] text-zinc-600">tokens</p>
               </div>
-              <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4">
+              <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-4">
                 <p className="text-[11px] text-zinc-500 uppercase tracking-wider mb-1">SOL Claimed</p>
                 <p className="text-2xl font-bold font-mono text-purple-400">{Number(stats.total_sol_claimed).toFixed(4)}</p>
                 <p className="text-[11px] text-zinc-600">total</p>
               </div>
-              <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4">
+              <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-4">
                 <p className="text-[11px] text-zinc-500 uppercase tracking-wider mb-1">Burned 24h</p>
                 <p className="text-2xl font-bold font-mono text-red-400">{formatNumber(Number(stats.burned_24h))}</p>
                 <p className="text-[11px] text-zinc-600">tokens</p>
               </div>
-              <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4">
+              <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-4">
                 <p className="text-[11px] text-zinc-500 uppercase tracking-wider mb-1">Cycles</p>
                 <p className="text-2xl font-bold font-mono text-green-400">{stats.total_cycles}</p>
                 <p className="text-[11px] text-zinc-600">completed</p>
@@ -272,17 +272,17 @@ export default function BurnPage() {
 
           {/* Burn Feed */}
           <div
-            className="bg-zinc-900/40 border border-zinc-800 rounded-xl overflow-hidden"
+            className="bg-zinc-900/95 border border-zinc-700 rounded-xl overflow-hidden backdrop-blur-sm"
             style={flash ? { animation: 'flashBorder 1s ease-out' } : undefined}
           >
-            <div className="px-5 py-3 border-b border-zinc-800/80 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-zinc-300">Burn Feed</h2>
-              <span className="text-[10px] text-zinc-600 font-mono">polls every 5s</span>
+            <div className="px-5 py-3 border-b border-zinc-700 flex items-center justify-between bg-zinc-800/50">
+              <h2 className="text-sm font-semibold text-white">Burn Feed</h2>
+              <span className="text-[10px] text-zinc-400 font-mono">polls every 5s</span>
             </div>
 
-            <div className="divide-y divide-zinc-800/40 max-h-[600px] overflow-y-auto">
+            <div className="divide-y divide-zinc-700/50 max-h-[600px] overflow-y-auto">
               {cycles.map((cycle) => (
-                <div key={cycle.id} className="px-5 py-3.5 hover:bg-zinc-800/20 transition-colors">
+                <div key={cycle.id} className="px-5 py-3.5 hover:bg-zinc-800/40 transition-colors">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -290,27 +290,27 @@ export default function BurnPage() {
                         <span className={`text-xs font-mono font-bold ${statusColor(cycle.status)}`}>
                           {cycle.status.toUpperCase()}
                         </span>
-                        <span className="text-[10px] text-zinc-700 font-mono">#{cycle.id}</span>
+                        <span className="text-[10px] text-zinc-500 font-mono">#{cycle.id}</span>
                       </div>
 
                       {cycle.status === 'complete' && (
-                        <div className="flex flex-wrap gap-x-5 gap-y-0.5 text-[13px] mt-1">
-                          <span className="text-zinc-500">
+                        <div className="flex flex-wrap gap-x-5 gap-y-0.5 text-sm mt-1">
+                          <span className="text-zinc-300">
                             Claimed{' '}
-                            <span className="text-purple-400 font-mono font-medium">
+                            <span className="text-purple-300 font-mono font-semibold">
                               {Number(cycle.fees_claimed_sol).toFixed(6)}
                             </span>{' '}
                             SOL
                           </span>
-                          <span className="text-zinc-500">
+                          <span className="text-zinc-300">
                             Bought{' '}
-                            <span className="text-blue-400 font-mono font-medium">
+                            <span className="text-blue-300 font-mono font-semibold">
                               {formatNumber(Number(cycle.tokens_bought))}
                             </span>
                           </span>
-                          <span className="text-zinc-500">
+                          <span className="text-zinc-300">
                             Burned{' '}
-                            <span className="text-orange-400 font-mono font-medium">
+                            <span className="text-orange-300 font-mono font-semibold">
                               {formatNumber(Number(cycle.tokens_burned))}
                             </span>
                           </span>
@@ -318,23 +318,23 @@ export default function BurnPage() {
                       )}
 
                       {cycle.status === 'error' && cycle.error_message && (
-                        <p className="text-[11px] text-red-400/60 truncate mt-0.5">{cycle.error_message}</p>
+                        <p className="text-xs text-red-300 truncate mt-0.5">{cycle.error_message}</p>
                       )}
 
                       {cycle.status === 'skipped' && cycle.error_message && (
-                        <p className="text-[11px] text-zinc-600 truncate mt-0.5">{cycle.error_message}</p>
+                        <p className="text-xs text-zinc-400 truncate mt-0.5">{cycle.error_message}</p>
                       )}
                     </div>
 
                     <div className="text-right shrink-0 flex flex-col items-end gap-1.5">
-                      <p className="text-[10px] text-zinc-600">{timeAgo(cycle.created_at)}</p>
+                      <p className="text-xs text-zinc-400">{timeAgo(cycle.created_at)}</p>
                       <div className="flex gap-1.5">
                         {cycle.claim_tx_sig && (
                           <a
                             href={`${SOLSCAN_TX}${cycle.claim_tx_sig}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[9px] px-1.5 py-0.5 rounded bg-zinc-800/80 text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors font-mono"
+                            className="text-[10px] px-2 py-0.5 rounded bg-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-600 transition-colors font-mono"
                           >
                             CLAIM
                           </a>
@@ -344,7 +344,7 @@ export default function BurnPage() {
                             href={`${SOLSCAN_TX}${cycle.buy_tx_sig}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[9px] px-1.5 py-0.5 rounded bg-zinc-800/80 text-zinc-500 hover:text-white hover:bg-zinc-700 transition-colors font-mono"
+                            className="text-[10px] px-2 py-0.5 rounded bg-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-600 transition-colors font-mono"
                           >
                             BUY
                           </a>
@@ -354,7 +354,7 @@ export default function BurnPage() {
                             href={`${SOLSCAN_TX}${cycle.burn_tx_sig}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[9px] px-1.5 py-0.5 rounded bg-orange-900/40 text-orange-400/80 hover:text-orange-300 hover:bg-orange-900/60 transition-colors font-mono"
+                            className="text-[10px] px-2 py-0.5 rounded bg-orange-900/70 text-orange-300 hover:text-orange-200 hover:bg-orange-800/70 transition-colors font-mono"
                           >
                             BURN
                           </a>
