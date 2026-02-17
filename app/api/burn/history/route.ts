@@ -21,12 +21,11 @@ export async function GET(req: NextRequest) {
     FROM burn_cycles
   `;
 
-  // Latest fee snapshot from the most recent cycle
+  // Latest fee snapshot from dedicated cron table
   const latestFees = await sql`
-    SELECT pending_bc_fees, pending_swap_fees, wallet_balance, created_at
-    FROM burn_cycles
-    ORDER BY created_at DESC
-    LIMIT 1
+    SELECT pending_bc_fees, pending_swap_fees, wallet_balance, updated_at
+    FROM burn_fee_snapshots
+    WHERE id = 1
   `;
 
   const pendingFees = latestFees[0]
@@ -35,7 +34,7 @@ export async function GET(req: NextRequest) {
         pumpSwapFees: Number(latestFees[0].pending_swap_fees),
         totalPending: Number(latestFees[0].pending_bc_fees) + Number(latestFees[0].pending_swap_fees),
         walletBalance: Number(latestFees[0].wallet_balance),
-        snapshotAt: latestFees[0].created_at,
+        snapshotAt: latestFees[0].updated_at,
       }
     : null;
 
