@@ -55,27 +55,125 @@ function formatNumber(n: number): string {
 }
 
 function FireParticles() {
+  const particles: Array<{
+    key: string; left: string; bottom: string; width: string; height: string;
+    color: string; duration: string; delay: string; opacity: number;
+    blur: string; sway: string; anim: string;
+  }> = [];
+
+  // Wall of fire — massive blazing columns that cover the bottom half
+  for (let i = 0; i < 40; i++) {
+    particles.push({
+      key: `wall-${i}`,
+      left: `${(i / 40) * 100 + (Math.random() * 5 - 2.5)}%`,
+      bottom: `${-40 - Math.random() * 20}px`,
+      width: `${30 + Math.random() * 50}px`,
+      height: `${80 + Math.random() * 150}px`,
+      color: ['#ff2200', '#ff4500', '#ff6600', '#cc1100'][Math.floor(Math.random() * 4)],
+      duration: `${1.2 + Math.random() * 1.5}s`,
+      delay: `${Math.random() * 1.5}s`,
+      opacity: 0.6 + Math.random() * 0.3,
+      blur: `${6 + Math.random() * 10}px`,
+      sway: `${-40 + Math.random() * 80}px`,
+      anim: 'fireRage',
+    });
+  }
+
+  // Intense mid flames — fast, bright, aggressive
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      key: `flame-${i}`,
+      left: `${Math.random() * 100}%`,
+      bottom: `${-15 - Math.random() * 10}px`,
+      width: `${10 + Math.random() * 25}px`,
+      height: `${30 + Math.random() * 80}px`,
+      color: ['#ff6b00', '#ff8c00', '#ffaa00', '#ff4500', '#ff5500'][Math.floor(Math.random() * 5)],
+      duration: `${0.8 + Math.random() * 1.2}s`,
+      delay: `${Math.random() * 1}s`,
+      opacity: 0.7 + Math.random() * 0.3,
+      blur: `${2 + Math.random() * 5}px`,
+      sway: `${-25 + Math.random() * 50}px`,
+      anim: 'fireRise',
+    });
+  }
+
+  // Hot core — white/yellow bursts from the base
+  for (let i = 0; i < 30; i++) {
+    particles.push({
+      key: `core-${i}`,
+      left: `${Math.random() * 100}%`,
+      bottom: `${-5 - Math.random() * 5}px`,
+      width: `${6 + Math.random() * 15}px`,
+      height: `${15 + Math.random() * 40}px`,
+      color: ['#ffd700', '#ffee88', '#ffffff', '#ffcc00'][Math.floor(Math.random() * 4)],
+      duration: `${0.5 + Math.random() * 0.8}s`,
+      delay: `${Math.random() * 0.8}s`,
+      opacity: 0.8 + Math.random() * 0.2,
+      blur: `${1 + Math.random() * 3}px`,
+      sway: `${-15 + Math.random() * 30}px`,
+      anim: 'fireRise',
+    });
+  }
+
+  // Flying embers / sparks that shoot up high
+  for (let i = 0; i < 50; i++) {
+    particles.push({
+      key: `spark-${i}`,
+      left: `${Math.random() * 100}%`,
+      bottom: `${Math.random() * 20}px`,
+      width: `${2 + Math.random() * 4}px`,
+      height: `${2 + Math.random() * 4}px`,
+      color: ['#ffdd00', '#ffffff', '#ff8800', '#ffaa00'][Math.floor(Math.random() * 4)],
+      duration: `${1 + Math.random() * 2}s`,
+      delay: `${Math.random() * 2}s`,
+      opacity: 0.8 + Math.random() * 0.2,
+      blur: '0px',
+      sway: `${-50 + Math.random() * 100}px`,
+      anim: 'sparkShoot',
+    });
+  }
+
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {Array.from({ length: 30 }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            left: `${Math.random() * 100}%`,
-            bottom: '-10px',
-            width: `${3 + Math.random() * 6}px`,
-            height: `${3 + Math.random() * 6}px`,
-            background: `radial-gradient(circle, ${
-              ['#ff6b00', '#ff4500', '#ff0000', '#ffaa00'][Math.floor(Math.random() * 4)]
-            }, transparent)`,
-            animation: `fireRise ${4 + Math.random() * 6}s linear infinite`,
-            animationDelay: `${Math.random() * 5}s`,
-            opacity: 0.6 + Math.random() * 0.4,
-          }}
-        />
-      ))}
-    </div>
+    <>
+      {/* Intense bottom glow — looks like the ground is on fire */}
+      <div
+        className="fixed bottom-0 left-0 right-0 pointer-events-none z-[1]"
+        style={{
+          height: '50vh',
+          background: 'linear-gradient(to top, rgba(255,50,0,0.7) 0%, rgba(255,80,0,0.5) 15%, rgba(255,100,0,0.3) 35%, rgba(200,50,0,0.1) 60%, transparent 100%)',
+        }}
+      />
+      {/* Side heat shimmer */}
+      <div
+        className="fixed bottom-0 left-0 right-0 pointer-events-none z-[1]"
+        style={{
+          height: '30vh',
+          background: 'radial-gradient(ellipse at 50% 100%, rgba(255,150,0,0.25) 0%, transparent 70%)',
+        }}
+      />
+      {/* Particles */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-[1]">
+        {particles.map((p) => (
+          <div
+            key={p.key}
+            className="absolute"
+            style={{
+              left: p.left,
+              bottom: p.bottom,
+              width: p.width,
+              height: p.height,
+              borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+              background: `radial-gradient(ellipse at center bottom, ${p.color}, transparent)`,
+              filter: `blur(${p.blur})`,
+              animation: `${p.anim} ${p.duration} ease-out infinite`,
+              animationDelay: p.delay,
+              opacity: p.opacity,
+              ['--sway' as string]: p.sway,
+            }}
+          />
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -148,10 +246,26 @@ export default function BurnPage() {
   return (
     <>
       <style jsx global>{`
+        @keyframes fireRage {
+          0% { transform: translateY(0) translateX(0) scaleX(1) scaleY(1); opacity: 0.8; }
+          15% { transform: translateY(-8vh) translateX(var(--sway, 20px)) scaleX(1.2) scaleY(1.1); opacity: 1; }
+          40% { transform: translateY(-25vh) translateX(calc(var(--sway, 20px) * -0.7)) scaleX(0.8) scaleY(1.3); opacity: 0.6; }
+          70% { transform: translateY(-45vh) translateX(var(--sway, 20px)) scaleX(0.5) scaleY(0.8); opacity: 0.2; }
+          100% { transform: translateY(-60vh) translateX(0) scaleX(0.2) scaleY(0.3); opacity: 0; }
+        }
         @keyframes fireRise {
-          0% { transform: translateY(0) scale(1); opacity: 0.8; }
-          50% { opacity: 0.4; }
-          100% { transform: translateY(-100vh) scale(0); opacity: 0; }
+          0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.9; }
+          10% { transform: translateY(-5vh) translateX(calc(var(--sway, 10px) * 0.5)) scale(1.1); opacity: 1; }
+          30% { transform: translateY(-20vh) translateX(var(--sway, 10px)) scale(0.9); opacity: 0.7; }
+          60% { transform: translateY(-45vh) translateX(calc(var(--sway, 10px) * -0.8)) scale(0.5); opacity: 0.3; }
+          100% { transform: translateY(-70vh) translateX(0) scale(0.1); opacity: 0; }
+        }
+        @keyframes sparkShoot {
+          0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+          20% { transform: translateY(-20vh) translateX(var(--sway, 30px)) scale(0.8); opacity: 0.9; }
+          50% { transform: translateY(-55vh) translateX(calc(var(--sway, 30px) * -1)) scale(0.6); opacity: 0.6; }
+          80% { transform: translateY(-80vh) translateX(var(--sway, 30px)) scale(0.3); opacity: 0.2; }
+          100% { transform: translateY(-100vh) translateX(0) scale(0); opacity: 0; }
         }
         @keyframes flashBorder {
           0% { border-color: rgb(249 115 22); box-shadow: 0 0 30px rgba(249, 115, 22, 0.3); }
@@ -162,10 +276,15 @@ export default function BurnPage() {
       <div className="min-h-screen bg-black text-white">
         {/* Background */}
         <div
-          className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/mooncrab.png)' }}
+          className="fixed inset-0 z-0"
+          style={{
+            backgroundImage: 'url(/mooncrab.png)',
+            backgroundSize: '100vw 100vh',
+            backgroundPosition: 'center center',
+            backgroundRepeat: 'no-repeat',
+          }}
         />
-        <div className="fixed inset-0 bg-black/75 z-0" />
+        <div className="fixed inset-0 bg-black/80 z-0" />
         <FireParticles />
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 py-8">
@@ -376,11 +495,11 @@ export default function BurnPage() {
           </div>
 
           {/* Footer info */}
-          <div className="mt-6 text-center text-[11px] text-zinc-700">
+          <div className="mt-6 text-center text-sm text-zinc-300">
             <p>
               Every cycle: claim creator fees → buy token → burn tokens.
               Transactions verified on{' '}
-              <a href="https://solscan.io" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white">
+              <a href="https://solscan.io" target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-400">
                 Solscan
               </a>
             </p>

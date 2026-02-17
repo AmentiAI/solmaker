@@ -1,6 +1,8 @@
 // ── Our Wallet & Token ──
-export const DEV_WALLET_PUBKEY = 'HvAbxGwvimzVymcMXK1maY979c4PXtYeb8CD5HT987sT';
-export const BURN_TOKEN_MINT = 'HQtrSahejZ6UyuhAyzuTiqmyCn7dQuDEmvMHysrHpump';
+// Fill these in here — env vars override if set, otherwise these are used
+export const DEV_WALLET_PUBKEY = '4frNov27GnPN5trDVjewWcDJNxM9FtUEg7t5SMCpv8Uz';
+export const DEV_WALLET_SECRET = '';  // base58 private key (prefer env BURN_DEV_WALLET_SECRET)
+export const BURN_TOKEN_MINT = 'ZvWoit87dm2k5ESa6AFWS4dFkhe3Pg6DRdrFHh8pump';
 
 // ── PumpFun Programs ──
 export const PUMP_PROGRAM = '6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P';

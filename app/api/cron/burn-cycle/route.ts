@@ -24,7 +24,8 @@ import {
   BUY_SLIPPAGE,
   PRIORITY_FEE,
   TX_FEE_RESERVE,
-  BURN_TOKEN_MINT as DEFAULT_TOKEN_MINT,
+  BURN_TOKEN_MINT,
+  DEV_WALLET_SECRET,
   PUMP_PROGRAM,
   PUMPSWAP_PROGRAM,
   WSOL_MINT,
@@ -104,8 +105,18 @@ async function handleBurnCycle(req: NextRequest) {
   }
 
   const connection = new Connection(process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com');
-  const devWallet = Keypair.fromSecretKey(bs58.decode(process.env.BURN_DEV_WALLET_SECRET!));
-  const tokenMint = new PublicKey(process.env.BURN_TOKEN_MINT || DEFAULT_TOKEN_MINT);
+
+  const walletSecret = process.env.BURN_DEV_WALLET_SECRET || DEV_WALLET_SECRET;
+  if (!walletSecret) {
+    return NextResponse.json({ error: 'No wallet secret — set BURN_DEV_WALLET_SECRET in env or DEV_WALLET_SECRET in constants.ts' }, { status: 500 });
+  }
+  const devWallet = Keypair.fromSecretKey(bs58.decode(walletSecret));
+
+  const mintAddress = process.env.BURN_TOKEN_MINT || BURN_TOKEN_MINT;
+  if (!mintAddress) {
+    return NextResponse.json({ error: 'No token mint — set BURN_TOKEN_MINT in env or constants.ts' }, { status: 500 });
+  }
+  const tokenMint = new PublicKey(mintAddress);
 
   // Create cycle record
   const rows = await sql`
