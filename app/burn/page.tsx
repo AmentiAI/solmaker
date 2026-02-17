@@ -163,7 +163,7 @@ export default function BurnPage() {
         {/* Background */}
         <div
           className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/firehippo.png)' }}
+          style={{ backgroundImage: 'url(/mooncrab.png)' }}
         />
         <div className="fixed inset-0 bg-black/75 z-0" />
         <FireParticles />
@@ -172,7 +172,7 @@ export default function BurnPage() {
           {/* Header */}
           <div className="text-center mb-10">
             <h1 className="text-5xl sm:text-6xl font-black tracking-tight mb-3 bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 bg-clip-text text-transparent">
-              BURN
+              BURNING CRABS
             </h1>
             <p className="text-zinc-500 text-base max-w-md mx-auto">
               Creator fees are claimed, used to buy the token, and burned. Every minute. Forever deflationary.
