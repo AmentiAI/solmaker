@@ -52,7 +52,7 @@ async function handleFeeSnapshot(req: NextRequest) {
     swapFees = Number((await getAccount(connection, ata)).amount) / LAMPORTS_PER_SOL;
   } catch {}
 
-  await sql`
+  await sql!`
     UPDATE burn_fee_snapshots
     SET pending_bc_fees = ${bcFees}, pending_swap_fees = ${swapFees},
         wallet_balance = ${walletBal}, updated_at = NOW()
