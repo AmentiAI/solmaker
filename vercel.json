@@ -7,10 +7,6 @@
     {
       "path": "/api/cron/process-generation-jobs-v2",
       "schedule": "*/1 * * * *"
-    },
-    {
-      "path": "/api/cron/burn-cycle",
-      "schedule": "*/1 * * * *"
     }
   ],
   "headers": [

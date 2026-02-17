@@ -69,11 +69,26 @@ async function snapshotPendingFees(
 
 export const maxDuration = 60;
 
+// Vercel cron sends GET, manual testing can use POST
+export async function GET(req: NextRequest) {
+  return handleBurnCycle(req);
+}
+
 export async function POST(req: NextRequest) {
-  // Auth - check cron secret or Vercel cron header
+  return handleBurnCycle(req);
+}
+
+async function handleBurnCycle(req: NextRequest) {
+  // Auth - check cron secret, Vercel cron header, or query param for local testing
   const authHeader = req.headers.get('authorization');
   const vercelCron = req.headers.get('x-vercel-cron');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}` && !vercelCron) {
+  const querySecret = req.nextUrl.searchParams.get('secret');
+  const isLocal = process.env.NODE_ENV === 'development';
+  const isAuthed = authHeader === `Bearer ${process.env.CRON_SECRET}`
+    || !!vercelCron
+    || querySecret === process.env.CRON_SECRET
+    || isLocal;
+  if (!isAuthed) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -97,6 +112,8 @@ export async function POST(req: NextRequest) {
     let claimSource = 'none';
     let claimTxSig: string | null = null;
 
+    const claimErrors: string[] = [];
+
     // Try bonding curve claim
     try {
       const res = await fetch(PUMPPORTAL_TRADE_LOCAL, {
@@ -112,12 +129,25 @@ export async function POST(req: NextRequest) {
       if (res.ok) {
         const txBytes = new Uint8Array(await res.arrayBuffer());
         const tx = VersionedTransaction.deserialize(txBytes);
+        // Replace blockhash — PumpPortal's can be stale
+        const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('confirmed');
+        tx.message.recentBlockhash = blockhash;
         tx.sign([devWallet]);
-        claimTxSig = await connection.sendTransaction(tx, { skipPreflight: false });
-        await connection.confirmTransaction(claimTxSig, 'confirmed');
-        claimSource = 'pump';
+        claimTxSig = await connection.sendTransaction(tx, { skipPreflight: true });
+        const confirmation = await connection.confirmTransaction({ signature: claimTxSig, blockhash, lastValidBlockHeight }, 'confirmed');
+        if (confirmation.value.err) {
+          claimErrors.push(`pump tx failed on-chain: ${JSON.stringify(confirmation.value.err)}`);
+          claimTxSig = null;
+        } else {
+          claimSource = 'pump';
+        }
+      } else {
+        const errText = await res.text();
+        claimErrors.push(`pump ${res.status}: ${errText}`);
+        console.log('Bonding curve claim failed:', res.status, errText);
       }
     } catch (e) {
+      claimErrors.push(`pump exception: ${(e as Error).message}`);
       console.log('No bonding curve fees to claim:', (e as Error).message);
     }
 
@@ -136,20 +166,50 @@ export async function POST(req: NextRequest) {
       if (res.ok) {
         const txBytes = new Uint8Array(await res.arrayBuffer());
         const tx = VersionedTransaction.deserialize(txBytes);
+        const { blockhash: bh2, lastValidBlockHeight: lvbh2 } = await connection.getLatestBlockhash('confirmed');
+        tx.message.recentBlockhash = bh2;
         tx.sign([devWallet]);
-        const sig = await connection.sendTransaction(tx, { skipPreflight: false });
-        await connection.confirmTransaction(sig, 'confirmed');
+        const sig = await connection.sendTransaction(tx, { skipPreflight: true });
+        await connection.confirmTransaction({ signature: sig, blockhash: bh2, lastValidBlockHeight: lvbh2 }, 'confirmed');
         claimTxSig = claimTxSig || sig;
         claimSource = claimSource === 'pump' ? 'both' : 'pump-amm';
+      } else {
+        const errText = await res.text();
+        claimErrors.push(`pump-amm ${res.status}: ${errText}`);
+        console.log('PumpSwap claim failed:', res.status, errText);
       }
     } catch (e) {
+      claimErrors.push(`pump-amm exception: ${(e as Error).message}`);
       console.log('No PumpSwap fees to claim:', (e as Error).message);
     }
 
-    // Calculate how much SOL was claimed
-    const balanceAfter = await connection.getBalance(devWallet.publicKey);
-    const feesClaimedLamports = balanceAfter - balanceBefore;
-    const feesClaimedSol = feesClaimedLamports / LAMPORTS_PER_SOL;
+    // Figure out how much SOL was claimed by parsing the claim tx
+    let feesClaimedSol = 0;
+    if (claimTxSig) {
+      // Wait a moment for balance to settle, then get confirmed balance
+      await new Promise(r => setTimeout(r, 2000));
+      const balanceAfter = await connection.getBalance(devWallet.publicKey, 'confirmed');
+      feesClaimedSol = Math.max(0, (balanceAfter - balanceBefore)) / LAMPORTS_PER_SOL;
+
+      // If balance diff is 0 (RPC lag), estimate from what was in the vault
+      if (feesClaimedSol === 0) {
+        // Vault is now empty, so whatever was there got claimed (minus tx fee)
+        // Use the pre-snapshot vault balance as estimate
+        const [bcVault] = PublicKey.findProgramAddressSync(
+          [Buffer.from('creator-vault'), devWallet.publicKey.toBuffer()],
+          new PublicKey(PUMP_PROGRAM)
+        );
+        const vaultNow = await connection.getBalance(bcVault, 'confirmed');
+        const rentExempt = 890880;
+        const vaultEmpty = (vaultNow - rentExempt) <= 0;
+        if (vaultEmpty) {
+          // Vault was drained — estimate claim as balanceAfter - balanceBefore would be
+          // but since RPC is stale, just use current balance minus what we started with minus tx fees
+          const freshBalance = await connection.getBalance(devWallet.publicKey, 'finalized');
+          feesClaimedSol = Math.max(0, (freshBalance - balanceBefore)) / LAMPORTS_PER_SOL;
+        }
+      }
+    }
 
     await sql`
       UPDATE burn_cycles SET
@@ -160,24 +220,45 @@ export async function POST(req: NextRequest) {
       WHERE id = ${cycleId}
     `;
 
-    // Skip if fees too small
-    if (feesClaimedSol < MIN_SOL_TO_BUY) {
+    // If no claim happened at all, skip
+    if (claimSource === 'none') {
       const snap = await snapshotPendingFees(connection, devWallet.publicKey);
       await sql`
         UPDATE burn_cycles SET status = 'skipped',
-        error_message = ${'Fees below minimum: ' + feesClaimedSol.toFixed(9) + ' SOL'},
+        error_message = ${'No fees to claim. Errors: ' + (claimErrors.join(' | ') || 'none')},
         pending_bc_fees = ${snap.bcFees},
         pending_swap_fees = ${snap.swapFees},
         wallet_balance = ${snap.walletBal}
         WHERE id = ${cycleId}
       `;
-      return NextResponse.json({ status: 'skipped', cycleId, feesClaimedSol });
+      return NextResponse.json({
+        status: 'skipped',
+        cycleId,
+        feesClaimedSol: 0,
+        claimSource,
+        claimErrors,
+        pendingFees: snap,
+      });
     }
 
     // ═══════════════════════════════════════════
     // STEP 2: Buy token with the claimed SOL
     // ═══════════════════════════════════════════
-    const solToBuy = feesClaimedSol - TX_FEE_RESERVE;
+    // Use actual wallet balance minus a reserve for tx fees (more reliable than balance diff)
+    const currentBalance = await connection.getBalance(devWallet.publicKey, 'confirmed');
+    const solReserve = 0.005 * LAMPORTS_PER_SOL; // keep 0.005 SOL for burn tx + future fees
+    const solToBuy = Math.max(0, (currentBalance - solReserve)) / LAMPORTS_PER_SOL;
+
+    if (solToBuy < MIN_SOL_TO_BUY) {
+      const snap = await snapshotPendingFees(connection, devWallet.publicKey);
+      await sql`
+        UPDATE burn_cycles SET status = 'skipped',
+        error_message = ${'Wallet balance too low to buy: ' + solToBuy.toFixed(9) + ' SOL available'},
+        pending_bc_fees = ${snap.bcFees}, pending_swap_fees = ${snap.swapFees}, wallet_balance = ${snap.walletBal}
+        WHERE id = ${cycleId}
+      `;
+      return NextResponse.json({ status: 'skipped', cycleId, solToBuy, currentBalance });
+    }
 
     const buyRes = await fetch(PUMPPORTAL_TRADE_LOCAL, {
       method: 'POST',
@@ -201,9 +282,11 @@ export async function POST(req: NextRequest) {
 
     const buyTxBytes = new Uint8Array(await buyRes.arrayBuffer());
     const buyTx = VersionedTransaction.deserialize(buyTxBytes);
+    const { blockhash: buyBh, lastValidBlockHeight: buyLvbh } = await connection.getLatestBlockhash('confirmed');
+    buyTx.message.recentBlockhash = buyBh;
     buyTx.sign([devWallet]);
-    const buyTxSig = await connection.sendTransaction(buyTx, { skipPreflight: false });
-    await connection.confirmTransaction(buyTxSig, 'confirmed');
+    const buyTxSig = await connection.sendTransaction(buyTx, { skipPreflight: true });
+    await connection.confirmTransaction({ signature: buyTxSig, blockhash: buyBh, lastValidBlockHeight: buyLvbh }, 'confirmed');
 
     // Check how many tokens we now hold
     const tokenAccount = getAssociatedTokenAddressSync(tokenMint, devWallet.publicKey);
